@@ -1,0 +1,17 @@
+Package: abs
+Type: Package
+Title: Load Excel Files from the Australian Bureau of Statistics into Tidy Data Sets
+Version: 0.1.0
+Authors@R: c(
+           person("Zoe", "Meers", role = c("aut", "cre"), email = "zoe.meers@sydney.edu.au"),
+           person("Jaron", "Lee", role = c("aut"), email = "jaron.lee@sydney.edu.au"))
+Maintainer: Zoe Meers <zoe.meers@sydney.edu.au>
+Description: Reads Excel files from the Australian Bureau of Statistics into clean, tidy data sets.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: readxl, dplyr, tidyr, sjmisc
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
+
+
