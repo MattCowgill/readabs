@@ -12,10 +12,10 @@
 #'
 #' @examples
 #' read_abs_data(path="test.xls", sheet=2)
-read_abs_data <- function(path, sheet){
-  df <- readxl::read_excel(path=path, sheet=sheet)
+read_abs_data <- function(path, sheet) {
+  df <- readxl::read_excel(path = path, sheet = sheet)
   dat <- df[-(1:9), ]
-  dat <- dplyr::rename(dat, Date=X__1)
+  dat <- dplyr::rename(dat, Date = X__1)
   dat$Date <- as.Date(as.integer(dat$Date), origin = "1899-12-30")
   dat <- tidyr::gather(dat, series, value, -Date)
   dat$value <- readr::parse_double(dat$value)
@@ -33,8 +33,8 @@ read_abs_data <- function(path, sheet){
 #'
 #' @examples
 #' read_abs_metadata(path="test.xls", sheet=2)
-read_abs_metadata <- function(path, sheet){
-  df <- readxl::read_excel(path=path, sheet=sheet, col_names=FALSE)
+read_abs_metadata <- function(path, sheet) {
+  df <- readxl::read_excel(path = path, sheet = sheet, col_names = FALSE)
   dat <- df[(1:9), ]
   final_dat <- (t(dat[, 2:ncol(dat)]))
   colnames(final_dat) <- t(dat[, 1])
