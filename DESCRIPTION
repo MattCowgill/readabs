@@ -10,7 +10,7 @@ Description: Reads Excel files from the Australian Bureau of Statistics into cle
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: readxl, dplyr, tidyr, sjmisc
+Imports: readxl, dplyr, tidyr, sjmisc, rsdmx
 URL: https://github.com/zmeers/abs
 BugReports: https://github.com/zmeers/abs/issues
 RoxygenNote: 6.0.1
