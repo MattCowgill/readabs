@@ -17,5 +17,13 @@ read_abs_sdmx <- function(url) {
   url=url
   dataset <- rsdmx::readSDMX(url)
   abs_data <- as.data.frame(dataset)
+  abs_data$state <- ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==1, "NSW",
+                           ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==2, "VIC",
+                                  ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==3, "QLD",
+                                         ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==4, "SA",
+                                                ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==5, "WA",
+                                                       ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==6, "TAS",
+                                                              ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==7, "NT",
+                                                                     ifelse(abs_data$REGIONTYPE=="STE" & abs_data$AEC_FED_2017==8, "ACT",NA)))))))
   return(abs_data)
 }
