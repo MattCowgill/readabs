@@ -9,3 +9,12 @@ test_that("Check that the resulting output contains three headers", {
 test_that("Check that the Date column contains date values", {
   expect_true(inherits(result$Date, "Date"))
 })
+
+
+md_result <- abs::read_abs_metadata(data_path, sheet = 2)
+test_that("Check that the Date column contains date values", {
+  expect_true(inherits(c(result$`Series Start`, "Date"),
+                       results$`Series End`))
+})
+
+

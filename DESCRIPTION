@@ -11,6 +11,8 @@ License: MIT
 Encoding: UTF-8
 LazyData: true
 Imports: readxl, dplyr, tidyr, sjmisc
+URL: https://github.com/zmeers/abs
+BugReports: https://github.com/zmeers/abs/issues
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 Suggests: knitr,
