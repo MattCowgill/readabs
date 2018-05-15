@@ -10,8 +10,6 @@
 #' @return Long-format dataframe
 #' @export
 #'
-#' @examples
-#' read_abs_data(path="test.xls", sheet=2)
 read_abs_data <- function(path, sheet) {
   df <- readxl::read_excel(path = path, sheet = sheet)
   dat <- df[-(1:9), ]
@@ -31,8 +29,6 @@ read_abs_data <- function(path, sheet) {
 #' @return Long-form dataframe
 #' @export
 #'
-#' @examples
-#' read_abs_metadata(path="test.xls", sheet=2)
 read_abs_metadata <- function(path, sheet) {
   df <- readxl::read_excel(path = path, sheet = sheet, col_names = FALSE)
   dat <- df[(1:9), ]

@@ -9,8 +9,6 @@
 #' @return Dataframe
 #' @export
 #'
-#' @examples
-#' read_abs_sdmx(url="http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/CPI/1.1+2+3+4+5+6+7+8+50.10001.10.Q/all?startTime=2014-Q1&endTime=2016-Q4")
 
 
 read_abs_sdmx <- function(url) {

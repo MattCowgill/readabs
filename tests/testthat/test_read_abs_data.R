@@ -10,11 +10,10 @@ test_that("Check that the Date column contains date values", {
   expect_true(inherits(result$Date, "Date"))
 })
 
-
 md_result <- readabs::read_abs_metadata(data_path, sheet = 2)
 test_that("Check that the Date column contains date values", {
-  expect_true(inherits(c(result$`Series Start`, "Date"),
-                       results$`Series End`))
+  expect_true(inherits(c(md_result$`Series Start`, "Date"),
+                       md_result$`Series End`, "Date"))
 })
 
 
