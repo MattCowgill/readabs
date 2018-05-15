@@ -1,6 +1,6 @@
 Package: readabs
 Type: Package
-Title: Load Excel Files from the Australian Bureau of Statistics into Tidy Data Sets
+Title: Reads Excel Files from the Australian Bureau of Statistics into Tidy Data Sets
 Version: 0.1.0
 Authors@R: c(
            person("Zoe", "Meers", role = c("aut", "cre"), email = "zoe.meers@sydney.edu.au"),
