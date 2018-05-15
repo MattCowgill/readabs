@@ -17,6 +17,3 @@ Long-format dataframe
 \description{
 Extracts ABS-formatted data directly from Excel spreadsheets and converts to long format.
 }
-\examples{
-read_abs_data(path="test.xls", sheet=2)
-}

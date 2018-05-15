@@ -17,6 +17,3 @@ dataframe
 \description{
 Extracts ABS-formatted codebook directly from Excel spreadsheets.
 }
-\examples{
-read_abs_data(path="test.xls", sheet=2)
-}

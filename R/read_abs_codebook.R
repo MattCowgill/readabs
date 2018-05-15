@@ -10,8 +10,6 @@
 #' @return dataframe
 #' @export
 #'
-#' @examples
-#' read_abs_data(path="test.xls", sheet=2)
 read_abs_codebook <- function(path, sheet) {
   excel_data <- readxl::read_excel(path = path, sheet = sheet, col_names = FALSE)
   skip_rows <- NULL

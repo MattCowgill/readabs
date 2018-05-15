@@ -17,6 +17,3 @@ Long-form dataframe
 \description{
 Extracts ABS series metadata directly from Excel spreadsheets and converts to long-form.
 }
-\examples{
-read_abs_metadata(path="test.xls", sheet=2)
-}
