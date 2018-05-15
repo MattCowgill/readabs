@@ -1,4 +1,4 @@
 library(testthat)
-library(abs)
+library(readabs)
 
-test_check("abs")
+test_check("readabs")

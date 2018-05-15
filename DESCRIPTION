@@ -1,4 +1,4 @@
-Package: abs
+Package: readabs
 Type: Package
 Title: Load Excel Files from the Australian Bureau of Statistics into Tidy Data Sets
 Version: 0.1.0
@@ -12,7 +12,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: readxl, dplyr, tidyr, sjmisc, rsdmx
 URL: https://github.com/zmeers/abs
-BugReports: https://github.com/zmeers/abs/issues
+BugReports: https://github.com/zmeers/readabs/issues
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 Suggests: knitr,
