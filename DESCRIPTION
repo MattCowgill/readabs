@@ -7,11 +7,11 @@ Authors@R: c(
            person("Jaron", "Lee", role = c("aut"), email = "jaron.lee@sydney.edu.au"))
 Maintainer: Zoe Meers <zoe.meers@sydney.edu.au>
 Description: Reads files from the Australian Bureau of Statistics into clean, tidy data sets.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: readxl, dplyr, tidyr, sjmisc, rsdmx, readr, stringr
-URL: https://github.com/zmeers/abs
+URL: https://github.com/zmeers/readabs
 BugReports: https://github.com/zmeers/readabs/issues
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
