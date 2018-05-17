@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zmeers/readabs.svg?branch=master)](https://travis-ci.org/zmeers/readabs)
+
 # readabs - Load Tidy Data from the Australian Bureau of Statistics
 A collection of functions to read excel files from the Australian Bureau of Statistics into clean data sets.
 
