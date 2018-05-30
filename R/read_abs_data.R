@@ -10,18 +10,23 @@
 #' @return Long-format dataframe
 #' @export
 #'
+#'
+#'
 #' @examples
 #' \dontrun{
 #' read_abs_data(path=system.file("extdata","5206002_expenditure_volume_measures.xls",  package = "readabs", mustWork = TRUE), sheet=2)
 #'}
 #'
+#'
+#'
 read_abs_data <- function(path, sheet) {
+  Date = X__1 = series = value = NULL
   df <- readxl::read_excel(path = path, sheet = sheet)
   dat <- df[-(1:9), ]
-  dat <- dplyr::rename(dat, Date = X__1)
-  dat$Date <- as.Date(as.integer(dat$Date), origin = "1899-12-30")
-  dat <- tidyr::gather(dat, series, value, -Date)
-  dat$value <- readr::parse_double(dat$value)
+  dat <- dplyr::rename(dat, `Date` = `X__1`)
+  dat$Date <- as.Date(as.integer(dat$`Date`), origin = "1899-12-30")
+  dat <- tidyr::gather(dat, `series`, `value`, -`Date`)
+  dat$value <- readr::parse_double(dat$`value`)
   return(dat)
 }
 

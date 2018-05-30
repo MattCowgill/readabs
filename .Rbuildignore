@@ -9,3 +9,4 @@
 ^\.github$
 ^LICENSE\.md$
 .Rprofile
+^cran-comments\.md$
