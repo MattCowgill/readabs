@@ -10,6 +10,11 @@
 #' @return Long-format dataframe
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' read_abs_data(path=system.file("extdata","5206002_expenditure_volume_measures.xls",  package = "readabs", mustWork = TRUE), sheet=2)
+#'}
+#'
 read_abs_data <- function(path, sheet) {
   df <- readxl::read_excel(path = path, sheet = sheet)
   dat <- df[-(1:9), ]
@@ -28,6 +33,10 @@ read_abs_data <- function(path, sheet) {
 #'
 #' @return Long-form dataframe
 #' @export
+#' @examples
+#' \dontrun{
+#' read_abs_metadata(path=system.file("extdata", "5206002_expenditure_volume_measures.xls",  package = "readabs", mustWork = TRUE), sheet=2)
+#'}
 #'
 read_abs_metadata <- function(path, sheet) {
   df <- readxl::read_excel(path = path, sheet = sheet, col_names = FALSE)

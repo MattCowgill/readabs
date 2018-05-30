@@ -17,3 +17,9 @@ Long-format dataframe
 \description{
 Extracts ABS-formatted data directly from Excel spreadsheets and converts to long format.
 }
+\examples{
+\dontrun{
+read_abs_data(path=system.file("extdata","5206002_expenditure_volume_measures.xls",  package = "readabs", mustWork = TRUE), sheet=2)
+}
+
+}

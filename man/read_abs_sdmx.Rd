@@ -10,8 +10,13 @@ read_abs_sdmx(url)
 \item{url}{URL weblink.}
 }
 \value{
-Dataframe
+data frame
 }
 \description{
 Extracts ABS XML-formatted data using the exported XML link at http://www.abs.gov.au/
+}
+\examples{
+\dontrun{
+read_abs_sdmx("http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013")
+}
 }

@@ -6,9 +6,13 @@
 #'
 #' @param url URL weblink.
 #'
-#' @return Dataframe
+#' @return data frame
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' read_abs_sdmx("http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013")
+#'}
 
 
 read_abs_sdmx <- function(url) {
