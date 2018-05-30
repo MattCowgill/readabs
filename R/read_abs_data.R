@@ -14,7 +14,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' read_abs_data(path=system.file("extdata","5206002_expenditure_volume_measures.xls",  package = "readabs", mustWork = TRUE), sheet=2)
+#' read_abs_data(
+#' path=
+#' system.file(
+#' "extdata",
+#' "5206002_expenditure_volume_measures.xls",
+#' package = "readabs"),
+#' sheet=2)
 #'}
 #'
 #'
@@ -40,7 +46,13 @@ read_abs_data <- function(path, sheet) {
 #' @export
 #' @examples
 #' \dontrun{
-#' read_abs_metadata(path=system.file("extdata", "5206002_expenditure_volume_measures.xls",  package = "readabs", mustWork = TRUE), sheet=2)
+#' read_abs_metadata
+#' (path=
+#' system.file(
+#' "extdata",
+#' "5206002_expenditure_volume_measures.xls",
+#' package = "readabs"),
+#' sheet=2)
 #'}
 #'
 read_abs_metadata <- function(path, sheet) {

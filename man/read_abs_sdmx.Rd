@@ -13,10 +13,10 @@ read_abs_sdmx(url)
 data frame
 }
 \description{
-Access the sdmx URLs at http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide.
+Access the sdmx URLs at http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide
 }
 \examples{
 \dontrun{
-read_abs_sdmx("http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013")
+read_abs_sdmx(url)
 }
 }

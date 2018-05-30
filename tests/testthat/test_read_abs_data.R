@@ -1,5 +1,6 @@
 library(readabs)
 library(testthat)
+library(dplyr)
 data_path <- "../testdata/5206002_expenditure_volume_measures.xls"
 result <- read_abs_data(data_path, sheet = 2)
 test_that("Check that the resulting output contains three headers", {
