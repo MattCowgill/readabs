@@ -1,7 +1,7 @@
 Package: readabs
 Type: Package
 Title: Read Excel Files From The Australian Bureau Of Statistics Into Tidy Data Sets
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(
            person("Zoe", "Meers", role = c("aut", "cre"), email = "zoe.meers@sydney.edu.au"),
            person("Jaron", "Lee", role = c("aut"), email = "jaron.lee@sydney.edu.au"))

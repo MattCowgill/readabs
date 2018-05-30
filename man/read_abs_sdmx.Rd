@@ -13,7 +13,7 @@ read_abs_sdmx(url)
 data frame
 }
 \description{
-Extracts ABS XML-formatted data using the exported XML link at http://www.abs.gov.au/
+Access the sdmx URLs at http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide.
 }
 \examples{
 \dontrun{
