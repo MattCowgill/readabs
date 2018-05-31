@@ -24,7 +24,7 @@ read_abs_metadata
 system.file(
 "extdata",
 "5206002_expenditure_volume_measures.xls",
-package = "readabs"),
+package = "readabs")
 sheet=2)
 }
 
