@@ -16,7 +16,7 @@ data frame
 Access the sdmx URLs at http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide
 }
 \examples{
-\dontrun{
+\donttest{
 read_abs_sdmx(url)
 }
 }

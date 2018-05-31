@@ -6,7 +6,7 @@ Authors@R: c(
            person("Zoe", "Meers", role = c("aut", "cre"), email = "zoe.meers@sydney.edu.au"),
            person("Jaron", "Lee", role = c("aut"), email = "jaron.lee@sydney.edu.au"))
 Maintainer: Zoe Meers <zoe.meers@sydney.edu.au>
-Description: Reads files from the Australian Bureau of Statistics <https:://www.abs.gov.au/> into clean, tidy data sets.
+Description: Reads files from the Australian Bureau of Statistics <https://www.abs.gov.au/> into clean, tidy data sets.
 Date: 2018-05-30
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -18,7 +18,7 @@ Long-form dataframe
 Extracts ABS series metadata directly from Excel spreadsheets and converts to long-form.
 }
 \examples{
-\dontrun{
+\donttest{
 read_abs_metadata
 (path=
 system.file(

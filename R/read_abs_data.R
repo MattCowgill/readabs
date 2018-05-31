@@ -13,7 +13,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' read_abs_data(
 #' path=
 #' system.file(
@@ -45,7 +45,7 @@ read_abs_data <- function(path, sheet) {
 #' @return Long-form dataframe
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' read_abs_metadata
 #' (path=
 #' system.file(

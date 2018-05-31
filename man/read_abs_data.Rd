@@ -18,7 +18,7 @@ Long-format dataframe
 Extracts ABS-formatted data directly from Excel spreadsheets and converts to long format.
 }
 \examples{
-\dontrun{
+\donttest{
 read_abs_data(
 path=
 system.file(
