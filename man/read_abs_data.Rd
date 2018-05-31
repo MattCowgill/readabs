@@ -19,13 +19,8 @@ Extracts ABS-formatted data directly from Excel spreadsheets and converts to lon
 }
 \examples{
 \donttest{
-read_abs_data(
-path=
-system.file(
-"extdata",
-"5206002_expenditure_volume_measures.xls",
-package = "readabs")
-sheet=2)
+data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
+read_abs_data(path= data, sheet=2)
 }
 
 

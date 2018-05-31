@@ -19,13 +19,8 @@ Extracts ABS series metadata directly from Excel spreadsheets and converts to lo
 }
 \examples{
 \donttest{
-read_abs_metadata
-(path=
-system.file(
-"extdata",
-"5206002_expenditure_volume_measures.xls",
-package = "readabs")
-sheet=2)
+data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
+read_abs_metadata(path= data, sheet=2)
 }
 
 }
