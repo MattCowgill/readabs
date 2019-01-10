@@ -24,7 +24,7 @@ read_abs_data <- function(path, sheet) {
   Date = X__1 = series = value = NULL
   df <- readxl::read_excel(path = path, sheet = sheet)
   dat <- df[-(1:9), ]
-  dat <- dplyr::rename(dat, `Date` = `X__1`)
+  colnames(dat)[1] <- "Date"
   dat$Date <- as.Date(as.integer(dat$`Date`), origin = "1899-12-30")
   dat <- tidyr::gather(dat, `series`, `value`, -`Date`)
   dat$value <- readr::parse_double(dat$`value`)
