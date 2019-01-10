@@ -1,3 +1,7 @@
+# readabs 1.0.0
+* Matt Cowgill is the new maintainer and author of `readabs`
+* Tibble issue has been fixed.
+
 # readabs 0.2.1 
 * Add descriptive information to `read_abs_sdmx()`
 
