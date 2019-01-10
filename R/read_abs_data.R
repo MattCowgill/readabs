@@ -1,16 +1,14 @@
-## Functions to deal with and read ABS data
-## Jaron Lee
-## The United States Studies Centre
-
-#' Extracts ABS-formatted data directly from Excel spreadsheets and converts to long format.
+#' Extracts ABS time series data from local Excel spreadsheets and converts to long format.
+#'
+#' `read_abs_data()` is soft deprecated. Please consider using `read_abs_local()`
+#' to import and tidy locally-stored ABS time series spreadsheets, or
+#' `read_abs()` to download, import, and tidy time series.
 #'
 #' @param path Filepath to Excel spreadsheet.
 #' @param sheet Sheet name or number.
 #'
 #' @return Long-format dataframe
 #' @export
-#'
-#'
 #'
 #' @examples
 #' \donttest{
@@ -28,6 +26,10 @@ read_abs_data <- function(path, sheet) {
   dat$Date <- as.Date(as.integer(dat$`Date`), origin = "1899-12-30")
   dat <- tidyr::gather(dat, `series`, `value`, -`Date`)
   dat$value <- readr::parse_double(dat$`value`)
+
+  .Deprecated(new = "read_abs_local()",
+              old = "read_abs_data()")
+
   return(dat)
 }
 
@@ -54,5 +56,8 @@ read_abs_metadata <- function(path, sheet) {
   final_dat <- as.data.frame(final_dat, stringsAsFactors = FALSE)
   final_dat$`Series Start` <- as.Date(as.integer(final_dat$`Series Start`), origin = "1899-12-30")
   final_dat$`Series End` <- as.Date(as.integer(final_dat$`Series End`), origin = "1899-12-30")
+
+  message("Please note that usage for read_abs_metadata() will change in future versions of readabs.")
+
   return(final_dat)
 }
