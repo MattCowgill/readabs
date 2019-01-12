@@ -15,7 +15,7 @@ LazyData: true
 Imports: readxl, dplyr, tidyr, sjmisc, rsdmx, readr, stringr
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Suggests: knitr,
     rmarkdown, 
