@@ -1,7 +1,7 @@
 Package: readabs
 Type: Package
 Title: Download And Tidy Time Series Data From The Australian Bureau Of Statistics
-Version: 1.0.0.1
+Version: 0.3.0
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com"),
            person("Zoe", "Meers", role = c("aut"), email = "zoe.meers@sydney.edu.au"),
@@ -23,8 +23,8 @@ Imports:
     tidyr, 
     rsdmx, 
     readr
-URL: https://github.com/zmeers/readabs
-BugReports: https://github.com/zmeers/readabs/issues
+URL: https://github.com/mattcowgill/readabs
+BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Suggests: knitr,

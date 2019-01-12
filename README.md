@@ -12,7 +12,7 @@ We'd welcome Github issues containing error reports or feature requests. Alterna
 Website
 -------
 
-The `readabs` website can be viewed at <https://zmeers.gitub.io/readabs/>
+The `readabs` website can be viewed at <https://github.com/mattcowgill/readabs>
 
 Setup
 -----
@@ -23,7 +23,7 @@ You can install the developer version of **readabs** from GitHub with:
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
 
-devtools::install_github("zmeers/readabs", ref = "dev")
+devtools::install_github("mattcowgill/readabs", ref = "dev")
 ```
 
 Load the package as you would with any R package:
