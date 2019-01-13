@@ -9,7 +9,7 @@ Authors@R: c(
            person("Jaron", "Lee", role = c("aut"), email = "jaron.lee@sydney.edu.au"))
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Reads files from the Australian Bureau of Statistics <https://www.abs.gov.au/> into clean, tidy data sets.
-Date: 2018-05-30
+Date: 2019-01-13
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
