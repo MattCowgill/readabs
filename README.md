@@ -5,7 +5,7 @@ readabs
 
 Downloads, imports, and tidies time series data from the Australian Bureau of Statistics.
 
-**readabs is changing. The package has been merged with [getabs](https://github.com/mattcowgill/getabs). Old readabs functions still work, but read\_abs\_data() is soft-deprecated.**
+**readabs is changing. The package has been merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read\_abs\_data() is soft-deprecated.**
 
 We'd welcome Github issues containing error reports or feature requests. Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
 
