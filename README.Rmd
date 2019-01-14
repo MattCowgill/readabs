@@ -3,7 +3,6 @@ output: github_document
 editor_options: 
   chunk_output_type: console
 ---
-<!-- rmarkdown v1 -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, echo = FALSE}
@@ -14,8 +13,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
-[![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
+<!--[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
+[![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)-->
 
 # readabs
 

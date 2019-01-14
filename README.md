@@ -1,71 +1,61 @@
----
-output: github_document
-editor_options: 
-  chunk_output_type: console
----
-<!-- rmarkdown v1 -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-
-
-[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
-[![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
-
-# readabs
+<!--[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
+[![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)-->
+readabs
+=======
 
 Downloads, imports, and tidies time series data from the Australian Bureau of Statistics.
 
-**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read_abs_data() is soft-deprecated.**
+**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read\_abs\_data() is soft-deprecated.**
 
-We'd welcome Github issues containing error reports or feature requests. 
-Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
+We'd welcome Github issues containing error reports or feature requests. Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
 
-## Website
-The `readabs` website can be viewed at https://github.com/mattcowgill/readabs
+Website
+-------
 
-## Setup
+The `readabs` website can be viewed at <https://github.com/mattcowgill/readabs>
+
+Setup
+-----
 
 You can install the developer version of **readabs** from GitHub with:
 
-
-```r
+``` r
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
 
 devtools::install_github("mattcowgill/readabs", ref = "dev")
-#> Skipping install of 'readabs' from a github remote, the SHA1 (15932c02) has not changed since last install.
+#> Skipping install of 'readabs' from a github remote, the SHA1 (0d26a44c) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 ```
 
 Load the package as you would with any R package:
 
-
-```r
+``` r
 library(readabs)
 ```
 
-
-## Usage
+Usage
+-----
 
 There are two key functions in **readabs**. They are:
 
-* `read_abs()` downloads, imports, and tidies time series data from the ABS website.
-* `read_abs_local()` imports and tidies time series data from ABS spreadsheets stored locally.
+-   `read_abs()` downloads, imports, and tidies time series data from the ABS website.
+-   `read_abs_local()` imports and tidies time series data from ABS spreadsheets stored locally.
 
-Both functions return a single tidy data frame (tibble) containing long data, including 
-metadata.
+Both functions return a single tidy data frame (tibble) containing long data, including metadata.
 
-If the data you are interested in is available on [ABS.Stat](http://stat.data.abs.gov.au),
-you may wish to use the following:
+If the data you are interested in is available on [ABS.Stat](http://stat.data.abs.gov.au), you may wish to use the following:
 
-* `read_abs_sdmx()` uses the ABS.Stat API to download from ABS.Stat.
+-   `read_abs_sdmx()` uses the ABS.Stat API to download from ABS.Stat.
 
-## Example
+Example
+-------
 
-Get all tables from the latest release of ABS 3101.0 (Australian Demographic Statistics) and create a dataframe called `demog` containing all the data from this catalogue number.^[Note that running `read_abs()` will save ABS time series spreadsheets to your disk; by default these go in a data/ABS subdirectory of your working directory. Modify this using the path argument of `read_abs()`.]
+Get all tables from the latest release of ABS 3101.0 (Australian Demographic Statistics) and create a dataframe called `demog` containing all the data from this catalogue number.[1]
 
-
-```r
+``` r
 demog <- read_abs("3101.0")
 #> Finding filenames for tables from ABS catalogue 3101.0
 #> Attempting to download files from cat. no. 3101.0, Australian Demographic Statistics
@@ -73,10 +63,9 @@ demog <- read_abs("3101.0")
 #> Tidying data from imported ABS spreadsheets
 ```
 
-Now you can use your downloaded and tidied data to make a graph. You'll first need to filter the data frame so it only contains the series of interest. The `series` column reflects the series names in the first row of ABS time series; these can be long and unwieldy. 
+Now you can use your downloaded and tidied data to make a graph. You'll first need to filter the data frame so it only contains the series of interest. The `series` column reflects the series names in the first row of ABS time series; these can be long and unwieldy.
 
-
-```r
+``` r
 library(tidyverse)
 #> ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 3.1.0           ✔ purrr   0.2.5      
@@ -98,14 +87,13 @@ demog %>%
   theme(axis.title = element_blank() )
 ```
 
-![plot of chunk erp-line](man/README-erp-line-1.png)
+![](man/README-erp-line-1.png)
 
-Note that different time series can share the same series name, as reflected in the `series` column of your data frame. For example, there are multiple series named "Estimated Resident Population ;  Persons ;". Some of these series refer to the whole country; some refer to individual states. In this particular dataset, the ABS splits states and national totals into different tables, with identically-named columns. 
+Note that different time series can share the same series name, as reflected in the `series` column of your data frame. For example, there are multiple series named "Estimated Resident Population ; Persons ;". Some of these series refer to the whole country; some refer to individual states. In this particular dataset, the ABS splits states and national totals into different tables, with identically-named columns.
 
-You can filter by `table_no` as well as `series` to ensure you get the series you want. Here's one way you could filter the data to give you the distribution of the national population by age as at the latest data collection, and then graph it.^[Future versions of the package will have the table titles as another column in your data frame, which will make this filtering process easier and require less frequent reference to the spreadsheets or ABS website.]
+You can filter by `table_no` as well as `series` to ensure you get the series you want. Here's one way you could filter the data to give you the distribution of the national population by age as at the latest data collection, and then graph it.[2]
 
-
-```r
+``` r
 age_distrib <- demog %>%
   filter(grepl("Estimated Resident Population ;  Persons ;", series),
          # In this case we only want to retain rows where the series contains a digit
@@ -127,14 +115,13 @@ age_distrib %>% ggplot(aes(x = age, y = value)) +
   theme(axis.title = element_blank() )
 ```
 
-![plot of chunk erp-byage-bar](man/README-erp-byage-bar-1.png)
+![](man/README-erp-byage-bar-1.png)
 
 Another way to filter your data is by using the unique ABS time series identifier. Every ABS time series has one; it's in the tenth row of any spreadsheet containing ABS time series and looks something like "A2158920J". The time series identifier is stored in the `series_id` column of your data frame.
 
 To graph time series "A2158920J", which is the estimated population of 0 year old males in Australia, you can just filter your data frame like this:
 
-
-```r
+``` r
 demog %>%
   filter(series_id == "A2158920J") %>%
   ggplot(aes(x = date, y = value)) +
@@ -146,5 +133,8 @@ demog %>%
     theme(axis.title = element_blank() )
 ```
 
-![plot of chunk erp-babies-line](man/README-erp-babies-line-1.png)
+![](man/README-erp-babies-line-1.png)
 
+[1] Note that running `read_abs()` will save ABS time series spreadsheets to your disk; by default these go in a data/ABS subdirectory of your working directory. Modify this using the path argument of `read_abs()`.
+
+[2] Future versions of the package will have the table titles as another column in your data frame, which will make this filtering process easier and require less frequent reference to the spreadsheets or ABS website.
