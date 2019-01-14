@@ -10,21 +10,24 @@ editor_options:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "man/README-"
 )
 ```
+
+[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
+[![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
 
 # readabs
 
 Downloads, imports, and tidies time series data from the Australian Bureau of Statistics.
 
-**readabs is changing. The package has been merged with [getabs](https://github.com/mattcowgill/getabs). Old readabs functions still work, but read_abs_data() is soft-deprecated.**
+**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read_abs_data() is soft-deprecated.**
 
 We'd welcome Github issues containing error reports or feature requests. 
 Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
 
 ## Website
-The `readabs` website can be viewed at https://zmeers.gitub.io/readabs/
+The `readabs` website can be viewed at https://github.com/mattcowgill/readabs
 
 ## Setup
 
@@ -34,7 +37,7 @@ You can install the developer version of **readabs** from GitHub with:
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
 
-devtools::install_github("zmeers/readabs", ref = "dev")
+devtools::install_github("mattcowgill/readabs", ref = "dev")
 ```
 
 Load the package as you would with any R package:
