@@ -1,3 +1,4 @@
+[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
 [![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
 
 # readabs - Load Tidy Data From The Australian Bureau Of Statistics
