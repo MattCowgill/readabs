@@ -8,6 +8,10 @@
 #' @param cat_no ABS catalogue number, as a string, including the extension.
 #' For example, "6202.0".
 #'
+#' @param tables Time series tables in `cat_no`` to download and extract. Default is "all",
+#' which will read all time series in `cat_no`. Specify `tables` to
+#' download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.
+#'
 #' @param path Local directory in which to save downloaded ABS time series
 #' spreadsheets. Default is "data/ABS"; this subdirectory of your working
 #' directory will be created if it does not exist.
@@ -24,11 +28,12 @@
 #'
 #' \donttest{wpi <- read_abs("6345.0")}
 #'
-#' @importFrom purrr walk walk2 map
+#' @importFrom purrr walk walk2 map map2_dfr
 #' @name read_abs
 #' @export
 
 read_abs <- function(cat_no = NULL,
+                     tables = "all",
                      path = "data/ABS",
                      show_progress_bars = TRUE){
 
@@ -44,9 +49,14 @@ read_abs <- function(cat_no = NULL,
     stop("Please ensure you include the cat_no extension, eg. '6202.0', not '6202'")
   }
 
+  if(is.null(tables)){
+    message(paste0("`tables` not specified; attempting to fetch all tables from ", cat_no))
+  }
+
   # find URLs from cat_no
   message(paste0("Finding filenames for tables from ABS catalogue ", cat_no))
-  xml_dfs <- get_abs_xml_metadata(cat_no = cat_no)
+  xml_dfs <- purrr::map2_dfr(cat_no, tables,
+                             .f = get_abs_xml_metadata)
 
   urls <- unique(xml_dfs$TableURL)
   urls <- gsub(".test", "", urls)

@@ -5,14 +5,21 @@
 # given a catalogue number, download the catalogue metadata via XML, then find
 # unique filenames in the latest release and return those
 
-get_abs_xml_metadata <- function(cat_no) {
+get_abs_xml_metadata <- function(cat_no, table) {
 
   ProductReleaseDate=TableOrder=text=NULL
+
+  if(table == "all"){
+    tables_url <- ""
+  } else {
+    tables_url <- paste0("&ttitle=", table)
+  }
 
   # Download the first page of metadata for cat_no
   first_url <- paste0("http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=",
                       cat_no,
-                      "&pg=1")
+                      "&pg=1",
+                      tables_url)
 
   first_page <- XML::xmlParse(file = first_url)
 
@@ -47,7 +54,7 @@ get_abs_xml_metadata <- function(cat_no) {
   xml_dfs <- list()
   while(current == TRUE){
 
-    xml_df <- get_xml_df(cat_no = cat_no, metadata_page = all_pages[i])
+    xml_df <- get_xml_df(cat_no = cat_no, table = table, metadata_page = all_pages[i])
 
     xml_dfs[[i]] <- xml_df
 
