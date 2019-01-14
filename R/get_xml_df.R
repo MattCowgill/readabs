@@ -20,7 +20,7 @@ get_xml_df <- function(url){
   xml_df <- XML::xmlToDataFrame(xml_page, stringsAsFactors = FALSE)
 
   if(length(xml_df) == 0) {
-    stop(paste0("Couldn't find an ABS time series with catalogue number ", cat_no))
+    stop(paste0("Couldn't find a valid ABS time series in catalogue number"))
   }
 
   # if metadata has > 1 page (almost all do), xml_df will contain a text column;
