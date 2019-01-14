@@ -2,19 +2,9 @@
 #' @importFrom XML xmlParse xmlToDataFrame
 #' @importFrom dplyr filter select "%>%"
 
-get_xml_df <- function(cat_no, table, metadata_page){
+get_xml_df <- function(url){
 
   text=NULL
-
-  if(table == "all"){
-    tables_url <- ""
-  } else {
-    tables_url <- paste0("&ttitle=", table)
-  }
-
-  base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
-
-  url <- paste0(base_url, cat_no, "&pg=", metadata_page, tables_url)
 
   safe_parse <- purrr::safely(XML::xmlParse)
 

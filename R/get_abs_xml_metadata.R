@@ -15,8 +15,10 @@ get_abs_xml_metadata <- function(cat_no, table) {
     tables_url <- paste0("&ttitle=", table)
   }
 
+  base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
+
   # Download the first page of metadata for cat_no
-  first_url <- paste0("http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=",
+  first_url <- paste0(base_url,
                       cat_no,
                       "&pg=1",
                       tables_url)
@@ -45,6 +47,10 @@ get_abs_xml_metadata <- function(cat_no, table) {
   max_date <- max(as.Date(first_page_df$ProductReleaseDate, format = "%d/%m/%Y"),
                   na.rm = TRUE)
 
+  # create list of URLs of XML metadata to scrape
+  urls <- paste0(base_url, cat_no, "&pg=", all_pages, tables_url)
+
+
   # Begin at the last page of metadata and loop backwards through each page,
   # extracting each page as a data frame,
   # until the release date of the data is not the maximum date, then stop
@@ -54,7 +60,7 @@ get_abs_xml_metadata <- function(cat_no, table) {
   xml_dfs <- list()
   while(current == TRUE){
 
-    xml_df <- get_xml_df(cat_no = cat_no, table = table, metadata_page = all_pages[i])
+    xml_df <- get_xml_df(url = urls[i])
 
     xml_dfs[[i]] <- xml_df
 
