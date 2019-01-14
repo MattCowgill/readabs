@@ -3,7 +3,7 @@ output: github_document
 editor_options: 
   chunk_output_type: console
 ---
-
+<!-- rmarkdown v1 -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, echo = FALSE}
@@ -33,7 +33,7 @@ The `readabs` website can be viewed at https://github.com/mattcowgill/readabs
 
 You can install the developer version of **readabs** from GitHub with:
 
-```{r gh-installation, eval = FALSE}
+```{r gh-installation, eval = TRUE}
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
 
