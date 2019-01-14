@@ -4,11 +4,16 @@
 \alias{read_abs}
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
-read_abs(cat_no = NULL, path = "data/ABS", show_progress_bars = TRUE)
+read_abs(cat_no = NULL, tables = "all", path = "data/ABS",
+  show_progress_bars = TRUE)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
 For example, "6202.0".}
+
+\item{tables}{Time series tables in `cat_no`` to download and extract. Default is "all",
+which will read all time series in `cat_no`. Specify `tables` to
+download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.}
 
 \item{path}{Local directory in which to save downloaded ABS time series
 spreadsheets. Default is "data/ABS"; this subdirectory of your working
