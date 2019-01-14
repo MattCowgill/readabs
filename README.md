@@ -26,8 +26,6 @@ You can install the developer version of **readabs** from GitHub with:
 # install.packages("devtools")
 
 devtools::install_github("mattcowgill/readabs", ref = "dev")
-#> Skipping install of 'readabs' from a github remote, the SHA1 (0d26a44c) has not changed since last install.
-#>   Use `force = TRUE` to force installation
 ```
 
 Load the package as you would with any R package:
@@ -87,7 +85,7 @@ demog %>%
   theme(axis.title = element_blank() )
 ```
 
-![](man/README-erp-line-1.png)
+![](man/figures/README-erp-line-1.png)
 
 Note that different time series can share the same series name, as reflected in the `series` column of your data frame. For example, there are multiple series named "Estimated Resident Population ; Persons ;". Some of these series refer to the whole country; some refer to individual states. In this particular dataset, the ABS splits states and national totals into different tables, with identically-named columns.
 
@@ -115,7 +113,7 @@ age_distrib %>% ggplot(aes(x = age, y = value)) +
   theme(axis.title = element_blank() )
 ```
 
-![](man/README-erp-byage-bar-1.png)
+![](man/figures/README-erp-byage-bar-1.png)
 
 Another way to filter your data is by using the unique ABS time series identifier. Every ABS time series has one; it's in the tenth row of any spreadsheet containing ABS time series and looks something like "A2158920J". The time series identifier is stored in the `series_id` column of your data frame.
 
@@ -133,7 +131,7 @@ demog %>%
     theme(axis.title = element_blank() )
 ```
 
-![](man/README-erp-babies-line-1.png)
+![](man/figures/README-erp-babies-line-1.png)
 
 [1] Note that running `read_abs()` will save ABS time series spreadsheets to your disk; by default these go in a data/ABS subdirectory of your working directory. Modify this using the path argument of `read_abs()`.
 
