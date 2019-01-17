@@ -4,7 +4,7 @@
 \alias{read_abs_local}
 \title{Read and tidy locally-saved ABS time series spreadsheet(s)}
 \usage{
-read_abs_local(filenames = NULL, path = "data/ABS")
+read_abs_local(filenames = NULL, path = "data/ABS", metadata = TRUE)
 }
 \arguments{
 \item{filenames}{character vector of at least one filename of a locally-stored
@@ -16,6 +16,10 @@ be specified with `path`.}
 \item{path}{path to local directory containing ABS time series file(s).
 Default is "data/ABS". If nothing is specified in `filenames`,
 `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.}
+
+\item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
+ABS metadata (series name, table name, etc.) is included in the output. If
+`FALSE`, metadata is dropped.}
 }
 \description{
 If you need to download and tidy time series data from the ABS, use \code{read_abs()}.

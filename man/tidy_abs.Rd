@@ -4,11 +4,18 @@
 \alias{tidy_abs}
 \title{Tidy ABS time series data.}
 \usage{
-tidy_abs(df)
+tidy_abs(df, metadata = TRUE)
 }
 \arguments{
 \item{df}{A data frame containing ABS time series data that has been extracted
 using \code{extract_abs_sheets}.}
+
+\item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
+ABS metadata (series name, table name, etc.) is included in the output. If
+`FALSE`, metadata is dropped.}
+}
+\value{
+data frame (tibble) in long format.
 }
 \description{
 Tidy ABS time series data.

@@ -3,6 +3,12 @@
 #' @param df A data frame containing ABS time series data that has been extracted
 #' using \code{extract_abs_sheets}.
 #'
+#' @param metadata logical. If `TRUE` (the default), a tidy data frame including
+#' ABS metadata (series name, table name, etc.) is included in the output. If
+#' `FALSE`, metadata is dropped.
+#'
+#' @return data frame (tibble) in long format.
+#'
 #' @examples
 #'
 #' # First extract the data from the local spreadsheet
@@ -20,14 +26,21 @@
 #' @importFrom tidyr gather
 #' @export
 
-tidy_abs <- function(df) {
+tidy_abs <- function(df, metadata = TRUE) {
 
-  series=value=X__1=NULL
+  series=value=X__1=series_id=NULL
+
+  if(!"data.frame" %in% class(df)){
+    stop("Object does not appear to be a data frame; it cannot be tidied.")
+  }
 
   # return an error if the df has <= 1 column
-
   if(ncol(df) <= 1){
     stop("The data frame appears to have fewer than 2 columns. This is unexpected from an ABS time series. Please check the spreadsheet.")
+  }
+
+  if(!is.logical(metadata)){
+    stop("`metadata` argument to tidy_abs() must be either `TRUE` or `FALSE`.")
   }
 
   # newer versions of tibble() and readxl() want to either leave the first
@@ -48,6 +61,7 @@ tidy_abs <- function(df) {
 
   colnames(df)[2:ncol(df)] <- new_col_names
 
+  if(metadata == TRUE){
   df <- df %>%
     tidyr::gather(key = series, value = value, -X__1) %>%
     dplyr::group_by(series) %>%
@@ -64,6 +78,20 @@ tidy_abs <- function(df) {
     dplyr::ungroup() %>%
     # now remove appended series ID from the end of 'series'
     dplyr::mutate(series = sub("_[^_]+$", "", series))
+  }
+
+  if(metadata == FALSE){
+    colnames(df) <- df[9,]
+    df <- df[-c(1:9),]
+    colnames(df)[1] <- "date"
+
+    df <- df %>%
+      tidyr::gather(key = series_id,
+             value = value,
+             -date) %>%
+      dplyr::mutate(date = as.Date(as.numeric(date), origin = "1899-12-30"),
+                    value = as.numeric(value))
+  }
 
   df
 }

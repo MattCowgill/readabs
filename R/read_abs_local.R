@@ -18,6 +18,10 @@
 #' Default is "data/ABS". If nothing is specified in `filenames`,
 #' `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.
 #'
+#' @param metadata logical. If `TRUE` (the default), a tidy data frame including
+#' ABS metadata (series name, table name, etc.) is included in the output. If
+#' `FALSE`, metadata is dropped.
+#'
 #' @examples
 #'
 #'  # Load and tidy two specified files from the "data/ABS" subdirectory
@@ -29,7 +33,9 @@
 #' @export
 #'
 
-read_abs_local <- function(filenames = NULL, path = "data/ABS"){
+read_abs_local <- function(filenames = NULL,
+                           path = "data/ABS",
+                           metadata = TRUE){
   if(is.null(filenames) & is.null(path)){
     stop("You must specify a value to filenames and/or path.")
   }
@@ -59,6 +65,10 @@ read_abs_local <- function(filenames = NULL, path = "data/ABS"){
 
   }
 
+  if(!is.logical(metadata)){
+    stop("`metadata` argument must be either TRUE or FALSE")
+  }
+
   # Create filenames for local ABS time series files
 
   filenames <- base::basename(filenames)
@@ -71,10 +81,11 @@ read_abs_local <- function(filenames = NULL, path = "data/ABS"){
   sheets <- unlist(sheets, recursive = FALSE)
 
   # tidy the sheets
-  sheet <- tidy_abs_list(sheets)
+  sheet <- tidy_abs_list(sheets, metadata = metadata)
 
+  if(metadata){
   message("\nNote: table_title column in your data frame is blank. Please use read_abs() if you need table_title.")
-
+  }
   sheet
 
 }

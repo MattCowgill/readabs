@@ -16,6 +16,10 @@
 #' spreadsheets. Default is "data/ABS"; this subdirectory of your working
 #' directory will be created if it does not exist.
 #'
+#' @param metadata logical. If `TRUE` (the default), a tidy data frame including
+#' ABS metadata (series name, table name, etc.) is included in the output. If
+#' `FALSE`, metadata is dropped.
+#'
 #' @param show_progress_bars TRUE by default. If set to FALSE, progress bars
 #' will not be shown when ABS spreadsheets are downloading.
 #'
@@ -35,6 +39,7 @@
 read_abs <- function(cat_no = NULL,
                      tables = "all",
                      path = "data/ABS",
+                     metadata = TRUE,
                      show_progress_bars = TRUE){
 
   if(is.null(cat_no)){
@@ -51,6 +56,10 @@ read_abs <- function(cat_no = NULL,
 
   if(is.null(tables)){
     message(paste0("`tables` not specified; attempting to fetch all tables from ", cat_no))
+  }
+
+  if(!is.logical(metadata)){
+    stop("`metadata` argument must be either TRUE or FALSE")
   }
 
   # find URLs from cat_no
@@ -77,7 +86,7 @@ read_abs <- function(cat_no = NULL,
   sheets <- unlist(sheets, recursive = FALSE)
 
   # tidy the sheets
-  sheet <- tidy_abs_list(sheets)
+  sheet <- tidy_abs_list(sheets, metadata = metadata)
 
   sheet
 

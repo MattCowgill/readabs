@@ -5,7 +5,7 @@
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
 read_abs(cat_no = NULL, tables = "all", path = "data/ABS",
-  show_progress_bars = TRUE)
+  metadata = TRUE, show_progress_bars = TRUE)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
@@ -18,6 +18,10 @@ download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.
 \item{path}{Local directory in which to save downloaded ABS time series
 spreadsheets. Default is "data/ABS"; this subdirectory of your working
 directory will be created if it does not exist.}
+
+\item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
+ABS metadata (series name, table name, etc.) is included in the output. If
+`FALSE`, metadata is dropped.}
 
 \item{show_progress_bars}{TRUE by default. If set to FALSE, progress bars
 will not be shown when ABS spreadsheets are downloading.}
