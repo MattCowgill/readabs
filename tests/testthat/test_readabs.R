@@ -32,7 +32,7 @@ context("Test xml scraping")
 lfs_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6202.0&pg=1&ttitle=1"
 
 check_abs_site <- function() {
-  if(!url.exists("http://ausstats.abs.gov.au")){
+  if(!RCurl::url.exists("http://ausstats.abs.gov.au")){
     skip("ABS Time Series Directory not available")
   }
 }
