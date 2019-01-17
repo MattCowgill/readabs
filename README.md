@@ -7,7 +7,7 @@ readabs
 
 Downloads, imports, and tidies time series data from the Australian Bureau of Statistics.
 
-**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read\_abs\_data() is soft-deprecated.**
+**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read\_abs\_data() is soft-deprecated. The pre-merger readabs code can be found at [the 0.2.9 branch](https://github.com/MattCowgill/readabs/tree/0.2.9).**
 
 We'd welcome Github issues containing error reports or feature requests. Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
 
@@ -16,17 +16,24 @@ Website
 
 The `readabs` website can be viewed at <https://github.com/mattcowgill/readabs>
 
+
 Setup
 -----
 
-You can install the developer version of **readabs** from GitHub with:
+You can install the development version of **readabs** from GitHub with:
 
 ``` r
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
 
-devtools::install_github("mattcowgill/readabs", ref = "dev")
+devtools::install_github("mattcowgill/readabs")
 ```
+
+Or install the CRAN version with:
+``` r
+install.packages("readabs")
+```
+**Note that the CRAN version currently lacks functionality available in the development version.**
 
 Load the package as you would with any R package:
 
@@ -42,7 +49,7 @@ There are two key functions in **readabs**. They are:
 -   `read_abs()` downloads, imports, and tidies time series data from the ABS website.
 -   `read_abs_local()` imports and tidies time series data from ABS spreadsheets stored locally.
 
-Both functions return a single tidy data frame (tibble) containing long data, including metadata.
+Both functions return a single tidy data frame (tibble) containing long data.
 
 If the data you are interested in is available on [ABS.Stat](http://stat.data.abs.gov.au), you may wish to use the following:
 
