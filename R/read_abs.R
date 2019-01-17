@@ -8,7 +8,7 @@
 #' @param cat_no ABS catalogue number, as a string, including the extension.
 #' For example, "6202.0".
 #'
-#' @param tables Time series tables in `cat_no`` to download and extract. Default is "all",
+#' @param tables numeric. Time series tables in `cat_no`` to download and extract. Default is "all",
 #' which will read all time series in `cat_no`. Specify `tables` to
 #' download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.
 #'
