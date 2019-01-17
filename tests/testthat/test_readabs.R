@@ -40,6 +40,7 @@ check_abs_site <- function() {
 test_that("Labour force XML page is a data.frame with expected column names",
           {
         skip_on_cran()
+
         check_abs_site()
 
         lfs_1 <- get_xml_df(lfs_url)
