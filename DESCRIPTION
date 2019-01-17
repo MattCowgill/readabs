@@ -29,4 +29,5 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Suggests: knitr,
     rmarkdown, 
-    testthat
+    testthat,
+    RCurl
