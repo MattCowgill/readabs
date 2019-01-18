@@ -3,17 +3,35 @@ title: "Using readabs"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{readabs_vignette}
-  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
-  
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options:
+  chunk_output_type: console
 ---
 ```{r, echo = FALSE}
+library(knitr)
 knitr::opts_chunk$set(
+  cache = FALSE,
+  autodep = TRUE,
+  echo = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  message = FALSE,
+  out.width = 700,
+  fig.width = 12,
+  fig.heigh = 8,
+  dpi = 300,
   collapse = TRUE,
   comment = "#>",
-  fig.path = "doc/figures/VIGNETTE-",
-  out.width = "50%"
+  fig.path = "VIGNETTE-",
+  pngquant    = "--speed=1 --quality=0-10",
+  concordance = TRUE
 )
+
+knitr::knit_hooks$set(
+  pngquant = hook_pngquant
+)
+
 ```
 
 ## How to use **readabs** to download a whole catalogue number

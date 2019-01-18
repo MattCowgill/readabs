@@ -1,12 +1,10 @@
 ^Meta$
-^doc$
 ^CRAN-RELEASE$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^README-.*\.png$
 ^\.travis\.yml$
-^docs$
 ^_pkgdown\.yml$
 ^\.github$
 ^LICENSE\.md$
