@@ -35,7 +35,8 @@ demog <- read_abs("3101.0")
 Now you can use your downloaded and tidied data to make a graph. You'll first need to filter the data frame so it only contains the series of interest. The `series` column reflects the series names in the first row of ABS time series; these can be long and unwieldy. 
 
 ```{r erp-line}
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 
 demog %>%
   filter(series == "Estimated Resident Population (ERP) ;  Australia ;") %>%
@@ -53,6 +54,9 @@ Note that different time series can share the same series name, as reflected in 
 You can filter by `table_no` as well as `series` to ensure you get the series you want. Here's one way you could filter the data to give you the distribution of the national population by age as at the latest data collection, and then graph it.^[Future versions of the package will have the table titles as another column in your data frame, which will make this filtering process easier and require less frequent reference to the spreadsheets or ABS website.]
 
 ```{r erp-byage-bar}
+library(stringr)
+library(readr)
+
 age_distrib <- demog %>%
   filter(grepl("Estimated Resident Population ;  Persons ;", series),
          # In this case we only want to retain rows where the series contains a digit
@@ -66,10 +70,8 @@ age_distrib <- demog %>%
 age_distrib %>% ggplot(aes(x = age, y = value)) +
   geom_col(col = "white") +
   theme_minimal() +
-  scale_y_continuous(labels = scales::number) +
   labs(title = "People in their 30s rule Australia",
-       subtitle = paste0("Distribution of Australian residents by age, ",
-                         lubridate::year(age_distrib$date[1])),
+       subtitle = paste0("Distribution of Australian residents by age"),
        caption = "Source: ABS 3101.0") +
   theme(axis.title = element_blank() )
   

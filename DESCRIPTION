@@ -30,4 +30,6 @@ VignetteBuilder: knitr
 Suggests: knitr,
     rmarkdown, 
     testthat,
-    RCurl
+    RCurl,
+    ggplot2,
+    stringr
