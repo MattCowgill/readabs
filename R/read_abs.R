@@ -32,7 +32,7 @@
 #'
 #' \donttest{wpi <- read_abs("6345.0")}
 #'
-#' @importFrom purrr walk walk2 map map2_dfr
+#' @importFrom purrr walk walk2 map map_dfr
 #' @name read_abs
 #' @export
 
@@ -62,10 +62,25 @@ read_abs <- function(cat_no = NULL,
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
-  # find URLs from cat_no
+  # create the url to search for in the Time Series Directory
+
+  base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
+
+  if(tables[1] == "all"){
+    tables_url <- ""
+  } else {
+    tables_url <- paste0("&ttitle=", tables)
+  }
+
+  xml_urls <- paste0(base_url,
+                    cat_no,
+                    tables_url)
+
+  # find spreadsheet URLs from cat_no in the Time Series Directory
   message(paste0("Finding filenames for tables from ABS catalogue ", cat_no))
-  xml_dfs <- purrr::map2_dfr(cat_no, tables,
-                             .f = get_abs_xml_metadata)
+  xml_dfs <- purrr::map_dfr(xml_urls,
+                            .f = get_abs_xml_metadata,
+                            release_dates = "latest")
 
   urls <- unique(xml_dfs$TableURL)
   urls <- gsub(".test", "", urls)

@@ -5,23 +5,22 @@
 # given a catalogue number, download the catalogue metadata via XML, then find
 # unique filenames in the latest release and return those
 
-get_abs_xml_metadata <- function(cat_no, table) {
+get_abs_xml_metadata <- function(url, release_dates = "latest") {
 
-  ProductReleaseDate=TableOrder=text=NULL
-
-  if(table == "all"){
-    tables_url <- ""
-  } else {
-    tables_url <- paste0("&ttitle=", table)
+  if(!release_dates %in% c("latest", "all")){
+    stop("`release_dates` argument in get_abs_xml_metadata() must be either 'latest' or 'all'")
   }
 
-  base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
+  if(!is.character(url)){
+    stop("`url` argument to get_abs_xml_metadata() must be a string.")
+  }
 
-  # Download the first page of metadata for cat_no
-  first_url <- paste0(base_url,
-                      cat_no,
-                      "&pg=1",
-                      tables_url)
+
+  ProductReleaseDate=TableOrder=text=cat_no=NULL
+
+  # Download the first page of metadata
+  first_url <- paste0(url,
+                      "&pg=1")
 
   first_page <- XML::xmlParse(file = first_url)
 
@@ -39,6 +38,10 @@ get_abs_xml_metadata <- function(cat_no, table) {
     tot_pages <- as.numeric(first_page_list$NumPages)
   }
 
+  if(!is.numeric(tot_pages)){
+    stop("Can't tell how many pages of XML match your query in get_abs_xml_metadata()")
+  }
+
   all_pages <- sort(seq(as.numeric(tot_pages):1), decreasing = TRUE)
 
   # Extract the date on the first page of the metadata (it'll be the oldest in the directory)
@@ -48,10 +51,11 @@ get_abs_xml_metadata <- function(cat_no, table) {
                   na.rm = TRUE)
 
   # create list of URLs of XML metadata to scrape
-  urls <- paste0(base_url, cat_no, "&pg=", all_pages, tables_url)
+  full_urls <- paste0(url, "&pg=", all_pages)
 
-
-  # Begin at the last page of metadata and loop backwards through each page,
+  # if release_dates = "all" then we get all pages of metadata;
+  # if release_dates = "latest" then we
+  # begin at the last page of metadata and loop backwards through each page,
   # extracting each page as a data frame,
   # until the release date of the data is not the maximum date, then stop
 
@@ -60,18 +64,25 @@ get_abs_xml_metadata <- function(cat_no, table) {
   xml_dfs <- list()
   while(current == TRUE){
 
-    xml_df <- get_xml_df(url = urls[i])
+    xml_df <- get_xml_df(url = full_urls[i])
 
     xml_dfs[[i]] <- xml_df
 
-    date_in_df <- max(as.Date(xml_df$ProductReleaseDate, format = "%d/%m/%Y"),
-                      na.rm = TRUE)
 
-    if(date_in_df >= max_date){
-      max_date <- date_in_df
+    if(release_dates == "latest"){
+      date_in_df <- max(as.Date(xml_df$ProductReleaseDate, format = "%d/%m/%Y"),
+                        na.rm = TRUE)
+
+      if(date_in_df >= max_date){
+        max_date <- date_in_df
+        i <- i + 1
+      } else {
+        current <- FALSE
+      }
+    }
+
+    if(release_dates == "all"){
       i <- i + 1
-    } else {
-      current <- FALSE
     }
 
     if(i > tot_pages){
@@ -79,13 +90,18 @@ get_abs_xml_metadata <- function(cat_no, table) {
     }
 
 
-  } # end while loop - stop when data release date < max date
+  } # end while loop
 
   xml_dfs <- dplyr::bind_rows(xml_dfs)
 
   xml_dfs <- xml_dfs %>%
-    dplyr::mutate(ProductReleaseDate = as.Date(ProductReleaseDate, format = "%d/%m/%Y")) %>%
-    dplyr::filter(ProductReleaseDate == max(ProductReleaseDate))
+    dplyr::mutate_at(c("ProductReleaseDate", "SeriesStart", "SeriesEnd"),
+                     as.Date, format = "%d/%m/%Y")
+
+  if(release_dates == "latest"){
+    xml_dfs <- xml_dfs %>%
+      dplyr::filter(ProductReleaseDate == max(ProductReleaseDate))
+  }
 
   xml_dfs <- xml_dfs %>%
     dplyr::mutate(TableOrder = as.numeric(TableOrder)) %>%
