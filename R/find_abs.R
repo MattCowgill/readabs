@@ -28,8 +28,8 @@
 
 find_abs <- function(cat_no = NULL, cat_desc = NULL, find = NULL){
 
-  SeriesID=ProductReleaseDate=Description=TableTitle=Desc_Table=TableOrder=CollectionMonth=NULL
-  ProdutURL=TableURL=NoObs=ProductNumber=ProductTitle=SeriesStart=SeriesEnd=ProductURL=NULL
+  Description=TableTitle=SeriesID=ProductNumber=ProductTitle=SeriesStart=SeriesEnd=ProductURL=NULL
+  ProductReleaseDate=Desc_Table=NULL
 
   if(is.null(find)){
     stop("You haven't supplied a value to `find`. You need to tell find_abs() what to search for.")
@@ -70,8 +70,7 @@ find_abs <- function(cat_no = NULL, cat_desc = NULL, find = NULL){
   xml_dfs <- xml_dfs %>%
     dplyr::mutate(Desc_Table = tolower(paste(Description, TableTitle, sep = " "))) %>%
     dplyr::filter(grepl(regex_to_find, Desc_Table, perl = TRUE)) %>%
-    dplyr::select(-Desc_Table, -TableOrder, -CollectionMonth, -ProductURL, -TableURL, -NoObs,
-           ProductNumber, ProductTitle, TableTitle, Description, SeriesID, SeriesStart, SeriesEnd)
+    dplyr::select(ProductNumber, ProductTitle, TableTitle, Description, SeriesID, SeriesStart, SeriesEnd)
 
 
   xml_dfs
