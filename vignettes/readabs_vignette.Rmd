@@ -1,0 +1,38 @@
+---
+title: "Using readabs"
+output: rmarkdown::html_vignette
+author: "Matt Cowgill"
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "VIGNETTE-")
+
+library(dplyr)
+library(ggplot2)
+set.seed(42)
+
+```
+
+When working with data, you must:
+
+1. Find the data you need;
+1. Download the data; 
+1. Read the data into R; and
+1. Tidy the data.
+
+The readabs package provides functions to help you with each of those steps when working with time series data from the Australian Bureau of Statistics (ABS). There are two key functions in the package that will help streamline the process of analysing ABS time series data:
+
+* `find_abs()` helps you find the time series you're interested in
+* `read_abs()` downloads, reads, and tidies the data.
+
+A third function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it reads and tidies the spreadsheets.
+
+
