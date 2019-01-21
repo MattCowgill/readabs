@@ -75,7 +75,11 @@ read_abs_local <- function(filenames = NULL,
 
   # Import data from local spreadsheet(s) to a list
   message("Extracting data from locally-saved spreadsheets")
-  sheets <- purrr::map(filenames, extract_abs_sheets, path = path)
+  # first extract table titles from the time series spreadsheet index
+  table_titles <- purrr::map(filenames, extract_abs_tabletitles, path = path)
+  # then read in the data
+  sheets <- purrr::map2(filenames, table_titles,
+                        .f = extract_abs_sheets, path = path)
 
   # remove one 'layer' of the list, so that each sheet is its own element in the list
   sheets <- unlist(sheets, recursive = FALSE)
@@ -83,9 +87,6 @@ read_abs_local <- function(filenames = NULL,
   # tidy the sheets
   sheet <- tidy_abs_list(sheets, metadata = metadata)
 
-  if(metadata){
-  message("\nNote: table_title column in your data frame is blank. Please use read_abs() if you need table_title.")
-  }
   sheet
 
 }

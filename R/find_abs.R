@@ -72,9 +72,7 @@ find_abs <- function(cat_no = NULL, cat_desc = NULL, find = NULL){
     dplyr::filter(grepl(regex_to_find, Desc_Table, perl = TRUE)) %>%
     dplyr::select(ProductNumber, ProductTitle, TableTitle, Description, SeriesID, SeriesStart, SeriesEnd)
 
-
   xml_dfs
-
 
 }
 
