@@ -32,7 +32,7 @@
 #'
 #' \donttest{wpi <- read_abs("6345.0")}
 #'
-#' @importFrom purrr walk walk2 map map_dfr
+#' @importFrom purrr walk walk2 map map_dfr map2
 #' @name read_abs
 #' @export
 

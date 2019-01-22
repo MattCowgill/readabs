@@ -17,7 +17,7 @@
 #'
 #' @importFrom readxl excel_sheets read_xls
 #' @importFrom tibble tibble
-#' @importFrom dplyr filter '%>%'
+#' @importFrom dplyr filter "%>%"
 #' @importFrom purrr map set_names
 #' @importFrom tools file_path_sans_ext
 #'
