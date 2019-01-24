@@ -1,5 +1,6 @@
 
 #' @importFrom XML xmlParse xmlToList xmlToDataFrame
+#' @importFrom httr GET content
 #' @import dplyr
 
 # given a catalogue number, download the catalogue metadata via XML, then find
@@ -22,7 +23,38 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
   first_url <- paste0(url,
                       "&pg=1")
 
-  first_page <- XML::xmlParse(file = first_url)
+  # Some ABS Time Series in the directory start with a leading zero, as in
+  # Table 01 rather than Table 1; the 0 needs to be included. Here we first test
+  # for a readable XML file using the table number supplied (eg. "1"); if that
+  # doesn't work then we try with a leading zero ("01"). If that fails, it's an error.
+
+  first_xml_page <- httr::GET(first_url)
+
+  first_url_works <- grepl("SeriesCount", httr::content(first_xml_page, as = "text", encoding = "UTF-8"))
+
+  if(first_url_works){
+    first_page <- suppressMessages(XML::xmlParse(first_xml_page))
+  } else {
+    if(!grepl("ttitle", first_url)) {
+      stop(paste0("Cannot find valid entry for cat_no ", cat_no, " in the ABS Time Series Directory"))
+    }
+
+    first_url <- gsub("ttitle=", "ttitle=0", first_url)
+
+    first_xml_page <- httr::GET(first_url)
+
+    first_url_works <- grepl("SeriesCount", httr::content(first_xml_page, as = "text", encoding = "UTF-8"))
+
+    if(first_url_works){
+      first_page <- suppressMessages(XML::xmlParse(first_xml_page))
+
+      url <- gsub("ttitle=", "ttitle=0", url)
+
+    } else {
+      stop(paste0("Cannot find valid entry for cat_no ", cat_no, " in the ABS Time Series Directory"))
+    }
+
+  }
 
   # Extract the total number of pages in cat_no's metadata
   first_page_list <- XML::xmlToList(first_page)
@@ -54,9 +86,8 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
   full_urls <- paste0(url, "&pg=", all_pages)
 
   # if release_dates = "all" then we get all pages of metadata;
-  # if release_dates = "latest" then we
-  # begin at the last page of metadata and loop backwards through each page,
-  # extracting each page as a data frame,
+  # if release_dates = "latest" then we begin at the last page of metadata
+  # and loop backwards through each page, extracting each page as a data frame,
   # until the release date of the data is not the maximum date, then stop
 
   i <- 1

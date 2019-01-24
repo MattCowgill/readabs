@@ -1,3 +1,5 @@
+# Function by Zoe Meers, United States Studies Centre
+
 #' Extracts ABS XML-formatted data using the exported XML link at http://www.abs.gov.au/
 #'
 #' @param url URL weblink.
