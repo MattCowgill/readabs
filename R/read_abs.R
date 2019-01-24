@@ -69,8 +69,6 @@ read_abs <- function(cat_no = NULL,
   if(tables[1] == "all"){
     tables_url <- ""
   } else {
-    tables <- ifelse(nchar(tables == 1), paste0("0", tables), as.character(tables))
-
     tables_url <- paste0("&ttitle=", tables)
   }
 

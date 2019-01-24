@@ -29,7 +29,7 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
 
   # Return an error if the metadata page is empty
   if(is.null(first_page_list)) {
-    stop(paste0("Couldn't find an ABS time series with catalogue number ", cat_no))
+    stop(paste0("Couldn't find an ABS time series at url ", url))
   }
 
   if(is.null(first_page_list$NumPages)){
