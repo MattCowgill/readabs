@@ -1,3 +1,5 @@
+# Function by Jaron Lee, United States Studies Centre
+
 #' Extracts ABS time series data from local Excel spreadsheets and converts to long format.
 #'
 #' `read_abs_data()` is soft deprecated. Please consider using `read_abs_local()`
