@@ -46,12 +46,13 @@ read_abs <- function(cat_no = NULL,
     stop("get_abs() requires an ABS catalogue number, such as '6202.0' or '6401.0'")
   }
 
-  if(class(cat_no) != "character"){
-    stop("Please specify cat_no as a character string, eg. '6202.0', not 6202")
+  if(nchar(cat_no) < 6){
+    message(paste0("Please ensure you include the cat_no extension.\n`read_abs()` will assume you meant \"", cat_no, ".0\"", " rather than ", cat_no))
+    cat_no <- paste0(cat_no, ".0")
   }
 
-  if(nchar(cat_no) < 6){
-    stop("Please ensure you include the cat_no extension, eg. '6202.0', not '6202'")
+  if(class(cat_no) != "character"){
+    stop("Please specify cat_no as a character string, eg. '6202.0', not 6202")
   }
 
   if(is.null(tables)){
