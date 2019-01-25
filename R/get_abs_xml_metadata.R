@@ -1,6 +1,5 @@
 
 #' @importFrom XML xmlParse xmlToList xmlToDataFrame
-#' @importFrom httr GET content
 #' @import dplyr
 
 # given a catalogue number, download the catalogue metadata via XML, then find
@@ -28,26 +27,28 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
   # for a readable XML file using the table number supplied (eg. "1"); if that
   # doesn't work then we try with a leading zero ("01"). If that fails, it's an error.
 
-  first_xml_page <- httr::GET(first_url)
+  first_page <- XML::xmlParse(first_url)
 
-  first_url_works <- grepl("SeriesCount", httr::content(first_xml_page, as = "text", encoding = "UTF-8"))
+  first_page_list <- XML::xmlToList(first_page)
 
-  if(first_url_works){
-    first_page <- suppressMessages(XML::xmlParse(first_xml_page))
-  } else {
-    if(!grepl("ttitle", first_url)) {
+  first_url_works <- ifelse(!is.null(first_page_list), TRUE, FALSE)
+
+  if(!first_url_works){
+    if(!grepl("ttitle", first_url)) { # this is the case when tables == "all"
       stop(paste0("Cannot find valid entry for cat_no ", cat_no, " in the ABS Time Series Directory"))
     }
 
+    # now try prepending a 0 on the ttitle
+
     first_url <- gsub("ttitle=", "ttitle=0", first_url)
 
-    first_xml_page <- httr::GET(first_url)
+    first_page <- XML::xmlParse(first_url)
 
-    first_url_works <- grepl("SeriesCount", httr::content(first_xml_page, as = "text", encoding = "UTF-8"))
+    first_page_list <- XML::xmlToList(first_page)
+
+    first_url_works <- ifelse(!is.null(first_page_list), TRUE, FALSE)
 
     if(first_url_works){
-      first_page <- suppressMessages(XML::xmlParse(first_xml_page))
-
       url <- gsub("ttitle=", "ttitle=0", url)
 
     } else {
@@ -56,13 +57,6 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
 
   }
 
-  # Extract the total number of pages in cat_no's metadata
-  first_page_list <- XML::xmlToList(first_page)
-
-  # Return an error if the metadata page is empty
-  if(is.null(first_page_list)) {
-    stop(paste0("Couldn't find an ABS time series at url ", url))
-  }
 
   if(is.null(first_page_list$NumPages)){
     tot_pages <- 1

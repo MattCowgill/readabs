@@ -1,4 +1,4 @@
-# readabs 1.0.0
+# readabs 0.2.9
 * Matt Cowgill is the new maintainer and author of `readabs`
 * Tibble issue has been fixed.
 
