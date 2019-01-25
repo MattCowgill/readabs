@@ -21,7 +21,6 @@ Imports:
     XML,
     purrr,
     tidyr, 
-    httr,
     rsdmx, 
     readr
 URL: https://github.com/mattcowgill/readabs
