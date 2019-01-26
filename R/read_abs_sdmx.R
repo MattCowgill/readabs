@@ -5,6 +5,7 @@
 #' @param url URL weblink.
 #'
 #' @return data frame
+#' @importFrom rsdmx readSDMX
 #' @export
 #'
 #' @description Access the sdmx URLs at 'http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide'
