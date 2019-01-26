@@ -20,12 +20,3 @@ to import and tidy locally-stored ABS time series spreadsheets, or
 `read_abs()` to download, import, and tidy time series spreadsheets from the ABS
 website.
 }
-\examples{
-\donttest{
-data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
-read_abs_data(path= data, sheet=2)
-}
-
-
-
-}

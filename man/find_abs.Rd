@@ -26,8 +26,6 @@ that match search terms you provide.
 \donttest{
  wpi <- find_abs(cat_no = "6345.0", find = c("private", "New South Wales", "excluding bonuses"))
 
- # View the dataframe containing information about time series
- View(wpi)
 }
 
 }

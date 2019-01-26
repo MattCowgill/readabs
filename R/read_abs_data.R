@@ -13,14 +13,6 @@
 #' @return Long-format dataframe
 #' @export
 #'
-#' @examples
-#' \donttest{
-#' data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
-#' read_abs_data(path= data, sheet=2)
-#'}
-#'
-#'
-#'
 read_abs_data <- function(path, sheet) {
   Date = X__1 = series = value = NULL
   df <- readxl::read_excel(path = path, sheet = sheet)
@@ -44,11 +36,6 @@ read_abs_data <- function(path, sheet) {
 #'
 #' @return Long-form dataframe
 #' @export
-#' @examples
-#' \donttest{
-#' data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
-#' read_abs_metadata(path= data, sheet=2)
-#'}
 #'
 read_abs_metadata <- function(path, sheet) {
   df <- readxl::read_excel(path = path, sheet = sheet, col_names = FALSE)
