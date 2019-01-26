@@ -27,6 +27,15 @@ test_that("Local file can be tidied and looks how we expect",{
 
 })
 
+test_that("Local file can be read",{
+  lfs_21 <- read_abs_local(local_filename, path = local_path)
+
+  expect_equal(length(colnames(lfs_21)), 12)
+  expect_is(lfs_21$date, "Date")
+  expect_is(lfs_21$value, "numeric")
+  expect_equal(as.character(lfs_21[1,1]), "6202021")
+})
+
 context("Test xml scraping")
 
 wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
@@ -64,3 +73,15 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
             expect_gt(nrow(wpi_1), 1)
           })
 
+
+test_that("Old read_abs_sdmx function works",{
+
+          skip_on_cran()
+
+          sdmx_url <- url <- "http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013"
+
+          sdmx_result <- read_abs_sdmx(sdmx_url)
+
+          expect_true(is.data.frame(sdmx_result))
+
+})
