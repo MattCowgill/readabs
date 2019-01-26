@@ -29,7 +29,7 @@ test_that("Local file can be tidied and looks how we expect",{
 
 context("Test xml scraping")
 
-lfs_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6202.0&pg=1&ttitle=1"
+wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
 
 check_abs_site <- function() {
   if(!RCurl::url.exists("http://ausstats.abs.gov.au")){
@@ -37,15 +37,30 @@ check_abs_site <- function() {
   }
 }
 
-test_that("Labour force XML page is a data.frame with expected column names",
+test_that("WPI XML page is a data.frame with expected column names",
           {
         skip_on_cran()
 
         check_abs_site()
 
-        lfs_1 <- get_xml_df(lfs_url)
+        wpi_1_xml <- get_xml_df(wpi_url)
 
-        expect_is(lfs_1, "data.frame")
-        expect_equal(colnames(lfs_1)[1], "ProductNumber")
+        expect_is(wpi_1_xml, "data.frame")
+        expect_equal(colnames(wpi_1_xml)[1], "ProductNumber")
+          })
+
+test_that("read_abs() downloads, imports, and tidies a data frame",
+          {
+            skip_on_cran()
+
+            check_abs_site()
+
+            wpi_1 <- read_abs("6345.0", tables = 1)
+
+            expect_is(wpi_1, "data.frame")
+
+            expect_equal(length(colnames(wpi_1)), 12)
+
+            expect_gt(nrow(wpi_1), 1)
           })
 
