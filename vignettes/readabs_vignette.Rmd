@@ -15,24 +15,76 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "VIGNETTE-")
 
+library(readabs)
 library(dplyr)
 library(ggplot2)
 set.seed(42)
 
 ```
 
-When working with data, you must:
+When working with time series data from the Australian Bureau of Statistics (ABS), you must:
 
-1. Find the data you need;
 1. Download the data; 
 1. Read the data into R; and
 1. Tidy the data.
 
-The readabs package provides functions to help you with each of those steps when working with time series data from the Australian Bureau of Statistics (ABS). There are two key functions in the package that will help streamline the process of analysing ABS time series data:
+The readabs package provides functions to help you with each of those steps. One key function will help streamline the process of analysing ABS time series data:
 
-* `find_abs()` helps you find the time series you're interested in
 * `read_abs()` downloads, reads, and tidies the data.
 
-A third function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it reads and tidies the spreadsheets.
+A second function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it imports and tidies the spreadsheets.
+
+## What readabs can and can't do
+
+The spreadsheets on the ABS website are divded into one of two categories: **time series spreadsheets** and **data cubes**. For example, the main [Labour Force](https://abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/6202.0Dec%202018?OpenDocument) release contains both: 
+
+```{r out.width = "100%", echo = FALSE}
+include_graphics("VIGNETTE-6202-screenshot.png")
+```
+
+The readabs package can download and tidy data contained in ABS time series spreadsheets. It can't download or tidy any spreadsheet the ABS describes as a 'data cube'.
+
+## Using read_abs() to get a whole catalogue number
+
+The main function in the package is `read_abs()`. If you give it an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. If you specify a table, or multiple tables, it will just get those tables. Easy!
+
+For example, to get all the spreadsheets from the Wage Price Index, catalogue number 6345.0, we'd do:
+
+```{r read-wpi-all}
+wpi <- read_abs("6345.0")
+```
+
+Cool! Now we've got a data frame (a tibble, to be precise) that contains all the time series from the Wage Price Index, converted to long and stacked on top of each other. Here's what it looks like:
+
+```{r glimpse-wpi}
+glimpse(wpi)
+```
+
+It's over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you'll have a data frame with over 2.1 million rows.
+
+All the metadata from the time series spreadsheets is included in the data frame:
+
+* `table_title` is, as you'd expect, the title of the table;
+* `date` is the date of the observation in that row;
+* `series` is the name of the individual time series - in the ABS spreadsheet this is in the first row;
+* `value` is the observation, the actual data;
+* `series_type` can be 'Original', 'Seasonally Adjusted', or 'Trend';
+* `data_type` tells us whether this is an index number, a 'stock', a 'flow', expressed as a 'percent', etc.;
+* `collection_month` tells us (for quarterly or annual data) which month the data was collected;
+* `frequency` tells us the frequency of the time series;
+* `series_id` is a unique identifier given by the ABS to each time series; and
+* `unit` tells us the unit of measurement, such as '000s', 'Index Numbers', 'Percent' or '000 hours'.
+
+The `table_no` and `sheet_no` columns will help you if you need to cross-check information on the ABS spreadsheet  - `table_no` matches the filename of the spreadsheet (eg. '634501.xls') and `sheet_no` is the name of the Excel worksheet within the file that contains the time series.
+
+To omit the metadata from your dataframe, you can run:
+
+```{r read-wpi-nometadata, eval = FALSE}
+wpi_nometadata <- read_abs("6345.0", metadata = FALSE)
+```
+
+If you specify `metadata = FALSE`, you'll get a data frame that contains only 6 columns: `table_no`, `sheet_no`, `table_title`, `date`, `series_id`, and `value`.
+
+## Using read_abs() to get individual table(s)
 
 
