@@ -21,11 +21,10 @@
 #'
 #' }
 #'
-#' @export
 #' @import dplyr
 #' @name find_abs
 #'
-#'
+#' @export
 
 find_abs <- function(cat_no = NULL, cat_desc = NULL, find = NULL){
 
