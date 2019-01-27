@@ -7,7 +7,6 @@
 
 [![Build
 Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -64,32 +63,32 @@ data.
 
 To download all the time series data from an ABS catalogue number to
 your disk, and import the data to R as a single tidy data frame, use
-`read_abs()`. Here’s an example with the monthly Labour Force survey,
-catalogue number 6202.0:
+`read_abs()`. Here’s an example with the Wage Price Index, catalogue
+number 6345.0:
 
 ``` r
 library(readabs)
 
-all_lfs <- read_abs("6202.0")
-#> Finding filenames for tables from ABS catalogue 6202.0
-#> Attempting to download files from cat. no. 6202.0, Labour Force, Australia
+all_wpi <- read_abs("6345.0")
+#> Finding filenames for tables from ABS catalogue 6345.0
+#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 
-str(all_lfs)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    1594712 obs. of  12 variables:
-#>  $ table_no        : chr  "6202001" "6202001" "6202001" "6202001" ...
+str(all_wpi)
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    54261 obs. of  12 variables:
+#>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
 #>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
-#>  $ table_title     : chr  "Table 1. Labour force status by Sex, Australia - Trend, Seasonally adjusted and Original" "Table 1. Labour force status by Sex, Australia - Trend, Seasonally adjusted and Original" "Table 1. Labour force status by Sex, Australia - Trend, Seasonally adjusted and Original" "Table 1. Labour force status by Sex, Australia - Trend, Seasonally adjusted and Original" ...
-#>  $ date            : Date, format: "1978-02-01" "1978-03-01" ...
-#>  $ series          : chr  "Employed total ;  Persons ;" "Employed total ;  Persons ;" "Employed total ;  Persons ;" "Employed total ;  Persons ;" ...
-#>  $ value           : num  6008 6015 6022 6027 6031 ...
-#>  $ series_type     : chr  "Trend" "Trend" "Trend" "Trend" ...
-#>  $ data_type       : chr  "STOCK" "STOCK" "STOCK" "STOCK" ...
-#>  $ collection_month: chr  "1" "1" "1" "1" ...
-#>  $ frequency       : chr  "Month" "Month" "Month" "Month" ...
-#>  $ series_id       : chr  "A84423127L" "A84423127L" "A84423127L" "A84423127L" ...
-#>  $ unit            : chr  "000" "000" "000" "000" ...
+#>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
+#>  $ date            : Date, format: "1997-09-01" "1997-12-01" ...
+#>  $ series          : chr  "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
+#>  $ value           : num  67.4 67.9 68.5 68.8 69.6 70 70.4 70.8 71.5 71.9 ...
+#>  $ series_type     : chr  "Original" "Original" "Original" "Original" ...
+#>  $ data_type       : chr  "INDEX" "INDEX" "INDEX" "INDEX" ...
+#>  $ collection_month: chr  "3" "3" "3" "3" ...
+#>  $ frequency       : chr  "Quarter" "Quarter" "Quarter" "Quarter" ...
+#>  $ series_id       : chr  "A2603039T" "A2603039T" "A2603039T" "A2603039T" ...
+#>  $ unit            : chr  "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
 ```
 
 Maybe you only want a particular table? Here’s how you get a single
@@ -97,9 +96,9 @@ table:
 
 ``` r
 
-lfs_t1 <- read_abs("6202.0", tables = 1)
-#> Finding filenames for tables from ABS catalogue 6202.0
-#> Attempting to download files from cat. no. 6202.0, Labour Force, Australia
+wpi_t1 <- read_abs("6345.0", tables = 1)
+#> Finding filenames for tables from ABS catalogue 6345.0
+#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
@@ -109,11 +108,11 @@ too:
 
 ``` r
 
-lfs_t1_t5 <- read_abs("6202.0", tables = c(1, 5))
-#> Finding filenames for tables from ABS catalogue 6202.0
-#> Attempting to download files from cat. no. 6202.0, Labour Force, Australia
+wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
+#> Finding filenames for tables from ABS catalogue 6345.0
+#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
 
-For more examples, including
+For more examples, see the readabs vignette.

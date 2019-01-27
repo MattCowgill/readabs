@@ -19,7 +19,6 @@ version <- gsub('-', '.', version)
 # readabs
 <!-- badges: start -->
 [![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![packageversion](https://img.shields.io/badge/Package%20version-`r version`-orange.svg?style=flat-square)](commits/master)
 [![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
@@ -61,28 +60,28 @@ Both functions return a single tidy data frame (tibble) containing long data.
 
 ## Examples
 
-To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. Here's an example with the monthly Labour Force survey, catalogue number 6202.0:
+To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. Here's an example with the Wage Price Index, catalogue number 6345.0:
 
-```{r all-lfs}
+```{r all-wpi}
 library(readabs)
 
-all_lfs <- read_abs("6202.0")
+all_wpi <- read_abs("6345.0")
 
-str(all_lfs)
+str(all_wpi)
 ```
 
 Maybe you only want a particular table? Here's how you get a single table:
 
-```{r lfs1}
+```{r wpi1}
 
-lfs_t1 <- read_abs("6202.0", tables = 1)
+wpi_t1 <- read_abs("6345.0", tables = 1)
 ```
 
 If you want multiple tables, but not the whole catalogue, that's easy too:
 
-```{r lfs1_5}
+```{r wpi1_5}
 
-lfs_t1_t5 <- read_abs("6202.0", tables = c(1, 5))
+wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
 
 ```
 

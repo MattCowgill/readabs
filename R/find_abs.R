@@ -1,3 +1,5 @@
+# Function still under development, not exported
+
 #' Find ABS time series of interest
 #'
 #' \code{find_abs()} looks in the ABS Time Series Directory for series
@@ -21,7 +23,7 @@
 #'
 #' @import dplyr
 #' @name find_abs
-#' @export
+#'
 #'
 
 find_abs <- function(cat_no = NULL, cat_desc = NULL, find = NULL){
