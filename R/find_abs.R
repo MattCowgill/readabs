@@ -1,4 +1,4 @@
-# Function still under development, not exported
+# Function still under development
 
 #' Find ABS time series of interest
 #'
@@ -21,6 +21,7 @@
 #'
 #' }
 #'
+#' @export
 #' @import dplyr
 #' @name find_abs
 #'

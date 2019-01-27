@@ -27,6 +27,24 @@ test_that("Local file can be tidied and looks how we expect",{
 
 })
 
+test_that("tidy_abs_list() gives appropriate errors",{
+  expect_error(tidy_abs_list(data.frame(x = 1)))
+
+  expect_error(tidy_abs_list(c(1, 2)))
+
+})
+
+test_that("tidy_abs() gives appropriate errors",{
+  expect_error(tidy_abs(df = c(1, 2)))
+
+  expect_error(tidy_abs(data.frame(x = 1)))
+
+  expect_error(tidy_abs(df = data.frame(x = 1, y = 2), metadata = 1))
+
+  expect_error(tidy_abs(df = data.frame(x = c(1:10), y = c(1:10))))
+
+})
+
 test_that("Local file can be read",{
   lfs_21 <- read_abs_local(local_filename, path = local_path)
 
@@ -34,6 +52,20 @@ test_that("Local file can be read",{
   expect_is(lfs_21$date, "Date")
   expect_is(lfs_21$value, "numeric")
   expect_equal(as.character(lfs_21[1,1]), "6202021")
+})
+
+
+test_that("read_abs_local() returns appropriate errors and messages",{
+  expect_error(read_abs_local(filenames = NULL, path = NULL))
+
+  expect_error(read_abs_local(filenames = 1), path = "../testdata")
+
+  #expect_warning(read_abs_local(local_filename, path = NULL))
+
+  #expect_warning(read_abs_local(filenames = NULL, path = "../testdata"))
+
+  expect_error(read_abs_local(filenames = NULL, path = "../testdata/empty_dir"))
+
 })
 
 context("Test xml scraping")
@@ -64,7 +96,7 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
 
             check_abs_site()
 
-            wpi_1 <- read_abs("6345.0", tables = 1)
+            wpi_1 <- read_abs("6345.0", tables = "7a")
 
             expect_is(wpi_1, "data.frame")
 
@@ -78,10 +110,51 @@ test_that("Old read_abs_sdmx function works",{
 
           skip_on_cran()
 
+          check_abs_site()
+
           sdmx_url <- url <- "http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013"
 
           sdmx_result <- read_abs_sdmx(sdmx_url)
 
           expect_true(is.data.frame(sdmx_result))
+
+})
+
+test_that("find_abs() returns a data frame",{
+
+          skip_on_cran()
+
+          check_abs_site()
+
+          find_df <- find_abs("6202.0", find = c("New South Wales", "unemployment rate", "male"))
+
+          expect_is(find_df, "data.frame")
+
+          expect_equal(length(colnames(find_df)), 7)
+
+          expect_gt(nrow(find_df), 1)
+
+})
+
+
+test_that("get_abs() returns a warning as it's deprecated",{
+
+  skip_on_cran()
+
+  check_abs_site()
+
+  expect_message(wpi_get <- get_abs("6345.0", "7a"))
+
+})
+
+test_that("read_abs() returns appropriate errors and messages when given invalid input",{
+
+  expect_error(read_abs(cat_no = NULL))
+
+  expect_error(read_abs(cat_no = "6345.0", metadata = 1))
+
+  skip_on_cran()
+  check_abs_site()
+  expect_message(read_abs("6345.0", "7a"))
 
 })
