@@ -15,9 +15,6 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "VIGNETTE-")
 
-library(readabs)
-library(dplyr)
-library(ggplot2)
 set.seed(42)
 
 ```
@@ -51,12 +48,16 @@ The main function in the package is `read_abs()`. If you give it an ABS catalogu
 For example, to get all the spreadsheets from the Wage Price Index, catalogue number 6345.0, we'd do:
 
 ```{r read-wpi-all}
+library(readabs)
+
 wpi <- read_abs("6345.0")
 ```
 
 Cool! Now we've got a data frame (a tibble, to be precise) that contains all the time series from the Wage Price Index, converted to long and stacked on top of each other. Here's what it looks like:
 
 ```{r glimpse-wpi}
+library(dplyr)
+
 glimpse(wpi)
 ```
 
@@ -118,12 +119,6 @@ Because `read_abs()` does the work for you of getting your data in a tidy (long)
 
 In this example, we'll work with data from the Labour Force survey that we downloaded and tidied earlier using `read_abs()`. First, load the packages you need:
 
-```{r load-tidyverse}
-library(ggplot2)
-library(dplyr)
-
-```
-
 Now let's have a look at the time series from table 1 of the Labour Force survey:
 
 ```{r examine-lfs}
@@ -155,6 +150,7 @@ unique(unemp$series)
 Now our data frame only contains the male and female unemployment rates, which is what we want. Let's graph it, filtering once more to show only the seasonally adjusted series and adding a 'sex' column:
 
 ```{r graph-unemp, dpi = 200}
+library(ggplot2)
 
 unemp %>%
   filter(series_type == "Seasonally Adjusted") %>%
