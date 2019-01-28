@@ -1,0 +1,191 @@
+---
+title: "Using readabs"
+output: rmarkdown::html_vignette
+author: "Matt Cowgill"
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "VIGNETTE-")
+
+set.seed(42)
+
+```
+
+When working with time series data from the Australian Bureau of Statistics (ABS), you must:
+
+1. Download the data; 
+1. Read the data into R; and
+1. Tidy the data.
+
+The readabs package provides functions to help you with each of those steps. One key function will help streamline the process of analysing ABS time series data:
+
+* `read_abs()` downloads, reads, and tidies the data.
+
+A second function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it imports and tidies the spreadsheets.
+
+## What readabs can and can't do
+
+The spreadsheets on the ABS website are divded into one of two categories: **time series spreadsheets** and **data cubes**. For example, the main [Labour Force](https://abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/6202.0Dec%202018?OpenDocument) release contains both: 
+
+```{r out.width = "100%", echo = FALSE}
+include_graphics("VIGNETTE-6202-screenshot.png")
+```
+
+The readabs package can download and tidy data contained in ABS time series spreadsheets. It can't download or tidy any spreadsheet the ABS describes as a 'data cube'.
+
+## Using read_abs() to get a whole catalogue number
+
+The main function in the package is `read_abs()`. If you give it an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. Easy!
+
+For example, to get all the spreadsheets from the Wage Price Index, catalogue number 6345.0, we'd do:
+
+```{r read-wpi-all}
+library(readabs)
+
+wpi <- read_abs("6345.0")
+```
+
+Cool! Now we've got a data frame (a tibble, to be precise) that contains all the time series from the Wage Price Index, converted to long and stacked on top of each other. Here's what it looks like:
+
+```{r glimpse-wpi}
+library(dplyr)
+
+glimpse(wpi)
+```
+
+It's over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you'll have a data frame with over 2.1 million rows.
+
+All the metadata from the time series spreadsheets is included in the data frame:
+
+* `table_title` is, as you'd expect, the title of the table;
+* `date` is the date of the observation in that row;
+* `series` is the name of the individual time series - in the ABS spreadsheet this is in the first row;
+* `value` is the observation, the actual data;
+* `series_type` can be 'Original', 'Seasonally Adjusted', or 'Trend';
+* `data_type` tells us whether this is an index number, a 'stock', a 'flow', expressed as a 'percent', etc.;
+* `collection_month` tells us (for quarterly or annual data) which month the data was collected;
+* `frequency` tells us the frequency of the time series;
+* `series_id` is a unique identifier given by the ABS to each time series; and
+* `unit` tells us the unit of measurement, such as '000s', 'Index Numbers', 'Percent' or '000 hours'.
+
+The `table_no` and `sheet_no` columns will help you if you need to cross-check information on the ABS spreadsheet  - `table_no` matches the filename of the spreadsheet (eg. '634501.xls') and `sheet_no` is the name of the Excel worksheet within the file that contains the time series.
+
+To omit the metadata from your dataframe, you can run:
+
+```{r read-wpi-nometadata, eval = FALSE}
+wpi_nometadata <- read_abs("6345.0", metadata = FALSE)
+```
+
+If you specify `metadata = FALSE`, you'll get a data frame that contains only 6 columns: `table_no`, `sheet_no`, `table_title`, `date`, `series_id`, and `value`.
+
+## Using read_abs() to get individual table(s)
+
+Unless you tell it otherwise, `read_abs()` will get all the time series spreadsheets from a given catalogue number.
+
+Quite often this will be overkill. Maybe you don't want all 2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the `tables` argument to `read_abs()` to specify the table(s) you want:
+
+```{r read-lfs-1}
+
+lfs_1 <- read_abs("6202.0", tables = 1)
+
+glimpse(lfs_1)
+
+```
+
+If you want more than one table, but not the whole catalogue number, you can specify multiple tables:
+
+```{r read-lfs-1-5}
+
+lfs_1_5 <- read_abs("6202.0", tables = c(1, 5))
+
+glimpse(lfs_1_5)
+
+```
+
+The `tables` argument can be either a numeric vector (eg. `c(1, 5)`) or a character vector (eg. c("1", "5a")).
+
+
+## I've imported the data... now what?
+
+Because `read_abs()` does the work for you of getting your data in a tidy (long) format, it's easy to filter to the data you're interested in and generate output (like graphs) using the [Tidyverse](https://www.tidyverse.org) packages, such as `dplyr` and `ggplot2`.
+
+In this example, we'll work with data from the Labour Force survey that we downloaded and tidied earlier using `read_abs()`. First, load the packages you need:
+
+Now let's have a look at the time series from table 1 of the Labour Force survey:
+
+```{r examine-lfs}
+unique(lfs_1$series)
+```
+
+OK! There's a bunch of data in here. Let's make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series. I'll use the `grepl()` function from base R to help filter the data frame so it only contains rows I'm interested in - you could use the `str_detect()` function from the `stringr` package if you prefer.
+
+```{r create-unemp-df}
+
+unemp <- lfs_1 %>%
+  filter(grepl("Unemployment rate", series))
+
+unique(unemp$series)
+
+```
+
+Now we have a data frame, `unemp`, that contains various unemployment rate series. Let's drop the ones that refer to all persons, or refer to people looking for full-time or part-time work:
+
+```{r filter-male-female}
+
+unemp <- unemp %>%
+  filter(grepl("Males", series) | grepl("Females", series)) %>%
+  filter(!grepl("looked for", series)) 
+
+unique(unemp$series)
+```
+
+Now our data frame only contains the male and female unemployment rates, which is what we want. Let's graph it, filtering once more to show only the seasonally adjusted series and adding a 'sex' column:
+
+```{r graph-unemp, dpi = 200}
+library(ggplot2)
+
+unemp %>%
+  filter(series_type == "Seasonally Adjusted") %>%
+  mutate(sex = if_else(grepl("Males", series), "Males", "Females")) %>%
+  ggplot(aes(x = date, y = value, col = sex)) +
+  geom_line() +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        axis.title = element_blank(),
+        legend.title = element_blank(),
+        text = element_text(size = 5)) +
+  labs(title = "The male and female unemployment rates have converged",
+       subtitle = "Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)",
+       caption = "Source: ABS 6202.0")
+```
+
+Ta-da! Now we've got a nice little ggplot2 graph - and you didn't need to go to the ABS website or click around in Excel.
+
+
+## Why is my hard drive filling up with spreadsheets?
+
+The `read_abs()` function downloads spreadsheets from the ABS website, then loads them into R, then tidies them. By default, the spreadsheets will be saved in a `data/ABS` subdirectory of your working directory. You can change this location using the `path` argument to `read_abs()`.
+
+## What if I've already downloaded spreadsheets?
+
+If you already have ABS time series spreadsheets saved locally that you want to read, the `read_abs_local()` function is what you want. 
+
+If you don't just run `read_abs_local()` without any arguments, it will look in the `data/ABS` subdirectory of your working directory and attempt to read any .xls files located there. If you want to read all the files from a different directory, specify it using the `path` argument.
+
+If you want to read a particular table, or tables, specify them using the `filenames` argument, like this:
+
+```{r read-lfs-local}
+
+lfs_local <- read_abs_local(c("6202001.xls", "6202005.xls"))
+
+```
+
+The data frame you'll get will look the same as if you'd used `read_abs()` to get the spreadsheet(s) from the ABS website.

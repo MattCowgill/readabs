@@ -17,10 +17,3 @@ Long-form dataframe
 \description{
 Extracts ABS series metadata directly from Excel spreadsheets and converts to long-form.
 }
-\examples{
-\donttest{
-data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
-read_abs_metadata(path= data, sheet=2)
-}
-
-}

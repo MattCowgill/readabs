@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_abs_data.R
 \name{read_abs_data}
 \alias{read_abs_data}
-\title{Extracts ABS-formatted data directly from Excel spreadsheets and converts to long format.}
+\title{Extracts ABS time series data from local Excel spreadsheets and converts to long format.}
 \usage{
 read_abs_data(path, sheet)
 }
@@ -15,14 +15,8 @@ read_abs_data(path, sheet)
 Long-format dataframe
 }
 \description{
-Extracts ABS-formatted data directly from Excel spreadsheets and converts to long format.
-}
-\examples{
-\donttest{
-data <- system.file("extdata","5206002_expenditure_volume_measures.xls", package = "readabs")
-read_abs_data(path= data, sheet=2)
-}
-
-
-
+`read_abs_data()` is soft deprecated. Please consider using `read_abs_local()`
+to import and tidy locally-stored ABS time series spreadsheets, or
+`read_abs()` to download, import, and tidy time series spreadsheets from the ABS
+website.
 }

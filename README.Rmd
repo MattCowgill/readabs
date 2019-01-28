@@ -1,0 +1,88 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+
+version <- as.vector(read.dcf('DESCRIPTION')[, 'Version'])
+version <- gsub('-', '.', version)  
+```
+
+# readabs
+<!-- badges: start -->
+[![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![packageversion](https://img.shields.io/badge/Package%20version-`r version`-orange.svg?style=flat-square)](commits/master)
+[![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
+<!-- badges: end -->
+
+## Overview
+readabs contains tools to easily download, import, and tidy time series data from the Australian Bureau of Statistics. This saves you time manually downloading and
+tediously tidying time series data and allows you to spend more time on your 
+analysis.
+
+**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read_abs_data() is soft-deprecated.**
+
+We'd welcome Github issues containing error reports or feature requests. 
+Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
+
+## Installation
+
+Install the latest CRAN version of **readabs** with:
+
+```{r cran-installation, eval = FALSE}
+install.packages("readabs")
+```
+
+You can install the developer version of **readabs** from GitHub with:
+```{r gh-installation, eval = FALSE}
+# if you don't have devtools installed, first run:
+# install.packages("devtools")
+devtools::install_github("mattcowgill/readabs", ref = "dev")
+```
+
+## Usage
+
+There are two key functions in **readabs**. They are:
+
+* `read_abs()` downloads, imports, and tidies time series data from the ABS website.
+* `read_abs_local()` imports and tidies time series data from ABS spreadsheets stored on a local drive.
+
+Both functions return a single tidy data frame (tibble) containing long data.
+
+## Examples
+
+To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. Here's an example with the Wage Price Index, catalogue number 6345.0:
+
+```{r all-wpi}
+library(readabs)
+
+all_wpi <- read_abs("6345.0")
+
+str(all_wpi)
+```
+
+Maybe you only want a particular table? Here's how you get a single table:
+
+```{r wpi1}
+
+wpi_t1 <- read_abs("6345.0", tables = 1)
+```
+
+If you want multiple tables, but not the whole catalogue, that's easy too:
+
+```{r wpi1_5}
+
+wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
+
+```
+
+For more examples, see the readabs vignette.
