@@ -120,22 +120,6 @@ test_that("Old read_abs_sdmx function works",{
 
 })
 
-test_that("find_abs() returns a data frame",{
-
-          skip_on_cran()
-
-          check_abs_site()
-
-          find_df <- find_abs("6202.0", find = c("New South Wales", "unemployment rate", "male"))
-
-          expect_is(find_df, "data.frame")
-
-          expect_equal(length(colnames(find_df)), 7)
-
-          expect_gt(nrow(find_df), 1)
-
-})
-
 
 test_that("get_abs() returns a warning as it's deprecated",{
 
