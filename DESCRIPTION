@@ -1,23 +1,35 @@
 Package: readabs
 Type: Package
-Title: Read 'Excel' Files from the Australian Bureau of Statistics into Tidy Data Sets
-Version: 0.2.9
-Language: en-AU
+Title: Download And Tidy Time Series Data From The Australian Bureau Of Statistics
+Version: 0.3.0
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com"),
            person("Zoe", "Meers", role = c("aut"), email = "zoe.meers@sydney.edu.au"),
            person("Jaron", "Lee", role = c("aut"), email = "jaron.lee@sydney.edu.au"))
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
-Description: Reads files from the Australian Bureau of Statistics <https://www.abs.gov.au/> into clean, tidy data sets.
-Date: 2019-01-13
+Description: Downloads, imports, and tidies time series data from the 
+    Australian Bureau of Statistics <https://www.abs.gov.au/>.
+Date: 2019-01-29
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: readxl, dplyr, tidyr, sjmisc, rsdmx, readr, stringr
+Depends: R (>= 3.1)
+Imports: 
+    readxl (>= 1.2.0), 
+    tibble (>= 1.4.99),
+    dplyr, 
+    XML,
+    purrr,
+    tidyr, 
+    rsdmx, 
+    readr
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Suggests: knitr,
     rmarkdown, 
-    testthat
+    testthat,
+    RCurl,
+    ggplot2,
+    stringr
