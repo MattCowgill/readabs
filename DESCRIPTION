@@ -32,6 +32,4 @@ Suggests:
     rmarkdown,
     testthat,
     RCurl,
-    ggplot2,
-    stringr,
-    spelling
+    ggplot2

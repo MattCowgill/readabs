@@ -125,7 +125,7 @@ Now let's have a look at the time series from table 1 of the Labour Force survey
 unique(lfs_1$series)
 ```
 
-OK! There's a bunch of data in here. Let's make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series. I'll use the `grepl()` function from base R to help filter the data frame so it only contains rows I'm interested in - you could use the `str_detect()` function from the `stringr` package if you prefer.
+OK! There's a bunch of data in here. Let's make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series. I'll use the `grepl()` function from base R to help filter the data frame so it only contains rows I'm interested in.
 
 ```{r create-unemp-df}
 
