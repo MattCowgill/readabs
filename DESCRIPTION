@@ -27,9 +27,9 @@ URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
-Suggests: knitr,
-    rmarkdown, 
+Suggests: 
+    knitr,
+    rmarkdown,
     testthat,
     RCurl,
-    ggplot2,
-    stringr
+    ggplot2

@@ -46,6 +46,7 @@ read_abs_metadata <- function(path, sheet) {
   final_dat <- as.data.frame(final_dat, stringsAsFactors = FALSE)
   final_dat$`Series Start` <- as.Date(as.integer(final_dat$`Series Start`), origin = "1899-12-30")
   final_dat$`Series End` <- as.Date(as.integer(final_dat$`Series End`), origin = "1899-12-30")
+  colnames(final_dat)[1] <- "Series"
 
   message("Please note that usage for read_abs_metadata() will change in future versions of readabs.")
 
