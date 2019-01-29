@@ -7,6 +7,8 @@
 
 [![Build
 Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
+[![codecov
+status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://codecov.io/gh/MattCowgill/readabs)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -22,10 +24,10 @@ data from the Australian Bureau of Statistics. This saves you time
 manually downloading and tediously tidying time series data and allows
 you to spend more time on your analysis.
 
-**readabs is changing. The package has merged with
-[getabs](https://github.com/mattcowgill/getabs) and readabs has gained
-new functionality. Old readabs functions still work, but
-read\_abs\_data() is soft-deprecated.**
+**readabs has changed. The package merged with
+[getabs](https://github.com/mattcowgill/getabs) and readabs gained new
+functionality. Old readabs functions still work, but read\_abs\_data()
+is soft-deprecated.**
 
 We’d welcome Github issues containing error reports or feature requests.
 Alternatively you can email the package maintainer at mattcowgill at
@@ -44,7 +46,7 @@ You can install the developer version of **readabs** from GitHub with:
 ``` r
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
-devtools::install_github("mattcowgill/readabs", ref = "dev")
+devtools::install_github("mattcowgill/readabs")
 ```
 
 ## Usage

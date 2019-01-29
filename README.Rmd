@@ -19,6 +19,7 @@ version <- gsub('-', '.', version)
 # readabs
 <!-- badges: start -->
 [![Build Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
+[![codecov status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://codecov.io/gh/MattCowgill/readabs)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![packageversion](https://img.shields.io/badge/Package%20version-`r version`-orange.svg?style=flat-square)](commits/master)
 [![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
@@ -29,7 +30,7 @@ readabs contains tools to easily download, import, and tidy time series data fro
 tediously tidying time series data and allows you to spend more time on your 
 analysis.
 
-**readabs is changing. The package has merged with [getabs](https://github.com/mattcowgill/getabs) and readabs has gained new functionality. Old readabs functions still work, but read_abs_data() is soft-deprecated.**
+**readabs has changed. The package merged with [getabs](https://github.com/mattcowgill/getabs) and readabs gained new functionality. Old readabs functions still work, but read_abs_data() is soft-deprecated.**
 
 We'd welcome Github issues containing error reports or feature requests. 
 Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
@@ -46,7 +47,7 @@ You can install the developer version of **readabs** from GitHub with:
 ```{r gh-installation, eval = FALSE}
 # if you don't have devtools installed, first run:
 # install.packages("devtools")
-devtools::install_github("mattcowgill/readabs", ref = "dev")
+devtools::install_github("mattcowgill/readabs")
 ```
 
 ## Usage
