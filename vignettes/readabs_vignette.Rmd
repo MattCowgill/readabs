@@ -33,7 +33,7 @@ A second function, `read_abs_local()` is useful if you have already downloaded A
 
 ## The messiness of ABS time series
 
-If you want to visualise or analyse data in R, you will often need to tidy it first. In [tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html):
+If you want to visualise or analyse data in R, you will often need to tidy it first. In [tidy data](http://vita.had.co.nz/papers/tidy-data.html):
 
 1. Each variable forms a column.
 1. Each observation forms a row.
