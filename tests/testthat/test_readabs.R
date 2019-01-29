@@ -148,9 +148,9 @@ test_that("Old read_abs_data() function imports a spreadsheet",{
 
   filepath <- paste0(local_path, "/", local_filename)
 
-  expect_message(read_abs(filepath, "Data1"))
+  expect_message(read_abs_data(filepath, "Data1"))
 
-  local_file <- read_abs(filepath, "Data1")
+  local_file <- read_abs_data(filepath, "Data1")
 
   expect_is(local_file, "data.frame")
 
