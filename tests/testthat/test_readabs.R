@@ -27,6 +27,16 @@ test_that("Local file can be tidied and looks how we expect",{
 
 })
 
+test_that("Local file can be tidied without metadata",{
+
+  no_meta <- read_abs_local(local_filename, path = local_path, metadata = FALSE)
+  expect_is(no_meta, "data.frame")
+
+
+})
+
+
+
 test_that("tidy_abs_list() gives appropriate errors",{
   expect_error(tidy_abs_list(data.frame(x = 1)))
 
@@ -140,6 +150,30 @@ test_that("read_abs() returns appropriate errors and messages when given invalid
   skip_on_cran()
   check_abs_site()
   expect_message(read_abs("6345.0", "7a"))
+
+})
+
+test_that("read_abs() works with 'table 01' as well as 'table 1' filename structures",{
+
+  skip_on_cran()
+
+  check_abs_site()
+
+  const_df <- read_abs("8755.0", 1)
+
+  expect_is(const_df, "data.frame")
+
+  expect_equal(length(colnames(const_df)), 12)
+
+})
+
+test_that("read_abs() returns an error when requesting non-existing cat_no",{
+
+  skip_on_cran()
+
+  check_abs_site()
+
+  expect_error(read_abs("9999.0"))
 
 })
 
