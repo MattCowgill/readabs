@@ -1,6 +1,6 @@
 Package: readabs
 Type: Package
-Title: Download And Tidy Time Series Data From The Australian Bureau Of Statistics
+Title: Download and Tidy Time Series Data from the Australian Bureau of Statistics
 Version: 0.3.0
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com"),
