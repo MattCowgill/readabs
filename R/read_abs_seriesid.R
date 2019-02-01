@@ -1,3 +1,4 @@
+#' @importFrom httr http_error HEAD
 
 url_is_excel <- function(url) {
   if (url_http_error <- httr::http_error(url)) {
