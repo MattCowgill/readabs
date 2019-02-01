@@ -70,11 +70,6 @@ test_that("read_abs_local() returns appropriate errors and messages",{
 
   expect_error(read_abs_local(filenames = 1), path = "../testdata")
 
-  #expect_warning(read_abs_local(local_filename, path = NULL))
-
-  #expect_warning(read_abs_local(filenames = NULL, path = "../testdata"))
-
-  expect_error(read_abs_local(filenames = NULL, path = "../testdata/empty_dir"))
 
 })
 
