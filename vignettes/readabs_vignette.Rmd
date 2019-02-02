@@ -3,7 +3,7 @@ title: "Using readabs"
 output: rmarkdown::html_vignette
 author: "Matt Cowgill"
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{readabs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
