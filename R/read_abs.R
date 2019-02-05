@@ -59,6 +59,20 @@ read_abs <- function(cat_no = NULL,
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
+  # check that R has access to the internet
+
+  abs_site_works <- check_url_works("abs.gov.au")
+  if(!abs_site_works){
+    google_works <- check_url_works("google.com")
+
+    if(!google_works){
+      stop("R cannot access the internet. `read_abs()` requires internet access.")
+    }
+
+    stop("The ABS website (abs.gov.au) appears to be down.")
+  }
+
+
   # create the url to search for in the Time Series Directory
 
   base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
