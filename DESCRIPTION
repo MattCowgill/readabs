@@ -19,6 +19,7 @@ Imports:
     tibble (>= 1.4.99),
     dplyr, 
     XML,
+    curl,
     httr,
     purrr,
     tidyr, 
