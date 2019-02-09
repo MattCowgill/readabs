@@ -23,6 +23,9 @@
 #' @param show_progress_bars TRUE by default. If set to FALSE, progress bars
 #' will not be shown when ABS spreadsheets are downloading.
 #'
+#' @param retain_files when TRUE (the default), the spreadsheets downloaded from the
+#' ABS website will be saved in the directory specified with `path`. If set to ``
+#'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
 #'
@@ -41,7 +44,12 @@ read_abs <- function(cat_no = NULL,
                      tables = "all",
                      path = "data/ABS",
                      metadata = TRUE,
-                     show_progress_bars = TRUE){
+                     show_progress_bars = TRUE,
+                     retain_files = TRUE){
+
+  if(!is.logical(retain_files)){
+    stop("The `retain_files` argument to `read_abs()` must be either TRUE or FALSE.")
+  }
 
   if(is.null(cat_no)){
     stop("read_abs() requires an ABS catalogue number, such as '6202.0' or '6401.0'")
@@ -59,6 +67,12 @@ read_abs <- function(cat_no = NULL,
   if(!is.logical(metadata)){
     stop("`metadata` argument must be either TRUE or FALSE")
   }
+
+  # create temp directory to store spreadsheets if retain_files == FALSE
+  if(!retain_files){
+    path <- "read_abs_temp_data_dir"
+  }
+
 
   # check that R has access to the internet
 
@@ -110,6 +124,17 @@ read_abs <- function(cat_no = NULL,
   # tidy the sheets
   sheet <- tidy_abs_list(sheets, metadata = metadata)
 
+  # remove spreadsheets from disk if `retain_files` == FALSE
+  if(!retain_files){
+    # delete downloaded files
+    file.remove(paste0(path, "/", filenames))
+    # if the directory is empty after removing downloaded files, delete the directory
+    if(length(list.files(path)) == 0) {
+      file.remove(path)
+    }
+  }
+
+  # return a data frame
   sheet
 
 }
