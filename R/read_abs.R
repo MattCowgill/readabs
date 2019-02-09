@@ -70,7 +70,7 @@ read_abs <- function(cat_no = NULL,
 
   # create temp directory to store spreadsheets if retain_files == FALSE
   if(!retain_files){
-    path <- "read_abs_temp_data_dir"
+    path <- paste0(tempdir(), "/readabs")
   }
 
 
