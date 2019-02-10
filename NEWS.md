@@ -1,7 +1,7 @@
 # readabs 0.3.1
 * `read_abs()` now checks for internet access and returns a comprehensible error if not present
 * New function `read_abs_seriesid()` gets data corresponding to unique ABS time series IDs
-* Thanks to @HughParsonage for fixing the vignette index
+* Thanks to @HughParsonage for fixing the vignette index and suggesting other fixes
 
 # readabs 0.3.0
 * Merged with `getabs` package
