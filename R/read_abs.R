@@ -62,29 +62,26 @@ read_abs <- function(cat_no = NULL,
 
   if(is.null(tables)){
     message(paste0("`tables` not specified; attempting to fetch all tables from ", cat_no))
+    tables <- "all"
   }
 
   if(!is.logical(metadata)){
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
-  # create temp directory to store spreadsheets if retain_files == FALSE
+  # create temp directory to temporarily store spreadsheets if retain_files == FALSE
   if(!retain_files){
     path <- paste0(tempdir(), "/readabs")
   }
 
 
   # check that R has access to the internet
-
-  internet_works <- curl::has_internet()
-
-    if(!internet_works){
+  if(!curl::has_internet()){
       stop("R cannot access the internet. `read_abs()` requires internet access.")
-    }
+  }
 
 
   # create the url to search for in the Time Series Directory
-
   base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
 
   if(tables[1] == "all"){
@@ -151,5 +148,5 @@ get_abs <- function(...){
   read_abs(...)
   .Deprecated(old = "get_abs()",
               new = "read_abs()",
-              msg = "get_abs() is soft deprecated and will be removed in a future update.\nPlease use read_abs() instead.")
+              msg = "get_abs() is deprecated and will be removed in a the next update.\nPlease use read_abs() instead.")
 }
