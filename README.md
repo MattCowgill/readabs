@@ -73,7 +73,7 @@ all_wpi <- read_abs("6345.0")
 #> Tidying data from imported ABS spreadsheets
 
 str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    54261 obs. of  12 variables:
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    54804 obs. of  12 variables:
 #>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
 #>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
 #>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
@@ -121,7 +121,7 @@ Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficials
 
 We’re pleased to be included in a [list of
 software](https://github.com/SNStatComp/awesome-official-statistics-software)
-that can be used in connection to work with official statistics.
+that can be used to work with official statistics.
 
 ## Package history
 
