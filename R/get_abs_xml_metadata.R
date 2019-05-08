@@ -35,7 +35,7 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
 
   if(!first_url_works){
     if(!grepl("ttitle", first_url)) { # this is the case when tables == "all"
-      stop(paste0("Cannot find valid entry for cat_no ", cat_no, " in the ABS Time Series Directory"))
+      stop(paste0("Cannot find valid entry for cat_no ", cat_no, " in the ABS Time Series Directory. Check that the cat. no. is correct, and that it contains time series spreadsheets (not data cubes)."))
     }
 
     # now try prepending a 0 on the ttitle
