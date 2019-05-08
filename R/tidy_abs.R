@@ -28,7 +28,7 @@
 
 tidy_abs <- function(df, metadata = TRUE) {
 
-  series=value=X__1=series_id=NULL
+  unit=series=value=X__1=series_id=NULL
 
   if(!"data.frame" %in% class(df)){
     stop("Object does not appear to be a data frame; it cannot be tidied.")
