@@ -36,7 +36,7 @@
 #' \donttest{wpi <- read_abs("6345.0")}
 #'
 #' @importFrom purrr walk walk2 map map_dfr map2
-#' @importFrom curl has_internet
+#' @importFrom curl nslookup
 #' @name read_abs
 #' @export
 
@@ -76,9 +76,14 @@ read_abs <- function(cat_no = NULL,
 
 
   # check that R has access to the internet
-  if(!curl::has_internet()){
-      stop("R cannot access the internet. `read_abs()` requires internet access.")
+
+if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
+
+    stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
+         Please check your internet connection and security settings." )
+
   }
+
 
 
   # create the url to search for in the Time Series Directory

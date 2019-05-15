@@ -78,7 +78,7 @@ context("Test xml scraping")
 wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
 
 check_abs_site <- function() {
-  if(!RCurl::url.exists("http://ausstats.abs.gov.au")){
+  if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
     skip("ABS Time Series Directory not available")
   }
 }
