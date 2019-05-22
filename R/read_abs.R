@@ -153,5 +153,5 @@ get_abs <- function(...){
   read_abs(...)
   .Deprecated(old = "get_abs()",
               new = "read_abs()",
-              msg = "get_abs() is deprecated and will be removed in a the next update.\nPlease use read_abs() instead.")
+              msg = "get_abs() is deprecated and will be removed in the next update.\nPlease use read_abs() instead.")
 }
