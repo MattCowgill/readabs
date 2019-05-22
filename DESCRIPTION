@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
-Date: 2019-01-29
+Date: 2019-05-22
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
