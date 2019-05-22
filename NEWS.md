@@ -3,6 +3,7 @@
 * New function `read_abs_seriesid()` gets data corresponding to unique ABS time series IDs
 * Thanks to @HughParsonage for fixing the vignette index and suggesting other fixes
 * ABS API was (silently!) updated to use https rather than http; readabs now works with this
+* added a retain_files option (default = FALSE) to read_abs()
 
 # readabs 0.3.0
 * Merged with `getabs` package
