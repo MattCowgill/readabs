@@ -12,7 +12,6 @@ status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https:
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![packageversion](https://img.shields.io/badge/Package%20version-0.3.0.9000-orange.svg?style=flat-square)](commits/master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
 <!-- badges: end -->
@@ -73,7 +72,7 @@ all_wpi <- read_abs("6345.0")
 #> Tidying data from imported ABS spreadsheets
 
 str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    54804 obs. of  12 variables:
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    54261 obs. of  12 variables:
 #>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
 #>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
 #>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
