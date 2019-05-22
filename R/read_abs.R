@@ -87,7 +87,7 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
 
 
   # create the url to search for in the Time Series Directory
-  base_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
+  base_url <- "https://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
 
   if(tables[1] == "all"){
     tables_url <- ""

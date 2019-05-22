@@ -1,14 +1,19 @@
 
 #' @importFrom XML xmlParse xmlToDataFrame
+#' @importFrom utils download.file
 #' @importFrom dplyr filter select "%>%"
 
 get_xml_df <- function(url){
 
   text=NULL
 
+  temp_page_location <- file.path(tempdir(), "temp_readabs_xml.xml")
+
+  utils::download.file(url, temp_page_location, quiet = TRUE)
+
   safe_parse <- purrr::safely(XML::xmlParse)
 
-  xml_page <- safe_parse(file = url)
+  xml_page <- safe_parse(file = temp_page_location)
 
   if(is.null(xml_page$error)){
     xml_page <- xml_page$result
