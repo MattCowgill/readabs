@@ -5,7 +5,7 @@
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
 read_abs(cat_no = NULL, tables = "all", path = "data/ABS",
-  metadata = TRUE, show_progress_bars = TRUE)
+  metadata = TRUE, show_progress_bars = TRUE, retain_files = TRUE)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
@@ -25,6 +25,9 @@ ABS metadata (series name, table name, etc.) is included in the output. If
 
 \item{show_progress_bars}{TRUE by default. If set to FALSE, progress bars
 will not be shown when ABS spreadsheets are downloading.}
+
+\item{retain_files}{when TRUE (the default), the spreadsheets downloaded from the
+ABS website will be saved in the directory specified with `path`. If set to ``}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time

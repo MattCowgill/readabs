@@ -28,7 +28,7 @@
 
 tidy_abs <- function(df, metadata = TRUE) {
 
-  series=value=X__1=series_id=NULL
+  unit=series=value=X__1=series_id=NULL
 
   if(!"data.frame" %in% class(df)){
     stop("Object does not appear to be a data frame; it cannot be tidied.")
@@ -74,6 +74,7 @@ tidy_abs <- function(df, metadata = TRUE) {
     dplyr::filter(dplyr::row_number() >= 10) %>%
     dplyr::rename(date = X__1) %>%
     dplyr::mutate(date = as.Date(as.numeric(date), origin = "1899-12-30"),
+                  unit = as.character(unit),
                   value = as.numeric(value)) %>%
     dplyr::ungroup() %>%
     # now remove appended series ID from the end of 'series'

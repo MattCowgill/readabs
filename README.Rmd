@@ -30,8 +30,6 @@ readabs contains tools to easily download, import, and tidy time series data fro
 tediously tidying time series data and allows you to spend more time on your 
 analysis.
 
-**readabs has changed. The package merged with [getabs](https://github.com/mattcowgill/getabs) and readabs gained new functionality. Old readabs functions still work, but read_abs_data() is soft-deprecated.**
-
 We'd welcome Github issues containing error reports or feature requests. 
 Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
 
@@ -87,3 +85,14 @@ wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
 ```
 
 For more examples, see the readabs vignette.
+
+## Mentioned in Awesome Official Statistics Software
+[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+
+We're pleased to be included in a [list of software](https://github.com/SNStatComp/awesome-official-statistics-software) that can be used to work with official statistics.
+
+## Package history
+From version 0.3.0, `readabs` gained new functionality. Pre-0.3.0 functions still work,
+but `read_abs_data()` is soft-deprecated and the behaviour of `read_abs_metadata()`
+has changed. The old version of `readsabs` is available in the [0.2.9 branch on Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
+

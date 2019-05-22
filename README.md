@@ -12,7 +12,7 @@ status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https:
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![packageversion](https://img.shields.io/badge/Package%20version-0.3.0-orange.svg?style=flat-square)](commits/master)
+[![packageversion](https://img.shields.io/badge/Package%20version-0.3.0.9000-orange.svg?style=flat-square)](commits/master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
 <!-- badges: end -->
@@ -23,11 +23,6 @@ readabs contains tools to easily download, import, and tidy time series
 data from the Australian Bureau of Statistics. This saves you time
 manually downloading and tediously tidying time series data and allows
 you to spend more time on your analysis.
-
-**readabs has changed. The package merged with
-[getabs](https://github.com/mattcowgill/getabs) and readabs gained new
-functionality. Old readabs functions still work, but read\_abs\_data()
-is soft-deprecated.**
 
 We’d welcome Github issues containing error reports or feature requests.
 Alternatively you can email the package maintainer at mattcowgill at
@@ -78,7 +73,7 @@ all_wpi <- read_abs("6345.0")
 #> Tidying data from imported ABS spreadsheets
 
 str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    54261 obs. of  12 variables:
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    54804 obs. of  12 variables:
 #>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
 #>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
 #>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
@@ -118,3 +113,20 @@ wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
 ```
 
 For more examples, see the readabs vignette.
+
+## Mentioned in Awesome Official Statistics Software
+
+[![Mentioned in Awesome Official
+Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+
+We’re pleased to be included in a [list of
+software](https://github.com/SNStatComp/awesome-official-statistics-software)
+that can be used to work with official statistics.
+
+## Package history
+
+From version 0.3.0, `readabs` gained new functionality. Pre-0.3.0
+functions still work, but `read_abs_data()` is soft-deprecated and the
+behaviour of `read_abs_metadata()` has changed. The old version of
+`readsabs` is available in the [0.2.9 branch on
+Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
