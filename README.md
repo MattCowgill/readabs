@@ -18,10 +18,10 @@ status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.or
 
 ## Overview
 
-readabs contains tools to easily download, import, and tidy time series
-data from the Australian Bureau of Statistics. This saves you time
-manually downloading and tediously tidying time series data and allows
-you to spend more time on your analysis.
+readabs helps you easily download, import, and tidy time series data
+from the Australian Bureau of Statistics from within R. This saves you
+time manually downloading and tediously tidying time series data and
+allows you to spend more time on your analysis.
 
 We’d welcome Github issues containing error reports or feature requests.
 Alternatively you can email the package maintainer at mattcowgill at
@@ -127,5 +127,5 @@ that can be used to work with official statistics.
 From version 0.3.0, `readabs` gained new functionality. Pre-0.3.0
 functions still work, but `read_abs_data()` is soft-deprecated and the
 behaviour of `read_abs_metadata()` has changed. The old version of
-`readsabs` is available in the [0.2.9 branch on
+`readabs` is available in the [0.2.9 branch on
 Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
