@@ -70,6 +70,10 @@ test_that("read_abs_local() returns appropriate errors and messages",{
 
   expect_error(read_abs_local(filenames = 1), path = "../testdata")
 
+  expect_error(read_abs_local(path = "../empty"))
+
+  expect_error(read_abs_local(local_filename, path = local_path,
+                              metadata = "a"))
 
 })
 
@@ -110,6 +114,18 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
             expect_gt(nrow(wpi_1), 1)
           })
 
+test_that("read_abs() works when retain_files = FALSE",
+          {
+            skip_on_cran()
+
+            check_abs_site()
+
+            wpi_7 <- read_abs("6345.0", tables = "7a", retain_files = FALSE)
+
+            expect_is(wpi_7, "data.frame")
+
+          })
+
 
 test_that("Old read_abs_sdmx function works",{
 
@@ -129,6 +145,12 @@ test_that("Old read_abs_sdmx function works",{
 test_that("read_abs() returns appropriate errors and messages when given invalid input",{
 
   expect_error(read_abs(cat_no = NULL))
+
+  expect_error(read_abs("6202.0", 1, retain_files = NULL))
+
+  expect_message(read_abs("6345", 1))
+
+  expect_message(read_abs("6345.0"))
 
   expect_error(read_abs(cat_no = "6345.0", metadata = 1))
 
