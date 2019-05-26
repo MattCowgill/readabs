@@ -29,7 +29,7 @@ test_that("Local file can be tidied and looks how we expect",{
 
 test_that("Local file can be tidied without metadata",{
 
-  no_meta <- read_abs_local(local_filename, path = local_path, metadata = FALSE)
+  no_meta <- read_abs_local(filenames = local_filename, path = local_path, metadata = FALSE)
   expect_is(no_meta, "data.frame")
 
 
@@ -56,7 +56,7 @@ test_that("tidy_abs() gives appropriate errors",{
 })
 
 test_that("Local file can be read",{
-  lfs_21 <- read_abs_local(local_filename, path = local_path)
+  lfs_21 <- read_abs_local(filenames = local_filename, path = local_path)
 
   expect_equal(length(colnames(lfs_21)), 12)
   expect_is(lfs_21$date, "Date")
@@ -72,7 +72,7 @@ test_that("read_abs_local() returns appropriate errors and messages",{
 
   expect_error(read_abs_local(path = "../empty"))
 
-  expect_error(read_abs_local(local_filename, path = local_path,
+  expect_error(read_abs_local(filenames = local_filename, path = local_path,
                               metadata = "a"))
 
 })

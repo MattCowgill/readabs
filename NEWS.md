@@ -1,6 +1,8 @@
 
 # readabs 0.3.2
 * New `read_cpi()` convenience function to get the CPI index numbers
+* Files read with `read_abs()` are now stored in a subdirectory of `path` corresponding to the catalogue number
+* Arguments to `read_abs_local()` have changed, new `cat_no` argument added
 * `get_abs()` now deprecated; use `read_abs()`
 
 # readabs 0.3.1

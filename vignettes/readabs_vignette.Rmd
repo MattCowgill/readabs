@@ -199,13 +199,21 @@ The `read_abs()` function downloads spreadsheets from the ABS website, then load
 
 If you already have ABS time series spreadsheets saved locally that you want to read, the `read_abs_local()` function is what you want. 
 
-If you don't just run `read_abs_local()` without any arguments, it will look in the `data/ABS` subdirectory of your working directory and attempt to read any .xls files located there. If you want to read all the files from a different directory, specify it using the `path` argument.
+If you don't just run `read_abs_local()` without any arguments, it will look in the `data/ABS` subdirectory of your working directory and attempt to read any .xls files located there (note: it won't look in subdirectories of `path`). If you want to read all the files from a different directory, specify it using the `path` argument.
 
-If you want to read a particular table, or tables, specify them using the `filenames` argument, like this:
+If you've downloaded files using `read_abs()`, you can import them using `read_abs_local()` by specifying the catalogue number. This will look in the subdirectory of `path` that corresponds to `cat_no` - in this case it will read all files from "data/ABS/6202.0":
+
+```{r read-lfs-local-catno}
+lfs_local_catno <- read_abs_local("6202.0")
+
+```
+
+If you want to read a particular table, or tables, you can specify them using the `filenames` argument. If your files are not in "data/ABS", you'll need to specify a subdirectory like this:
 
 ```{r read-lfs-local}
 
-lfs_local <- read_abs_local(c("6202001.xls", "6202005.xls"))
+lfs_local <- read_abs_local(filenames = c("6202001.xls", "6202005.xls"),
+                            path = "data/ABS/6202.0")
 
 ```
 
