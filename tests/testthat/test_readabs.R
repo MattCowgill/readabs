@@ -114,6 +114,21 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
             expect_gt(nrow(wpi_1), 1)
           })
 
+test_that("read_abs() gets a whole catalogue number",
+          {
+            skip_on_cran()
+
+            check_abs_site()
+
+            wpi_all <- read_abs("6345.0")
+
+            expect_is(wpi_all, "data.frame")
+
+            expect_equal(length(wpi_all), 12)
+
+            expect_gt(nrow(wpi_all), 55000)
+          })
+
 test_that("read_abs() works when retain_files = FALSE",
           {
             skip_on_cran()
@@ -123,6 +138,12 @@ test_that("read_abs() works when retain_files = FALSE",
             wpi_7 <- read_abs("6345.0", tables = "7a", retain_files = FALSE)
 
             expect_is(wpi_7, "data.frame")
+
+          })
+
+test_that("deprecated get_abs() function gives a warning message",
+          {
+            expect_warning(get_abs())
 
           })
 
@@ -231,5 +252,13 @@ test_that("read_cpi() function downloads CPI index numbers",{
 
 })
 
+test_that("read_cpi() returns appropriate errors",{
 
+  expect_error(read_cpi(retain_files = NULL))
+
+  expect_error(read_cpi(show_progress_bars = NULL))
+
+  expect_error(read_cpi(retain_files = TRUE, path = 1))
+
+})
 
