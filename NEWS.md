@@ -1,3 +1,8 @@
+
+# readabs 0.3.2
+* New `read_cpi()` convenience function to get the CPI index numbers
+* `get_abs()` now deprecated; use `read_abs()`
+
 # readabs 0.3.1
 * `read_abs()` now checks for internet access and returns a comprehensible error if not present
 * New function `read_abs_seriesid()` gets data corresponding to unique ABS time series IDs
