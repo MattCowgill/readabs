@@ -130,7 +130,7 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
   # remove spreadsheets from disk if `retain_files` == FALSE
   if(!retain_files){
     # delete downloaded files
-    file.remove(paste0(path, "/", filenames))
+    file.remove(file.path(path, filenames))
     # if the directory is empty after removing downloaded files, delete the directory
     if(length(list.files(path)) == 0) {
       file.remove(path)
