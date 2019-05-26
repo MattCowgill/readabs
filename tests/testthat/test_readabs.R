@@ -190,3 +190,24 @@ test_that("Old read_abs_metadata() function imports a spreadsheet",{
   expect_equal(length(colnames(local_file)), 9)
 
 })
+
+
+test_that("read_cpi() function downloads CPI index numbers",{
+  skip_on_cran()
+
+  check_abs_site()
+
+  cpi <- read_cpi()
+
+  expect_is(cpi, "data.frame")
+
+  expect_equal(length(cpi), 2)
+
+  expect_is(cpi$date, "Date")
+
+  expect_is(cpi$cpi, "numeric")
+
+})
+
+
+
