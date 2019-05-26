@@ -126,16 +126,6 @@ test_that("Old read_abs_sdmx function works",{
 })
 
 
-test_that("get_abs() returns a warning as it's deprecated",{
-
-  skip_on_cran()
-
-  check_abs_site()
-
-  expect_message(wpi_get <- get_abs("6345.0", "7a"))
-
-})
-
 test_that("read_abs() returns appropriate errors and messages when given invalid input",{
 
   expect_error(read_abs(cat_no = NULL))
