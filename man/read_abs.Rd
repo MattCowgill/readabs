@@ -27,7 +27,8 @@ ABS metadata (series name, table name, etc.) is included in the output. If
 will not be shown when ABS spreadsheets are downloading.}
 
 \item{retain_files}{when TRUE (the default), the spreadsheets downloaded from the
-ABS website will be saved in the directory specified with `path`. If set to ``}
+ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
+the files will be stored in a temporary directory.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time

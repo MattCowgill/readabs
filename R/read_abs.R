@@ -24,7 +24,8 @@
 #' will not be shown when ABS spreadsheets are downloading.
 #'
 #' @param retain_files when TRUE (the default), the spreadsheets downloaded from the
-#' ABS website will be saved in the directory specified with `path`. If set to ``
+#' ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
+#' the files will be stored in a temporary directory.
 #'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
@@ -149,9 +150,8 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
 #'
 #' @export
 
-get_abs <- function(...){
-  read_abs(...)
+get_abs <- function(){
   .Deprecated(old = "get_abs()",
               new = "read_abs()",
-              msg = "get_abs() is deprecated and will be removed in the next update.\nPlease use read_abs() instead.")
+              msg = "get_abs() is deprecated.\nPlease use read_abs() instead.")
 }
