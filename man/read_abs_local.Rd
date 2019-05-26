@@ -4,17 +4,23 @@
 \alias{read_abs_local}
 \title{Read and tidy locally-saved ABS time series spreadsheet(s)}
 \usage{
-read_abs_local(filenames = NULL, path = "data/ABS", metadata = TRUE)
+read_abs_local(cat_no = NULL, filenames = NULL, path = "data/ABS",
+  metadata = TRUE)
 }
 \arguments{
+\item{cat_no}{character; a single catalogue number such as "6202.0". When `cat_no`
+is specified, all local files in `path` corresponding to the specified catalogue number
+will be imported. For example, if you run `read_abs_local("6202.0")`, it will
+look in "data/ABS/6202.0" and attempt to load any .xls files in that location.
+If `cat_no`` is specified, `filenames` will be ignored.}
+
 \item{filenames}{character vector of at least one filename of a locally-stored
 ABS time series spreadsheet. For example, "6202001.xls" or c("6202001.xls", "6202005.xls").
-If `filenames` is blank, `read_abs_local()` will attempt to read all .xls files in
-the directory specified with `path`. Please note that the directory should
-be specified with `path`.}
+Ignored if a value is supplied to `cat_no`. If `filenames` is blank and `cat_no` is blank,
+`read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.}
 
 \item{path}{path to local directory containing ABS time series file(s).
-Default is "data/ABS". If nothing is specified in `filenames`,
+Default is "data/ABS". If nothing is specified in `filenames` or `cat_no`,
 `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
