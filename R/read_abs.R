@@ -142,11 +142,9 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
 
 }
 
-#' Download, extract, and tidy ABS time series spreadsheets (soft deprecated)
+#' Download, extract, and tidy ABS time series spreadsheets (deprecated)
 #'
 #' \code{get_abs()} is deprecated. Please use \code{read_abs()} instead. It has identical functionality.
-#'
-#' @param ... arguments passed to \code{read_abs()}
 #'
 #' @export
 
