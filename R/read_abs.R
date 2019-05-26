@@ -14,7 +14,9 @@
 #'
 #' @param path Local directory in which to save downloaded ABS time series
 #' spreadsheets. Default is "data/ABS"; this subdirectory of your working
-#' directory will be created if it does not exist.
+#' directory will be created if it does not exist. Files are saved in a subdirectory of
+#' `path`; for example, if you run `read_abs("6202.0")` your files will be in
+#' "data/ABS/6202.0".
 #'
 #' @param metadata logical. If `TRUE` (the default), a tidy data frame including
 #' ABS metadata (series name, table name, etc.) is included in the output. If
@@ -75,6 +77,10 @@ read_abs <- function(cat_no = NULL,
     path <- file.path(tempdir(), "readabs")
   }
 
+  # create a subdirectory of 'path' corresponding to the catalogue number
+  if(retain_files){
+    path <- file.path(path, cat_no)
+  }
 
   # check that R has access to the internet
 
