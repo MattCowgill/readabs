@@ -99,13 +99,6 @@ All the metadata from the time series spreadsheets is included in the data frame
 
 The `table_no` and `sheet_no` columns will help you if you need to cross-check information on the ABS spreadsheet  - `table_no` matches the filename of the spreadsheet (eg. '634501.xls') and `sheet_no` is the name of the Excel worksheet within the file that contains the time series.
 
-To omit the metadata from your dataframe, you can run:
-
-```{r read-wpi-nometadata, eval = FALSE}
-wpi_nometadata <- read_abs("6345.0", metadata = FALSE)
-```
-
-If you specify `metadata = FALSE`, you'll get a data frame that contains only 6 columns: `table_no`, `sheet_no`, `table_title`, `date`, `series_id`, and `value`.
 
 ## How to use read_abs() to get individual table(s)
 
@@ -190,10 +183,29 @@ unemp %>%
 
 Ta-da! Now we've got a nice little ggplot2 graph - and you didn't need to go to the ABS website or click around in Excel.
 
+## How to get time series using their unique ID(s)
+
+Every ABS time series has a unique identifier. If you know the ID for the time series you need, you can supply it to the `series_id` argument to `read_abs()`. You can give it a single ID, or multiple IDs. 
+
+For example, the time series ID for the number of employed people in Australia (trend) is "A84423127L". We can get a data frame that only contains that series as follows:
+
+```{r read-abs-seriesid}
+
+employed <- read_abs(series_id = "A84423127L")
+
+glimpse(employed)
+
+unique(employed$series)
+```
+
+A benefit of this approach is that the filtering is done for you - the data frame only contains the series you're interested in.
 
 ## Why is my hard drive filling up with spreadsheets?
 
 The `read_abs()` function downloads spreadsheets from the ABS website, then loads them into R, then tidies them. By default, the spreadsheets will be saved in a `data/ABS` subdirectory of your working directory. You can change this location using the `path` argument to `read_abs()`.
+
+Keeping the spreadsheets is often a good idea. But if you don't want to retain them, no problem. Just specify `retain_files = FALSE` when you use `read_abs()`. The spreadsheets will still be downloaded, but they'll be stored in a temporary directory that is flushed when your R session ends.
+
 
 ## What if I've already downloaded spreadsheets?
 

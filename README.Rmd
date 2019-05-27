@@ -83,7 +83,7 @@ wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
 
 ```
 
-For more examples, see the readabs vignette.
+For more examples, see the readabs vignette (run `browseVignettes("readabs")`.
 
 ## Mentioned in Awesome Official Statistics Software
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)

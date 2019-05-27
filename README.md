@@ -66,13 +66,13 @@ number 6345.0:
 library(readabs)
 
 all_wpi <- read_abs("6345.0")
-#> Finding filenames for tables from ABS catalogue 6345.0
-#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 
 str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    54261 obs. of  12 variables:
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    55347 obs. of  12 variables:
 #>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
 #>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
 #>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
@@ -93,8 +93,8 @@ table:
 ``` r
 
 wpi_t1 <- read_abs("6345.0", tables = 1)
-#> Finding filenames for tables from ABS catalogue 6345.0
-#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
@@ -105,13 +105,14 @@ too:
 ``` r
 
 wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
-#> Finding filenames for tables from ABS catalogue 6345.0
-#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
 
-For more examples, see the readabs vignette.
+For more examples, see the readabs vignette (run
+`browseVignettes("readabs")`.
 
 ## Mentioned in Awesome Official Statistics Software
 

@@ -93,6 +93,9 @@ read_abs <- function(cat_no = NULL,
     path <- file.path(tempdir(), "readabs")
   }
 
+  # satisfy CRAN
+  ProductReleaseDate=SeriesID=NULL
+
   # create a subdirectory of 'path' corresponding to the catalogue number if specified
   if(retain_files & !is.null(cat_no)){
     path <- file.path(path, cat_no)
