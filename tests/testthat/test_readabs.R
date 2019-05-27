@@ -141,6 +141,26 @@ test_that("read_abs() works when retain_files = FALSE",
 
           })
 
+test_that("read_abs() works with series ID(s)", {
+
+  skip_on_cran()
+
+  check_abs_site()
+
+  cpi_1 <- read_abs(series_id = "A2325846C")
+
+  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"))
+
+  expect_is(cpi_1, "data.frame")
+
+  expect_is(cpi_2, "data.frame")
+
+  expect_length(cpi_1, 12)
+
+  expect_length(cpi_2, 12)
+
+})
+
 test_that("deprecated get_abs() function gives a warning message",
           {
             expect_warning(get_abs())

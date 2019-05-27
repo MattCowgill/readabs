@@ -1,8 +1,9 @@
 
-# readabs 0.3.2
+# readabs 0.4.0
 * New `read_cpi()` convenience function to get the CPI index numbers
 * Files read with `read_abs()` are now stored in a subdirectory of `path` corresponding to the catalogue number
-* Arguments to `read_abs_local()` have changed, new `cat_no` argument added
+* Order of arguments to `read_abs()` have changed slightly, new `series_id` argument added
+* Order of arguments to `read_abs_local()` have changed, new `cat_no` argument added, `filenames` argument works as before, but the argument order has changed
 * `get_abs()` now deprecated; use `read_abs()`
 
 # readabs 0.3.1
@@ -10,7 +11,7 @@
 * New function `read_abs_seriesid()` gets data corresponding to unique ABS time series IDs
 * Thanks to @HughParsonage for fixing the vignette index and suggesting other fixes
 * ABS API was (silently!) updated to use https rather than http; readabs now works with this
-* added a retain_files option (default = FALSE) to read_abs()
+* added a retain_files option (default = TRUE) to read_abs()
 
 # readabs 0.3.0
 * Merged with `getabs` package
