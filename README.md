@@ -43,17 +43,40 @@ You can install the developer version of **readabs** from GitHub with:
 devtools::install_github("mattcowgill/readabs")
 ```
 
+## New in the latest version
+
+In version 0.4.0 of the readabs package,
+
+  - A new `separate_series()` function has been added, to be used in
+    conjunction with `read_abs()` to help tidy data (thanks to David
+    Diviny).
+  - A new `read_cpi()` convenience function returns a tibble containing
+    dates and CPI index numbers.
+  - The `read_abs()` function now has an optional `series_id` argument,
+    allowing users to get individual time series by using the unique
+    identifiers given to them by the ABS.
+  - The `read_abs()` function now has a `retain_files` argument (TRUE by
+    default); by setting this to false, downloaded spreadsheets will be
+    stored in a temporary directory
+  - Some minor bug fixes and enhances - see NEWS for details.
+
 ## Usage
 
-There are two key functions in **readabs**. They are:
+There is one key function in **readabs**. It is:
 
-  - `read_abs()` downloads, imports, and tidies time series data from
-    the ABS website.
+  - `read_abs()`, which downloads, imports, and tidies time series data
+    from the ABS website.
+
+There are some other functions you may find useful.
+
   - `read_abs_local()` imports and tidies time series data from ABS
     spreadsheets stored on a local drive.
+  - `separate_series()` splits the `series` column of a tidied ABS time
+    series spreadsheet into multiple columns, reducing the manual
+    wrangling that’s needed to work with the data.
 
-Both functions return a single tidy data frame (tibble) containing long
-data.
+Both `read_abs()` and `read_abs_local()` return a single tidy data frame
+(tibble) containing long data.
 
 ## Examples
 
@@ -66,8 +89,8 @@ number 6345.0:
 library(readabs)
 
 all_wpi <- read_abs("6345.0")
-#> Finding filenames for tables corresponding to ABS catalogue 6345.0
-#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables from ABS catalogue 6345.0
+#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 
@@ -93,8 +116,8 @@ table:
 ``` r
 
 wpi_t1 <- read_abs("6345.0", tables = 1)
-#> Finding filenames for tables corresponding to ABS catalogue 6345.0
-#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables from ABS catalogue 6345.0
+#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
@@ -105,14 +128,18 @@ too:
 ``` r
 
 wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
-#> Finding filenames for tables corresponding to ABS catalogue 6345.0
-#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables from ABS catalogue 6345.0
+#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
 
-For more examples, see the readabs vignette (run
-`browseVignettes("readabs")`.
+In many cases, the `series` column will contain multiple components,
+separated by ‘;’. The `separate_series()` function can help wrangling
+this column.
+
+For more examples, please see the readabs vignette (run
+`browseVignettes("readabs")`).
 
 ## Mentioned in Awesome Official Statistics Software
 

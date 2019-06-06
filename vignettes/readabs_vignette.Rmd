@@ -22,22 +22,24 @@ set.seed(42)
 When working with time series data from the Australian Bureau of Statistics (ABS), you must:
 
 1. Download the data; 
-1. Read the data into R; and
-1. Tidy the data.
+2. Read the data into R; and
+3. Tidy the data.
 
 The readabs package provides functions to help you with each of those steps. One key function will help streamline the process of analysing ABS time series data:
 
 * `read_abs()` downloads, reads, and tidies the data.
 
-A second function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it imports and tidies the spreadsheets.
+The `separate_series()` column also helps with step three, tidying the data. You use it in conjunction with `read_abs()` - see the examples below.
+
+Another function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it imports and tidies the spreadsheets.
 
 ## The messiness of ABS time series
 
 If you want to visualise or analyse data in R, you will often need to tidy it first. In [tidy data](http://vita.had.co.nz/papers/tidy-data.html):
 
 1. Each variable forms a column.
-1. Each observation forms a row.
-1. Each type of observational unit forms a table.
+2. Each observation forms a row.
+3. Each type of observational unit forms a table.
 
 ABS time series data is not tidy. Tidying it requires a bit of work. This screenshot of an ABS time series spreadsheet shows some of the problems, namely:
 
@@ -104,7 +106,7 @@ The `table_no` and `sheet_no` columns will help you if you need to cross-check i
 
 Unless you tell it otherwise, `read_abs()` will get all the time series spreadsheets from a given catalogue number.
 
-Quite often this will be overkill. Maybe you don't want all 2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the `tables` argument to `read_abs()` to specify the table(s) you want:
+Generally this will be overkill. Maybe you don't want all 2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the `tables` argument to `read_abs()` to specify the table(s) you want:
 
 ```{r read-lfs-1}
 
@@ -129,7 +131,7 @@ The `tables` argument can be either a numeric vector (eg. `c(1, 5)`) or a charac
 
 ## I've imported the data... now what?
 
-Because `read_abs()` does the work for you of getting your data in a tidy (long) format, it's easy to filter to the data you're interested in and generate output (like graphs) using the [Tidyverse](https://www.tidyverse.org) packages, such as `dplyr` and `ggplot2`.
+Because `read_abs()` does the work for you of getting your data in a tidy (long) format, it's easier to filter to the data you're interested in and generate output (like graphs) using the [Tidyverse](https://www.tidyverse.org) packages, such as `dplyr` and `ggplot2`.
 
 In this example, we'll work with data from the Labour Force survey that we downloaded and tidied earlier using `read_abs()`. First, load the packages you need:
 
@@ -139,7 +141,10 @@ Now let's have a look at the time series from table 1 of the Labour Force survey
 unique(lfs_1$series)
 ```
 
-OK! There's a bunch of data in here. The `separate_series` function in is a helper function to separate the `series` column and remove different symbols. 
+OK! There's a bunch of data in here. We can see that the `series` column contains a first part, like "Participation rate" or "Unemployment rate", and a second part, which is "Persons", "Males", or "Females". You will often want to filter using one or both of these components separately - and sometimes there will be more than two components.
+
+The `separate_series` function in is a helper function to separate the `series` column and remove extraneous symbols.
+
 ```{r separate-series}
 lfs_1_sep <- lfs_1 %>% 
   separate_series()
@@ -147,6 +152,8 @@ lfs_1_sep <- lfs_1 %>%
 lfs_1_sep
 
 ```
+
+We've now got a new tibble that still contains the original `series` column, but also contains new columns `series_1` and `series_2`, with the two parts of `series` split into these new columns.
 
 Let's make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series. 
 

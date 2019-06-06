@@ -1,12 +1,13 @@
 
 # readabs 0.4.0
+* New `separate_series()` function thanks to David Diviny, which splits the `series` column of tidied ABS time series into multiple components
 * New `read_cpi()` convenience function to get the CPI index numbers
 * Files read with `read_abs()` are now stored in a subdirectory of `path` corresponding to the catalogue number
 * New `series_id` argument to `read_abs()` allows users to get specific time series using their unique identifiers
 * Order of arguments to `read_abs()` have changed slightly, with new `series_id` argument added
 * Order of arguments to `read_abs_local()` have changed, new `cat_no` argument added, `filenames` argument works as before, but the argument order has changed
 * Fixed file path error when using `read_abs(retain_files = FALSE)` on Windows
-* `get_abs()` now deprecated; use `read_abs()`
+* `get_abs()` now deprecated; use `read_abs()` instead (it has identical functionality)
 
 # readabs 0.3.1
 * `read_abs()` now checks for internet access and returns a comprehensible error if not present
