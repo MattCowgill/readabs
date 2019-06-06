@@ -90,7 +90,7 @@ read_abs <- function(cat_no = NULL,
 
   # create temp directory to temporarily store spreadsheets if retain_files == FALSE
   if(!retain_files){
-    path <- file.path(tempdir(), "readabs")
+    path <- tempdir()
   }
 
   # satisfy CRAN
@@ -161,10 +161,6 @@ read_abs <- function(cat_no = NULL,
   if(!retain_files){
     # delete downloaded files
     file.remove(file.path(path, filenames))
-    # if the directory is empty after removing downloaded files, delete the directory
-    if(length(list.files(path)) == 0) {
-      file.remove(path)
-    }
   }
 
   # if series_id is specified, remove all other series_ids
