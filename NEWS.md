@@ -5,6 +5,7 @@
 * New `series_id` argument to `read_abs()` allows users to get specific time series using their unique identifiers
 * Order of arguments to `read_abs()` have changed slightly, with new `series_id` argument added
 * Order of arguments to `read_abs_local()` have changed, new `cat_no` argument added, `filenames` argument works as before, but the argument order has changed
+* Fixed file path error when using `read_abs(retain_files = FALSE)` on Windows
 * `get_abs()` now deprecated; use `read_abs()`
 
 # readabs 0.3.1
