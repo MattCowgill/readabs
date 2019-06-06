@@ -139,26 +139,36 @@ Now let's have a look at the time series from table 1 of the Labour Force survey
 unique(lfs_1$series)
 ```
 
-OK! There's a bunch of data in here. Let's make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series. I'll use the `grepl()` function from base R to help filter the data frame so it only contains rows I'm interested in.
+OK! There's a bunch of data in here. The `separate_series` function in is a helper function to separate the `series` column and remove different symbols. 
+```{r separate-series}
+lfs_1_sep <- lfs_1 %>% 
+  separate_series()
 
-```{r create-unemp-df}
-
-unemp <- lfs_1 %>%
-  filter(grepl("Unemployment rate", series))
-
-unique(unemp$series)
+lfs_1_sep
 
 ```
 
-Now we have a data frame, `unemp`, that contains various unemployment rate series. Let's drop the ones that refer to all persons, or refer to people looking for full-time or part-time work:
+Let's make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series. 
+
+```{r create-unemp-df}
+
+unemp <- lfs_1_sep %>%
+  filter(series_1 == "Unemployment rate")
+
+unique(unemp$series_1)
+
+unique(unemp$series_2)
+
+```
+
+Now we have a data frame, `unemp`, that contains various unemployment rate series. Let's filter to only Males or Females. 
 
 ```{r filter-male-female}
 
 unemp <- unemp %>%
-  filter(grepl("Males", series) | grepl("Females", series)) %>%
-  filter(!grepl("looked for", series)) 
+  filter(series_2 %in% c("Males", "Females"))
 
-unique(unemp$series)
+unique(unemp$series_2)
 ```
 
 Now our data frame only contains the male and female unemployment rates, which is what we want. Let's graph it, filtering once more to show only the seasonally adjusted series and adding a 'sex' column:
@@ -168,7 +178,7 @@ library(ggplot2)
 
 unemp %>%
   filter(series_type == "Seasonally Adjusted") %>%
-  mutate(sex = if_else(grepl("Males", series), "Males", "Females")) %>%
+  mutate(sex = series_2) %>%
   ggplot(aes(x = date, y = value, col = sex)) +
   geom_line() +
   theme_minimal() +
