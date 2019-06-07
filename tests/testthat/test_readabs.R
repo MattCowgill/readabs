@@ -284,6 +284,10 @@ test_that("read_cpi() returns appropriate errors",{
 
 test_that("separate_series() performs as expected",{
 
+ skip_on_cran()
+
+ check_abs_site()
+
  motor_vehicles <- read_abs("9314.0") %>% separate_series()
 
  expect_equal(14, length(motor_vehicles))
