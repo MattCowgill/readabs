@@ -274,6 +274,10 @@ test_that("read_cpi() function downloads CPI index numbers",{
 
 test_that("read_cpi() returns appropriate errors",{
 
+  skip_on_cran()
+
+  check_abs_site()
+
   expect_error(read_cpi(retain_files = NULL))
 
   expect_error(read_cpi(show_progress_bars = NULL))
