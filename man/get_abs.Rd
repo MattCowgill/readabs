@@ -2,12 +2,9 @@
 % Please edit documentation in R/read_abs.R
 \name{get_abs}
 \alias{get_abs}
-\title{Download, extract, and tidy ABS time series spreadsheets (soft deprecated)}
+\title{Download, extract, and tidy ABS time series spreadsheets (deprecated)}
 \usage{
-get_abs(...)
-}
-\arguments{
-\item{...}{arguments passed to \code{read_abs()}}
+get_abs()
 }
 \description{
 \code{get_abs()} is deprecated. Please use \code{read_abs()} instead. It has identical functionality.

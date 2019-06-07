@@ -12,9 +12,15 @@
 #' which will read all time series in `cat_no`. Specify `tables` to
 #' download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.
 #'
+#' @param series_id (optional) character. Supply an ABS unique time series
+#' identifier (such as "A2325807L") to get only that series. This is an alternative
+#' to specifying `cat_no`.
+#'
 #' @param path Local directory in which to save downloaded ABS time series
 #' spreadsheets. Default is "data/ABS"; this subdirectory of your working
-#' directory will be created if it does not exist.
+#' directory will be created if it does not exist. Files are saved in a subdirectory of
+#' `path`; for example, if you run `read_abs("6202.0")` your files will be in
+#' "data/ABS/6202.0".
 #'
 #' @param metadata logical. If `TRUE` (the default), a tidy data frame including
 #' ABS metadata (series name, table name, etc.) is included in the output. If
@@ -24,7 +30,8 @@
 #' will not be shown when ABS spreadsheets are downloading.
 #'
 #' @param retain_files when TRUE (the default), the spreadsheets downloaded from the
-#' ABS website will be saved in the directory specified with `path`. If set to ``
+#' ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
+#' the files will be stored in a temporary directory.
 #'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
@@ -35,13 +42,19 @@
 #'
 #' \donttest{wpi <- read_abs("6345.0")}
 #'
+#' # Get two specific time series, based on their time series IDs
+#'
+#' \donttest{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
+#'
 #' @importFrom purrr walk walk2 map map_dfr map2
 #' @importFrom curl nslookup
+#' @importFrom dplyr group_by filter
 #' @name read_abs
 #' @export
 
 read_abs <- function(cat_no = NULL,
                      tables = "all",
+                     series_id = NULL,
                      path = "data/ABS",
                      metadata = TRUE,
                      show_progress_bars = TRUE,
@@ -51,16 +64,22 @@ read_abs <- function(cat_no = NULL,
     stop("The `retain_files` argument to `read_abs()` must be either TRUE or FALSE.")
   }
 
-  if(is.null(cat_no)){
-    stop("read_abs() requires an ABS catalogue number, such as '6202.0' or '6401.0'")
+  if(is.null(cat_no) & is.null(series_id)){
+    stop("read_abs() requires either an ABS catalogue number, such as '6202.0' or '6401.0', or an ABS time series ID like 'A84423127L'.")
   }
 
-  if(nchar(cat_no) < 6){
+  if(!is.null(cat_no) & !is.null(series_id)) {
+    stop("Please specify either the cat_no OR the series_id, not both.")
+  }
+
+  if(!is.null(cat_no)) {
+    if(nchar(cat_no) < 6) {
     message(paste0("Please ensure you include the cat_no extension.\n`read_abs()` will assume you meant \"", cat_no, ".0\"", " rather than ", cat_no))
     cat_no <- paste0(cat_no, ".0")
+    }
   }
 
-  if(is.null(tables)){
+  if(!is.null(cat_no) & is.null(tables)){
     message(paste0("`tables` not specified; attempting to fetch all tables from ", cat_no))
     tables <- "all"
   }
@@ -71,39 +90,50 @@ read_abs <- function(cat_no = NULL,
 
   # create temp directory to temporarily store spreadsheets if retain_files == FALSE
   if(!retain_files){
-    path <- paste0(tempdir(), "/readabs")
+    path <- tempdir()
   }
 
+  # satisfy CRAN
+  ProductReleaseDate=SeriesID=NULL
+
+  # create a subdirectory of 'path' corresponding to the catalogue number if specified
+  if(retain_files & !is.null(cat_no)){
+    path <- file.path(path, cat_no)
+  }
 
   # check that R has access to the internet
 
-if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
+  if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
 
     stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
          Please check your internet connection and security settings." )
 
   }
 
+  xml_urls <- form_abs_tsd_url(cat_no = cat_no,
+                               tables = tables,
+                               series_id = series_id)
 
-
-  # create the url to search for in the Time Series Directory
-  base_url <- "https://ausstats.abs.gov.au/servlet/TSSearchServlet?catno="
-
-  if(tables[1] == "all"){
-    tables_url <- ""
-  } else {
-    tables_url <- paste0("&ttitle=", tables)
-  }
-
-  xml_urls <- paste0(base_url,
-                    cat_no,
-                    tables_url)
 
   # find spreadsheet URLs from cat_no in the Time Series Directory
-  message(paste0("Finding filenames for tables from ABS catalogue ", cat_no))
+
+  download_message <- ifelse(!is.null(cat_no), paste0("catalogue ", cat_no),
+                             "series ID ")
+
+  message(paste0("Finding filenames for tables corresponding to ABS ", download_message))
+
   xml_dfs <- purrr::map_dfr(xml_urls,
                             .f = get_abs_xml_metadata,
                             release_dates = "latest")
+
+  # the same Series ID can appear in multiple spreadsheets; we just want one (the latest)
+
+  if(!is.null(series_id)) {
+    xml_dfs <- xml_dfs %>%
+      dplyr::group_by(SeriesID) %>%
+      dplyr::filter(ProductReleaseDate == max(ProductReleaseDate)) %>%
+      dplyr::filter(row_number() == 1)
+  }
 
   urls <- unique(xml_dfs$TableURL)
   urls <- gsub(".test", "", urls)
@@ -111,7 +141,8 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
   table_titles <- unique(xml_dfs$TableTitle)
 
   # download tables corresponding to URLs
-  message(paste0("Attempting to download files from cat. no. ", cat_no, ", ", xml_dfs$ProductTitle[1]))
+  message(paste0("Attempting to download files from ", download_message,
+                 ", ", xml_dfs$ProductTitle[1]))
   purrr::walk(urls, download_abs, path = path, show_progress_bars = show_progress_bars)
 
   # extract the sheets to a list
@@ -129,11 +160,18 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
   # remove spreadsheets from disk if `retain_files` == FALSE
   if(!retain_files){
     # delete downloaded files
-    file.remove(paste0(path, "/", filenames))
-    # if the directory is empty after removing downloaded files, delete the directory
-    if(length(list.files(path)) == 0) {
-      file.remove(path)
-    }
+    file.remove(file.path(path, filenames))
+  }
+
+  # if series_id is specified, remove all other series_ids
+
+  if(!is.null(series_id)) {
+
+    users_series_id <- series_id
+
+    sheet <- sheet %>%
+      dplyr::filter(series_id %in% users_series_id)
+
   }
 
   # return a data frame
@@ -141,17 +179,14 @@ if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
 
 }
 
-#' Download, extract, and tidy ABS time series spreadsheets (soft deprecated)
+#' Download, extract, and tidy ABS time series spreadsheets (deprecated)
 #'
 #' \code{get_abs()} is deprecated. Please use \code{read_abs()} instead. It has identical functionality.
 #'
-#' @param ... arguments passed to \code{read_abs()}
-#'
 #' @export
 
-get_abs <- function(...){
-  read_abs(...)
+get_abs <- function(){
   .Deprecated(old = "get_abs()",
               new = "read_abs()",
-              msg = "get_abs() is deprecated and will be removed in the next update.\nPlease use read_abs() instead.")
+              msg = "get_abs() is deprecated.\nPlease use read_abs() instead.")
 }

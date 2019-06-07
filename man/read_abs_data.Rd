@@ -15,7 +15,7 @@ read_abs_data(path, sheet)
 Long-format dataframe
 }
 \description{
-`read_abs_data()` is soft deprecated. Please consider using `read_abs_local()`
+`read_abs_data()` is soft deprecated and will be removed in a future version. Please use `read_abs_local()`
 to import and tidy locally-stored ABS time series spreadsheets, or
 `read_abs()` to download, import, and tidy time series spreadsheets from the ABS
 website.

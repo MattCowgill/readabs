@@ -4,8 +4,9 @@
 \alias{read_abs}
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
-read_abs(cat_no = NULL, tables = "all", path = "data/ABS",
-  metadata = TRUE, show_progress_bars = TRUE, retain_files = TRUE)
+read_abs(cat_no = NULL, tables = "all", series_id = NULL,
+  path = "data/ABS", metadata = TRUE, show_progress_bars = TRUE,
+  retain_files = TRUE)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
@@ -15,9 +16,15 @@ For example, "6202.0".}
 which will read all time series in `cat_no`. Specify `tables` to
 download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.}
 
+\item{series_id}{(optional) character. Supply an ABS unique time series
+identifier (such as "A2325807L") to get only that series. This is an alternative
+to specifying `cat_no`.}
+
 \item{path}{Local directory in which to save downloaded ABS time series
 spreadsheets. Default is "data/ABS"; this subdirectory of your working
-directory will be created if it does not exist.}
+directory will be created if it does not exist. Files are saved in a subdirectory of
+`path`; for example, if you run `read_abs("6202.0")` your files will be in
+"data/ABS/6202.0".}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
@@ -27,7 +34,8 @@ ABS metadata (series name, table name, etc.) is included in the output. If
 will not be shown when ABS spreadsheets are downloading.}
 
 \item{retain_files}{when TRUE (the default), the spreadsheets downloaded from the
-ABS website will be saved in the directory specified with `path`. If set to ``}
+ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
+the files will be stored in a temporary directory.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time
@@ -44,5 +52,9 @@ data frame (tibble) containing tidied data.
 # Download and tidy all time series spreadsheets from the Wage Price Index (6345.0)
 
 \donttest{wpi <- read_abs("6345.0")}
+
+# Get two specific time series, based on their time series IDs
+
+\donttest{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
 
 }

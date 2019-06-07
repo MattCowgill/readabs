@@ -8,14 +8,19 @@
 #' returned by \code{read_abs_local()} is blank. If you require `table_title`,
 #' please use \code{read_abs()} instead.
 #'
+#' @param cat_no character; a single catalogue number such as "6202.0". When `cat_no`
+#' is specified, all local files in `path` corresponding to the specified catalogue number
+#' will be imported. For example, if you run `read_abs_local("6202.0")`, it will
+#' look in "data/ABS/6202.0" and attempt to load any .xls files in that location.
+#' If `cat_no`` is specified, `filenames` will be ignored.
+#'
 #' @param filenames character vector of at least one filename of a locally-stored
 #' ABS time series spreadsheet. For example, "6202001.xls" or c("6202001.xls", "6202005.xls").
-#' If `filenames` is blank, `read_abs_local()` will attempt to read all .xls files in
-#' the directory specified with `path`. Please note that the directory should
-#' be specified with `path`.
+#' Ignored if a value is supplied to `cat_no`. If `filenames` is blank and `cat_no` is blank,
+#' `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.
 #'
 #' @param path path to local directory containing ABS time series file(s).
-#' Default is "data/ABS". If nothing is specified in `filenames`,
+#' Default is "data/ABS". If nothing is specified in `filenames` or `cat_no`,
 #' `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.
 #'
 #' @param metadata logical. If `TRUE` (the default), a tidy data frame including
@@ -33,9 +38,12 @@
 #' @export
 #'
 
-read_abs_local <- function(filenames = NULL,
+read_abs_local <- function(cat_no = NULL,
+                           filenames = NULL,
                            path = "data/ABS",
                            metadata = TRUE){
+
+  # Error catching
   if(is.null(filenames) & is.null(path)){
     stop("You must specify a value to filenames and/or path.")
   }
@@ -48,11 +56,28 @@ read_abs_local <- function(filenames = NULL,
     warning(paste0("`path` not specified.\nLooking for ABS time series files in ", getwd()))
   }
 
-  if(is.null(filenames)){
-    message(paste0("`filenames` not specified. ",
+  if(!is.null(cat_no) & !is.character(cat_no)){
+    stop("If `cat_no` is specified, it must be a string such as '6202.0'")
+  }
+
+  # If catalogue number is specifid, that takes precedence
+  if(!is.null(cat_no)){
+
+    path <- file.path(path, cat_no)
+
+    filenames <- list.files(path = path, pattern = "\\.xls$")
+
+    if(length(filenames) == 0) {
+      stop(paste0("Could not find any .xls files in path: '", path, "'"))
+    }
+
+  # If cat_no isn't specified and filenames isn't specified, get all files in path
+  } else if(is.null(filenames)){
+
+    message(paste0("`filenames` and `cat_no` not specified. ",
                    "Looking for ABS time series files in '",
                    path,
-                   "' and attempting to read all files.\nSpecify `filenames` if you do not wish to attempt to import all .xls files in ",
+                   "' and attempting to read all files.\nSpecify `cat_no` or filenames` if you do not wish to attempt to import all .xls files in ",
                    path))
 
     # Get a list of all filenames in path, as `filenames` is null

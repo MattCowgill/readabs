@@ -9,7 +9,7 @@ download_abs <- function(url,
 
   dir.create(path = path, recursive = TRUE, showWarnings = FALSE)
 
-  filename <- paste0(path, "/", basename(url))
+  filename <- file.path(path, basename(url))
 
 
   # download the table

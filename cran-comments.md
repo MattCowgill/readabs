@@ -2,7 +2,7 @@
 
 * local OS X install, R 3.6.0
 * ubuntu 12.04 (on travis-ci), R 3.6.0
-* win-builder (devel and release)
+* win-builder (devel, release, and old release)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
