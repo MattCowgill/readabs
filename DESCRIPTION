@@ -21,7 +21,6 @@ Imports:
     dplyr (>= 0.8.0), 
     XML,
     curl,
-    httr,
     purrr,
     tidyr, 
     stringr,
