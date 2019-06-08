@@ -112,6 +112,13 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
             expect_equal(length(colnames(wpi_1)), 12)
 
             expect_gt(nrow(wpi_1), 1)
+
+            expect_is(wpi_1$date, "Date")
+
+            expect_is(wpi_1$series, "character")
+
+            expect_is(wpi_1$value, "numeric")
+
           })
 
 test_that("read_abs() gets a whole catalogue number",
@@ -120,13 +127,13 @@ test_that("read_abs() gets a whole catalogue number",
 
             check_abs_site()
 
-            wpi_all <- read_abs("6345.0")
+            motors <- read_abs("9314.0")
 
-            expect_is(wpi_all, "data.frame")
+            expect_is(motors, "data.frame")
 
-            expect_equal(length(wpi_all), 12)
+            expect_equal(length(motors), 12)
 
-            expect_gt(nrow(wpi_all), 55000)
+            expect_gt(nrow(motors), 34000)
           })
 
 test_that("read_abs() works when retain_files = FALSE",
@@ -147,15 +154,9 @@ test_that("read_abs() works with series ID(s)", {
 
   check_abs_site()
 
-  cpi_1 <- read_abs(series_id = "A2325846C")
-
   cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"))
 
-  expect_is(cpi_1, "data.frame")
-
   expect_is(cpi_2, "data.frame")
-
-  expect_length(cpi_1, 12)
 
   expect_length(cpi_2, 12)
 
@@ -193,13 +194,7 @@ test_that("read_abs() returns appropriate errors and messages when given invalid
 
   expect_error(read_abs("6202.0", 1, retain_files = NULL))
 
-  expect_message(read_abs("6345", 1))
-
-  expect_message(read_abs("6345.0"))
-
   expect_error(read_abs(cat_no = "6345.0", metadata = 1))
-
-  expect_message(read_abs("6345.0", "7a"))
 
 })
 
