@@ -292,11 +292,15 @@ test_that("separate_series() performs as expected",{
 
  check_abs_site()
 
- motor_vehicles <- read_abs("9314.0") %>% separate_series()
+ motor_vehicles_raw <- read_abs("9314.0", retain_files = FALSE)
+
+ motor_vehicles <- separate_series(motor_vehicles_raw)
 
  expect_equal(14, length(motor_vehicles))
 
  expect_equal(9, length(unique(motor_vehicles$series_1)))
+
+ expect_true(all.equal(motor_vehicles$series, motor_vehicles_raw$series))
 
 })
 
