@@ -185,6 +185,10 @@ test_that("Old read_abs_sdmx function works",{
 
 test_that("read_abs() returns appropriate errors and messages when given invalid input",{
 
+  skip_on_cran()
+
+  check_abs_site()
+
   expect_error(read_abs(cat_no = NULL))
 
   expect_error(read_abs("6202.0", 1, retain_files = NULL))
@@ -195,8 +199,6 @@ test_that("read_abs() returns appropriate errors and messages when given invalid
 
   expect_error(read_abs(cat_no = "6345.0", metadata = 1))
 
-  skip_on_cran()
-  check_abs_site()
   expect_message(read_abs("6345.0", "7a"))
 
 })
@@ -291,6 +293,8 @@ test_that("separate_series() performs as expected",{
  skip_on_cran()
 
  check_abs_site()
+
+ skip_on_travis()
 
  motor_vehicles_raw <- read_abs("9314.0", retain_files = FALSE)
 
