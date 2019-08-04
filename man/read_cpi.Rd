@@ -30,7 +30,7 @@ CPI), you can use \code{read_abs()}.
 
 # Create a tibble called 'cpi' that contains the CPI index numbers for each quarter
 
-cpi <- read_cpi()
+\donttest{cpi <- read_cpi()}
 
 # This tibble can now be joined to another to help streamline the process of
 # deflating nominal values.

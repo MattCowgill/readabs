@@ -1,10 +1,3 @@
-## Resubmission
-
-This is a resubmission. In this version I have:
-
-* Substantially reduced size of tarball
-* Removed an unused dependency (httr)
-* Ensured that certain tests and examples that require internet connectivity will not be run on CRAN
 
 ## Test environments
 
