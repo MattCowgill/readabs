@@ -1,3 +1,6 @@
+# readabs 0.4.1
+* `separate_series()` function gains a `drop_nas` argument, thanks to Sam Gow for the suggestion.
+* Added more unit tests and reorganised tests
 
 # readabs 0.4.0
 * New `separate_series()` function thanks to David Diviny, which splits the `series` column of tidied ABS time series into multiple components

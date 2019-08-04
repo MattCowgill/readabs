@@ -1,8 +1,6 @@
 library(readabs)
 library(RCurl)
 
-context("Test that local file can be loaded and tidied")
-
 local_path <- "../testdata"
 local_filename <- "6202021.xls"
 
@@ -77,8 +75,6 @@ test_that("read_abs_local() returns appropriate errors and messages",{
 
 })
 
-context("Test xml scraping")
-
 wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
 
 check_abs_site <- function() {
@@ -105,13 +101,20 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
 
             check_abs_site()
 
-            wpi_1 <- read_abs("6345.0", tables = "7a")
+            wpi_1 <- read_abs("6345.0", tables = "7a", retain_files = FALSE)
 
             expect_is(wpi_1, "data.frame")
 
             expect_equal(length(colnames(wpi_1)), 12)
 
             expect_gt(nrow(wpi_1), 1)
+
+            expect_is(wpi_1$date, "Date")
+
+            expect_is(wpi_1$series, "character")
+
+            expect_is(wpi_1$value, "numeric")
+
           })
 
 test_that("read_abs() gets a whole catalogue number",
@@ -120,13 +123,13 @@ test_that("read_abs() gets a whole catalogue number",
 
             check_abs_site()
 
-            wpi_all <- read_abs("6345.0")
+            motors <- read_abs("9314.0", retain_files = FALSE)
 
-            expect_is(wpi_all, "data.frame")
+            expect_is(motors, "data.frame")
 
-            expect_equal(length(wpi_all), 12)
+            expect_equal(length(motors), 12)
 
-            expect_gt(nrow(wpi_all), 55000)
+            expect_gt(nrow(motors), 34000)
           })
 
 test_that("read_abs() works when retain_files = FALSE",
@@ -147,15 +150,9 @@ test_that("read_abs() works with series ID(s)", {
 
   check_abs_site()
 
-  cpi_1 <- read_abs(series_id = "A2325846C")
-
-  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"))
-
-  expect_is(cpi_1, "data.frame")
+  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE)
 
   expect_is(cpi_2, "data.frame")
-
-  expect_length(cpi_1, 12)
 
   expect_length(cpi_2, 12)
 
@@ -185,19 +182,15 @@ test_that("Old read_abs_sdmx function works",{
 
 test_that("read_abs() returns appropriate errors and messages when given invalid input",{
 
+  skip_on_cran()
+
+  check_abs_site()
+
   expect_error(read_abs(cat_no = NULL))
 
   expect_error(read_abs("6202.0", 1, retain_files = NULL))
 
-  expect_message(read_abs("6345", 1))
-
-  expect_message(read_abs("6345.0"))
-
   expect_error(read_abs(cat_no = "6345.0", metadata = 1))
-
-  skip_on_cran()
-  check_abs_site()
-  expect_message(read_abs("6345.0", "7a"))
 
 })
 
@@ -207,7 +200,7 @@ test_that("read_abs() works with 'table 01' as well as 'table 1' filename struct
 
   check_abs_site()
 
-  const_df <- read_abs("8755.0", 1)
+  const_df <- read_abs("8755.0", 1, retain_files = FALSE)
 
   expect_is(const_df, "data.frame")
 
@@ -230,9 +223,9 @@ test_that("Old read_abs_data() function imports a spreadsheet",{
 
   filepath <- paste0(local_path, "/", local_filename)
 
-  expect_message(read_abs_data(filepath, "Data1"))
+  expect_warning(read_abs_data(filepath, "Data1"))
 
-  local_file <- read_abs_data(filepath, "Data1")
+  local_file <- suppressWarnings(read_abs_data(filepath, "Data1"))
 
   expect_is(local_file, "data.frame")
 
@@ -292,11 +285,45 @@ test_that("separate_series() performs as expected",{
 
  check_abs_site()
 
- motor_vehicles <- read_abs("9314.0") %>% separate_series()
+ skip_on_travis()
+
+ motor_vehicles_raw <- read_abs("9314.0", retain_files = FALSE)
+
+ motor_vehicles <- separate_series(motor_vehicles_raw)
 
  expect_equal(14, length(motor_vehicles))
 
  expect_equal(9, length(unique(motor_vehicles$series_1)))
 
+ expect_true(all.equal(motor_vehicles$series, motor_vehicles_raw$series))
+
 })
+
+test_that("separate_series(remove_nas = TRUE) removes NAs", {
+
+  lfs_21 <- read_abs_local(filename = local_filename,
+                        path = local_path)
+
+  lfs_21_sep <- suppressWarnings(separate_series(lfs_21))
+
+  non_nas <- lfs_21_sep %>%
+    filter(!is.na(series_1) & !is.na(series_2)) %>%
+    nrow()
+
+  nas <- lfs_21_sep %>%
+    filter(is.na(series_1) | is.na(series_2)) %>%
+    nrow()
+
+  expect_warning(separate_series(lfs_21))
+
+  expect_message(separate_series(lfs_21, remove_nas = TRUE))
+
+  expect_equal(nrow(separate_series(lfs_21, remove_nas = TRUE)), non_nas)
+
+  expect_equal(nas + non_nas, nrow(lfs_21_sep))
+
+
+})
+
+
 
