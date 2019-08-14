@@ -9,7 +9,8 @@ get_xml_df <- function(url){
 
   temp_page_location <- file.path(tempdir(), "temp_readabs_xml.xml")
 
-  utils::download.file(url, temp_page_location, quiet = TRUE)
+  utils::download.file(url, temp_page_location, quiet = TRUE,
+                       cacheOK = FALSE)
 
   safe_parse <- purrr::safely(XML::xmlParse)
 

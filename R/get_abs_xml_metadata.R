@@ -30,7 +30,10 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
 
   first_page_location <- file.path(tempdir(), "temp_readabs_xml.xml")
 
-  utils::download.file(first_url, first_page_location, quiet = TRUE)
+  utils::download.file(first_url,
+                       first_page_location,
+                       quiet = TRUE,
+                       cacheOK = FALSE)
 
   first_page <- XML::xmlParse(first_page_location)
 
@@ -47,7 +50,8 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
 
     first_url <- gsub("ttitle=", "ttitle=0", first_url)
 
-    utils::download.file(first_url, first_page_location, quiet = TRUE)
+    utils::download.file(first_url, first_page_location, quiet = TRUE,
+                         cacheOK = FALSE)
 
     first_page <- XML::xmlParse(first_page_location)
 

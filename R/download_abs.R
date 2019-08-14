@@ -16,6 +16,7 @@ download_abs <- function(url,
   utils::download.file(url = url,
                 mode = "wb",
                 quiet = !show_progress_bars,
-                destfile = filename)
+                destfile = filename,
+                cacheOK = FALSE)
 
 }
