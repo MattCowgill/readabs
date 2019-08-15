@@ -43,7 +43,7 @@ You can install the developer version of **readabs** from GitHub with:
 devtools::install_github("mattcowgill/readabs")
 ```
 
-## New in the latest version
+## New in recent versions
 
 In version 0.4.0 of the readabs package,
 
@@ -59,6 +59,13 @@ In version 0.4.0 of the readabs package,
     default); by setting this to false, downloaded spreadsheets will be
     stored in a temporary directory
   - Some minor bug fixes and enhances - see NEWS for details.
+
+In 0.4.1,
+
+  - The `separate_series()` function gained a `remove_nas` argument -
+    thanks to Sam Gow for the suggestion. This makes tidying data
+    easier.
+  - Various minor improvements and bug fixes.
 
 ## Usage
 
@@ -89,13 +96,13 @@ number 6345.0:
 library(readabs)
 
 all_wpi <- read_abs("6345.0")
-#> Finding filenames for tables from ABS catalogue 6345.0
-#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 
 str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    55347 obs. of  12 variables:
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    56276 obs. of  12 variables:
 #>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
 #>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
 #>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
@@ -116,8 +123,8 @@ table:
 ``` r
 
 wpi_t1 <- read_abs("6345.0", tables = 1)
-#> Finding filenames for tables from ABS catalogue 6345.0
-#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
@@ -128,8 +135,8 @@ too:
 ``` r
 
 wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
-#> Finding filenames for tables from ABS catalogue 6345.0
-#> Attempting to download files from cat. no. 6345.0, Wage Price Index, Australia
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```

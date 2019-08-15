@@ -47,7 +47,7 @@ You can install the developer version of **readabs** from GitHub with:
 devtools::install_github("mattcowgill/readabs")
 ```
 
-## New in the latest version
+## New in recent versions
 
 In version 0.4.0 of the readabs package, 
 
@@ -56,6 +56,11 @@ In version 0.4.0 of the readabs package,
 * The `read_abs()` function now has an optional `series_id` argument, allowing users to get individual time series by using the unique identifiers given to them by the ABS.
 * The `read_abs()` function now has a `retain_files` argument (TRUE by default); by setting this to false, downloaded spreadsheets will be stored in a temporary directory
 * Some minor bug fixes and enhances - see NEWS for details.
+
+In 0.4.1,
+
+* The `separate_series()` function gained a `remove_nas` argument - thanks to Sam Gow for the suggestion. This makes tidying data easier.
+* Various minor improvements and bug fixes.
 
 ## Usage
 
