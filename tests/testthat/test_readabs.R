@@ -107,13 +107,15 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
 
             expect_equal(length(colnames(wpi_1)), 12)
 
-            expect_gt(nrow(wpi_1), 1)
+            expect_gt(nrow(wpi_1), 263)
 
             expect_is(wpi_1$date, "Date")
 
             expect_is(wpi_1$series, "character")
 
             expect_is(wpi_1$value, "numeric")
+
+            expect_lt(Sys.Date() - max(wpi_1$date), 100)
 
           })
 

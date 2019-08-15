@@ -1,7 +1,7 @@
 Package: readabs
 Type: Package
 Title: Download and Tidy Time Series Data from the Australian Bureau of Statistics
-Version: 0.4.0.900
+Version: 0.4.1
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com"),
            person("Zoe", "Meers", role = c("aut"), email = "zoe.meers@sydney.edu.au"),
@@ -10,11 +10,11 @@ Authors@R: c(
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
-Date: 2019-05-22
+Date: 2019-08-15
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.1)
+Depends: R (>= 3.3)
 Imports: 
     readxl (>= 1.2.0), 
     tibble (>= 1.4.99),

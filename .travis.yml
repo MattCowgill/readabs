@@ -6,5 +6,12 @@ cache: packages
 r_packages:
   - covr
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
+matrix:
+  include:
+  - r: devel
+  - r: 3.3
+  - r: 3.4
+  - r: 3.5
+  - r: release
+    after_success:
+    - Rscript -e 'covr::codecov()'
