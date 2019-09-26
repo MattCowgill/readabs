@@ -4,8 +4,8 @@
 \alias{read_cpi}
 \title{Download a tidy tibble containing the Consumer Price Index from the ABS}
 \usage{
-read_cpi(path = "data/ABS", show_progress_bars = TRUE,
-  retain_files = FALSE)
+read_cpi(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+  show_progress_bars = TRUE, retain_files = FALSE)
 }
 \arguments{
 \item{path}{character; default is "data/ABS". Only used if retain_files is set to

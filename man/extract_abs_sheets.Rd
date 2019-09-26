@@ -5,7 +5,8 @@
 \title{Extract data sheets from an ABS timeseries workbook saved locally as an
 .xls file.}
 \usage{
-extract_abs_sheets(filename, table_title = NULL, path = "data/ABS")
+extract_abs_sheets(filename, table_title = NULL,
+  path = Sys.getenv("R_READABS_PATH", unset = tempdir()))
 }
 \arguments{
 \item{filename}{Filename for an ABS time series spreadsheet (as string), such as
@@ -15,7 +16,7 @@ extract_abs_sheets(filename, table_title = NULL, path = "data/ABS")
 "Table 1. Employed persons, Australia"}
 
 \item{path}{Local directory in which an ABS time series is stored. Default is
-"data/ABS"}
+`Sys.getenv("R_READABS_PATH", unset = tempdir())`.}
 }
 \description{
 Note that this function will not tidy the data for you. Use `read_abs_local()`

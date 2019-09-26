@@ -4,7 +4,8 @@
 \alias{read_abs_local}
 \title{Read and tidy locally-saved ABS time series spreadsheet(s)}
 \usage{
-read_abs_local(cat_no = NULL, filenames = NULL, path = "data/ABS",
+read_abs_local(cat_no = NULL, filenames = NULL,
+  path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
   metadata = TRUE)
 }
 \arguments{
@@ -20,7 +21,8 @@ Ignored if a value is supplied to `cat_no`. If `filenames` is blank and `cat_no`
 `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.}
 
 \item{path}{path to local directory containing ABS time series file(s).
-Default is "data/ABS". If nothing is specified in `filenames` or `cat_no`,
+Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
+ If nothing is specified in `filenames` or `cat_no`,
 `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
