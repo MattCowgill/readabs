@@ -13,7 +13,7 @@
 #' "Table 1. Employed persons, Australia"
 #'
 #' @param path Local directory in which an ABS time series is stored. Default is
-#' "data/ABS"
+#' `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
 #'
 #' @importFrom readxl excel_sheets read_xls
 #' @importFrom tibble tibble
@@ -23,7 +23,8 @@
 #'
 #' @export
 
-extract_abs_sheets <- function(filename, table_title = NULL, path = "data/ABS"){
+extract_abs_sheets <- function(filename, table_title = NULL,
+                               path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
 
   .=sheet=NULL
 

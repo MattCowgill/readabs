@@ -1,7 +1,7 @@
 #' @importFrom utils download.file
 
 download_abs <- function(url,
-                         path = "data/ABS",
+                         path,
                          show_progress_bars = TRUE){
 
   # create a subdirectory of the working directory with value given by the path argument
