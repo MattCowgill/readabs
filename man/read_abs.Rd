@@ -5,8 +5,8 @@
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
 read_abs(cat_no = NULL, tables = "all", series_id = NULL,
-  path = "data/ABS", metadata = TRUE, show_progress_bars = TRUE,
-  retain_files = TRUE)
+  path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+  metadata = TRUE, show_progress_bars = TRUE, retain_files = TRUE)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
@@ -21,10 +21,8 @@ identifier (such as "A2325807L") to get only that series. This is an alternative
 to specifying `cat_no`.}
 
 \item{path}{Local directory in which to save downloaded ABS time series
-spreadsheets. Default is "data/ABS"; this subdirectory of your working
-directory will be created if it does not exist. Files are saved in a subdirectory of
-`path`; for example, if you run `read_abs("6202.0")` your files will be in
-"data/ABS/6202.0".}
+spreadsheets. Defaults to `Sys.getenv("R_READABS_PATH", unset = tempdir())`
+which will be created if necessary.}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If

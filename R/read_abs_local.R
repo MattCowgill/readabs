@@ -20,7 +20,8 @@
 #' `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.
 #'
 #' @param path path to local directory containing ABS time series file(s).
-#' Default is "data/ABS". If nothing is specified in `filenames` or `cat_no`,
+#' Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
+#'  If nothing is specified in `filenames` or `cat_no`,
 #' `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.
 #'
 #' @param metadata logical. If `TRUE` (the default), a tidy data frame including
@@ -40,7 +41,7 @@
 
 read_abs_local <- function(cat_no = NULL,
                            filenames = NULL,
-                           path = "data/ABS",
+                           path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                            metadata = TRUE){
 
   # Error catching

@@ -30,7 +30,7 @@
 #'
 #' @export
 
-read_cpi <- function(path = "data/ABS",
+read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = TRUE,
                      retain_files = FALSE){
 
