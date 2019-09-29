@@ -222,19 +222,17 @@ A benefit of this approach is that the filtering is done for you - the data fram
 ## Why is my hard drive filling up with spreadsheets?
 
 The `read_abs()` function downloads spreadsheets from the ABS website, then loads them into R, then tidies them. 
-By default, the spreadsheets will be saved in the directory specified by 
-the environment variable `R_READABS_PATH` or, if it is unset, a temporary directory.
-You can change this location for a specific instance by using the `path` argument to `read_abs()`.
+
+By default, the spreadsheets will be saved in the directory specified by the environment variable `R_READABS_PATH` or, if it is unset, a temporary directory. You can change this location for a specific instance by using the `path` argument to `read_abs()`.
 
 Keeping the spreadsheets is often a good idea. But if you don't want to retain them, no problem. Just specify `retain_files = FALSE` when you use `read_abs()`. The spreadsheets will still be downloaded, but they'll be stored in a temporary directory that is flushed when your R session ends.
-
 
 ## What if I've already downloaded spreadsheets?
 
 If you already have ABS time series spreadsheets saved locally that you want to read, the `read_abs_local()` function is what you want. 
 
-If you don't just run `read_abs_local()` without any arguments, it will look in the `R_READABS_PATH`
-subdirectory if set and attempt to read any .xls files located there (note: it won't look in any of its subdirectories).
+If you just run `read_abs_local()` without any arguments specified, it will look in the directory given by the `R_READABS_PATH` environment variable (if set) and attempt to read any .xls files located there (note: it won't look in any of its subdirectories).
+
 If you want to read all the files from a different directory, specify it using the `path` argument.
 
 If you've downloaded files using `read_abs()`, you can import them using `read_abs_local()` by specifying the catalogue number. This will look in the subdirectory of `path` that corresponds to `cat_no`:
@@ -253,5 +251,6 @@ lfs_local_2 <- read_abs_local(filenames = c("6202001.xls", "6202005.xls"),
                               path = file.path(Sys.getenv("R_READABS_PATH", tempdir()), "6202.0"))
 
 ```
+
 
 The data frame you'll get will look the same as if you'd used `read_abs()` to get the spreadsheet(s) from the ABS website.
