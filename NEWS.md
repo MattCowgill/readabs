@@ -1,3 +1,6 @@
+# readabs 0.4.2
+* Default path for `read_abs()` is now defined by an environmental variable; thanks to Hugh Parsonage for the idea and implementation.
+
 # readabs 0.4.1
 * `separate_series()` function gains a `drop_nas` argument, thanks to Sam Gow for the suggestion.
 * Added more unit tests and reorganised tests

@@ -49,7 +49,11 @@ read_abs_metadata <- function(path, sheet) {
   final_dat$`Series End` <- as.Date(as.integer(final_dat$`Series End`), origin = "1899-12-30")
   colnames(final_dat)[1] <- "Series"
 
-  message("Please note that usage for read_abs_metadata() will change in future versions of readabs.")
+  .Deprecated(new = "read_abs_local()",
+              old = "read_abs_metadata()",
+              msg = "read_abs_metadata() is deprecated and will be removed in a future version. Please use read_abs_local()
+              to read tidy versions of locally-stored time series spreadsheets, or read_abs() to get them from the ABS website.")
+
 
   return(final_dat)
 }

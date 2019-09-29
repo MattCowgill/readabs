@@ -49,18 +49,23 @@ devtools::install_github("mattcowgill/readabs")
 
 ## New in recent versions
 
-In version 0.4.0 of the readabs package, 
+In version 0.4.2 of the readabs package,
 
-* A new `separate_series()` function has been added, to be used in conjunction with `read_abs()` to help tidy data (thanks to David Diviny).
-* A new `read_cpi()` convenience function returns a tibble containing dates and CPI index numbers.
-* The `read_abs()` function now has an optional `series_id` argument, allowing users to get individual time series by using the unique identifiers given to them by the ABS.
-* The `read_abs()` function now has a `retain_files` argument (TRUE by default); by setting this to false, downloaded spreadsheets will be stored in a temporary directory
-* Some minor bug fixes and enhances - see NEWS for details.
+* The default path for files downloaded by `read_abs()` is now set by an environmental variable, rather than defaulting to 'data/ABS'. Thanks to Hugh Parsonage for the idea and implementation.
 
 In 0.4.1,
 
 * The `separate_series()` function gained a `remove_nas` argument - thanks to Sam Gow for the suggestion. This makes tidying data easier.
 * Various minor improvements and bug fixes.
+
+In 0.4.0, 
+
+* A new `separate_series()` function was added, to be used in conjunction with `read_abs()` to help tidy data (thanks to David Diviny).
+* A new `read_cpi()` convenience function was added; it returns a tibble containing dates and CPI index numbers.
+* The `read_abs()` function now has an optional `series_id` argument, allowing users to get individual time series by using the unique identifiers given to them by the ABS.
+* The `read_abs()` function now has a `retain_files` argument (`TRUE` by default); by setting this to `FALSE`, downloaded spreadsheets will be stored in a temporary directory
+* Some minor bug fixes and enhances - see NEWS for details.
+
 
 ## Usage
 
@@ -112,7 +117,8 @@ For more examples, please see the readabs vignette (run `browseVignettes("readab
 We're pleased to be included in a [list of software](https://github.com/SNStatComp/awesome-official-statistics-software) that can be used to work with official statistics.
 
 ## Package history
-From version 0.3.0, `readabs` gained new functionality. Pre-0.3.0 functions still work,
-but `read_abs_data()` is soft-deprecated and the behaviour of `read_abs_metadata()`
-has changed. The old version of `readabs` is available in the [0.2.9 branch on Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
+
+From version 0.3.0, `readabs` gained significant new functionality and the package changed substantially. 
+
+Pre-0.3.0 functions still work, but `read_abs_data()` is -deprecated. The behaviour of `read_abs_metadata()` has changed and the function is deprecated. The old version of `readabs` is available in the [0.2.9 branch on Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
 
