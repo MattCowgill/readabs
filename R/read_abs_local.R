@@ -24,6 +24,9 @@
 #'  If nothing is specified in `filenames` or `cat_no`,
 #' `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.
 #'
+#' @param use_fst logical. If `TRUE` (the default) then, if an `fst` file of the
+#' tidy data frame has already been saved in `path`, it is read immediately.
+#'
 #' @param metadata logical. If `TRUE` (the default), a tidy data frame including
 #' ABS metadata (series name, table name, etc.) is included in the output. If
 #' `FALSE`, metadata is dropped.
@@ -42,14 +45,15 @@
 read_abs_local <- function(cat_no = NULL,
                            filenames = NULL,
                            path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+                           use_fst = TRUE,
                            metadata = TRUE){
 
   # Error catching
-  if(is.null(filenames) & is.null(path)){
+  if(is.null(filenames) && is.null(path)){
     stop("You must specify a value to filenames and/or path.")
   }
 
-  if(!is.null(filenames) & class(filenames) != "character") {
+  if(!is.null(filenames) && !is.character(filenames)) {
     stop("if a value is given to `filenames`, it must be specified as a character vector, such as '6202001.xls' or c('6202001.xls', '6202005.xls')")
   }
 
@@ -57,8 +61,18 @@ read_abs_local <- function(cat_no = NULL,
     warning(paste0("`path` not specified.\nLooking for ABS time series files in ", getwd()))
   }
 
-  if(!is.null(cat_no) & !is.character(cat_no)){
+  if(!is.null(cat_no) && !is.character(cat_no)){
     stop("If `cat_no` is specified, it must be a string such as '6202.0'")
+  }
+
+  if(!is.logical(metadata) || length(metadata) != 1L || is.na(metadata)){
+    stop("`metadata` argument must be either TRUE or FALSE")
+  }
+
+  # Retrieve cache if available
+  if (is.null(filenames) && isTRUE(use_fst) && fst_available(cat_no, path)) {
+    out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
+    return(tibble::as_tibble(out))
   }
 
   # If catalogue number is specifid, that takes precedence
@@ -89,10 +103,6 @@ read_abs_local <- function(cat_no = NULL,
       stop(paste0("Could not find any .xls files in path: '", path, "'"))
     }
 
-  }
-
-  if(!is.logical(metadata)){
-    stop("`metadata` argument must be either TRUE or FALSE")
   }
 
   # Create filenames for local ABS time series files

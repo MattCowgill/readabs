@@ -24,7 +24,7 @@ to specifying `cat_no`.}
 spreadsheets. By default, `path` takes the value set in the environment variable
 "R_READABS_PATH". To check the value of this variable, run \code{Sys.getenv("R_READABS_PATH")}.
 If this variable is not set, the files downloaded by read_abs()
-will be stored in a temporary directory (`tempdir()`).}
+will be stored in a temporary directory (\code{tempdir()}).}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If

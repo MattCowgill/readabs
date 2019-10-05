@@ -60,6 +60,7 @@ read_abs <- function(cat_no = NULL,
                      show_progress_bars = TRUE,
                      retain_files = TRUE){
 
+
   if(!is.logical(retain_files)){
     stop("The `retain_files` argument to `read_abs()` must be either TRUE or FALSE.")
   }
@@ -88,17 +89,27 @@ read_abs <- function(cat_no = NULL,
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
-  # create temp directory to temporarily store spreadsheets if retain_files == FALSE
-  if(!retain_files){
-    path <- tempdir()
+
+  if (fst_available(cat_no = cat_no, path = path)) {
+    out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
+    return(tibble::as_tibble(out))
   }
+
+
 
   # satisfy CRAN
   ProductReleaseDate=SeriesID=NULL
 
   # create a subdirectory of 'path' corresponding to the catalogue number if specified
-  if(retain_files & !is.null(cat_no)){
-    path <- file.path(path, cat_no)
+  if (retain_files && !is.null(cat_no)){
+    .path <- file.path(path, cat_no)
+  } else {
+    # create temp directory to temporarily store spreadsheets if retain_files == FALSE
+    if(!retain_files) {
+      .path <- tempdir()
+    } else {
+      .path <- path
+    }
   }
 
   # check that R has access to the internet
@@ -143,13 +154,14 @@ read_abs <- function(cat_no = NULL,
   # download tables corresponding to URLs
   message(paste0("Attempting to download files from ", download_message,
                  ", ", xml_dfs$ProductTitle[1]))
-  purrr::walk(urls, download_abs, path = path, show_progress_bars = show_progress_bars)
+  purrr::walk(urls, download_abs, path = .path, show_progress_bars = show_progress_bars)
 
   # extract the sheets to a list
   filenames <- base::basename(urls)
   message("Extracting data from downloaded spreadsheets")
   sheets <- purrr::map2(filenames, table_titles,
-                       .f = extract_abs_sheets, path = path)
+                       .f = extract_abs_sheets,
+                       path = .path)
 
   # remove one 'layer' of the list, so that each sheet is its own element in the list
   sheets <- unlist(sheets, recursive = FALSE)
@@ -160,7 +172,7 @@ read_abs <- function(cat_no = NULL,
   # remove spreadsheets from disk if `retain_files` == FALSE
   if(!retain_files){
     # delete downloaded files
-    file.remove(file.path(path, filenames))
+    file.remove(file.path(.path, filenames))
   }
 
   # if series_id is specified, remove all other series_ids
@@ -172,6 +184,28 @@ read_abs <- function(cat_no = NULL,
     sheet <- sheet %>%
       dplyr::filter(series_id %in% users_series_id)
 
+  }
+
+  # if fst is available, write the cache to the <path>/fst/ file
+  if (retain_files && requireNamespace("fst", quietly = TRUE)) {
+    fst::write_fst(sheet,
+                   catno2fst(cat_no = cat_no,
+                             path = path))
+
+    if (metadata) {
+      fstMD5 <- tools::md5sum(catno2fst(cat_no = cat_no, path = path))
+      theProductReleaseDate <-
+        if (utils::hasName(sheet, "ProductReleaseDate")) {
+          (sheet[["ProductReleaseDate"]])[1L]
+        } else {
+          NA_real_
+        }
+      write.dcf(tibble::tibble(fst_MD5 = fstMD5,
+                               ProductReleaseDate = theProductReleaseDate),
+                ext2ext(catno2fst(cat_no = cat_no,
+                                  path = path),
+                        ".dcf"))
+    }
   }
 
   # return a data frame
