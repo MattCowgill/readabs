@@ -60,7 +60,6 @@ read_abs <- function(cat_no = NULL,
                      show_progress_bars = TRUE,
                      retain_files = TRUE){
 
-
   if(!is.logical(retain_files)){
     stop("The `retain_files` argument to `read_abs()` must be either TRUE or FALSE.")
   }
@@ -160,8 +159,7 @@ read_abs <- function(cat_no = NULL,
   filenames <- base::basename(urls)
   message("Extracting data from downloaded spreadsheets")
   sheets <- purrr::map2(filenames, table_titles,
-                       .f = extract_abs_sheets,
-                       path = .path)
+                       .f = extract_abs_sheets, path = .path)
 
   # remove one 'layer' of the list, so that each sheet is its own element in the list
   sheets <- unlist(sheets, recursive = FALSE)

@@ -247,6 +247,8 @@ If you want to read a particular table, or tables, you can specify them using th
 you'll need to specify the directory using `path`, like this:
 
 ```{r read-lfs-local}
+# Ensure the path is available
+hutils::provide.dir(file.path(Sys.getenv("R_READABS_PATH", tempdir()), "6202.0"))
 lfs_local_2 <- read_abs_local(filenames = c("6202001.xls", "6202005.xls"),
                               path = file.path(Sys.getenv("R_READABS_PATH", tempdir()), "6202.0"))
 
