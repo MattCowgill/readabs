@@ -193,7 +193,7 @@ read_abs <- function(cat_no = NULL,
     if (metadata) {
       fstMD5 <- tools::md5sum(catno2fst(cat_no = cat_no, path = path))
       theProductReleaseDate <-
-        if (utils::hasName(sheet, "ProductReleaseDate")) {
+        if ("ProductReleaseDate" %in% names(sheet)) {
           (sheet[["ProductReleaseDate"]])[1L]
         } else {
           NA_real_

@@ -28,7 +28,8 @@ Imports:
     tidyr, 
     stringr,
     rsdmx, 
-    readr
+    readr,
+    tools
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 6.1.1
