@@ -89,7 +89,7 @@ read_abs <- function(cat_no = NULL,
   }
 
 
-  if (fst_available(cat_no = cat_no, path = path)) {
+  if (is.null(series_id) && fst_available(cat_no = cat_no, path = path)) {
     out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
     return(tibble::as_tibble(out))
   }
@@ -184,8 +184,12 @@ read_abs <- function(cat_no = NULL,
 
   }
 
-  # if fst is available, write the cache to the <path>/fst/ file
-  if (retain_files && requireNamespace("fst", quietly = TRUE)) {
+  # if fst is available, and what has been requested is the full data,
+  #  write the result to the <path>/fst/ file
+  if (retain_files &&
+      is.null(series_id) &&
+      identical(tables, "all") &&
+      requireNamespace("fst", quietly = TRUE)) {
     fst::write_fst(sheet,
                    catno2fst(cat_no = cat_no,
                              path = path))
