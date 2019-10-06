@@ -233,13 +233,24 @@ If you already have ABS time series spreadsheets saved locally that you want to 
 
 If you just run `read_abs_local()` without any arguments specified, it will look in the directory given by the `R_READABS_PATH` environment variable (if set) and attempt to read any .xls files located there (note: it won't look in any of its subdirectories).
 
+In this vignette, the location of the files we've downloaded so far depend on whether 
+you have this environment variable set. To demonstrate `read_abs_local()` we'll need 
+to know the path in order to demonstrate how to use `read_abs_local()`
+
+
+```{r current_path}
+current_path <- Sys.getenv("R_READABS_PATH")
+if (!nzchar(current_path)) {
+  current_path <- tempdir()
+}
+```
+
 If you want to read all the files from a different directory, specify it using the `path` argument.
 
 If you've downloaded files using `read_abs()`, you can import them using `read_abs_local()` by specifying the catalogue number. This will look in the subdirectory of `path` that corresponds to `cat_no`:
 
 ```{r read-lfs-local-catno}
 lfs_local_1 <- read_abs_local("6202.0")
-
 ```
 
 If you want to read a particular table, or tables, you can specify them using the `filenames` argument. If your files are not in 
@@ -247,11 +258,8 @@ If you want to read a particular table, or tables, you can specify them using th
 you'll need to specify the directory using `path`, like this:
 
 ```{r read-lfs-local}
-# Ensure the path is available
-hutils::provide.dir(file.path(Sys.getenv("R_READABS_PATH", tempdir()), "6202.0"))
 lfs_local_2 <- read_abs_local(filenames = c("6202001.xls", "6202005.xls"),
-                              path = file.path(Sys.getenv("R_READABS_PATH", tempdir()), "6202.0"))
-
+                              path = file.path(current_path, "6202.0"))
 ```
 
 
