@@ -20,11 +20,12 @@ download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.
 identifier (such as "A2325807L") to get only that series. This is an alternative
 to specifying `cat_no`.}
 
-\item{path}{Local directory in which to save downloaded ABS time series
-spreadsheets. By default, `path` takes the value set in the environment variable
-"R_READABS_PATH". To check the value of this variable, run \code{Sys.getenv("R_READABS_PATH")}.
-If this variable is not set, the files downloaded by read_abs()
-will be stored in a temporary directory (`tempdir()`).}
+\item{path}{Local directory in which downloaded ABS time series
+spreadsheets should be stored. By default, `path` takes the value set in the
+environment variable "R_READABS_PATH". If this variable is not set,
+any files downloaded by read_abs()  will be stored in a temporary directory
+(\code{tempdir()}). See \code{Details} below for
+more information.}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
@@ -46,6 +47,21 @@ series table(s).
 then extracts the data from those spreadsheets,
 then tidies the data. The result is a single
 data frame (tibble) containing tidied data.
+}
+\details{
+`read_abs()` downloads spreadsheet(s) from the ABS containing time series
+data. These files need to be saved somewhere on your disk. This local directory
+can be controlled using the `path` argument to `read_abs()`. If the `path` argument
+is not set, `read_abs()` will store the files in a directory set in the
+"R_READABS_PATH" environment variable. If this variable isn't set, files will be
+saved in a temporary directory.
+
+To check the value of the "R_READABS_PATH" variable, run
+\code{Sys.getenv("R_READABS_PATH")}. You can set the value of this variable for a
+single session using \code{Sys.setenv(R_READABS_PATH = <path>)}. If you would like
+to change this variable for all future R sessions, edit your `.Renviron` file and
+add \code{R_READABS_PATH = <path>} line. The easiest way to edit this file is using
+\code{usethis::edit_r_environ()}.
 }
 \examples{
 
