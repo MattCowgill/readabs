@@ -194,6 +194,10 @@ test_that("read_abs() returns appropriate errors and messages when given invalid
 
   expect_error(read_abs(cat_no = "6345.0", metadata = 1, check_local = FALSE))
 
+  expect_error(read_abs(cat_no = "6345.0", series_id = "foo", check_local = FALSE),
+               regexp = "either.*cat_no.*series_id")
+
+
 })
 
 test_that("read_abs() works with 'table 01' as well as 'table 1' filename structures",{

@@ -40,6 +40,7 @@ test_that("fst-utils", {
   tempf.fst <- tempfile(fileext = ".fst")
   writeLines("9999-9", tempf.fst)
   expect_false(fst_available("9999.9", path = dirname(tempf.fst)))
+  expect_equal(ext2ext("file.csv", ".txt"), "file.txt")
 })
 
 
