@@ -42,17 +42,17 @@ fst_available <- function(cat_no,
   file.fst <- catno2fst(cat_no, path)
 
   if (!file.exists(file.fst)) {
-    return(FALSE)
+    return(FALSE)  # nocov
   }
 
   # fst may be damaged. If it appears to be (i.e. fst metadata returns an error)
   #   return FALSE
 
-  # nocov start
+
   out <- tryCatch(inherits(fst::fst.metadata(file.fst), "fstmetadata"),
                   error = function(e) FALSE,
                   warning = function(e) FALSE)
-  # nocov end
+
   out
 }
 
