@@ -25,6 +25,9 @@ test_that("read_abs works out of the box", {
                  regexp = "but was not present in the local table and will be ignored",
                  fixed = TRUE)
 
+  expect_warning(read_abs(cat_no = "6401.0", tables = "not all"),
+                 regexp = "tables.*will be ignored")
+
 
 
 })
