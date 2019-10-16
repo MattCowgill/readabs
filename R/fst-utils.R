@@ -32,6 +32,13 @@ fst_available <- function(cat_no,
     return(FALSE)
   }
 
+  if (!is.character(cat_no) ||
+      length(cat_no) != 1L ||
+      anyNA(cat_no) ||
+      nchar(cat_no) < 6L) {
+    return(FALSE)
+  }
+
   file.fst <- catno2fst(cat_no, path)
 
   if (!file.exists(file.fst)) {
