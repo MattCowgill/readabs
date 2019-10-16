@@ -33,6 +33,8 @@
 #' ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
 #' the files will be stored in a temporary directory.
 #'
+#' @param check_local If `TRUE`, the default, local `fst` files are used, if present.
+#'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
 #'
@@ -58,7 +60,28 @@ read_abs <- function(cat_no = NULL,
                      path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      metadata = TRUE,
                      show_progress_bars = TRUE,
-                     retain_files = TRUE){
+                     retain_files = TRUE,
+                     check_local = TRUE) {
+
+  if (isTRUE(check_local) &&
+      fst_available(cat_no = cat_no, path = path)) {
+    if (!identical(tables, "all")) {
+      warning("`tables` was provided, yet `check_local = TRUE` and fst files are available ",
+              "so `tables` will be ignored.")
+    }
+    out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
+    out <- tibble::as_tibble(out)
+    if (is.null(series_id)) {
+      return(out)
+    }
+    if (series_id %in% out[["series_id"]]) {
+      users_series_id <- series_id
+      out <- dplyr::filter(out, series_id %in% users_series_id)
+    } else {
+      warning("`series_id` was provided, but was not present in the local table and will be ignored.")
+    }
+    return(out)
+  }
 
   if(!is.logical(retain_files)){
     stop("The `retain_files` argument to `read_abs()` must be either TRUE or FALSE.")
@@ -89,10 +112,7 @@ read_abs <- function(cat_no = NULL,
   }
 
 
-  if (is.null(series_id) && fst_available(cat_no = cat_no, path = path)) {
-    out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
-    return(tibble::as_tibble(out))
-  }
+
 
 
 
@@ -193,21 +213,6 @@ read_abs <- function(cat_no = NULL,
     fst::write_fst(sheet,
                    catno2fst(cat_no = cat_no,
                              path = path))
-
-    if (metadata) {
-      fstMD5 <- tools::md5sum(catno2fst(cat_no = cat_no, path = path))
-      theProductReleaseDate <-
-        if ("ProductReleaseDate" %in% names(sheet)) {
-          (sheet[["ProductReleaseDate"]])[1L]
-        } else {
-          NA_real_
-        }
-      write.dcf(tibble::tibble(fst_MD5 = fstMD5,
-                               ProductReleaseDate = theProductReleaseDate),
-                ext2ext(catno2fst(cat_no = cat_no,
-                                  path = path),
-                        ".dcf"))
-    }
   }
 
   # return a data frame

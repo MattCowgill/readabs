@@ -190,9 +190,9 @@ test_that("read_abs() returns appropriate errors and messages when given invalid
 
   expect_error(read_abs(cat_no = NULL))
 
-  expect_error(read_abs("6202.0", 1, retain_files = NULL))
+  expect_error(read_abs("6202.0", 1, retain_files = NULL, check_local = FALSE))
 
-  expect_error(read_abs(cat_no = "6345.0", metadata = 1))
+  expect_error(read_abs(cat_no = "6345.0", metadata = 1, check_local = FALSE))
 
 })
 
@@ -202,7 +202,7 @@ test_that("read_abs() works with 'table 01' as well as 'table 1' filename struct
 
   check_abs_site()
 
-  const_df <- read_abs("8755.0", 1, retain_files = FALSE)
+  const_df <- read_abs("8755.0", 1, retain_files = FALSE, check_local = FALSE)
 
   expect_is(const_df, "data.frame")
 
