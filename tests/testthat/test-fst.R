@@ -29,6 +29,16 @@ test_that("read_abs works out of the box", {
 
 })
 
+test_that("fst-utils", {
+  expect_false(fst_available(cat_no = NULL))
+  expect_false(fst_available(cat_no = character(2)))
+  expect_false(fst_available(cat_no = NA_character_))
+  expect_false(fst_available(cat_no = ""))
+  tempf.fst <- tempfile(fileext = ".fst")
+  writeLines("9999-9", tempf.fst)
+  expect_false(fst_available("9999.9", path = dirname(tempf.fst)))
+})
+
 
 
 
