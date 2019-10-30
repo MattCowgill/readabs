@@ -48,8 +48,10 @@ devtools::install_github("mattcowgill/readabs")
 In version 0.4.2 of the readabs package,
 
   - The default path for files downloaded by `read_abs()` is now set by
-    an environmental variable, rather than defaulting to ‘data/ABS’.
-    Thanks to Hugh Parsonage for the idea and implementation.
+    an environment variable, rather than defaulting to ‘data/ABS’. If
+    the variable is not set, downloaded files will be stored in a
+    temporary directory. Thanks to Hugh Parsonage for the idea and
+    implementation. See `?read_abs` for more information.
 
 In 0.4.1,
 
@@ -100,6 +102,9 @@ number 6345.0:
 
 ``` r
 library(readabs)
+#> Environment variable 'R_READABS_PATH' is unset. Downloaded files will be saved in a temporary directory.
+#> You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use
+#>  Sys.setenv(R_READABS_PATH = <path>)
 
 all_wpi <- read_abs("6345.0")
 #> Finding filenames for tables corresponding to ABS catalogue 6345.0

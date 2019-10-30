@@ -51,7 +51,7 @@ devtools::install_github("mattcowgill/readabs")
 
 In version 0.4.2 of the readabs package,
 
-* The default path for files downloaded by `read_abs()` is now set by an environmental variable, rather than defaulting to 'data/ABS'. Thanks to Hugh Parsonage for the idea and implementation.
+* The default path for files downloaded by `read_abs()` is now set by an environment variable, rather than defaulting to 'data/ABS'. If the variable is not set, downloaded files will be stored in a temporary directory. Thanks to Hugh Parsonage for the idea and implementation. See `?read_abs` for more information.
 
 In 0.4.1,
 
