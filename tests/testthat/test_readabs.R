@@ -103,7 +103,7 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
 
             check_abs_site()
 
-            wpi_1 <- read_abs("6345.0", tables = "7a", retain_files = FALSE)
+            wpi_1 <- read_abs("6345.0", tables = "7a", retain_files = FALSE, path = tempdir())
 
             expect_is(wpi_1, "data.frame")
 
@@ -127,7 +127,7 @@ test_that("read_abs() gets a whole catalogue number",
 
             check_abs_site()
 
-            motors <- read_abs("9314.0", retain_files = FALSE)
+            motors <- read_abs("9314.0", retain_files = FALSE, path = tempdir())
 
             expect_is(motors, "data.frame")
 
@@ -142,7 +142,7 @@ test_that("read_abs() works when retain_files = FALSE",
 
             check_abs_site()
 
-            wpi_7 <- read_abs("6345.0", tables = "7a", retain_files = FALSE)
+            wpi_7 <- read_abs("6345.0", tables = "7a", retain_files = FALSE, path = tempdir())
 
             expect_is(wpi_7, "data.frame")
 
@@ -154,7 +154,7 @@ test_that("read_abs() works with series ID(s)", {
 
   check_abs_site()
 
-  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE)
+  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, path = tempdir())
 
   expect_is(cpi_2, "data.frame")
 
@@ -208,7 +208,7 @@ test_that("read_abs() works with 'table 01' as well as 'table 1' filename struct
 
   check_abs_site()
 
-  const_df <- read_abs("8755.0", 1, retain_files = FALSE, check_local = FALSE)
+  const_df <- read_abs("8755.0", 1, retain_files = FALSE, check_local = FALSE, path = tempdir())
 
   expect_is(const_df, "data.frame")
 

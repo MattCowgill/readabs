@@ -13,11 +13,9 @@ test_that("separate_series() performs as expected",{
 
   check_abs_site()
 
-  skip_on_travis()
-
   motor_vehicles_raw <- read_abs("9314.0", retain_files = FALSE, path = tempdir())
 
-  motor_vehicles <- separate_series(motor_vehicles_raw)
+  motor_vehicles <- suppressMessages(separate_series(motor_vehicles_raw))
 
   expect_equal(14, length(motor_vehicles))
 
@@ -54,6 +52,10 @@ test_that("separate_series(remove_nas = TRUE) removes NAs", {
 
 
 test_that("separate_series works with remove_totals and remove_nas both TRUE", {
+
+  skip_on_cran()
+
+  check_abs_site()
 
   awote <- read_abs("6302.0", "10G", retain_files = FALSE, path = tempdir())
 

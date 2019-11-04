@@ -32,6 +32,7 @@
 
 read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = TRUE,
+                     check_local = FALSE,
                      retain_files = FALSE){
 
   if(!is.logical(retain_files)) {
@@ -51,6 +52,7 @@ read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
   cpi_raw <- read_abs(cat_no = "6401.0",
                       tables = 1,
                       retain_files = retain_files,
+                      check_local = check_local,
                       show_progress_bars = show_progress_bars,
                       path = path)
 
