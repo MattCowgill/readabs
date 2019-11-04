@@ -6,7 +6,8 @@
 \usage{
 read_abs(cat_no = NULL, tables = "all", series_id = NULL,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-  metadata = TRUE, show_progress_bars = TRUE, retain_files = TRUE)
+  metadata = TRUE, show_progress_bars = TRUE, retain_files = TRUE,
+  check_local = TRUE)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
@@ -37,6 +38,8 @@ will not be shown when ABS spreadsheets are downloading.}
 \item{retain_files}{when TRUE (the default), the spreadsheets downloaded from the
 ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
 the files will be stored in a temporary directory.}
+
+\item{check_local}{If `TRUE`, the default, local `fst` files are used, if present.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time

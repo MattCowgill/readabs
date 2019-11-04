@@ -20,13 +20,16 @@ Imports:
     readxl (>= 1.2.0), 
     tibble (>= 1.4.99),
     dplyr (>= 0.8.0), 
+    hutils (>= 1.5.0),
+    fst,
     XML,
     curl,
     purrr,
     tidyr, 
     stringr,
     rsdmx, 
-    readr
+    readr,
+    tools
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 6.1.1

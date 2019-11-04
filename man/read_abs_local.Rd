@@ -6,7 +6,7 @@
 \usage{
 read_abs_local(cat_no = NULL, filenames = NULL,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-  metadata = TRUE)
+  use_fst = TRUE, metadata = TRUE)
 }
 \arguments{
 \item{cat_no}{character; a single catalogue number such as "6202.0". When `cat_no`
@@ -24,6 +24,9 @@ Ignored if a value is supplied to `cat_no`. If `filenames` is blank and `cat_no`
 Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
  If nothing is specified in `filenames` or `cat_no`,
 `read_abs_local()` will attempt to read all .xls files in the directory specified with `path`.}
+
+\item{use_fst}{logical. If `TRUE` (the default) then, if an `fst` file of the
+tidy data frame has already been saved in `path`, it is read immediately.}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If

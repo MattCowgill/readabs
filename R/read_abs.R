@@ -34,6 +34,8 @@
 #' ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
 #' the files will be stored in a temporary directory.
 #'
+#' @param check_local If `TRUE`, the default, local `fst` files are used, if present.
+#'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
 #'
@@ -73,7 +75,28 @@ read_abs <- function(cat_no = NULL,
                      path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      metadata = TRUE,
                      show_progress_bars = TRUE,
-                     retain_files = TRUE){
+                     retain_files = TRUE,
+                     check_local = TRUE) {
+
+  if (isTRUE(check_local) &&
+      fst_available(cat_no = cat_no, path = path)) {
+    if (!identical(tables, "all")) {
+      warning("`tables` was provided, yet `check_local = TRUE` and fst files are available ",
+              "so `tables` will be ignored.")
+    }
+    out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
+    out <- tibble::as_tibble(out)
+    if (is.null(series_id)) {
+      return(out)
+    }
+    if (series_id %in% out[["series_id"]]) {
+      users_series_id <- series_id
+      out <- dplyr::filter(out, series_id %in% users_series_id)
+    } else {
+      warning("`series_id` was provided, but was not present in the local table and will be ignored.")
+    }
+    return(out)
+  }
 
   if(!is.logical(retain_files)){
     stop("The `retain_files` argument to `read_abs()` must be either TRUE or FALSE.")
@@ -103,17 +126,24 @@ read_abs <- function(cat_no = NULL,
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
-  # create temp directory to temporarily store spreadsheets if retain_files == FALSE
-  if(!retain_files){
-    path <- tempdir()
-  }
+
+
+
+
 
   # satisfy CRAN
   ProductReleaseDate=SeriesID=NULL
 
   # create a subdirectory of 'path' corresponding to the catalogue number if specified
-  if(retain_files & !is.null(cat_no)){
-    path <- file.path(path, cat_no)
+  if (retain_files && !is.null(cat_no)){
+    .path <- file.path(path, cat_no)
+  } else {
+    # create temp directory to temporarily store spreadsheets if retain_files == FALSE
+    if(!retain_files) {
+      .path <- tempdir()
+    } else {
+      .path <- path
+    }
   }
 
   # check that R has access to the internet
@@ -158,13 +188,13 @@ read_abs <- function(cat_no = NULL,
   # download tables corresponding to URLs
   message(paste0("Attempting to download files from ", download_message,
                  ", ", xml_dfs$ProductTitle[1]))
-  purrr::walk(urls, download_abs, path = path, show_progress_bars = show_progress_bars)
+  purrr::walk(urls, download_abs, path = .path, show_progress_bars = show_progress_bars)
 
   # extract the sheets to a list
   filenames <- base::basename(urls)
   message("Extracting data from downloaded spreadsheets")
   sheets <- purrr::map2(filenames, table_titles,
-                       .f = extract_abs_sheets, path = path)
+                       .f = extract_abs_sheets, path = .path)
 
   # remove one 'layer' of the list, so that each sheet is its own element in the list
   sheets <- unlist(sheets, recursive = FALSE)
@@ -175,7 +205,7 @@ read_abs <- function(cat_no = NULL,
   # remove spreadsheets from disk if `retain_files` == FALSE
   if(!retain_files){
     # delete downloaded files
-    file.remove(file.path(path, filenames))
+    file.remove(file.path(.path, filenames))
   }
 
   # if series_id is specified, remove all other series_ids
@@ -187,6 +217,17 @@ read_abs <- function(cat_no = NULL,
     sheet <- sheet %>%
       dplyr::filter(series_id %in% users_series_id)
 
+  }
+
+  # if fst is available, and what has been requested is the full data,
+  #  write the result to the <path>/fst/ file
+  if (retain_files &&
+      is.null(series_id) &&
+      identical(tables, "all") &&
+      requireNamespace("fst", quietly = TRUE)) {
+    fst::write_fst(sheet,
+                   catno2fst(cat_no = cat_no,
+                             path = path))
   }
 
   # return a data frame
