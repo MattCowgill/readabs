@@ -70,14 +70,18 @@ separate_series <- function(data,
 
 
   # check for columns with NAs
-  na_columns <- paste0(colnames(data_separated)[colSums(is.na(data_separated)) > 0],
-                       collapse = ", ")
+  na_columns <- colnames(data_separated)[colSums(is.na(data_separated)) > 0]
 
-  if(na_columns != "" & !remove_nas){warning(na_columns, " column(s) have NA values.", call. = TRUE)}
+  if(length(na_columns) > 0 & !remove_nas){
+
+    warning(paste0(na_columns, collapse = ", "),
+            " column(s) have NA values.", call. = TRUE)
+
+  }
 
   # filter NAs in new series columns
 
-  if(remove_nas & na_columns != "") {
+  if(remove_nas & length(na_columns) > 0) {
 
     na_col_syms <- dplyr::syms(na_columns)
 
