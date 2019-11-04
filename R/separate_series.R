@@ -21,7 +21,7 @@
 #'
 #' @importFrom stringr str_count
 #' @importFrom stringi stri_trim_both
-#' @importFrom dplyr filter mutate_at syms
+#' @importFrom dplyr filter mutate_at sym
 #' @importFrom tidyr separate
 #' @importFrom purrr map_dfr
 
@@ -89,18 +89,16 @@ separate_series <- function(data,
 
   if(remove_nas & length(na_columns) > 0) {
 
-    na_col_syms <- dplyr::syms(na_columns)
+    remove_na_fn <- function(df, column) {
+      col_sym <- dplyr::sym(column)
 
-    remove_na_fn <- function(data, column) {
-
-      data %>%
-        filter(!is.na( {{ column }} ))
-
+      df %>%
+        filter(!is.na(!!col_sym))
     }
 
-    data_separated <- purrr::map_dfr(.x = na_col_syms,
+    data_separated <- purrr::map_dfr(.x = na_columns,
         .f = remove_na_fn,
-        data = data_separated)
+        df = data_separated)
 
     message("Rows with NAs in separated series column(s) have been removed.")
 

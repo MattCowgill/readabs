@@ -5,7 +5,8 @@
 \title{Download a tidy tibble containing the Consumer Price Index from the ABS}
 \usage{
 read_cpi(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-  show_progress_bars = TRUE, retain_files = FALSE)
+  show_progress_bars = TRUE, check_local = FALSE,
+  retain_files = FALSE)
 }
 \arguments{
 \item{path}{character; default is "data/ABS". Only used if retain_files is set to
@@ -13,6 +14,8 @@ TRUE. Local directory in which to save downloaded ABS time series spreadsheets.}
 
 \item{show_progress_bars}{logical; TRUE by default. If set to FALSE, progress
 bars will not be shown when ABS spreadsheets are downloading.}
+
+\item{check_local}{logical; FALSE by default. See \code{?read_abs}.}
 
 \item{retain_files}{logical; FALSE by default. When TRUE, the spreadsheets
 downloaded from the ABS website will be saved in the directory specified with 'path'.}

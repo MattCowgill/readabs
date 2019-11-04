@@ -14,6 +14,8 @@
 #' @param show_progress_bars logical; TRUE by default. If set to FALSE, progress
 #' bars will not be shown when ABS spreadsheets are downloading.
 #'
+#' @param check_local logical; FALSE by default. See \code{?read_abs}.
+#'
 #' @param retain_files logical; FALSE by default. When TRUE, the spreadsheets
 #' downloaded from the ABS website will be saved in the directory specified with 'path'.
 #'
