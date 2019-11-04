@@ -19,7 +19,8 @@
 #'
 #' \donttest{motor_vehicles <- read_abs("9314.0") %>% separate_series()}
 #'
-#' @importFrom stringr str_extract str_replace_all str_squish str_count
+#' @importFrom stringr str_count
+#' @importFrom stringi stri_trim_both
 #' @importFrom dplyr filter mutate_at syms
 #' @importFrom tidyr separate
 #' @importFrom purrr map_dfr
@@ -37,16 +38,21 @@ separate_series <- function(data,
   data <- mutate(data,
                  original_series = series)
 
+  fast_str_squish <- function(string) {
+    stringi::stri_trim_both(gsub("\\s+", " ", string, perl = TRUE))
+  }
+
   # Minor data cleaning of series column
   data <- mutate(data,
-                 series = str_extract(series, ".+(?= ;)"), #Extract everything before trailing ;
-                 series = str_replace_all(series, pattern = ">", replacement = ""),
-                 series = str_squish(series))
+                 series = regmatches(series,
+                                     regexpr(".+(?= ;)", series, perl = TRUE)), #Extract everything before trailing ;
+                 series = gsub(pattern = ">", series, replacement = "", perl = TRUE),
+                 series = fast_str_squish(series))
 
   # Filter totals if specified
   if(remove_totals){
     data <- filter(data,
-                   !grepl("total", series, ignore.case = T))
+                   !grepl("total", series, ignore.case = T, perl = TRUE))
   }
 
   # Determine number of ; separators in series column
@@ -66,7 +72,7 @@ separate_series <- function(data,
                              sep = ";",
                              remove = FALSE,
                              fill = "left") %>%
-    mutate_at(.vars = vars(column_names), str_squish)
+    mutate_at(.vars = vars(column_names), fast_str_squish)
 
 
   # check for columns with NAs
