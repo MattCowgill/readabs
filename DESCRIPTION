@@ -27,6 +27,7 @@ Imports:
     purrr,
     tidyr, 
     stringr,
+    stringi,
     rsdmx, 
     readr,
     tools

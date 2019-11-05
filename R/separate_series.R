@@ -19,8 +19,9 @@
 #'
 #' \donttest{motor_vehicles <- read_abs("9314.0") %>% separate_series()}
 #'
-#' @importFrom stringr str_extract str_replace_all str_squish str_count
-#' @importFrom dplyr filter mutate_at syms
+#' @importFrom stringr str_count
+#' @importFrom stringi stri_trim_both
+#' @importFrom dplyr filter mutate_at sym
 #' @importFrom tidyr separate
 #' @importFrom purrr map_dfr
 
@@ -37,16 +38,21 @@ separate_series <- function(data,
   data <- mutate(data,
                  original_series = series)
 
+  fast_str_squish <- function(string) {
+    stringi::stri_trim_both(gsub("\\s+", " ", string, perl = TRUE))
+  }
+
   # Minor data cleaning of series column
   data <- mutate(data,
-                 series = str_extract(series, ".+(?= ;)"), #Extract everything before trailing ;
-                 series = str_replace_all(series, pattern = ">", replacement = ""),
-                 series = str_squish(series))
+                 series = regmatches(series,
+                                     regexpr(".+(?= ;)", series, perl = TRUE)), #Extract everything before trailing ;
+                 series = gsub(pattern = ">", series, replacement = "", perl = TRUE),
+                 series = fast_str_squish(series))
 
   # Filter totals if specified
   if(remove_totals){
     data <- filter(data,
-                   !grepl("total", series, ignore.case = T))
+                   !grepl("total", series, ignore.case = T, perl = TRUE))
   }
 
   # Determine number of ; separators in series column
@@ -66,31 +72,33 @@ separate_series <- function(data,
                              sep = ";",
                              remove = FALSE,
                              fill = "left") %>%
-    mutate_at(.vars = vars(column_names), str_squish)
+    mutate_at(.vars = vars(column_names), fast_str_squish)
 
 
   # check for columns with NAs
-  na_columns <- paste0(colnames(data_separated)[colSums(is.na(data_separated)) > 0],
-                       collapse = ", ")
+  na_columns <- colnames(data_separated)[colSums(is.na(data_separated)) > 0]
 
-  if(na_columns != "" & !remove_nas){warning(na_columns, " column(s) have NA values.", call. = TRUE)}
+  if(length(na_columns) > 0 & !remove_nas){
+
+    warning(paste0(na_columns, collapse = ", "),
+            " column(s) have NA values.", call. = TRUE)
+
+  }
 
   # filter NAs in new series columns
 
-  if(remove_nas & na_columns != "") {
+  if(remove_nas & length(na_columns) > 0) {
 
-    na_col_syms <- dplyr::syms(na_columns)
+    remove_na_fn <- function(df, column) {
+      col_sym <- dplyr::sym(column)
 
-    remove_na_fn <- function(data, column) {
-
-      data %>%
-        filter(!is.na( {{ column }} ))
-
+      df %>%
+        filter(!is.na(!!col_sym))
     }
 
-    data_separated <- purrr::map_dfr(.x = na_col_syms,
+    data_separated <- purrr::map_dfr(.x = na_columns,
         .f = remove_na_fn,
-        data = data_separated)
+        df = data_separated)
 
     message("Rows with NAs in separated series column(s) have been removed.")
 

@@ -14,6 +14,8 @@
 #' @param show_progress_bars logical; TRUE by default. If set to FALSE, progress
 #' bars will not be shown when ABS spreadsheets are downloading.
 #'
+#' @param check_local logical; FALSE by default. See \code{?read_abs}.
+#'
 #' @param retain_files logical; FALSE by default. When TRUE, the spreadsheets
 #' downloaded from the ABS website will be saved in the directory specified with 'path'.
 #'
@@ -32,6 +34,7 @@
 
 read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = TRUE,
+                     check_local = FALSE,
                      retain_files = FALSE){
 
   if(!is.logical(retain_files)) {
@@ -51,6 +54,7 @@ read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
   cpi_raw <- read_abs(cat_no = "6401.0",
                       tables = 1,
                       retain_files = retain_files,
+                      check_local = check_local,
                       show_progress_bars = show_progress_bars,
                       path = path)
 
