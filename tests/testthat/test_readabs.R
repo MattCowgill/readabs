@@ -103,13 +103,13 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
 
             check_abs_site()
 
-            wpi_1 <- read_abs("6345.0", tables = "7a", retain_files = FALSE, path = tempdir())
+            wpi_1 <- read_abs("6345.0", tables = "1", retain_files = FALSE, path = tempdir())
 
             expect_is(wpi_1, "data.frame")
 
             expect_equal(length(colnames(wpi_1)), 12)
 
-            expect_gt(nrow(wpi_1), 263)
+            expect_gt(nrow(wpi_1), 2400)
 
             expect_is(wpi_1$date, "Date")
 
