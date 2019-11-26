@@ -148,20 +148,30 @@ read_abs <- function(cat_no = NULL,
 
   # check that R has access to the internet
 
-  if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
-
-    stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
-         Please check your internet connection and security settings." )
-
+  # Function is used as a backup check if curl::nslookup fails
+  # From: https://stackoverflow.com/a/5078002/10677884
+  havingIP <- function() {
+    if (.Platform$OS.type == "windows") {
+      ipmessage <- system("ipconfig", intern = TRUE)
+    } else {
+      ipmessage <- system("ifconfig", intern = TRUE)
+    }
+    validIP <- "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)[.]){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+    any(grep(validIP, ipmessage))
   }
 
+  if(is.null(curl::nslookup("abs.gov.au", error = FALSE)) && havingIP()){
+    stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
+         Please check your internet connection and security settings." )
+  }
+
+  # Create URLs to query the ABS Time Series Directory
   xml_urls <- form_abs_tsd_url(cat_no = cat_no,
                                tables = tables,
                                series_id = series_id)
 
 
   # find spreadsheet URLs from cat_no in the Time Series Directory
-
   download_message <- ifelse(!is.null(cat_no), paste0("catalogue ", cat_no),
                              "series ID ")
 
