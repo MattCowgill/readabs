@@ -160,7 +160,7 @@ read_abs <- function(cat_no = NULL,
     any(grep(validIP, ipmessage))
   }
 
-  if(is.null(curl::nslookup("abs.gov.au", error = FALSE)) && havingIP()){
+  if(is.null(curl::nslookup("abs.gov.au", error = FALSE)) && !havingIP()){
     stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
          Please check your internet connection and security settings." )
   }
