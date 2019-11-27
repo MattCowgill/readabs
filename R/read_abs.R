@@ -148,21 +148,25 @@ read_abs <- function(cat_no = NULL,
 
   # check that R has access to the internet
 
-  # Function is used as a backup check if curl::nslookup fails
-  # From: https://stackoverflow.com/a/5078002/10677884
-  havingIP <- function() {
-    if (.Platform$OS.type == "windows") {
-      ipmessage <- system("ipconfig", intern = TRUE)
-    } else {
-      ipmessage <- system("ifconfig", intern = TRUE)
-    }
-    validIP <- "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)[.]){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
-    any(grep(validIP, ipmessage))
+  # Function to try accessing abs.gov.au/robots.txt. If this fails, return FALSE
+  test_abs_robots <- function() {
+    tmp <- tempfile()
+    on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
+    tryCatch(
+      suppressWarnings(utils::download.file("https://www.abs.gov.au/robots.txt",
+                           tmp, quiet = TRUE)),
+      error = function(e) {
+        FALSE
+      }
+    )
   }
 
-  if(is.null(curl::nslookup("abs.gov.au", error = FALSE)) && !havingIP()){
-    stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
-         Please check your internet connection and security settings." )
+  # Try nslookup. If this fails, try accessing abs.gov.au/robots.txt
+  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
+    if (test_abs_robots() == FALSE) {
+      stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
+         Please check your internet connection and security settings.")
+    }
   }
 
   # Create URLs to query the ABS Time Series Directory
