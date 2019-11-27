@@ -156,9 +156,10 @@ read_abs <- function(cat_no = NULL,
       suppressWarnings(utils::download.file("https://www.abs.gov.au/robots.txt",
                            tmp, quiet = TRUE)),
       error = function(e) {
-        FALSE
+        return(FALSE)
       }
     )
+    TRUE
   }
 
   # Try nslookup. If this fails, try accessing abs.gov.au/robots.txt
