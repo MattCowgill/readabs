@@ -152,19 +152,22 @@ read_abs <- function(cat_no = NULL,
   test_abs_robots <- function() {
     tmp <- tempfile()
     on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
-    tryCatch(
-      suppressWarnings(utils::download.file("https://www.abs.gov.au/robots.txt",
-                           tmp, quiet = TRUE)),
+    result <- tryCatch(
+      {suppressWarnings(utils::download.file("https://www.abs.gov.au/robots.txt",
+                                             destfile = tmp,
+                                             quiet = TRUE))
+       file.exists(tmp)
+      },
       error = function(e) {
-        return(FALSE)
+        FALSE
       }
     )
-    TRUE
+    return(result)
   }
 
   # Try nslookup. If this fails, try accessing abs.gov.au/robots.txt
   if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    if (test_abs_robots() == FALSE) {
+    if (isFALSE(test_abs_robots())) {
       stop("R cannot access the ABS website. `read_abs()` requires access to the ABS site.
          Please check your internet connection and security settings.")
     }
