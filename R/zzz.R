@@ -8,6 +8,3 @@
   }
   invisible(NULL)
 }
-
-
-

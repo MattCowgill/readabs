@@ -21,12 +21,15 @@ catno2fst <- function(cat_no,
                                  "fst",
                                  paste0(gsub(".", "-", cat_no, fixed = TRUE),
                                         ".fst")),
-                       on_failure = stop("`path = ", normalizePath(path, winslash = "/"), "`, ",
+                       on_failure = stop("`path = ", normalizePath(path,
+                                                                   winslash = "/"),
+                                         "`, ",
                                          "but it was not possible to write to this directory."))
 }
 
 fst_available <- function(cat_no,
-                          path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
+                          path = Sys.getenv("R_READABS_PATH",
+                                            unset = tempdir())) {
   if (!requireNamespace("fst", quietly = TRUE) ||
       !dir.exists(path)) {
     return(FALSE)
@@ -59,13 +62,3 @@ fst_available <- function(cat_no,
 ext2ext <- function(file, new.ext) {
   paste0(tools::file_path_sans_ext(file), new.ext)
 }
-
-
-
-
-
-
-
-
-
-

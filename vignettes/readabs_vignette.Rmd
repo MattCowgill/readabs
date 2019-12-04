@@ -25,15 +25,13 @@ When working with time series data from the Australian Bureau of Statistics (ABS
 2. Read the data into R; and
 3. Tidy the data.
 
-The readabs package provides functions to help you with each of those steps. One key function will help streamline the process of analysing ABS time series data:
-
-* `read_abs()` downloads, reads, and tidies the data.
+The {readabs} package provides functions to help you with each of those steps. One key function  -- `read_abs()` -- streamlines the process for you.
 
 The `separate_series()` function also helps with step three, tidying the data. You use it in conjunction with `read_abs()` - see the examples below.
 
 Another function, `read_abs_local()` is useful if you have already downloaded ABS time series spreadsheet to disk; it imports and tidies the spreadsheets.
 
-## The messiness of ABS time series
+## The problem: ABS time series data is messy
 
 If you want to visualise or analyse data in R, you will often need to tidy it first. In [tidy data](http://vita.had.co.nz/papers/tidy-data.html):
 
@@ -52,19 +50,11 @@ ABS time series data is not tidy. Tidying it requires a bit of work. This screen
 include_graphics("VIGNETTE-spreadsheet-screenshot.png")
 ```
 
-readabs does a lot of the work of tidying these spreadsheets for you, so you can get to your analysis more quickly.
+{readabs} does a lot of the work of tidying these spreadsheets for you, so you can get to your analysis more quickly.
 
-## readabs only works with time series
+## The solution: `read_abs()`
 
-The spreadsheets on the ABS website are divided into one of two categories: **time series spreadsheets** and **data cubes**. For example, the main [Labour Force](https://abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/6202.0Dec%202018?OpenDocument) release contains both: 
-
-```{r out.width = "100%", echo = FALSE}
-include_graphics("VIGNETTE-6202-screenshot.png")
-```
-
-The readabs package can download and tidy data contained in ABS time series spreadsheets. It can't download or tidy any spreadsheet the ABS describes as a 'data cube'.
-
-## How to use read_abs() to get a whole catalogue number
+### Getting a whole catalogue number worth of time series data
 
 The main function in the package is `read_abs()`. If you give it an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. Easy!
 
@@ -99,10 +89,9 @@ All the metadata from the time series spreadsheets is included in the data frame
 * `series_id` is a unique identifier given by the ABS to each time series; and
 * `unit` tells us the unit of measurement, such as '000s', 'Index Numbers', 'Percent' or '000 hours'.
 
-The `table_no` and `sheet_no` columns will help you if you need to cross-check information on the ABS spreadsheet  - `table_no` matches the filename of the spreadsheet (eg. '634501.xls') and `sheet_no` is the name of the Excel worksheet within the file that contains the time series.
+The `table_no` and `sheet_no` columns will help you if you need to cross-check information on the ABS spreadsheet  - `table_no` matches the filename of the spreadsheet (eg. '634501.xls') and `sheet_no` is the name of the Excel worksheet within the file that contains the time series. 
 
-
-## How to use read_abs() to get individual table(s)
+### Get individual table(s)
 
 Unless you tell it otherwise, `read_abs()` will get all the time series spreadsheets from a given catalogue number.
 
@@ -126,14 +115,14 @@ glimpse(lfs_1_5)
 
 ```
 
-The `tables` argument can be either a numeric vector (eg. `c(1, 5)`) or a character vector (eg. c("1", "5a")).
+The `tables` argument can be either a numeric vector (eg. `c(1, 5)`) or a character vector (eg. `c("1", "5a")`).
 
 
-## I've imported the data... now what?
+## Use `separate_series()` to work with your data
 
-Because `read_abs()` does the work for you of getting your data in a tidy (long) format, it's easier to filter to the data you're interested in and generate output (like graphs) using the [Tidyverse](https://www.tidyverse.org) packages, such as `dplyr` and `ggplot2`.
+The `read_abs()` function does a lot of the work for you by getting your data in a tidy (long) format. This makes it easier to filter to the data you're interested in and generate output (like graphs) using the [Tidyverse](https://www.tidyverse.org) packages, such as `dplyr` and `ggplot2`. You'll often want to do some further cleaning up of the data to make it easier to work with. This is where the `separate_series()` function comes in handy.
 
-In this example, we'll work with data from the Labour Force survey that we downloaded and tidied earlier using `read_abs()`. First, load the packages you need:
+In this example, we'll work with data from the Labour Force survey that we downloaded and tidied earlier using `read_abs()`.
 
 Now let's have a look at the time series from table 1 of the Labour Force survey:
 
@@ -141,7 +130,7 @@ Now let's have a look at the time series from table 1 of the Labour Force survey
 unique(lfs_1$series)
 ```
 
-OK! There's a bunch of data in here. We can see that the `series` column contains a first part, like "Participation rate" or "Unemployment rate", and a second part, which is "Persons", "Males", or "Females". You will often want to filter using one or both of these components separately - and sometimes there will be more than two components.
+There's a bunch of data in here. We can see that the `series` column contains a first part, like "Participation rate" or "Unemployment rate", and a second part, which is "Persons", "Males", or "Females". You will often want to filter using one or both of these components separately - and sometimes there will be more than two components.
 
 The `separate_series` function helps you by separating the `series` column into multiple components and removing extraneous symbols.
 
@@ -219,9 +208,19 @@ unique(employed$series)
 
 A benefit of this approach is that the filtering is done for you - the data frame only contains the series you're interested in.
 
+## {readabs} only works with time series
+
+The spreadsheets on the ABS website are divided into one of two categories: **time series spreadsheets** and **data cubes**. For example, the main [Labour Force](https://abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/6202.0Dec%202018?OpenDocument) release contains both: 
+
+```{r out.width = "100%", echo = FALSE}
+include_graphics("VIGNETTE-6202-screenshot.png")
+```
+
+The readabs package can download and tidy data contained in ABS time series spreadsheets. It can't download or tidy any spreadsheet the ABS describes as a 'data cube'.
+
 ## Why is my hard drive filling up with spreadsheets?
 
-The `read_abs()` function downloads spreadsheets from the ABS website, then loads them into R, then tidies them. 
+The `read_abs()` function downloads spreadsheets from the ABS website to your machine, then loads them into R, then tidies them. 
 
 By default, the spreadsheets will be saved in the directory specified by the environment variable `R_READABS_PATH` or, if it is unset, a temporary directory. You can change this location for a specific instance by using the `path` argument to `read_abs()`.
 

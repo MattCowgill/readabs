@@ -18,24 +18,24 @@ status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.or
 
 ## Overview
 
-readabs helps you easily download, import, and tidy time series data
-from the Australian Bureau of Statistics from within R. This saves you
-time manually downloading and tediously tidying time series data and
-allows you to spend more time on your analysis.
+{readabs} helps you easily download, import, and tidy time series data
+from the Australian Bureau of Statistics within R. This saves you time
+manually downloading and tediously tidying time series data and allows
+you to spend more time on your analysis.
 
-We’d welcome Github issues containing error reports or feature requests.
+Github issues containing error reports or feature requests are welcome.
 Alternatively you can email the package maintainer at mattcowgill at
 gmail dot com.
 
 ## Installation
 
-Install the latest CRAN version of **readabs** with:
+Install the latest CRAN version of {readabs} with:
 
 ``` r
 install.packages("readabs")
 ```
 
-You can install the developer version of **readabs** from GitHub with:
+You can install the developer version of {readabs} from GitHub with:
 
 ``` r
 # if you don't have devtools installed, first run:
@@ -43,9 +43,127 @@ You can install the developer version of **readabs** from GitHub with:
 devtools::install_github("mattcowgill/readabs")
 ```
 
+## Usage
+
+There is one key function in {readabs}. It is `read_abs()`, which
+downloads, imports, and tidies time series data from the ABS website.
+
+There are some other functions you may find useful.
+
+  - `read_abs_local()` imports and tidies time series data from ABS
+    spreadsheets stored on a local drive.
+  - `separate_series()` splits the `series` column of a tidied ABS time
+    series spreadsheet into multiple columns, reducing the manual
+    wrangling that’s needed to work with the data.
+
+Both `read_abs()` and `read_abs_local()` return a single tidy data frame
+(tibble).
+
+## Examples
+
+To download all the time series data from an ABS catalogue number to
+your disk, and import the data to R as a single tidy data frame, use
+`read_abs()`.
+
+First we’ll load {readabs} and the {tidyverse}:
+
+``` r
+library(readabs)
+#> Environment variable 'R_READABS_PATH' is unset. Downloaded files will be saved in a temporary directory.
+#> You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use
+#>  Sys.setenv(R_READABS_PATH = <path>)
+library(tidyverse)
+#> ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+#> ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
+#> ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+#> ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+#> ✔ readr   1.3.1     ✔ forcats 0.4.0
+#> ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
+```
+
+Now we’ll create one data frame that contains all the time series data
+from the Wage Price Index, catalogue number 6345.0:
+
+``` r
+all_wpi <- read_abs("6345.0")
+#> Finding filenames for tables corresponding to ABS catalogue 6345.0
+#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
+#> Extracting data from downloaded spreadsheets
+#> Tidying data from imported ABS spreadsheets
+```
+
+This is what it looks like:
+
+``` r
+str(all_wpi)
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    56819 obs. of  12 variables:
+#>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
+#>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
+#>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
+#>  $ date            : Date, format: "1997-09-01" "1997-12-01" ...
+#>  $ series          : chr  "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
+#>  $ value           : num  67.4 67.9 68.5 68.8 69.6 70 70.4 70.8 71.5 71.9 ...
+#>  $ series_type     : chr  "Original" "Original" "Original" "Original" ...
+#>  $ data_type       : chr  "INDEX" "INDEX" "INDEX" "INDEX" ...
+#>  $ collection_month: chr  "3" "3" "3" "3" ...
+#>  $ frequency       : chr  "Quarter" "Quarter" "Quarter" "Quarter" ...
+#>  $ series_id       : chr  "A2603039T" "A2603039T" "A2603039T" "A2603039T" ...
+#>  $ unit            : chr  "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
+```
+
+It only takes you a few lines of code to make a graph from your data:
+
+``` r
+all_wpi %>%
+  filter(series == "Percentage Change From Corresponding Quarter of Previous Year ;  Australia ;  Total hourly rates of pay excluding bonuses ;  Private and Public ;  All industries ;",
+         !is.na(value)) %>%
+  ggplot(aes(x = date, y = value, col = series_type)) +
+  geom_line() +
+  theme_minimal() +
+  labs(y = "Annual wage growth (per cent)")
+```
+
+![](man/figures/README-all-in-one-example-1.png)<!-- -->
+
+In the example above we downloaded all the time series from a catalogue
+number. This will often be overkill. If you know the data you need is in
+a particular table, you can just get that table like this:
+
+``` r
+wpi_t1 <- read_abs("6345.0", tables = 1)
+#> Warning in read_abs("6345.0", tables = 1): `tables` was provided, yet
+#> `check_local = TRUE` and fst files are available so `tables` will be ignored.
+```
+
+If you want multiple tables, but not the whole catalogue, that’s easy
+too:
+
+``` r
+wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
+#> Warning in read_abs("6345.0", tables = c("1", "5a")): `tables` was provided, yet
+#> `check_local = TRUE` and fst files are available so `tables` will be ignored.
+```
+
+In most cases, the `series` column will contain multiple components,
+separated by ‘;’. The `separate_series()` function can help wrangling
+this column.
+
+For more examples, please see the readabs vignette (run
+`browseVignettes("readabs")`).
+
 ## New in recent versions
 
-In version 0.4.2 of the readabs package,
+In 0.4.3,
+
+  - `read_abs()` checks to see if you are connected to the internet, and
+    can connect to the ABS website, before trying to download data. The
+    method used for checking connectivity has been improved, to make the
+    function compatible with a broader range of IT environments. Thanks
+    to Oscar Lane for noticing the issue and proposing a fix.
+
+In 0.4.2,
 
   - The default path for files downloaded by `read_abs()` is now set by
     an environment variable, rather than defaulting to ‘data/ABS’. If
@@ -75,91 +193,7 @@ In 0.4.0,
     will be stored in a temporary directory
   - Some minor bug fixes and enhances - see NEWS for details.
 
-## Usage
-
-There is one key function in **readabs**. It is:
-
-  - `read_abs()`, which downloads, imports, and tidies time series data
-    from the ABS website.
-
-There are some other functions you may find useful.
-
-  - `read_abs_local()` imports and tidies time series data from ABS
-    spreadsheets stored on a local drive.
-  - `separate_series()` splits the `series` column of a tidied ABS time
-    series spreadsheet into multiple columns, reducing the manual
-    wrangling that’s needed to work with the data.
-
-Both `read_abs()` and `read_abs_local()` return a single tidy data frame
-(tibble) containing long data.
-
-## Examples
-
-To download all the time series data from an ABS catalogue number to
-your disk, and import the data to R as a single tidy data frame, use
-`read_abs()`. Here’s an example with the Wage Price Index, catalogue
-number 6345.0:
-
-``` r
-library(readabs)
-#> Environment variable 'R_READABS_PATH' is unset. Downloaded files will be saved in a temporary directory.
-#> You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use
-#>  Sys.setenv(R_READABS_PATH = <path>)
-
-all_wpi <- read_abs("6345.0")
-#> Finding filenames for tables corresponding to ABS catalogue 6345.0
-#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
-#> Extracting data from downloaded spreadsheets
-#> Tidying data from imported ABS spreadsheets
-
-str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    56276 obs. of  12 variables:
-#>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
-#>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
-#>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
-#>  $ date            : Date, format: "1997-09-01" "1997-12-01" ...
-#>  $ series          : chr  "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
-#>  $ value           : num  67.4 67.9 68.5 68.8 69.6 70 70.4 70.8 71.5 71.9 ...
-#>  $ series_type     : chr  "Original" "Original" "Original" "Original" ...
-#>  $ data_type       : chr  "INDEX" "INDEX" "INDEX" "INDEX" ...
-#>  $ collection_month: chr  "3" "3" "3" "3" ...
-#>  $ frequency       : chr  "Quarter" "Quarter" "Quarter" "Quarter" ...
-#>  $ series_id       : chr  "A2603039T" "A2603039T" "A2603039T" "A2603039T" ...
-#>  $ unit            : chr  "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
-```
-
-Maybe you only want a particular table? Here’s how you get a single
-table:
-
-``` r
-
-wpi_t1 <- read_abs("6345.0", tables = 1)
-#> Finding filenames for tables corresponding to ABS catalogue 6345.0
-#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
-#> Extracting data from downloaded spreadsheets
-#> Tidying data from imported ABS spreadsheets
-```
-
-If you want multiple tables, but not the whole catalogue, that’s easy
-too:
-
-``` r
-
-wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
-#> Finding filenames for tables corresponding to ABS catalogue 6345.0
-#> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
-#> Extracting data from downloaded spreadsheets
-#> Tidying data from imported ABS spreadsheets
-```
-
-In many cases, the `series` column will contain multiple components,
-separated by ‘;’. The `separate_series()` function can help wrangling
-this column.
-
-For more examples, please see the readabs vignette (run
-`browseVignettes("readabs")`).
-
-## Mentioned in Awesome Official Statistics Software
+## Awesome Official Statistics Software
 
 [![Mentioned in Awesome Official
 Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
@@ -171,9 +205,8 @@ that can be used to work with official statistics.
 ## Package history
 
 From version 0.3.0, `readabs` gained significant new functionality and
-the package changed substantially.
-
-Pre-0.3.0 functions still work, but `read_abs_data()` is -deprecated.
-The behaviour of `read_abs_metadata()` has changed and the function is
-deprecated. The old version of `readabs` is available in the [0.2.9
-branch on Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
+the package changed substantially. Pre-0.3.0 functions still work, but
+`read_abs_data()` is deprecated. The behaviour of `read_abs_metadata()`
+has changed and the function is deprecated. The old version of `readabs`
+is available in the [0.2.9 branch on
+Github](https://github.com/MattCowgill/readabs/tree/0.2.9).
