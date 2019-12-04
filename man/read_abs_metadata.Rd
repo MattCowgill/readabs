@@ -2,7 +2,8 @@
 % Please edit documentation in R/read_abs_data.R
 \name{read_abs_metadata}
 \alias{read_abs_metadata}
-\title{Extracts ABS series metadata directly from Excel spreadsheets and converts to long-form.}
+\title{Extracts ABS series metadata directly from Excel spreadsheets and
+converts to long-form.}
 \usage{
 read_abs_metadata(path, sheet)
 }
@@ -15,5 +16,6 @@ read_abs_metadata(path, sheet)
 Long-form dataframe
 }
 \description{
-Extracts ABS series metadata directly from Excel spreadsheets and converts to long-form.
+Extracts ABS series metadata directly from Excel spreadsheets and
+converts to long-form.
 }

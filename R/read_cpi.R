@@ -25,7 +25,7 @@
 #' @examples
 #'
 #' # Create a tibble called 'cpi' that contains the CPI index
-#' numbers for each quarter
+#' # numbers for each quarter
 #'
 #' \donttest{cpi <- read_cpi()}
 #'

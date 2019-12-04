@@ -12,8 +12,9 @@ read_cpi(
 )
 }
 \arguments{
-\item{path}{character; default is "data/ABS". Only used if retain_files is set to
-TRUE. Local directory in which to save downloaded ABS time series spreadsheets.}
+\item{path}{character; default is "data/ABS". Only used if
+retain_files is set to TRUE. Local directory in which to save
+downloaded ABS time series spreadsheets.}
 
 \item{show_progress_bars}{logical; TRUE by default. If set to FALSE, progress
 bars will not be shown when ABS spreadsheets are downloading.}
@@ -21,20 +22,23 @@ bars will not be shown when ABS spreadsheets are downloading.}
 \item{check_local}{logical; FALSE by default. See \code{?read_abs}.}
 
 \item{retain_files}{logical; FALSE by default. When TRUE, the spreadsheets
-downloaded from the ABS website will be saved in the directory specified with 'path'.}
+downloaded from the ABS website will be saved in the
+directory specified with 'path'.}
 }
 \description{
-\code{read_cpi()} uses the \code{read_abs()} function to download, import, and tidy
-the Consumer Price Index from the ABS. It returns a tibble containing
-two columns: the date and the CPI index value that corresponds to that date. This
-makes joining the CPI to another dataframe easy. \code{read_cpi()}
-returns the original (ie. not seasonally adjusted) all groups CPI for Australia.
-If you want the analytical series (eg. seasonally adjusted CPI, or trimmed mean
-CPI), you can use \code{read_abs()}.
+\code{read_cpi()} uses the \code{read_abs()} function to download, import,
+and tidy the Consumer Price Index from the ABS. It returns a tibble
+containing two columns: the date and the CPI index value that corresponds
+to that date. This makes joining the CPI to another dataframe easy.
+\code{read_cpi()} returns the original (ie. not seasonally adjusted)
+all groups CPI for Australia. If you want the analytical series
+(eg. seasonally adjusted CPI, or trimmed mean CPI), you can use
+\code{read_abs()}.
 }
 \examples{
 
-# Create a tibble called 'cpi' that contains the CPI index numbers for each quarter
+# Create a tibble called 'cpi' that contains the CPI index
+# numbers for each quarter
 
 \donttest{cpi <- read_cpi()}
 

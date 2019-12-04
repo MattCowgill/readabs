@@ -11,7 +11,7 @@ Authors@R: c(
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
-Date: 2019-10-08
+Date: 2019-12-04
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -29,7 +29,6 @@ Imports:
     stringr,
     stringi,
     rsdmx, 
-    readr,
     tools
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues

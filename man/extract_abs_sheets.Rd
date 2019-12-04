@@ -12,8 +12,8 @@ extract_abs_sheets(
 )
 }
 \arguments{
-\item{filename}{Filename for an ABS time series spreadsheet (as string), such as
-"6202002.xls".}
+\item{filename}{Filename for an ABS time series spreadsheet (as string),
+such as "6202002.xls".}
 
 \item{table_title}{String giving the full title of the ABS table, such as
 "Table 1. Employed persons, Australia"}
@@ -22,7 +22,7 @@ extract_abs_sheets(
 `Sys.getenv("R_READABS_PATH", unset = tempdir())`.}
 }
 \description{
-Note that this function will not tidy the data for you. Use `read_abs_local()`
-to import and tidy data from local ABS time series spreadsheets or `read_abs()`
-to download, import and tidy ABS time series.
+Note that this function will not tidy the data for you.
+Use `read_abs_local()`to import and tidy data from local ABS time series
+spreadsheets or `read_abs()` to download, import and tidy ABS time series.
 }

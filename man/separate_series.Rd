@@ -15,12 +15,17 @@ separate_series(
 \item{data}{A data frame (tibble) containing tidied data from the ABS time
 series table(s).}
 
-\item{column_names}{(optional) character vector. Supply a vector of column names, such as
-\code{c("group_name", "variable","gender")}. If not supplied, columns will be named "series_1" etc.}
+\item{column_names}{(optional) character vector. Supply a vector of column
+names, such as \code{c("group_name", "variable","gender")}. If not
+supplied, columns will be named "series_1" etc.}
 
-\item{remove_totals}{logical. FALSE by default. If set to TRUE, any series rows that contain the word "total" will be removed.}
+\item{remove_totals}{logical. FALSE by default.
+If set to TRUE, any series rows that contain the word "total"
+will be removed.}
 
-\item{remove_nas}{locical. FALSE by default. If set to TRUE, any rows containining an NA in at least one of the separated series columns will be removed.}
+\item{remove_nas}{locical. FALSE by default. If set to TRUE, any rows
+containining an NA in at least one of the separated series columns
+will be removed.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time
@@ -28,7 +33,8 @@ series table(s).
 }
 \description{
 Separate the 'series' column in a data frame (tibble)
-downloaded using \code{read_abs()} into multiple columns using the ";" separator.
+downloaded using \code{read_abs()} into multiple columns using the ";"
+separator.
 }
 \examples{
 

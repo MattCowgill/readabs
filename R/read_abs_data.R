@@ -21,7 +21,7 @@ read_abs_data <- function(path, sheet) {
   colnames(dat)[1] <- "Date"
   dat$Date <- as.Date(as.integer(dat$`Date`), origin = "1899-12-30")
   dat <- tidyr::gather(dat, `series`, `value`, -`Date`)
-  dat$value <- readr::parse_double(dat$`value`)
+  dat$value <- as.numeric(dat$`value`)
 
   .Deprecated(new = "read_abs_local()",
               old = "read_abs_data()",

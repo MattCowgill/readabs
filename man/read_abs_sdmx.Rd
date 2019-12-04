@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_abs_sdmx.R
 \name{read_abs_sdmx}
 \alias{read_abs_sdmx}
-\title{Extracts ABS XML-formatted data using the exported XML link at http://www.abs.gov.au/}
+\title{Extracts ABS XML-formatted data using the SDMX API}
 \usage{
 read_abs_sdmx(url)
 }
@@ -13,7 +13,8 @@ read_abs_sdmx(url)
 data frame
 }
 \description{
-Access the sdmx URLs at 'http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide'
+Access the sdmx URLs at
+'http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide'
 }
 \examples{
 \donttest{
