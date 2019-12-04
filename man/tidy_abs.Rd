@@ -27,7 +27,7 @@ Tidy ABS time series data.
 \dontrun{wpi <- extract_abs_sheets("634501.xls")}
 
 # Then tidy the data extracted from the spreadsheet. Note that
-# \\code{extract_abs_sheets()} returns a list of data frames, so we need to
+# \code{extract_abs_sheets()} returns a list of data frames, so we need to
 # subset the list.
 
 \donttest{tidy_wpi <- tidy_abs(wpi[[1]])}

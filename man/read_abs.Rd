@@ -4,10 +4,16 @@
 \alias{read_abs}
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
-read_abs(cat_no = NULL, tables = "all", series_id = NULL,
+read_abs(
+  cat_no = NULL,
+  tables = "all",
+  series_id = NULL,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-  metadata = TRUE, show_progress_bars = TRUE, retain_files = TRUE,
-  check_local = TRUE)
+  metadata = TRUE,
+  show_progress_bars = TRUE,
+  retain_files = TRUE,
+  check_local = TRUE
+)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.

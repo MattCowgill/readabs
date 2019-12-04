@@ -1,3 +1,7 @@
+# readabs 0.4.3
+* Alternative method now used to check for internet access when running `read_abs()`; the function now works in a broader range of IT environments
+* README and vignette refined
+
 # readabs 0.4.2
 * Default path for `read_abs()` is now defined by an environmental variable; thanks to Hugh Parsonage for the idea and implementation.
 

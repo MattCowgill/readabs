@@ -4,9 +4,13 @@
 \alias{read_abs_local}
 \title{Read and tidy locally-saved ABS time series spreadsheet(s)}
 \usage{
-read_abs_local(cat_no = NULL, filenames = NULL,
+read_abs_local(
+  cat_no = NULL,
+  filenames = NULL,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-  use_fst = TRUE, metadata = TRUE)
+  use_fst = TRUE,
+  metadata = TRUE
+)
 }
 \arguments{
 \item{cat_no}{character; a single catalogue number such as "6202.0". When `cat_no`

@@ -4,8 +4,12 @@
 \alias{separate_series}
 \title{Separate the series column in a tidy ABS time series data frame}
 \usage{
-separate_series(data, column_names = NULL, remove_totals = FALSE,
-  remove_nas = FALSE)
+separate_series(
+  data,
+  column_names = NULL,
+  remove_totals = FALSE,
+  remove_nas = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame (tibble) containing tidied data from the ABS time
