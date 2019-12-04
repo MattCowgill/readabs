@@ -88,7 +88,7 @@ read_abs <- function(cat_no = NULL,
               "yet `check_local = TRUE` and fst files are available ",
               "so `tables` will be ignored.")
     }
-    out <- fst::read_fst(catno2fst(cat_no = cat_no, path = path))
+    out <- fst::read_fst(path = catno2fst(cat_no = cat_no, path = path))
     out <- tibble::as_tibble(out)
     if (is.null(series_id)) {
       return(out)
