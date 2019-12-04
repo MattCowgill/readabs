@@ -1,11 +1,11 @@
 #' Tidy ABS time series data.
 #'
-#' @param df A data frame containing ABS time series data that has been extracted
-#' using \code{extract_abs_sheets}.
+#' @param df A data frame containing ABS time series data
+#' that has been extracted using \code{extract_abs_sheets}.
 #'
-#' @param metadata logical. If `TRUE` (the default), a tidy data frame including
-#' ABS metadata (series name, table name, etc.) is included in the output. If
-#' `FALSE`, metadata is dropped.
+#' @param metadata logical. If `TRUE` (the default), a tidy data frame
+#' including ABS metadata (series name, table name, etc.) is
+#' included in the output. If `FALSE`, metadata is dropped.
 #'
 #' @return data frame (tibble) in long format.
 #'
@@ -28,29 +28,36 @@
 
 tidy_abs <- function(df, metadata = TRUE) {
 
-  unit=series=value=X__1=series_id=NULL
+  unit = series = value = X__1 = series_id = NULL
 
-  if(!"data.frame" %in% class(df)){
+  if (!"data.frame" %in% class(df)) {
     stop("Object does not appear to be a data frame; it cannot be tidied.")
   }
 
   # return an error if the df has <= 1 column
-  if(ncol(df) <= 1){
-    stop("The data frame appears to have fewer than 2 columns. This is unexpected from an ABS time series. Please check the spreadsheet.")
+  if (ncol(df) <= 1) {
+    stop("The data frame appears to have fewer than 2 columns.",
+         " This is unexpected from an ABS time series.",
+         " Please check the spreadsheet.")
   }
 
-  if(!is.logical(metadata)){
+  if (!is.logical(metadata)) {
     stop("`metadata` argument to tidy_abs() must be either `TRUE` or `FALSE`.")
   }
 
   # newer versions of tibble() and readxl() want to either leave the first
-  # colname blank or coerce it to something other than X__1 so we set it manually
+  # colname blank or coerce it to something other than X__1
+  # so we set it manually
   colnames(df)[1] <- "X__1"
 
-  # return an error if the sheet is not formatted as we expect from an ABS time series
+  # return an error if the sheet is not formatted as we expect
+  # from an ABS time series
 
-  if(df[9, 1] != "Series ID"){
-    stop("The data frame appears not to be formatted as we expect from an ABS time series. There should be 9 rows of metadata after the column names (eg. 'Series ID'). Please check the spreadsheet.")
+  if (df[9, 1] != "Series ID") {
+    stop("The data frame appears not to be formatted as we expect",
+         " from an ABS time series. There should be 9 rows of metadata",
+         " after the column names (eg. 'Series ID').",
+         " Please check the spreadsheet.")
   }
 
   # a bunch of columns have duplicate names which causes problems; temporarily
@@ -61,7 +68,7 @@ tidy_abs <- function(df, metadata = TRUE) {
 
   colnames(df)[2:ncol(df)] <- new_col_names
 
-  if(metadata == TRUE){
+  if (metadata == TRUE) {
   df <- df %>%
     tidyr::gather(key = series, value = value, -X__1) %>%
     dplyr::group_by(series) %>%
@@ -81,9 +88,9 @@ tidy_abs <- function(df, metadata = TRUE) {
     dplyr::mutate(series = sub("_[^_]+$", "", series))
   }
 
-  if(metadata == FALSE){
-    colnames(df) <- df[9,]
-    df <- df[-c(1:9),]
+  if (metadata == FALSE) {
+    colnames(df) <- df[9, ]
+    df <- df[-c(1:9), ]
     colnames(df)[1] <- "date"
 
     df <- df %>%

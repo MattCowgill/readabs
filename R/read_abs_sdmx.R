@@ -1,6 +1,6 @@
 # Function by Zoe Meers, United States Studies Centre
 
-#' Extracts ABS XML-formatted data using the exported XML link at http://www.abs.gov.au/
+#' Extracts ABS XML-formatted data using the SDMX API
 #'
 #' @param url URL weblink.
 #'
@@ -8,7 +8,8 @@
 #' @importFrom rsdmx readSDMX
 #' @export
 #'
-#' @description Access the sdmx URLs at 'http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide'
+#' @description Access the sdmx URLs at
+#' 'http://www.abs.gov.au/ausstats/abs@.nsf/Lookup/1407.0.55.002Main+Features4User+Guide'
 #'
 #' @examples
 #' \donttest{

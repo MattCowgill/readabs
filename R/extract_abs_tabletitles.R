@@ -1,7 +1,8 @@
-# Only used with read_abs_local, where we can't get the titles from the Time Series Directory
+# Only used with read_abs_local, where we can't get the titles from
+# the Time Series Directory
 #' @importFrom readxl read_xls
 
-extract_abs_tabletitles <- function(filename, path){
+extract_abs_tabletitles <- function(filename, path) {
 
   filename <- paste0(path, "/", filename)
 

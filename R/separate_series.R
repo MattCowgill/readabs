@@ -1,14 +1,20 @@
 #' Separate the series column in a tidy ABS time series data frame
 #'
 #' Separate the 'series' column in a data frame (tibble)
-#' downloaded using \code{read_abs()} into multiple columns using the ";" separator.
+#' downloaded using \code{read_abs()} into multiple columns using the ";"
+#' separator.
 #'
 #' @param data A data frame (tibble) containing tidied data from the ABS time
 #' series table(s).
-#' @param column_names (optional) character vector. Supply a vector of column names, such as
-#' \code{c("group_name", "variable","gender")}. If not supplied, columns will be named "series_1" etc.
-#' @param remove_totals logical. FALSE by default. If set to TRUE, any series rows that contain the word "total" will be removed.
-#' @param remove_nas locical. FALSE by default. If set to TRUE, any rows containining an NA in at least one of the separated series columns will be removed.
+#' @param column_names (optional) character vector. Supply a vector of column
+#' names, such as \code{c("group_name", "variable","gender")}. If not
+#' supplied, columns will be named "series_1" etc.
+#' @param remove_totals logical. FALSE by default.
+#' If set to TRUE, any series rows that contain the word "total"
+#' will be removed.
+#' @param remove_nas locical. FALSE by default. If set to TRUE, any rows
+#' containining an NA in at least one of the separated series columns
+#' will be removed.
 #'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
@@ -44,13 +50,15 @@ separate_series <- function(data,
 
   # Minor data cleaning of series column
   data <- mutate(data,
+                 #Extract everything before trailing ;
                  series = regmatches(series,
-                                     regexpr(".+(?= ;)", series, perl = TRUE)), #Extract everything before trailing ;
-                 series = gsub(pattern = ">", series, replacement = "", perl = TRUE),
+                                     regexpr(".+(?= ;)", series, perl = TRUE)),
+                 series = gsub(pattern = ">", series,
+                               replacement = "", perl = TRUE),
                  series = fast_str_squish(series))
 
   # Filter totals if specified
-  if(remove_totals){
+  if (remove_totals) {
     data <- filter(data,
                    !grepl("total", series, ignore.case = T, perl = TRUE))
   }
@@ -62,7 +70,7 @@ separate_series <- function(data,
   n_columns <- n_seps + 1
 
   # Create new column names if not specified
-  if(is.null(column_names)){
+  if (is.null(column_names)) {
     column_names <- paste("series", 1:n_columns, sep = "_")
   }
 
@@ -78,7 +86,7 @@ separate_series <- function(data,
   # check for columns with NAs
   na_columns <- colnames(data_separated)[colSums(is.na(data_separated)) > 0]
 
-  if(length(na_columns) > 0 & !remove_nas){
+  if (length(na_columns) > 0 & !remove_nas) {
 
     warning(paste0(na_columns, collapse = ", "),
             " column(s) have NA values.", call. = TRUE)
@@ -87,7 +95,7 @@ separate_series <- function(data,
 
   # filter NAs in new series columns
 
-  if(remove_nas & length(na_columns) > 0) {
+  if (remove_nas & length(na_columns) > 0) {
 
     remove_na_fn <- function(df, column) {
       col_sym <- dplyr::sym(column)
@@ -115,8 +123,3 @@ separate_series <- function(data,
   return(data_separated)
 
 }
-
-
-
-
-
