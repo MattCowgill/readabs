@@ -287,7 +287,13 @@ test_that("read_cpi() returns appropriate errors",{
 
 })
 
+test_that("read_abs() fails when offline", {
+  skip_if(curl::has_internet())
 
+  expect_error(read_abs("6202.0", 1),
+               regexp = "R cannot access the ABS website.")
+
+})
 
 
 
