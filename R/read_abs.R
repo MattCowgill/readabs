@@ -138,30 +138,19 @@ read_abs <- function(cat_no = NULL,
     warning("`tables` contains missing values, these will be removed.")
     tables <- tables[!is.na(tables)]
   }
-  if (!is.integer(tables) && length(tables) != 0L) {
-    if (is.character(tables)) {
-      if (length(tables) != 1L) {
-        stop("`tables` was character, but had length ", length(tables), ". ",
-             'The only valid character value for `tables` is "all".')
-      }
-      if (tables != "all") {
-        stop("`tables = ", tables, "`.",
-             'The only valid character value for `tables` is "all".')
-      }
-    } else {
-      # Edge case: if user supplies a very large number,
-      #   any(tables != as.integer(tables))
-      # below will return a cryptic error message (possibly during recursion).
-      # Unlikely to happen on purpose.
-      if (min(tables) < 0 || max(tables) > .Machine$integer.max) {
-        stop("`tables` was a numeric vector but had values outside [0, .Machine$integer.max]. ",
-             "These are unlikely values for table numbers and are ")
-      }
-      if (!is.numeric(tables) || any(tables != as.integer(tables))) {
-        stop("`tables` was not an integer(ish) vector of table numbers.")
-      }
-      tables <- as.integer(tables)
+  if (!is.integer(tables) && length(tables) != 0L && is.numeric(tables)) {
+    # Edge case: if user supplies a very large number,
+    #   any(tables != as.integer(tables))
+    # below will return a cryptic error message (possibly during recursion).
+    # Unlikely to happen on purpose.
+    if (min(tables) < 0 || max(tables) > .Machine$integer.max) {
+      stop("`tables` was a numeric vector but had values outside [0, .Machine$integer.max]. ",
+           "These are unlikely values for table numbers and are ")
     }
+    if (any(tables != as.integer(tables))) {
+      stop("`tables` was not an integer(ish) vector of table numbers.")
+    }
+    tables <- as.integer(tables)
   }
 
   if (!is.logical(metadata) || length(metadata) != 1L || is.na(metadata)) {
@@ -171,7 +160,7 @@ read_abs <- function(cat_no = NULL,
   if (check_local) {
     # In the case of table = "all" we simply get the fst file for
     # the whole cat_no. Equally simple is the case of a single
-    # table. Both are handled by length(tables <= 1L)
+    # table. Both are handled by length(tables) <= 1L
 
     # If len > 1 integer vector is supplied to tables, we recurse
     # for each element of tables, checking the table's fst file availability

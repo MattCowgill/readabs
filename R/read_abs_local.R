@@ -76,7 +76,7 @@ read_abs_local <- function(cat_no = NULL,
   }
 
   # Retrieve cache if available
-  if (is.null(filenames) && isTRUE(use_fst) && fst_available(cat_no, path)) {
+  if (is.null(filenames) && isTRUE(use_fst) && fst_available(cat_no, path = path)) {
     out <- fst::read_fst(path = catno2fst(cat_no = cat_no, path = path))
     return(tibble::as_tibble(out))
   }

@@ -30,8 +30,10 @@ catno2fst <- function(cat_no,
   basename.fst <- gsub(".", "-", cat_no, fixed = TRUE)
   if (length(table) == 0L || identical(table, "all")) {
     basename.fst <- paste0(basename.fst, ".fst")
-  } else {
+  } else if (is.integer(table)) {
     basename.fst <- paste0(basename.fst, sprintf("T%02d", table), ".fst")
+  } else {
+    basename.fst <- paste0(basename.fst, "T0", tolower(as.character(table)), ".fst")
   }
   fullname.fst <- file.path(path, "fst", basename.fst)
   hutils::provide.file(fullname.fst,
