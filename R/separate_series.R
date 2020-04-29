@@ -22,8 +22,7 @@
 #' @export
 #'
 #' @examples
-#'
-#' \donttest{motor_vehicles <- read_abs("9314.0") %>% separate_series()}
+#' \dontrun{motor_vehicles <- read_abs("9314.0") %>% separate_series()}
 #'
 #' @importFrom stringr str_count
 #' @importFrom stringi stri_trim_both

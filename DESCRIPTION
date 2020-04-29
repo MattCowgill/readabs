@@ -32,7 +32,7 @@ Imports:
     tools
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
-RoxygenNote: 7.0.1
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
 Suggests: 
     knitr,

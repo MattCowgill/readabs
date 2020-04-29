@@ -60,11 +60,11 @@
 #' # Download and tidy all time series spreadsheets
 #' # from the Wage Price Index (6345.0)
 #'
-#' \donttest{wpi <- read_abs("6345.0")}
+#' \dontrun{wpi <- read_abs("6345.0")}
 #'
 #' # Get two specific time series, based on their time series IDs
 #'
-#' \donttest{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
+#' \dontrun{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
 #'
 #' @importFrom purrr walk walk2 map map_dfr map2
 #' @importFrom curl nslookup

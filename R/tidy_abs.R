@@ -19,7 +19,7 @@
 #' # \code{extract_abs_sheets()} returns a list of data frames, so we need to
 #' # subset the list.
 #'
-#' \donttest{tidy_wpi <- tidy_abs(wpi[[1]])}
+#' \dontrun{tidy_wpi <- tidy_abs(wpi[[1]])}
 #'
 #' @importFrom purrr map_chr
 #' @import dplyr

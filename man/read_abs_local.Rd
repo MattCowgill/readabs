@@ -54,7 +54,7 @@ please use \code{read_abs()} instead.
  # Load and tidy two specified files from the "data/ABS" subdirectory
  # of your working directory
 
- \donttest{lfs <- read_abs_local(c("6202001.xls", "6202005.xls"))}
+ \dontrun{lfs <- read_abs_local(c("6202001.xls", "6202005.xls"))}
 
 
 }
