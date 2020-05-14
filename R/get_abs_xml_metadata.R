@@ -6,17 +6,17 @@
 # given a catalogue number, download the catalogue metadata via XML, then find
 # unique filenames in the latest release and return those
 
-get_abs_xml_metadata <- function(url, release_dates = "latest") {
+get_abs_xml_metadata <- function(url, issue = "latest") {
 
-  if (!release_dates %in% c("latest", "all")) {
-    stop("`release_dates` argument in get_abs_xml_metadata() must be either 'latest' or 'all'")
+  if (!issue %in% c("latest", "all")) {
+    stop("`issue` argument in get_abs_xml_metadata() must be either 'latest' or 'all'")
   }
 
   if (!is.character(url)) {
     stop("`url` argument to get_abs_xml_metadata() must be a string.")
   }
 
-  ProductReleaseDate = TableOrder = cat_no = NULL
+  ProductReleaseDate = TableOrder = cat_no = ProductIssue = NULL
 
   # Download the first page of metadata
   first_url <- paste0(url,
@@ -96,8 +96,8 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
   # create list of URLs of XML metadata to scrape
   full_urls <- paste0(url, "&pg=", all_pages)
 
-  # if release_dates = "all" then we get all pages of metadata;
-  # if release_dates = "latest" then we begin at the last page of metadata
+  # if issue = "all" then we get all pages of metadata;
+  # if issue = "latest" then we begin at the last page of metadata
   # and loop backwards through each page, extracting each page as a data frame,
   # until the release date of the data is not the maximum date, then stop
 
@@ -111,7 +111,7 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
     xml_dfs[[i]] <- xml_df
 
 
-    if (release_dates == "latest") {
+    if (issue == "latest") {
       date_in_df <- max(as.Date(xml_df$ProductReleaseDate, format = "%d/%m/%Y"),
                         na.rm = TRUE)
 
@@ -123,7 +123,7 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
       }
     }
 
-    if (release_dates == "all") {
+    if (issue == "all") {
       i <- i + 1
     }
 
@@ -137,10 +137,12 @@ get_abs_xml_metadata <- function(url, release_dates = "latest") {
   xml_dfs <- dplyr::bind_rows(xml_dfs)
 
   xml_dfs <- xml_dfs %>%
+    dplyr::mutate(ProductIssue = as.Date(paste0("01 ", ProductIssue),
+                                         format = "%d %b %Y")) %>%
     dplyr::mutate_at(c("ProductReleaseDate", "SeriesStart", "SeriesEnd"),
                      as.Date, format = "%d/%m/%Y")
 
-  if (release_dates == "latest") {
+  if (issue == "latest") {
     xml_dfs <- xml_dfs %>%
       dplyr::filter(ProductReleaseDate == max(ProductReleaseDate))
   }

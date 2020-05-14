@@ -198,7 +198,7 @@ read_abs <- function(cat_no = NULL,
 
   xml_dfs <- purrr::map_dfr(xml_urls,
                             .f = get_abs_xml_metadata,
-                            release_dates = "all")
+                            issue = "latest")
 
   # the same Series ID can appear in multiple spreadsheets;
   # we just want one (the latest)
