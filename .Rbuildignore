@@ -11,3 +11,5 @@
 ^LICENSE\.md$
 .Rprofile
 ^cran-comments\.md$
+^doc$
+^Meta$

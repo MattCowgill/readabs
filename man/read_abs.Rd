@@ -4,27 +4,36 @@
 \alias{read_abs}
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
-read_abs(cat_no = NULL, tables = "all", series_id = NULL,
-  path = "data/ABS", metadata = TRUE, show_progress_bars = TRUE,
-  retain_files = TRUE)
+read_abs(
+  cat_no = NULL,
+  tables = "all",
+  series_id = NULL,
+  path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+  metadata = TRUE,
+  show_progress_bars = TRUE,
+  retain_files = TRUE,
+  check_local = TRUE
+)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
 For example, "6202.0".}
 
-\item{tables}{numeric. Time series tables in `cat_no`` to download and extract. Default is "all",
-which will read all time series in `cat_no`. Specify `tables` to
-download and import specific tables(s) - eg. `tables = 1` or `tables = c(1, 5)`.}
+\item{tables}{numeric. Time series tables in `cat_no`` to download and
+extract. Default is "all", which will read all time series in `cat_no`.
+Specify `tables` to download and import specific tables(s) -
+eg. `tables = 1` or `tables = c(1, 5)`.}
 
 \item{series_id}{(optional) character. Supply an ABS unique time series
-identifier (such as "A2325807L") to get only that series. This is an alternative
-to specifying `cat_no`.}
+identifier (such as "A2325807L") to get only that series.
+This is an alternative to specifying `cat_no`.}
 
-\item{path}{Local directory in which to save downloaded ABS time series
-spreadsheets. Default is "data/ABS"; this subdirectory of your working
-directory will be created if it does not exist. Files are saved in a subdirectory of
-`path`; for example, if you run `read_abs("6202.0")` your files will be in
-"data/ABS/6202.0".}
+\item{path}{Local directory in which downloaded ABS time series
+spreadsheets should be stored. By default, `path` takes the value set in the
+environment variable "R_READABS_PATH". If this variable is not set,
+any files downloaded by read_abs()  will be stored in a temporary directory
+(\code{tempdir()}). See \code{Details} below for
+more information.}
 
 \item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
@@ -33,9 +42,12 @@ ABS metadata (series name, table name, etc.) is included in the output. If
 \item{show_progress_bars}{TRUE by default. If set to FALSE, progress bars
 will not be shown when ABS spreadsheets are downloading.}
 
-\item{retain_files}{when TRUE (the default), the spreadsheets downloaded from the
-ABS website will be saved in the directory specified with `path`. If set to `FALSE`,
-the files will be stored in a temporary directory.}
+\item{retain_files}{when TRUE (the default), the spreadsheets downloaded
+from the ABS website will be saved in the directory specified with `path`.
+If set to `FALSE`, the files will be stored in a temporary directory.}
+
+\item{check_local}{If `TRUE`, the default, local `fst` files are used,
+if present.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time
@@ -47,14 +59,30 @@ then extracts the data from those spreadsheets,
 then tidies the data. The result is a single
 data frame (tibble) containing tidied data.
 }
+\details{
+`read_abs()` downloads spreadsheet(s) from the ABS containing time
+series data. These files need to be saved somewhere on your disk.
+This local directory can be controlled using the `path` argument to
+`read_abs()`. If the `path` argument is not set, `read_abs()` will store
+the files in a directory set in the "R_READABS_PATH" environment variable.
+If this variable isn't set, files will be saved in a temporary directory.
+
+To check the value of the "R_READABS_PATH" variable, run
+\code{Sys.getenv("R_READABS_PATH")}. You can set the value of this variable
+for a single session using \code{Sys.setenv(R_READABS_PATH = <path>)}.
+If you would like to change this variable for all future R sessions, edit
+your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
+The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
+}
 \examples{
 
-# Download and tidy all time series spreadsheets from the Wage Price Index (6345.0)
+# Download and tidy all time series spreadsheets
+# from the Wage Price Index (6345.0)
 
-\donttest{wpi <- read_abs("6345.0")}
+\dontrun{wpi <- read_abs("6345.0")}
 
 # Get two specific time series, based on their time series IDs
 
-\donttest{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
+\dontrun{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
 
 }

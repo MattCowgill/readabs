@@ -7,5 +7,6 @@
 get_abs()
 }
 \description{
-\code{get_abs()} is deprecated. Please use \code{read_abs()} instead. It has identical functionality.
+\code{get_abs()} is deprecated.
+Please use \code{read_abs()} instead. It has identical functionality.
 }

@@ -5,15 +5,15 @@ form_abs_tsd_url <- function(cat_no = NULL,
                              tables = "all",
                              series_id = NULL) {
 
-  if(is.null(cat_no) & is.null(series_id)){
+  if (is.null(cat_no) & is.null(series_id)) {
     stop("Must specify either `cat_no` or `series_id`")
   }
 
   # create the url to search for in the Time Series Directory
   base_url <- "https://ausstats.abs.gov.au/servlet/TSSearchServlet?"
 
-  if(!is.null(series_id)) {
-    if(!is.character(series_id)){
+  if (!is.null(series_id)) {
+    if (!is.character(series_id)) {
       stop("If you specify `series_id`, it must be a string.")
     }
 
@@ -21,7 +21,7 @@ form_abs_tsd_url <- function(cat_no = NULL,
 
   } else {
 
-    if(tables[1] == "all"){
+    if (tables[1] == "all") {
       tables_url <- ""
     } else {
       tables_url <- paste0("&ttitle=", tables)

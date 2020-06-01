@@ -2,7 +2,8 @@
 % Please edit documentation in R/read_abs_data.R
 \name{read_abs_data}
 \alias{read_abs_data}
-\title{Extracts ABS time series data from local Excel spreadsheets and converts to long format.}
+\title{Extracts ABS time series data from local Excel spreadsheets and converts to
+long format.}
 \usage{
 read_abs_data(path, sheet)
 }
@@ -15,8 +16,8 @@ read_abs_data(path, sheet)
 Long-format dataframe
 }
 \description{
-`read_abs_data()` is soft deprecated and will be removed in a future version. Please use `read_abs_local()`
-to import and tidy locally-stored ABS time series spreadsheets, or
-`read_abs()` to download, import, and tidy time series spreadsheets from the ABS
-website.
+`read_abs_data()` is soft deprecated and will be removed in a future version.
+Please use `read_abs_local()` to import and tidy locally-stored
+ABS time series spreadsheets, or `read_abs()` to download, import,
+and tidy time series spreadsheets from the ABS website.
 }
