@@ -147,9 +147,8 @@ get_abs_xml_metadata <- function(url, issue = "latest") {
       dplyr::filter(ProductReleaseDate == max(ProductReleaseDate))
   }
 
-  xml_dfs <- xml_dfs %>%
-    dplyr::mutate(TableOrder = as.numeric(TableOrder)) %>%
-    dplyr::arrange(TableOrder)
+  xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(TableOrder))
+  xml_dfs <- xml_dfs[order(xml_dfs[ , "TableOrder"]), ]
 
   xml_dfs
 
