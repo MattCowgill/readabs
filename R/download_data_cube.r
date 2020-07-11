@@ -41,6 +41,12 @@
 #' The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 #'
 #' @importFrom magrittr %>%
+#' @importFrom glue glue
+#' @importFrom xml2 read_html
+#' @importFrom dplyr filter pull slice
+#' @importFrom tibble tibble
+#' @importFrom rvest html_nodes html_attr html_text
+#' @importFrom stringr str_remove str_extract str_replace_all
 #'
 #' @export
 #'
