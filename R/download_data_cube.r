@@ -47,6 +47,7 @@
 #' @importFrom tibble tibble
 #' @importFrom rvest html_nodes html_attr html_text
 #' @importFrom stringr str_remove str_extract str_replace_all
+#' @importFrom httr GET
 #'
 #' @export
 #'

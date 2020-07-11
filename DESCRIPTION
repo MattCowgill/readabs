@@ -29,7 +29,12 @@ Imports:
     stringr,
     stringi,
     rsdmx, 
-    tools
+    tools,
+    glue,
+    httr,
+    magrittr,
+    rvest,
+    xml2
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 7.1.0
