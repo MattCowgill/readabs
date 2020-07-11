@@ -1,7 +1,7 @@
-#' Experimental function to download ABS data cubes that are not compatible with read_abs.
+#' Experimental helper function to download ABS data cubes that are not compatible with read_abs.
 #'
 #' \code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube string.
-#' The function downloads the file to disk.
+#' The function downloads the file to disk. In comparison to \code{read_abs()} this function doesn't tidy the data.
 #'
 #' @param cat_no ABS catalogue number, as a string, including the extension.
 #' For example, Labour Force, Australia, Detailed, Quarterly is "6291.0.55.003".
