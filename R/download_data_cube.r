@@ -24,7 +24,7 @@
 #' Download Labour Force, Australia, Detailed, Quarterly, EQ09 - Employed persons by Industry division (ANZSIC) and Occupation major group (ANZSCO) of main job and Sex, August 1986 onwards.
 #'
 #' \dontrun{eq09 <- download_abs_data_cube(cat_no = "6291.0.55.003",
-#'                                         cube_string = "EQ09")}
+#'                                         cube = "EQ09")}
 #'
 #' @details `download_abs_data_cube()` downloads a file from the ABS containing a data cube.
 #' These files need to be saved somewhere on your disk.
@@ -55,7 +55,7 @@ download_abs_data_cube <- function(cat_no,
                                    cube,
                                    path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                                    latest = TRUE,
-                                   date) {
+                                   date = NULL) {
 
 
   if(latest == FALSE & is.null(date)) {stop("latest is false and date is NULL. Please supply a value for date.")}
@@ -72,8 +72,8 @@ download_abs_data_cube <- function(cat_no,
   #Get the page for the latest data
   if(latest == TRUE){
     date <- releases_table %>%
-      dplyr::filter(grepl("(Latest)", release)) %>%
-      dplyr::pull(release) %>%
+      dplyr::filter(grepl("(Latest)", .data$release)) %>%
+      dplyr::pull(.data$release) %>%
       stringr::str_remove(" \\(Latest\\)") %>%
       stringr::str_extract("Week ending \\d+\\s{1}\\w+ \\d+$|(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) \\d+$|\\d+$") %>%
       stringr::str_replace_all(" ", "%20")
@@ -102,13 +102,13 @@ download_abs_data_cube <- function(cat_no,
 
   #Find the url for the download
   download_url_suffix <- tibble::tibble(url = download_page %>% rvest::html_nodes("a") %>% rvest::html_attr("href")) %>%
-    dplyr::filter(grepl(tolower(cube_string), url)) %>%
+    dplyr::filter(grepl(tolower(cube), url)) %>%
     dplyr::slice(1) %>% #this gets the first result which is typically the .xlsx file rather than the zip
     dplyr::pull(url)
 
   #Checkt that there is a match
 
-  if(length(download_url_suffix) == 0) {stop("No matching cube_string. Please check against ABS website.")}
+  if(length(download_url_suffix) == 0) {stop("No matching cube. Please check against ABS website.")}
 
 
   #==================download file======================
