@@ -1,29 +1,31 @@
 #' Experimental helper function to download ABS data cubes that are not compatible with read_abs.
 #'
-#' \code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube string.
-#' The function downloads the file to disk. In comparison to \code{read_abs()} this function doesn't tidy the data.
+#' \code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube.
+#' The function downloads the file to disk.
+#' In comparison to \code{read_abs()} this function doesn't tidy the data.
 #'
 #' @param cat_no ABS catalogue number, as a string, including the extension.
 #' For example, Labour Force, Australia, Detailed, Quarterly is "6291.0.55.003".
 #'
-#' @param cube character. A character string that is in the filename of the data cube you want to download, e.g. "EQ09".
+#' @param cube character. A character string that is in the filename of the data cube you want to
+#' download, e.g. "EQ09".
 #'
-#' @param path Local directory in which downloaded files should be stored. By default, `path` takes the value set in the
-#' environment variable "R_READABS_PATH". If this variable is not set,
-#' any files downloaded by read_abs()  will be stored in a temporary directory
-#' (\code{tempdir()}). See \code{Details} below for
-#' more information.
+#' @param path Local directory in which downloaded files should be stored. By default, `path`
+#'  takes the value set in the #' environment variable "R_READABS_PATH".
+#'  If this variable is not set, #' any files downloaded by read_abs()
+#'  will be stored in a temporary directory #' (\code{tempdir()}).
+#'  See \code{Details} below for #' more information.
 #'
-#' @param latest logical. If `TRUE` (the default), the function endeavours to find the latest release.
+#' @param latest logical. If `TRUE` (the default), the function tries to find the latest release.
 #'
-#' @param date character. If `latest` is set to `FALSE` the function will attempt to download the files on the page specified by that date.
-#' The format of the date should match the format on the human readable ABS website, e.g. "Feb 2020" for Catalogue Number 6291.0.55.003.
+#' @param date character. If `latest` is set to `FALSE` the function will attempt to download the
+#' files on the page specified by that date.
+#' The format of the date should match the format on the human readable ABS website,
+#' e.g. "Feb 2020" for Catalogue Number 6291.0.55.003.
 #'
 #' @examples
 #'
-#' Download Labour Force, Australia, Detailed, Quarterly, EQ09 - Employed persons by Industry division (ANZSIC) and Occupation major group (ANZSCO) of main job and Sex, August 1986 onwards.
-#'
-#' \dontrun{eq09 <- download_abs_data_cube(cat_no = "6291.0.55.003",
+#' \dontrun{download_abs_data_cube(cat_no = "6291.0.55.003",
 #'                                         cube = "EQ09")}
 #'
 #' @details `download_abs_data_cube()` downloads a file from the ABS containing a data cube.

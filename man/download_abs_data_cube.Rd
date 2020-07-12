@@ -16,22 +16,26 @@ download_abs_data_cube(
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
 For example, Labour Force, Australia, Detailed, Quarterly is "6291.0.55.003".}
 
-\item{cube}{character. A character string that is in the filename of the data cube you want to download, e.g. "EQ09".}
+\item{cube}{character. A character string that is in the filename of the data cube you want to
+download, e.g. "EQ09".}
 
-\item{path}{Local directory in which downloaded files should be stored. By default, `path` takes the value set in the
-environment variable "R_READABS_PATH". If this variable is not set,
-any files downloaded by read_abs()  will be stored in a temporary directory
-(\code{tempdir()}). See \code{Details} below for
-more information.}
+\item{path}{Local directory in which downloaded files should be stored. By default, `path`
+takes the value set in the #' environment variable "R_READABS_PATH".
+If this variable is not set, #' any files downloaded by read_abs()
+will be stored in a temporary directory #' (\code{tempdir()}).
+See \code{Details} below for #' more information.}
 
-\item{latest}{logical. If `TRUE` (the default), the function endeavours to find the latest release.}
+\item{latest}{logical. If `TRUE` (the default), the function tries to find the latest release.}
 
-\item{date}{character. If `latest` is set to `FALSE` the function will attempt to download the files on the page specified by that date.
-The format of the date should match the format on the human readable ABS website, e.g. "Feb 2020" for Catalogue Number 6291.0.55.003.}
+\item{date}{character. If `latest` is set to `FALSE` the function will attempt to download the
+files on the page specified by that date.
+The format of the date should match the format on the human readable ABS website,
+e.g. "Feb 2020" for Catalogue Number 6291.0.55.003.}
 }
 \description{
-\code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube string.
-The function downloads the file to disk. In comparison to \code{read_abs()} this function doesn't tidy the data.
+\code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube.
+The function downloads the file to disk.
+In comparison to \code{read_abs()} this function doesn't tidy the data.
 }
 \details{
 `download_abs_data_cube()` downloads a file from the ABS containing a data cube.
@@ -50,9 +54,7 @@ The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 }
 \examples{
 
-Download Labour Force, Australia, Detailed, Quarterly, EQ09 - Employed persons by Industry division (ANZSIC) and Occupation major group (ANZSCO) of main job and Sex, August 1986 onwards.
-
-\dontrun{eq09 <- download_abs_data_cube(cat_no = "6291.0.55.003",
+\dontrun{download_abs_data_cube(cat_no = "6291.0.55.003",
                                         cube = "EQ09")}
 
 }
