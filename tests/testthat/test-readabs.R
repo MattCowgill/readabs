@@ -129,7 +129,7 @@ test_that("read_cpi() function downloads CPI index numbers",{
   # Test ratio of latest to earliest CPI index numbers
   latest_cpi_date <- cpi$date[cpi$date == max(cpi$date)]
   total_cpi_ratio <- cpi$cpi[cpi$date == latest_cpi_date] / cpi$cpi[cpi$date == min(cpi$date)]
-  expect_gt(total_cpi_ratio, 31)
+  expect_gt(total_cpi_ratio, 30)
 
   # Test that inflation over the 20 years to Sept 2019 is of the expected value
   inflation_99_to_19 <- cpi$cpi[cpi$date == as.Date("2019-09-01")] /
@@ -144,7 +144,7 @@ test_that("read_cpi() function downloads CPI index numbers",{
 
   latest_annual_inflation <- (cpi$cpi[cpi$date == latest_cpi_date]/
     cpi$cpi[cpi$date == date_12m_before_latest]) - 1
-  expect_gt(latest_annual_inflation, 0)
+  expect_gt(latest_annual_inflation, -.005)
   expect_lt(latest_annual_inflation, 0.05)
 
 })
