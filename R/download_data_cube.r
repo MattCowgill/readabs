@@ -42,6 +42,8 @@
 #' your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 #' The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 #'
+#' The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
+#'
 #' @importFrom magrittr %>%
 #' @importFrom glue glue
 #' @importFrom xml2 read_html
@@ -133,6 +135,6 @@ download_abs_data_cube <- function(cat_no,
 
   message("File downloaded in ", filepath)
 
-  return(invisible(TRUE))
+  return(invisible(filepath))
 
 }
