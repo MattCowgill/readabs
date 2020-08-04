@@ -1,12 +1,15 @@
 temp_path <- tempdir()
 
+download_abs_data_cube(cat_no = "6291.0.55.003",
+                       cube = "EQ09", date = "May 2020",
+                       path = temp_path)
+
+
 test_that("File is downloaded",{
   #Download May 2020 EQ09
   temp_path <- tempdir()
 
-  download_abs_data_cube(cat_no = "6291.0.55.003",
-                         cube = "EQ09", date = "May 2020",
-                         path = temp_path)
+
 
   expect_equal(file.exists(file.path(temp_path, "eq09.zip")), TRUE)
 })
