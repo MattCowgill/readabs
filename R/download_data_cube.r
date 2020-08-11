@@ -42,6 +42,8 @@
 #' your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 #' The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 #'
+#' The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
+#'
 #' @importFrom magrittr %>%
 #' @importFrom glue glue
 #' @importFrom xml2 read_html
@@ -62,6 +64,10 @@ download_abs_data_cube <- function(cat_no,
 
 
   if(latest == FALSE & is.null(date)) {stop("latest is false and date is NULL. Please supply a value for date.")}
+
+  #check if path is valid
+  if(!dir.exists(path)){stop("path does not exist. Please create a folder.")}
+
 
   #Download the page showing all the releases for that catalogue number
   releases_url <- glue::glue("https://www.abs.gov.au/AUSSTATS/abs@.nsf/second+level+view?ReadForm&prodno={cat_no}&&tabname=Past%20Future%20Issues")
@@ -126,5 +132,9 @@ download_abs_data_cube <- function(cat_no,
   filepath <- file.path(path, filename)
 
   writeBin(httr::content(download_object, "raw"), filepath)
+
+  message("File downloaded in ", filepath)
+
+  return(invisible(filepath))
 
 }
