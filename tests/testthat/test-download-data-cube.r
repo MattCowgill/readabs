@@ -1,6 +1,15 @@
+check_abs_site <- function() {
+  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
+    skip("ABS Time Series Directory not available")
+  }
+}
+
 
 test_that("File is downloaded",{
   #Download May 2020 EQ09
+
+  testthat::skip_on_cran()
+  check_abs_site()
 
   temp_path <- tempdir()
 
@@ -17,6 +26,9 @@ test_that("File is downloaded",{
 
 test_that("File can be unzipped",{
 
+  testthat::skip_on_cran()
+  check_abs_site()
+
   temp_path <- tempdir()
 
   download_abs_data_cube(cat_no = "6291.0.55.003",
@@ -32,6 +44,9 @@ test_that("File can be unzipped",{
 
 
 test_that("File contents are as expected",{
+
+  testthat::skip_on_cran()
+  check_abs_site()
 
   temp_path <- tempdir()
 
