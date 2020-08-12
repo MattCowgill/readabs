@@ -18,7 +18,7 @@ test_that("File is downloaded",{
                          path = temp_path)
 
 
-  expect_equal(file.exists(file.path(temp_path, "eq09.zip")), TRUE)
+  expect_true(file.exists(file.path(temp_path, "eq09.zip")))
 
   file.remove(file.path(temp_path, "eq09.zip"))
 })
@@ -36,7 +36,8 @@ test_that("File can be unzipped",{
                          path = temp_path)
 
   utils::unzip(zipfile  = file.path(temp_path, "eq09.zip"), files = "EQ09.xlsx", exdir = temp_path)
-  expect_equal(file.exists(file.path(temp_path, "eq09.xlsx")), TRUE)
+  expect_true(file.exists(file.path(temp_path, "EQ09.xlsx")))
+
 
   eq09 <- readxl::read_excel(file.path(temp_path, "EQ09.xlsx"), range = "A3",
                              col_names = FALSE) %>%
@@ -44,6 +45,6 @@ test_that("File can be unzipped",{
   expect_equal(eq09, "Released at 11.30 am (Canberra time) 25 June 2020")
 
   file.remove(file.path(temp_path, "eq09.zip"))
-  file.remove(file.path(temp_path, "eq09.xlsx"))
+  file.remove(file.path(temp_path, "EQ09.xlsx"))
 })
 
