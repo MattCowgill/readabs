@@ -51,6 +51,8 @@ for a single session using \code{Sys.setenv(R_READABS_PATH = <path>)}.
 If you would like to change this variable for all future R sessions, edit
 your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
+
+The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
 }
 \examples{
 
