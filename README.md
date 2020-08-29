@@ -73,14 +73,14 @@ library(readabs)
 #> You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use
 #>  Sys.setenv(R_READABS_PATH = <path>)
 library(tidyverse)
-#> ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-#> ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-#> ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-#> ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-#> ✔ readr   1.3.1     ✔ forcats 0.4.0
-#> ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
+#> ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+#> ✓ ggplot2 3.3.2          ✓ purrr   0.3.4.9000
+#> ✓ tibble  3.0.3          ✓ dplyr   1.0.1.9001
+#> ✓ tidyr   1.1.1          ✓ stringr 1.4.0.9000
+#> ✓ readr   1.3.1.9000     ✓ forcats 0.5.0.9000
+#> ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
 ```
 
 Now we’ll create one data frame that contains all the time series data
@@ -98,19 +98,19 @@ This is what it looks like:
 
 ``` r
 str(all_wpi)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    56819 obs. of  12 variables:
-#>  $ table_no        : chr  "634501" "634501" "634501" "634501" ...
-#>  $ sheet_no        : chr  "Data1" "Data1" "Data1" "Data1" ...
-#>  $ table_title     : chr  "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
-#>  $ date            : Date, format: "1997-09-01" "1997-12-01" ...
-#>  $ series          : chr  "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
-#>  $ value           : num  67.4 67.9 68.5 68.8 69.6 70 70.4 70.8 71.5 71.9 ...
-#>  $ series_type     : chr  "Original" "Original" "Original" "Original" ...
-#>  $ data_type       : chr  "INDEX" "INDEX" "INDEX" "INDEX" ...
-#>  $ collection_month: chr  "3" "3" "3" "3" ...
-#>  $ frequency       : chr  "Quarter" "Quarter" "Quarter" "Quarter" ...
-#>  $ series_id       : chr  "A2603039T" "A2603039T" "A2603039T" "A2603039T" ...
-#>  $ unit            : chr  "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
+#> tibble [58,834 × 12] (S3: tbl_df/tbl/data.frame)
+#>  $ table_no        : chr [1:58834] "634501" "634501" "634501" "634501" ...
+#>  $ sheet_no        : chr [1:58834] "Data1" "Data1" "Data1" "Data1" ...
+#>  $ table_title     : chr [1:58834] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
+#>  $ date            : Date[1:58834], format: "1997-09-01" "1997-12-01" ...
+#>  $ series          : chr [1:58834] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
+#>  $ value           : num [1:58834] 67.4 67.9 68.5 68.8 69.6 70 70.4 70.8 71.5 71.9 ...
+#>  $ series_type     : chr [1:58834] "Original" "Original" "Original" "Original" ...
+#>  $ data_type       : chr [1:58834] "INDEX" "INDEX" "INDEX" "INDEX" ...
+#>  $ collection_month: chr [1:58834] "3" "3" "3" "3" ...
+#>  $ frequency       : chr [1:58834] "Quarter" "Quarter" "Quarter" "Quarter" ...
+#>  $ series_id       : chr [1:58834] "A2603039T" "A2603039T" "A2603039T" "A2603039T" ...
+#>  $ unit            : chr [1:58834] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
 ```
 
 It only takes you a few lines of code to make a graph from your data:
@@ -133,8 +133,8 @@ a particular table, you can just get that table like this:
 
 ``` r
 wpi_t1 <- read_abs("6345.0", tables = 1)
-#> Warning in read_abs("6345.0", tables = 1): `tables` was provided, yet
-#> `check_local = TRUE` and fst files are available so `tables` will be ignored.
+#> Warning in read_abs("6345.0", tables = 1): `tables` was providedyet `check_local
+#> = TRUE` and fst files are available so `tables` will be ignored.
 ```
 
 If you want multiple tables, but not the whole catalogue, that’s easy
@@ -142,7 +142,7 @@ too:
 
 ``` r
 wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
-#> Warning in read_abs("6345.0", tables = c("1", "5a")): `tables` was provided, yet
+#> Warning in read_abs("6345.0", tables = c("1", "5a")): `tables` was providedyet
 #> `check_local = TRUE` and fst files are available so `tables` will be ignored.
 ```
 
@@ -196,7 +196,7 @@ In 0.4.0,
 ## Awesome Official Statistics Software
 
 [![Mentioned in Awesome Official
-Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
 We’re pleased to be included in a [list of
 software](https://github.com/SNStatComp/awesome-official-statistics-software)

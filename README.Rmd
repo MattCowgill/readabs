@@ -135,7 +135,7 @@ In 0.4.0,
 
 ## Awesome Official Statistics Software
 
-[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
 We're pleased to be included in a [list of software](https://github.com/SNStatComp/awesome-official-statistics-software) that can be used to work with official statistics.
 
