@@ -15,7 +15,7 @@ Date: 2020-08-25
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.3)
+Depends: R (>= 3.5)
 Imports: 
     readxl (>= 1.2.0), 
     tibble (>= 1.4.99),
