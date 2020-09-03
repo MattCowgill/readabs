@@ -22,6 +22,7 @@ version <- gsub('-', '.', version)
 [![codecov status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://codecov.io/gh/MattCowgill/readabs)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
+[![R build status](https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg)](https://github.com/mattcowgill/readabs/actions)
 <!-- badges: end -->
 
 ## Overview
@@ -63,7 +64,7 @@ Both `read_abs()` and `read_abs_local()` return a single tidy data frame (tibble
 To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. 
 
 First we'll load {readabs} and the {tidyverse}:
-```{r load-packages}
+```{r load-packages, results=FALSE, warning=FALSE}
 library(readabs)
 library(tidyverse)
 ```
