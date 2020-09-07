@@ -81,13 +81,11 @@ read_abs <- function(cat_no = NULL,
                      retain_files = TRUE,
                      check_local = TRUE) {
 
-  if (isTRUE(check_local) &&
+  # Anything other than TRUE is equivalent to FALSE
+  check_local <- isTRUE(check_local)
+  if (check_local &&
+      identical(tables, "all") &&
       fst_available(cat_no = cat_no, path = path)) {
-    if (!identical(tables, "all")) {
-      warning("`tables` was provided",
-              "yet `check_local = TRUE` and fst files are available ",
-              "so `tables` will be ignored.")
-    }
     out <- fst::read_fst(path = catno2fst(cat_no = cat_no, path = path))
     out <- tibble::as_tibble(out)
     if (is.null(series_id)) {
@@ -133,8 +131,75 @@ read_abs <- function(cat_no = NULL,
     tables <- "all"
   }
 
-  if (!is.logical(metadata)) {
+  if (!is.atomic(tables)) {
+    stop("`tables` was not atomic.")
+  }
+  if (anyNA(tables)) {
+    warning("`tables` contains missing values, these will be removed.")
+    tables <- tables[!is.na(tables)]
+  }
+  if (!is.integer(tables) && length(tables) != 0L && is.numeric(tables)) {
+    # Edge case: if user supplies a very large number,
+    #   any(tables != as.integer(tables))
+    # below will return a cryptic error message (possibly during recursion).
+    # Unlikely to happen on purpose.
+    if (min(tables) < 0 || max(tables) > .Machine$integer.max) {
+      stop("`tables` was a numeric vector but had values outside [0, .Machine$integer.max]. ",
+           "These are unlikely values for table numbers and are ")
+    }
+    if (any(tables != as.integer(tables))) {
+      stop("`tables` was not an integer(ish) vector of table numbers.")
+    }
+    tables <- as.integer(tables)
+  }
+
+  if (!is.logical(metadata) || length(metadata) != 1L || is.na(metadata)) {
     stop("`metadata` argument must be either TRUE or FALSE")
+  }
+
+  if (check_local) {
+    # In the case of table = "all" we simply get the fst file for
+    # the whole cat_no. Equally simple is the case of a single
+    # table. Both are handled by length(tables) <= 1L
+
+    # If len > 1 integer vector is supplied to tables, we recurse
+    # for each element of tables, checking the table's fst file availability
+    # independently of the other elements. Either we use the fst
+    # file or we download that single table. Each operation of lapply
+    # will produce a tibble.
+    if (length(tables) <= 1L) {
+      if (fst_available(cat_no = cat_no, table = tables, path = path)) {
+        file.fst <- catno2fst(cat_no = cat_no, table = tables, path = path)
+        out <- fst::read_fst(file.fst)
+        out <- tibble::as_tibble(out)
+        if (is.null(series_id)) {
+          return(out)
+        }
+        if (series_id %in% out[["series_id"]]) {
+          users_series_id <- series_id
+          out <- dplyr::filter(out, series_id %in% users_series_id)
+        } else {
+          warning("`series_id` was provided,",
+                  "but was not present in the local table and will be ignored.")
+        }
+        return(out)
+      } else {
+        # continue as if check_local = FALSE
+      }
+    } else {
+      # Recursion
+      out <-
+        lapply(tables, function(ta) {
+          read_abs(cat_no = cat_no,
+                   tables = ta,
+                   series_id = series_id,
+                   path = path,
+                   metadata = metadata,
+                   show_progress_bars = show_progress_bars,
+                   retain_files = retain_files)
+        })
+      return(dplyr::bind_rows(out))
+    }
   }
 
   # satisfy CRAN
@@ -252,13 +317,13 @@ read_abs <- function(cat_no = NULL,
   }
 
   # if fst is available, and what has been requested is the full data,
-  #  write the result to the <path>/fst/ file
+  #  or a single table, retain the fst file.
   if (retain_files &&
-      is.null(series_id) &&
-      identical(tables, "all") &&
-      requireNamespace("fst", quietly = TRUE)) {
+      requireNamespace("fst", quietly = TRUE) &&
+      length(tables) <= 1L) {
     fst::write_fst(sheet,
                    catno2fst(cat_no = cat_no,
+                             table = tables,
                              path = path))
   }
 
