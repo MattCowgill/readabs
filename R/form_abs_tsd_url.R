@@ -10,7 +10,7 @@ form_abs_tsd_url <- function(cat_no = NULL,
   }
 
   # create the url to search for in the Time Series Directory
-  base_url <- "https://ausstats.abs.gov.au/servlet/TSSearchServlet?"
+  base_url <- "https://ausstats.abs.gov.au/servlet/TSSearchServlet?newsite=true&"
 
   if (!is.null(series_id)) {
     if (!is.character(series_id)) {

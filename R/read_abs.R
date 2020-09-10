@@ -211,7 +211,6 @@ read_abs <- function(cat_no = NULL,
   }
 
   urls <- unique(xml_dfs$TableURL)
-  urls <- gsub(".test", "", urls)
 
   table_titles <- unique(xml_dfs$TableTitle)
 
