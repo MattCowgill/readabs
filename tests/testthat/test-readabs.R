@@ -27,7 +27,8 @@ test_that("read_abs() downloads, imports, and tidies a data frame",
             skip_on_cran()
             check_abs_site()
 
-            wpi_1 <- read_abs("6345.0", tables = "1", retain_files = FALSE, path = tempdir())
+            wpi_1 <- read_abs("6345.0", tables = "1", retain_files = FALSE,
+                              check_local = FALSE, path = tempdir())
 
             expect_is(wpi_1, "tbl")
             expect_length(wpi_1, 12)
@@ -43,7 +44,7 @@ test_that("read_abs() gets a whole catalogue number",
             skip_on_cran()
             check_abs_site()
 
-            motors <- read_abs("9314.0", retain_files = FALSE, path = tempdir())
+            motors <- read_abs("9314.0", retain_files = FALSE, check_local = FALSE, path = tempdir())
 
             expect_is(motors, "tbl")
             expect_length(motors, 12)
@@ -55,7 +56,8 @@ test_that("read_abs() works when retain_files = FALSE",
             skip_on_cran()
             check_abs_site()
 
-            wpi_7 <- read_abs("6345.0", tables = "7a", retain_files = FALSE, path = tempdir())
+            wpi_7 <- read_abs("6345.0", tables = "7a", retain_files = FALSE, check_local = F,
+                              path = tempdir())
 
             expect_is(wpi_7, "tbl")
           })
@@ -66,7 +68,7 @@ test_that("read_abs() works with series ID(s)",
             skip_on_cran()
             check_abs_site()
 
-            cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, path = tempdir())
+            cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
 
             expect_is(cpi_2, "tbl")
             expect_length(unique(cpi_2$series), 2)

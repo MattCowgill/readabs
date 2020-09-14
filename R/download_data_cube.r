@@ -44,7 +44,7 @@
 #'
 #' The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
 #'
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom glue glue
 #' @importFrom xml2 read_html
 #' @importFrom dplyr filter pull slice
