@@ -1,3 +1,6 @@
+# readabs 0.4.3.3
+* Minor internal change to prepare readabs for the new ABS website
+
 # readabs 0.4.3.2
 * New download_abs_data_cube() function added courtesy of David Diviny
 
