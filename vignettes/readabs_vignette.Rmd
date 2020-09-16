@@ -249,7 +249,7 @@ A benefit of this approach is that the filtering is done for you - the data fram
 
 ## {readabs} only works with time series
 
-The spreadsheets on the ABS website are divided into one of two categories: **time series spreadsheets** and **data cubes**. For example, the main [Labour Force](https://abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/6202.0Dec%202018?OpenDocument) release contains both:
+The spreadsheets on the ABS website are divided into one of two categories: **time series spreadsheets** and **data cubes**. For example, the main Labour Force release contains both:
 
 ```{r out.width = "100%", echo = FALSE}
 include_graphics("VIGNETTE-6202-screenshot.png")
