@@ -3,7 +3,7 @@
 \name{extract_abs_sheets}
 \alias{extract_abs_sheets}
 \title{Extract data sheets from an ABS timeseries workbook saved locally as an
-.xls file.}
+Excel file.}
 \usage{
 extract_abs_sheets(
   filename,
@@ -12,8 +12,7 @@ extract_abs_sheets(
 )
 }
 \arguments{
-\item{filename}{Filename for an ABS time series spreadsheet (as string),
-such as "6202002.xls".}
+\item{filename}{Filename for an ABS time series spreadsheet (as string)}
 
 \item{table_title}{String giving the full title of the ABS table, such as
 "Table 1. Employed persons, Australia"}
