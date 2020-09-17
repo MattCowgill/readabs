@@ -119,10 +119,10 @@ read_abs <- function(cat_no = NULL,
 
   if (!is.null(cat_no)) {
     if (nchar(cat_no) < 6) {
-    message(paste0("Please ensure you include the cat_no extension.\n",
-                   "`read_abs()` will assume you meant \"", cat_no,
-                   ".0\"", " rather than ", cat_no))
-    cat_no <- paste0(cat_no, ".0")
+      message(paste0("Please ensure you include the cat_no extension.\n",
+                     "`read_abs()` will assume you meant \"", cat_no,
+                     ".0\"", " rather than ", cat_no))
+      cat_no <- paste0(cat_no, ".0")
     }
   }
 
@@ -165,11 +165,11 @@ read_abs <- function(cat_no = NULL,
         "https://www.abs.gov.au/robots.txt",
         destfile = tmp,
         quiet = TRUE))
-       file.exists(tmp)
-      },
-      error = function(e) {
-        FALSE
-      }
+      file.exists(tmp)
+    },
+    error = function(e) {
+      FALSE
+    }
     )
     return(result)
   }
@@ -178,8 +178,8 @@ read_abs <- function(cat_no = NULL,
   if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
     if (isFALSE(test_abs_robots())) {
       stop("R cannot access the ABS website.",
-      " `read_abs()` requires access to the ABS site.",
-      " Please check your internet connection and security settings.")
+           " `read_abs()` requires access to the ABS site.",
+           " Please check your internet connection and security settings.")
     }
   }
 
@@ -217,16 +217,14 @@ read_abs <- function(cat_no = NULL,
   # download tables corresponding to URLs
   message(paste0("Attempting to download files from ", download_message,
                  ", ", xml_dfs$ProductTitle[1]))
-
-  download_abs(urls = urls,
-               path = .path,
-               show_progress_bars = show_progress_bars)
+  purrr::walk(urls, download_abs, path = .path,
+              show_progress_bars = show_progress_bars)
 
   # extract the sheets to a list
   filenames <- base::basename(urls)
   message("Extracting data from downloaded spreadsheets")
   sheets <- purrr::map2(filenames, table_titles,
-                       .f = extract_abs_sheets, path = .path)
+                        .f = extract_abs_sheets, path = .path)
 
   # remove one 'layer' of the list,
   #so that each sheet is its own element in the list
@@ -266,17 +264,4 @@ read_abs <- function(cat_no = NULL,
   # return a data frame
   sheet
 
-}
-
-#' Download, extract, and tidy ABS time series spreadsheets (deprecated)
-#'
-#' \code{get_abs()} is deprecated.
-#' Please use \code{read_abs()} instead. It has identical functionality.
-#'
-#' @export
-
-get_abs <- function() {
-  .Deprecated(old = "get_abs()",
-              new = "read_abs()",
-              msg = "get_abs() is deprecated.\nPlease use read_abs() instead.")
 }

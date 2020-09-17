@@ -2,7 +2,6 @@
 
 export(download_abs_data_cube)
 export(extract_abs_sheets)
-export(get_abs)
 export(read_abs)
 export(read_abs_data)
 export(read_abs_local)

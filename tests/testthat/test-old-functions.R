@@ -52,8 +52,3 @@ test_that("Old read_abs_sdmx function works",{
   expect_true(is.data.frame(sdmx_result))
 
 })
-
-test_that("deprecated get_abs() function gives a warning message",
-          {
-            expect_warning(get_abs())
-          })
