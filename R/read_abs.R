@@ -217,8 +217,10 @@ read_abs <- function(cat_no = NULL,
   # download tables corresponding to URLs
   message(paste0("Attempting to download files from ", download_message,
                  ", ", xml_dfs$ProductTitle[1]))
-  purrr::walk(urls, download_abs, path = .path,
-              show_progress_bars = show_progress_bars)
+
+  download_abs(urls = urls,
+               path = .path,
+               show_progress_bars = show_progress_bars)
 
   # extract the sheets to a list
   filenames <- base::basename(urls)

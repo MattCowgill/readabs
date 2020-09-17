@@ -1,3 +1,6 @@
+# readabs 0.4.4
+* Speed improvements
+
 # readabs 0.4.3.3
 * Minor internal change to prepare readabs for the new ABS website
 

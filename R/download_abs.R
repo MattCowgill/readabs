@@ -1,6 +1,6 @@
 #' @importFrom utils download.file
 
-download_abs <- function(url,
+download_abs <- function(urls,
                          path,
                          show_progress_bars = TRUE) {
 
@@ -9,12 +9,13 @@ download_abs <- function(url,
   # downloaded table
   dir.create(path = path, recursive = TRUE, showWarnings = FALSE)
 
-  filename <- file.path(path, basename(url))
+  filenames <- file.path(path, basename(urls))
 
   # download the table
-  utils::download.file(url = url,
+  utils::download.file(url = urls,
                 mode = "wb",
                 quiet = !show_progress_bars,
-                destfile = filename,
+                destfile = filenames,
                 cacheOK = FALSE)
 }
+
