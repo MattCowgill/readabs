@@ -1,6 +1,7 @@
 #' @importFrom utils download.file
+#' @importFrom purrr walk2
 
-download_abs <- function(url,
+download_abs <- function(urls,
                          path,
                          show_progress_bars = TRUE) {
 
@@ -9,12 +10,26 @@ download_abs <- function(url,
   # downloaded table
   dir.create(path = path, recursive = TRUE, showWarnings = FALSE)
 
-  filename <- file.path(path, basename(url))
+  filenames <- file.path(path, basename(urls))
 
-  # download the table
-  utils::download.file(url = url,
-                       mode = "wb",
-                       quiet = !show_progress_bars,
-                       destfile = filename,
-                       cacheOK = FALSE)
+  # if libcurl is available we can vectorise urls and destfile to download
+  # files simultaneously; if not, we have to iterate
+  if (isTRUE(capabilities("libcurl"))) {
+    utils::download.file(url = urls,
+                         #mode = "wb",
+                         quiet = !show_progress_bars,
+                         destfile = filenames,
+                         method = "libcurl",
+                         cacheOK = FALSE)
+
+  } else {
+    purrr::walk2(.x = urls,
+                 .y = filenames,
+                 .f = utils::download.file,
+                 #mode = "wb",
+                 quiet = !show_progress_bars,
+                 cacheOK = FALSE)
+  }
+
+  return(TRUE)
 }
