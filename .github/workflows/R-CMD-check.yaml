@@ -6,7 +6,7 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    runs-on: macOS-latest
+    runs-on: [macOS-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
