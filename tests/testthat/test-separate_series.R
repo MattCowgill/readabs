@@ -13,15 +13,18 @@ test_that("separate_series() performs as expected",{
 
   check_abs_site()
 
-  motor_vehicles_raw <- read_abs("9314.0", retain_files = FALSE, path = tempdir())
+  wpi_raw <- read_abs("6345.0", tables = "1",
+                      check_local = FALSE,
+                      retain_files = FALSE,
+                      path = tempdir())
 
-  motor_vehicles <- suppressMessages(separate_series(motor_vehicles_raw))
+  wpi <- suppressWarnings(separate_series(wpi_raw))
 
-  expect_equal(14, length(motor_vehicles))
+  expect_equal(17, length(wpi))
 
-  expect_equal(9, length(unique(motor_vehicles$series_1)))
+  expect_equal(5, length(unique(wpi$series_1)))
 
-  expect_true(all.equal(motor_vehicles$series, motor_vehicles_raw$series))
+  expect_true(all.equal(wpi$series, wpi_raw$series))
 
 })
 

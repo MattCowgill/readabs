@@ -16,7 +16,7 @@ download_abs <- function(urls,
   # files simultaneously; if not, we have to iterate
   if (isTRUE(capabilities("libcurl"))) {
     utils::download.file(url = urls,
-                         #mode = "wb",
+                         mode = "wb",
                          quiet = !show_progress_bars,
                          destfile = filenames,
                          method = "libcurl",
@@ -26,7 +26,7 @@ download_abs <- function(urls,
     purrr::walk2(.x = urls,
                  .y = filenames,
                  .f = utils::download.file,
-                 #mode = "wb",
+                 mode = "wb",
                  quiet = !show_progress_bars,
                  cacheOK = FALSE)
   }
