@@ -28,10 +28,26 @@ test_that("individual steps of read_abs() work", {
   expect_length(xml_urls, 2)
   expect_type(xml_urls, "character")
 
+  temp_xml_1 <- tempfile(fileext = ".xml")
+  temp_xml_2 <- tempfile(fileext = ".xml")
 
-  url_results <- RCurl::url.exists(xml_urls)
+  purrr::walk2(.x = xml_urls,
+               .y = c(temp_xml_1,
+                      temp_xml_2),
+               .f = download.file)
 
-  expect_true(all(url_results))
+  expect_true(file.exists(temp_xml_1))
+  expect_true(file.exists(temp_xml_2))
+
+  xml_1 <- xmlToDataFrame(temp_xml_1)
+
+  expect_s3_class(xml_1, "data.frame")
+
+  expect_identical(unique(xml_1$ProductTitle)[!is.na(unique(xml_1$ProductTitle))],
+                   "Labour Force, Australia")
+
+  unlink(temp_xml_1)
+  unlink(temp_xml_2)
 
   # Get XML metadata -----
 
