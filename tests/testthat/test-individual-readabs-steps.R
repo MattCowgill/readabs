@@ -39,11 +39,18 @@ test_that("individual steps of read_abs() work", {
   expect_true(file.exists(temp_xml_1))
   expect_true(file.exists(temp_xml_2))
 
-  xml_1 <- xmlToDataFrame(temp_xml_1)
+  xml_1 <- xml2::read_xml(temp_xml_1)
 
-  expect_s3_class(xml_1, "data.frame")
+  expect_s3_class(xml_1, "xml_document")
 
-  expect_identical(unique(xml_1$ProductTitle)[!is.na(unique(xml_1$ProductTitle))],
+  product_title <- xml_1 %>%
+    xml2::as_list() %>%
+    .$TimeSeriesIndex %>%
+    .$Series %>%
+    .$ProductTitle %>%
+    as.character()
+
+  expect_identical(product_title,
                    "Labour Force, Australia")
 
   unlink(temp_xml_1)
