@@ -6,17 +6,11 @@ get_xml_df <- function(url) {
 
   text = NULL
 
-  xml_page <- xml2::read_xml(url)
+  xml_page <- xml2::read_xml(url, encoding = "latin-1")
+
+  xml_page <- xml2::xml_find_all(xml_page, "//Series")
 
   xml_list <- xml2::as_list(xml_page)
-
-  xml_list <- xml_list[["TimeSeriesIndex"]]
-
-  xml_list <- xml_list[!names(xml_list) %in%
-                         c("Info",
-                           "SeriesCount",
-                           "NumPages",
-                           "CurPage")]
 
   xml_df <- purrr::map(xml_list, dplyr::as_tibble) %>%
     dplyr::bind_rows() %>%

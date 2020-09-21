@@ -1,5 +1,4 @@
 
-#' @importFrom XML xmlParse xmlToList xmlToDataFrame
 #' @importFrom utils download.file
 #' @import dplyr
 
@@ -28,68 +27,32 @@ get_abs_xml_metadata <- function(url, issue = "latest") {
   # doesn't work then we try with a leading zero ("01"). If that fails,
   # it's an error.
 
-  first_page_location <- file.path(tempdir(), "temp_readabs_xml.xml")
+  first_page <- xml2::read_xml(first_url, encoding = "latin-1")
+  first_page <- xml2::as_list(first_page)
+  first_page <- first_page[["TimeSeriesIndex"]]
 
-  utils::download.file(first_url,
-                       first_page_location,
-                       quiet = TRUE,
-                       cacheOK = FALSE)
-
-  first_page <- XML::xmlParse(first_page_location)
-
-  first_page_list <- XML::xmlToList(first_page)
-
-  first_url_works <- ifelse(!is.null(first_page_list), TRUE, FALSE)
-
-  if (!first_url_works) {
-    if (!grepl("ttitle", first_url)) { # this is the case when tables == "all"
-      stop("Cannot find valid entry for cat_no ",
-           cat_no,
-           " in the ABS Time Series Directory.",
-           "Check that the cat. no. is correct, and that it contains ",
-           "time series spreadsheets (not data cubes).")
-    }
-
-    # now try prepending a 0 on the ttitle
-
-    first_url <- gsub("ttitle=", "ttitle=0", first_url)
-
-    utils::download.file(first_url, first_page_location, quiet = TRUE,
-                         cacheOK = FALSE)
-
-    first_page <- XML::xmlParse(first_page_location)
-
-    first_page_list <- XML::xmlToList(first_page)
-
-    first_url_works <- ifelse(!is.null(first_page_list), TRUE, FALSE)
-
-    if (first_url_works) {
-      url <- gsub("ttitle=", "ttitle=0", url)
-
-    } else {
-      stop("Cannot find valid entry for cat_no ",
-           cat_no,
-           " in the ABS Time Series Directory")
-    }
-
-  }
-
-
-  if (is.null(first_page_list$NumPages)) {
+  if (is.null(first_page$NumPages)) {
     tot_pages <- 1
   } else {
-    tot_pages <- as.numeric(first_page_list$NumPages)
+    tot_pages <- as.numeric(first_page$NumPages)
   }
 
   if (!is.numeric(tot_pages)) {
     stop("Can't tell how many pages of XML match your query")
   }
 
-  all_pages <- sort(seq(as.numeric(tot_pages):1), decreasing = TRUE)
+  # all_pages <- sort(seq(as.numeric(tot_pages):1), decreasing = TRUE)
+  all_pages <- rev(c(1:tot_pages))
 
   # Extract the date on the first page of the metadata
   # (it'll be the oldest in the directory)
-  first_page_df <- XML::xmlToDataFrame(first_page, stringsAsFactors = FALSE)
+  first_page_df <- first_page[!names(first_page) %in% c("Info",
+                                       "SeriesCount",
+                                       "NumPages",
+                                       "CurPage")] %>%
+    purrr::map(dplyr::as_tibble) %>%
+    dplyr::bind_rows() %>%
+    tidyr::unnest(col = everything())
 
   max_date <- max(as.Date(first_page_df$ProductReleaseDate,
                           format = "%d/%m/%Y"),
