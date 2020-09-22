@@ -14,7 +14,7 @@
 
 tidy_abs_list <- function(list_of_dfs, metadata = TRUE) {
 
-  sheet_id <- NULL
+  table_no = sheet_no = table_title = NULL
 
   if (!"list" %in% class(list_of_dfs)) {
     if ("data.frame" %in% class(list_of_dfs)) {
@@ -29,14 +29,23 @@ tidy_abs_list <- function(list_of_dfs, metadata = TRUE) {
 
   # apply abs_tidy to each element of list_of_dfs and combine into 1 df
   # with new column "sheet_id"
-  x <- purrr::map_dfr(list_of_dfs, tidy_abs,
-                      metadata = metadata,
-                      .id = "sheet_id") %>%
-    # split the sheet_id column into table_no and sheet_no
-    tidyr::separate(col = sheet_id,
-                    into = c("table_no", "sheet_no", "table_title"),
-                    sep = "=",
-                    extra = "merge", fill = "right")
+  x <- purrr::map(list_of_dfs,
+                  tidy_abs,
+                  metadata = metadata)
+
+  sheet_ids <- names(list_of_dfs)
+
+  list_of_split_sheet_ids <- stringi::stri_split_fixed(sheet_ids, "=", 3)
+
+  for (i in seq_along(x)) {
+    x[[i]]$table_no = list_of_split_sheet_ids[[i]][1]
+    x[[i]]$sheet_no = list_of_split_sheet_ids[[i]][2]
+    x[[i]]$table_title = list_of_split_sheet_ids[[i]][3]
+  }
+
+  x <- bind_rows(x)
+
+  x <- select(x, table_no, sheet_no, table_title, everything())
 
   x
 }

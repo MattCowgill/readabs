@@ -44,11 +44,11 @@ test_that("read_abs() gets a whole catalogue number",
             skip_on_cran()
             check_abs_site()
 
-            motors <- read_abs("9314.0", retain_files = FALSE, check_local = FALSE, path = tempdir())
+            wpi <- read_abs("6345.0", retain_files = FALSE, check_local = FALSE, path = tempdir())
 
-            expect_is(motors, "tbl")
-            expect_length(motors, 12)
-            expect_gt(nrow(motors), 34000)
+            expect_is(wpi, "tbl")
+            expect_length(wpi, 12)
+            expect_gt(nrow(wpi), 34000)
           })
 
 test_that("read_abs() works when retain_files = FALSE",

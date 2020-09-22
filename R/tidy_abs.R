@@ -23,7 +23,7 @@
 #'
 #' @importFrom purrr map_chr
 #' @import dplyr
-#' @importFrom tidyr gather
+#' @importFrom tidyr gather pivot_longer
 #' @export
 
 tidy_abs <- function(df, metadata = TRUE) {
@@ -68,9 +68,9 @@ tidy_abs <- function(df, metadata = TRUE) {
 
   colnames(df)[2:ncol(df)] <- new_col_names
 
-  if (metadata == TRUE) {
+  if (isTRUE(metadata)) {
   df <- df %>%
-    tidyr::gather(key = series, value = value, -X__1) %>%
+    tidyr::pivot_longer(cols = !one_of("X__1"), names_to = "series" ) %>%
     dplyr::group_by(series) %>%
     dplyr::mutate(series_type = value[X__1 == "Series Type"],
                   data_type = value[X__1 == "Data Type"],
@@ -79,13 +79,19 @@ tidy_abs <- function(df, metadata = TRUE) {
                   series_id = value[X__1 == "Series ID"],
                   unit = value[X__1 == "Unit"]) %>%
     dplyr::filter(dplyr::row_number() >= 10) %>%
+    dplyr::ungroup()
+
+  df <- df %>%
     dplyr::rename(date = X__1) %>%
     dplyr::mutate(date = as.Date(as.numeric(date), origin = "1899-12-30"),
                   unit = as.character(unit),
-                  value = as.numeric(value)) %>%
-    dplyr::ungroup() %>%
+                  value = as.numeric(value))
+
+  df <- df %>%
     # now remove appended series ID from the end of 'series'
-    dplyr::mutate(series = sub("_[^_]+$", "", series))
+    dplyr::mutate(series = stringi::stri_replace_all_regex(series,
+                                                           pattern = "_[^_]+$",
+                                                           replacement = ""))
   }
 
   if (metadata == FALSE) {
