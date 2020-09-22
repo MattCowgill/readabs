@@ -27,7 +27,7 @@ get_abs_xml_metadata <- function(url, issue = "latest") {
   # doesn't work then we try with a leading zero ("01"). If that fails,
   # it's an error.
 
-  first_page <- xml2::read_xml(first_url, encoding = "latin-1")
+  first_page <- xml2::read_xml(first_url, encoding = "ISO-8859-1")
   first_page_list <- xml2::as_list(first_page)
   first_page_list <- first_page_list[[1]]
   first_url_works <- ifelse(length(first_page_list) > 0,
@@ -46,7 +46,7 @@ get_abs_xml_metadata <- function(url, issue = "latest") {
 
     first_url <- gsub("ttitle=", "ttitle=0", first_url)
 
-    first_page <- xml2::read_xml(first_url, encoding = "latin-1")
+    first_page <- xml2::read_xml(first_url, encoding = "ISO-8859-1")
     first_page_list <- xml2::as_list(first_page)
     first_page_list <- first_page_list[[1]]
     first_url_works <- ifelse(length(first_page_list) > 0,
