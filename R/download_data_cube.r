@@ -63,12 +63,14 @@ download_abs_data_cube <- function(catalogue_string,
 
   download_url <- pull(download_lookup_table, url)
 
+  if(length(download_url) == 0) {stop(glue("No matching catalogue. Please check against ABS website."))}
+
+
   #Try to download the page
   download_page <- tryCatch(
     xml2::read_html(download_url),
     error=function(cond) {
       message(paste("URL does not seem to exist:", download_url))
-      if(!is.null(date)){message("Check that date is formatted correctly.")}
       message("Here's the original error message:")
       message(cond)
       # Choose a return value in case of error
