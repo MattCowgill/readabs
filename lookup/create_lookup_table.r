@@ -28,7 +28,7 @@ scrape_sub_page <- function(sub_page_url_suffix){
                                     str_remove(sub_page_url_suffix) %>%
                                     str_remove("/[^/]*$") %>%
                                     str_remove("/"),
-                                  url = glue("https://www.abs.gov.au{sub_page_url_suffix}/{catalogue_string}/latest-release"))
+                                  url = glue("https://www.abs.gov.au{sub_page_url_suffix}/{catalogue}/latest-release"))
 
 }
 
