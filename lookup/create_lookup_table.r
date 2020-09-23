@@ -1,7 +1,8 @@
-library(tidyverse)
 library(glue)
 library(rvest)
 library(stringr)
+library(tidyverse)
+
 
 #scrape the main page
 abs_stats_page <- read_html("https://www.abs.gov.au/statistics")

@@ -57,29 +57,10 @@ download_abs_data_cube <- function(catalogue_string,
   #check if path is valid
   if(!dir.exists(path)){stop("path does not exist. Please create a folder.")}
 
+  available_cubes <- get_available_cubes(catalogue_string)
 
-  download_lookup_table <- filter(abs_lookup_table,
-                         catalogue == catalogue_string)
-
-  download_url <- pull(download_lookup_table, url)
-
-  if(length(download_url) == 0) {stop(glue("No matching catalogue. Please check against ABS website."))}
-
-
-  #Try to download the page
-  download_page <- tryCatch(
-    xml2::read_html(download_url),
-    error=function(cond) {
-      message(paste("URL does not seem to exist:", download_url))
-      message("Here's the original error message:")
-      message(cond)
-      # Choose a return value in case of error
-      return(NA)}
-  )
-
-  #Find the url for the download
-  file_download_url <- tibble::tibble(url = download_page %>% rvest::html_nodes("a") %>% rvest::html_attr("href")) %>%
-    dplyr::filter(grepl(cube, url, ignore.case = TRUE)) %>%
+  file_download_url <- available_cubes %>%
+    dplyr::filter(grepl(cube, file, ignore.case = TRUE)) %>%
     dplyr::slice(1) %>% #this gets the first result which is typically the .xlsx file rather than the zip
     dplyr::pull(url)
 
