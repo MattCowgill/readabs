@@ -12,13 +12,6 @@
 #'
 #' @examples \dontrun{get_available_files("labour-force-australia-detailed")}.
 #'
-#' This function could also be used with functions from the \code{purrr} package to download multiple files.
-#'
-#'
-#' \dontrun{get_available_files("weekly-payroll-jobs-and-wages-australia") %>%
-#'              pull(file) %>%
-#'              walk(download_abs_data_cube, catalogue_string = "weekly-payroll-jobs-and-wages-australia")}
-#'
 #'
 #' @importFrom glue glue
 #' @importFrom xml2 read_html
@@ -26,7 +19,7 @@
 #' @importFrom tibble tibble
 #' @importFrom rvest html_nodes html_attr html_text
 #' @importFrom stringr str_extract str_replace_all
-#'
+#' @importFrom rlang .data
 #'
 #' @export
 #'
@@ -34,7 +27,7 @@ get_available_files <- function(catalogue_string){
 
 
   download_url <- filter(abs_lookup_table,
-                         catalogue == catalogue_string) %>%
+                         .data$catalogue == catalogue_string) %>%
     pull(url)
 
   if(length(download_url) == 0) {stop(glue("No matching catalogue. Please check against ABS website."))}
@@ -55,7 +48,7 @@ get_available_files <- function(catalogue_string){
   available_downloads <- tibble::tibble(label = download_page %>% rvest::html_nodes(".abs-data-download-left") %>% rvest::html_text(),
                                         url = download_page %>% rvest::html_nodes(".file a") %>%  rvest::html_attr("href")) %>%
     mutate(file = str_extract(url, "[^/]*$")) %>%
-    select(label, file, url)
+    select(.data$label, .data$file, .data$url)
 
   return(available_downloads)
 

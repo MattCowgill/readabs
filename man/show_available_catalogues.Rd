@@ -7,7 +7,7 @@
 show_available_catalogues(selected_heading = NULL)
 }
 \arguments{
-\item{selected_heading}{optional character string specifying the heading on the \link{https://www.abs.gov.au/statistics} webpage.
+\item{selected_heading}{optional character string specifying the heading on the \href{https://www.abs.gov.au/statistics}{ABS statistics webpage}.
 e.g. "Earnings and work hours"}
 }
 \value{
@@ -18,6 +18,6 @@ This function lists the possible catalogues that are available on the ABS websit
 These catalogues must be specified as a string as an argument to \code{download_abs_data_cube}.
 }
 \examples{
-\dontrun{show_available_catalogues("Earnings and work hours")}
+show_available_catalogues("Earnings and work hours")
 
 }
