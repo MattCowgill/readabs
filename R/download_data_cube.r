@@ -57,7 +57,7 @@ download_abs_data_cube <- function(catalogue_string,
   #check if path is valid
   if(!dir.exists(path)){stop("path does not exist. Please create a folder.")}
 
-  available_cubes <- get_available_cubes(catalogue_string)
+  available_cubes <- get_available_files(catalogue_string)
 
   file_download_url <- available_cubes %>%
     dplyr::filter(grepl(cube, file, ignore.case = TRUE)) %>%
