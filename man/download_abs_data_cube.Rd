@@ -12,10 +12,11 @@ download_abs_data_cube(
 }
 \arguments{
 \item{catalogue_string}{ABS catalogue name as a string from the new website.
-For example, Labour Force, Australia, Detailed is "labour-force-australia-detailed".}
+For example, Labour Force, Australia, Detailed is "labour-force-australia-detailed".
+The possible catalogues can be obtained using the helper function \code{show_available_catalogues()}}
 
-\item{cube}{character. A character string that is in the filename of the data cube you want to
-download, e.g. "EQ09".}
+\item{cube}{character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
+download, e.g. "EQ09". #' The available filenames can be obtained using the helper function \code{get_available_filenames()}}
 
 \item{path}{Local directory in which downloaded files should be stored. By default, `path`
 takes the value set in the #' environment variable "R_READABS_PATH".
@@ -43,7 +44,7 @@ If you would like to change this variable for all future R sessions, edit
 your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 
-The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
+The filepath is returned invisibly which enables piping to \code{unzip()} or \code{readxl::read_excel}.
 }
 \examples{
 
