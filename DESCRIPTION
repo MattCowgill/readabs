@@ -32,7 +32,8 @@ Imports:
     glue,
     httr,
     rvest,
-    xml2
+    xml2,
+    rlang
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 7.1.1

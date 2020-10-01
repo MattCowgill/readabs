@@ -1,14 +1,15 @@
 #' Experimental helper function to download ABS data cubes that are not compatible with read_abs.
 #'
-#' \code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube.
+#' \code{download_abs_data_cube()} downloads the latest ABS data cubes based on the catalogue name (from the new website url) and cube.
 #' The function downloads the file to disk.
 #' In comparison to \code{read_abs()} this function doesn't tidy the data.
 #'
-#' @param cat_no ABS catalogue number, as a string, including the extension.
-#' For example, Labour Force, Australia, Detailed, Quarterly is "6291.0.55.003".
+#' @param catalogue_string ABS catalogue name as a string from the new website.
+#' For example, Labour Force, Australia, Detailed is "labour-force-australia-detailed".
+#' The possible catalogues can be obtained using the helper function \code{show_available_catalogues()}
 #'
-#' @param cube character. A character string that is in the filename of the data cube you want to
-#' download, e.g. "EQ09".
+#' @param cube character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
+#' download, e.g. "EQ09". #' The available filenames can be obtained using the helper function \code{get_available_filenames()}
 #'
 #' @param path Local directory in which downloaded files should be stored. By default, `path`
 #'  takes the value set in the #' environment variable "R_READABS_PATH".
@@ -16,16 +17,10 @@
 #'  will be stored in a temporary directory #' (\code{tempdir()}).
 #'  See \code{Details} below for #' more information.
 #'
-#' @param latest logical. If `TRUE` (the default), the function tries to find the latest release.
-#'
-#' @param date character. If `latest` is set to `FALSE` the function will attempt to download the
-#' files on the page specified by that date.
-#' The format of the date should match the format on the human readable ABS website,
-#' e.g. "Feb 2020" for Catalogue Number 6291.0.55.003.
 #'
 #' @examples
 #'
-#' \dontrun{download_abs_data_cube(cat_no = "6291.0.55.003",
+#' \dontrun{download_abs_data_cube(catalogue_string = "labour-force-australia-detailed",
 #'                                         cube = "EQ09")}
 #'
 #' @details `download_abs_data_cube()` downloads a file from the ABS containing a data cube.
@@ -42,7 +37,7 @@
 #' your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 #' The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 #'
-#' The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
+#' The filepath is returned invisibly which enables piping to \code{unzip()} or \code{readxl::read_excel}.
 #'
 #' @importFrom dplyr %>%
 #' @importFrom glue glue
@@ -56,74 +51,28 @@
 #' @export
 #'
 #'
-download_abs_data_cube <- function(cat_no,
+download_abs_data_cube <- function(catalogue_string,
                                    cube,
-                                   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-                                   latest = TRUE,
-                                   date = NULL) {
-
-
-  if(latest == FALSE & is.null(date)) {stop("latest is false and date is NULL. Please supply a value for date.")}
+                                   path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
 
   #check if path is valid
   if(!dir.exists(path)){stop("path does not exist. Please create a folder.")}
 
+  available_cubes <- get_available_files(catalogue_string)
 
-  #Download the page showing all the releases for that catalogue number
-  releases_url <- glue::glue("https://www.abs.gov.au/AUSSTATS/abs@.nsf/second+level+view?ReadForm&prodno={cat_no}&&tabname=Past%20Future%20Issues")
-
-  releases_page <- xml2::read_html(releases_url)
-
-  #Parse table of all releases
-  releases_table <- tibble::tibble(release = releases_page %>%  rvest::html_nodes("#mainpane a") %>% rvest::html_text(),
-                                   url_suffix = releases_page %>%  rvest::html_nodes("#mainpane a") %>% rvest::html_attr("href"))
-
-  #Get the page for the latest data
-  if(latest == TRUE){
-    date <- releases_table %>%
-      dplyr::filter(grepl("(Latest)", .data$release)) %>%
-      dplyr::pull(.data$release) %>%
-      stringr::str_remove(" \\(Latest\\)") %>%
-      stringr::str_extract("Week ending \\d+\\s{1}\\w+ \\d+$|(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?).*") %>%
-      stringr::str_replace_all(" ", "%20")
-  }
-
-  # If latest is not true then format the date
-  if(latest != TRUE){
-    date <-  stringr::str_replace_all(date, " ", "%20")
-
-  }
-
-  #find download page
-  download_url <- glue::glue("https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/{cat_no}{date}?OpenDocument")
-
-  #Try to download the page
-  download_page <- tryCatch(
-    xml2::read_html(download_url),
-    error=function(cond) {
-      message(paste("URL does not seem to exist:", download_url))
-      if(!is.null(date)){message("Check that date is formatted correctly.")}
-      message("Here's the original error message:")
-      message(cond)
-      # Choose a return value in case of error
-      return(NA)}
-  )
-
-  #Find the url for the download
-  download_url_suffix <- tibble::tibble(url = download_page %>% rvest::html_nodes("a") %>% rvest::html_attr("href")) %>%
-    dplyr::filter(grepl(tolower(cube), url)) %>%
+  file_download_url <- available_cubes %>%
+    dplyr::filter(grepl(cube, file, ignore.case = TRUE)) %>%
     dplyr::slice(1) %>% #this gets the first result which is typically the .xlsx file rather than the zip
     dplyr::pull(url)
 
-  #Checkt that there is a match
 
-  if(length(download_url_suffix) == 0) {stop("No matching cube. Please check against ABS website.")}
+  #Check that there is a match
+
+  if(length(file_download_url) == 0) {stop(glue("No matching cube. Please check against ABS website at {download_url}."))}
 
 
   #==================download file======================
-  file_url <- glue::glue("https://www.abs.gov.au{download_url_suffix}")
-
-  download_object <- httr::GET(file_url)
+  download_object <- httr::GET(file_download_url)
 
   #save file path to disk
 
