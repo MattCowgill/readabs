@@ -39,10 +39,10 @@ all groups CPI for Australia. If you want the analytical series
 
 # Create a tibble called 'cpi' that contains the CPI index
 # numbers for each quarter
-
-\donttest{cpi <- read_cpi()}
+\donttest{
+cpi <- read_cpi()
+}
 
 # This tibble can now be joined to another to help streamline the process of
 # deflating nominal values.
-
 }

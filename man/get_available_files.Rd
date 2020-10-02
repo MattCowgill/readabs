@@ -19,7 +19,8 @@ The filename (or an unambiguous part of the filename) must be specified
 as a string as an argument to \code{download_abs_data_cube}.
 }
 \examples{
-\dontrun{get_available_files("labour-force-australia-detailed")}.
-
+\dontrun{
+get_available_files("labour-force-australia-detailed")
+}
 
 }

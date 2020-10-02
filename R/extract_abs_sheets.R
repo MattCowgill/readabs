@@ -24,10 +24,11 @@
 extract_abs_sheets <- function(filename,
                                table_title = NULL,
                                path = Sys.getenv("R_READABS_PATH",
-                                                 unset = tempdir())) {
+                                 unset = tempdir()
+                               )) {
 
   # Satisfy CRAN
-  . = sheet = NULL
+  . <- sheet <- NULL
 
   filename <- file.path(path, filename)
 
@@ -35,20 +36,26 @@ extract_abs_sheets <- function(filename,
   sheets <- sheets[!sheets %in% c("Index", "Inquiries")]
 
   if (length(sheets) < 1) {
-    stop(sprintf("The Excel workbook %s appears to have no data sheets.",
-                 filename))
+    stop(sprintf(
+      "The Excel workbook %s appears to have no data sheets.",
+      filename
+    ))
   }
 
-  data_sheets <- purrr::map(.x = sheets,
-                            .f = readxl::read_excel,
-                            path = filename,
-                            trim_ws = TRUE,
-                            .name_repair = "minimal")
+  data_sheets <- purrr::map(
+    .x = sheets,
+    .f = readxl::read_excel,
+    path = filename,
+    trim_ws = TRUE,
+    .name_repair = "minimal"
+  )
 
   data_sheets <- data_sheets %>%
-    purrr::set_names(paste0(tools::file_path_sans_ext(basename(filename)), "=",
-                            sheets, "=",
-                            table_title))
+    purrr::set_names(paste0(
+      tools::file_path_sans_ext(basename(filename)), "=",
+      sheets, "=",
+      table_title
+    ))
 
   data_sheets
 }

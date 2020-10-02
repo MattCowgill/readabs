@@ -20,8 +20,12 @@
 #'
 #' @examples
 #'
-#' \dontrun{download_abs_data_cube(catalogue_string = "labour-force-australia-detailed",
-#'                                         cube = "EQ09")}
+#' \dontrun{
+#' download_abs_data_cube(
+#'   catalogue_string = "labour-force-australia-detailed",
+#'   cube = "EQ09"
+#' )
+#' }
 #'
 #' @details `download_abs_data_cube()` downloads a file from the ABS containing a data cube.
 #' These files need to be saved somewhere on your disk.
@@ -55,26 +59,30 @@ download_abs_data_cube <- function(catalogue_string,
                                    cube,
                                    path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
 
-  #check if path is valid
-  if(!dir.exists(path)){stop("path does not exist. Please create a folder.")}
+  # check if path is valid
+  if (!dir.exists(path)) {
+    stop("path does not exist. Please create a folder.")
+  }
 
   available_cubes <- get_available_files(catalogue_string)
 
   file_download_url <- available_cubes %>%
     dplyr::filter(grepl(cube, file, ignore.case = TRUE)) %>%
-    dplyr::slice(1) %>% #this gets the first result which is typically the .xlsx file rather than the zip
+    dplyr::slice(1) %>% # this gets the first result which is typically the .xlsx file rather than the zip
     dplyr::pull(url)
 
 
-  #Check that there is a match
+  # Check that there is a match
 
-  if(length(file_download_url) == 0) {stop(glue("No matching cube. Please check against ABS website at {download_url}."))}
+  if (length(file_download_url) == 0) {
+    stop(glue("No matching cube. Please check against ABS website at {download_url}."))
+  }
 
 
-  #==================download file======================
+  # ==================download file======================
   download_object <- httr::GET(file_download_url)
 
-  #save file path to disk
+  # save file path to disk
 
   filename <- basename(download_object$url)
 
@@ -85,5 +93,4 @@ download_abs_data_cube <- function(catalogue_string,
   message("File downloaded in ", filepath)
 
   return(invisible(filepath))
-
 }

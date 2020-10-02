@@ -78,11 +78,13 @@ The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 
 # Download and tidy all time series spreadsheets
 # from the Wage Price Index (6345.0)
-
-\dontrun{wpi <- read_abs("6345.0")}
+\dontrun{
+wpi <- read_abs("6345.0")
+}
 
 # Get two specific time series, based on their time series IDs
-
-\dontrun{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
+\dontrun{
+cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))
+}
 
 }

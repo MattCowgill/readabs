@@ -1,6 +1,6 @@
 
 check_abs_site <- function() {
-  if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
+  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
     skip("ABS Time Series Directory not available")
   }
 }
@@ -10,20 +10,22 @@ test_that("individual steps of read_abs() work", {
   skip_on_cran()
 
   # Set parameters ---
-  cat_no = "6202.0"
-  tables = c("11", "11a")
-  series_id = NULL
-  .path = tempdir()
-  metadata = TRUE
-  show_progress_bars = FALSE
-  retain_files = FALSE
-  check_local = FALSE
+  cat_no <- "6202.0"
+  tables <- c("11", "11a")
+  series_id <- NULL
+  .path <- tempdir()
+  metadata <- TRUE
+  show_progress_bars <- FALSE
+  retain_files <- FALSE
+  check_local <- FALSE
 
 
   # Form time series URLS ----
-  xml_urls <- form_abs_tsd_url(cat_no = cat_no,
-                               tables = tables,
-                               series_id = series_id)
+  xml_urls <- form_abs_tsd_url(
+    cat_no = cat_no,
+    tables = tables,
+    series_id = series_id
+  )
 
   expect_length(xml_urls, 2)
   expect_type(xml_urls, "character")
@@ -31,10 +33,14 @@ test_that("individual steps of read_abs() work", {
   temp_xml_1 <- tempfile(fileext = ".xml")
   temp_xml_2 <- tempfile(fileext = ".xml")
 
-  purrr::walk2(.x = xml_urls,
-               .y = c(temp_xml_1,
-                      temp_xml_2),
-               .f = download.file)
+  purrr::walk2(
+    .x = xml_urls,
+    .y = c(
+      temp_xml_1,
+      temp_xml_2
+    ),
+    .f = download.file
+  )
 
   expect_true(file.exists(temp_xml_1))
   expect_true(file.exists(temp_xml_2))
@@ -50,8 +56,10 @@ test_that("individual steps of read_abs() work", {
     .$ProductTitle %>%
     as.character()
 
-  expect_identical(product_title,
-                   "Labour Force, Australia")
+  expect_identical(
+    product_title,
+    "Labour Force, Australia"
+  )
 
   unlink(temp_xml_1)
   unlink(temp_xml_2)
@@ -59,8 +67,9 @@ test_that("individual steps of read_abs() work", {
   # Get XML metadata -----
 
   xml_dfs <- purrr::map_dfr(xml_urls,
-                            .f = get_abs_xml_metadata,
-                            issue = "latest")
+    .f = get_abs_xml_metadata,
+    issue = "latest"
+  )
 
   expect_s3_class(xml_dfs, "data.frame")
 
@@ -70,8 +79,10 @@ test_that("individual steps of read_abs() work", {
 
   table_titles <- unique(xml_dfs$TableTitle)
 
-  purrr::walk(urls, download_abs, path = .path,
-              show_progress_bars = show_progress_bars)
+  purrr::walk(urls, download_abs,
+    path = .path,
+    show_progress_bars = show_progress_bars
+  )
 
 
   expect_true(all(file.exists(file.path(.path, basename(urls)))))
@@ -79,9 +90,10 @@ test_that("individual steps of read_abs() work", {
 
   # Extract data sheets from files -----
   sheets <- purrr::map2(basename(urls),
-                        table_titles,
-                        .f = extract_abs_sheets,
-                        path = .path)
+    table_titles,
+    .f = extract_abs_sheets,
+    path = .path
+  )
 
   expect_length(sheets, 2)
   expect_type(sheets, "list")
@@ -96,7 +108,4 @@ test_that("individual steps of read_abs() work", {
   expect_length(sheet, 12)
   expect_gt(nrow(sheet), 42923)
   expect_s3_class(sheet, "tbl_df")
-
 })
-
-

@@ -3,11 +3,12 @@
 #' @importFrom readxl read_excel
 
 extract_abs_tabletitles <- function(filename, path) {
-
   filename <- paste0(path, "/", filename)
 
-  tabletitle <- readxl::read_excel(filename, range = "Index!B6:B6",
-                                 col_names = "tabletitle")
+  tabletitle <- readxl::read_excel(filename,
+    range = "Index!B6:B6",
+    col_names = "tabletitle"
+  )
 
   tabletitle <- as.character(tabletitle)
 

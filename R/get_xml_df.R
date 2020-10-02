@@ -3,8 +3,7 @@
 #' @importFrom dplyr filter select "%>%"
 
 get_xml_df <- function(url) {
-
-  text = NULL
+  text <- NULL
 
   xml_page <- xml2::read_xml(url, encoding = "ISO-8859-1")
 

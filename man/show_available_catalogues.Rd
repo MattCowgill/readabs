@@ -19,5 +19,4 @@ These catalogues must be specified as a string as an argument to \code{download_
 }
 \examples{
 show_available_catalogues("Earnings and work hours")
-
 }

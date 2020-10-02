@@ -20,14 +20,13 @@ test_that("read_abs works out of the box", {
 
   # warning handling --- must be after out6401_next
   expect_warning(read_abs(cat_no = "6345.0", series_id = "not a real series id"),
-                 regexp = "but was not present in the local table and will be ignored",
-                 fixed = TRUE)
+    regexp = "but was not present in the local table and will be ignored",
+    fixed = TRUE
+  )
 
   expect_warning(read_abs(cat_no = "6345.0", tables = "not all"),
-                 regexp = "tables.*will be ignored")
-
-
-
+    regexp = "tables.*will be ignored"
+  )
 })
 
 test_that("fst-utils", {
@@ -40,7 +39,3 @@ test_that("fst-utils", {
   expect_false(fst_available("9999.9", path = dirname(tempf.fst)))
   expect_equal(ext2ext("file.csv", ".txt"), "file.txt")
 })
-
-
-
-

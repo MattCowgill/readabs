@@ -48,7 +48,11 @@ The filepath is returned invisibly which enables piping to \code{unzip()} or \co
 }
 \examples{
 
-\dontrun{download_abs_data_cube(catalogue_string = "labour-force-australia-detailed",
-                                        cube = "EQ09")}
+\dontrun{
+download_abs_data_cube(
+  catalogue_string = "labour-force-australia-detailed",
+  cube = "EQ09"
+)
+}
 
 }
