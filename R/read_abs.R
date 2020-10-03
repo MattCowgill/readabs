@@ -166,37 +166,7 @@ read_abs <- function(cat_no = NULL,
   }
 
   # check that R has access to the internet
-
-  # Function to try accessing abs.gov.au/robots.txt. If this fails, return FALSE
-  test_abs_robots <- function() {
-    tmp <- tempfile()
-    on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
-    result <- tryCatch(
-      {
-        suppressWarnings(utils::download.file(
-          "https://www.abs.gov.au/robots.txt",
-          destfile = tmp,
-          quiet = TRUE
-        ))
-        file.exists(tmp)
-      },
-      error = function(e) {
-        FALSE
-      }
-    )
-    return(result)
-  }
-
-  # Try nslookup. If this fails, try accessing abs.gov.au/robots.txt
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    if (isFALSE(test_abs_robots())) {
-      stop(
-        "R cannot access the ABS website.",
-        " `read_abs()` requires access to the ABS site.",
-        " Please check your internet connection and security settings."
-      )
-    }
-  }
+  check_abs_connection()
 
   # Create URLs to query the ABS Time Series Directory
   xml_urls <- form_abs_tsd_url(

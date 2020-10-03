@@ -6,6 +6,9 @@
 #'
 #' @param catalogue_string character string specifying the catalogue, e.g. "labour-force-australia-detailed".
 #' You can use \code{show_available_catalogues} to find this out.
+#' @param refresh logical; `FALSE` by default. If `FALSE`, an internal table
+#' of the available ABS catalogues is used. If `TRUE`, this table is refreshed
+#' from the ABS website.
 #'
 #' @return A tibble containing the title of the file, the filename and the complete url.
 
@@ -25,15 +28,25 @@
 #'
 #' @export
 #'
-get_available_files <- function(catalogue_string) {
+get_available_files <- function(catalogue_string, refresh = FALSE) {
+  if (isFALSE(is.logical(refresh))) {
+    stop("`refresh` must be `TRUE` or `FALSE`.")
+  }
+
+  if (isFALSE(refresh)) {
+    table_to_use <- abs_lookup_table
+  } else {
+    table_to_use <- scrape_abs_catalogues()
+  }
+
   download_url <- filter(
-    abs_lookup_table,
+    table_to_use,
     .data$catalogue == catalogue_string
   ) %>%
     pull(url)
 
   if (length(download_url) == 0) {
-    stop(glue("No matching catalogue. Please check against ABS website."))
+    stop("No matching catalogue. Please check against ABS website.")
   }
 
 

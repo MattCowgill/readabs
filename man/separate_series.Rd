@@ -38,8 +38,8 @@ separator.
 }
 \examples{
 \dontrun{
-    motor_vehicles <- read_abs("9314.0") \%>\%
-      separate_series()
+motor_vehicles <- read_abs("9314.0") \%>\%
+  separate_series()
 }
 
 }

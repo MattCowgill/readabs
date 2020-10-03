@@ -4,20 +4,11 @@
 \alias{scrape_abs_catalogues}
 \title{Helper function for \code{download_abs_data_cube} to scrape the available catalogues from the ABS website.}
 \usage{
-scrape_abs_catalogues(refresh = TRUE)
-}
-\arguments{
-\item{refresh}{Boolean. If  \code{TRUE}, the default, the object  \code{abs_lookup_table} will be updated.
-If \code{FALSE}, the function will return a tibble instead.}
+scrape_abs_catalogues()
 }
 \value{
 A tibble containing the catalogues and how they are organised on the ABS website.
 }
 \description{
-You do not need to run this function unless you want to update the \code{show_available_catalogues}
-function for changes on the ABS website or create a new object in R.
-}
-\details{
-This function either updates the lookup table used by \code{show_available_catalogues},
-if the argument \code{refresh} is set to \code{TRUE}.
+This function downloads a new version of the lookup table used by \code{show_available_catalogues}.
 }

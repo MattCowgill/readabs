@@ -5,7 +5,7 @@
 #'
 #' @param selected_heading optional character string specifying the heading on the \href{https://www.abs.gov.au/statistics}{ABS statistics webpage}.
 #' e.g. "Earnings and work hours"
-#'
+#' @param refresh logical; `FALSE` by default. If `FALSE`, an internal table of the available ABS catalogues is used. If `TRUE`, this table is refreshed from the ABS website.
 #'
 #' @examples
 #' show_available_catalogues("Earnings and work hours")
@@ -16,11 +16,21 @@
 #'
 #' @export
 #'
-show_available_catalogues <- function(selected_heading = NULL) {
-  if (!is.null(selected_heading)) {
-    available_catalogues <- filter(abs_lookup_table, .data$heading == selected_heading)
+show_available_catalogues <- function(selected_heading = NULL, refresh = FALSE) {
+  if (isFALSE(is.logical(refresh))) {
+    stop("`refresh` must be `TRUE` or `FALSE`.")
+  }
+
+  if (isFALSE(refresh)) {
+    table_to_use <- abs_lookup_table
   } else {
-    available_catalogues <- abs_lookup_table
+    table_to_use <- scrape_abs_catalogues()
+  }
+
+  if (!is.null(selected_heading)) {
+    available_catalogues <- filter(table_to_use, .data$heading == selected_heading)
+  } else {
+    available_catalogues <- table_to_use
   }
 
   available_catalogues <- pull(available_catalogues, .data$catalogue)

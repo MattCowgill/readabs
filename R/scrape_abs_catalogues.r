@@ -1,13 +1,6 @@
 #' Helper function for \code{download_abs_data_cube} to scrape the available catalogues from the ABS website.
 #'
-#' You do not need to run this function unless you want to update the \code{show_available_catalogues}
-#' function for changes on the ABS website or create a new object in R.
-#'
-#' This function either updates the lookup table used by \code{show_available_catalogues},
-#' if the argument \code{refresh} is set to \code{TRUE}.
-#'
-#' @param refresh Boolean. If  \code{TRUE}, the default, the object  \code{abs_lookup_table} will be updated.
-#' If \code{FALSE}, the function will return a tibble instead.
+#' This function downloads a new version of the lookup table used by \code{show_available_catalogues}.
 #'
 #' @return A tibble containing the catalogues and how they are organised on the ABS website.
 #'
@@ -21,10 +14,8 @@
 #' @importFrom purrr map_dfr
 #' @importFrom rlang .data
 #'
-#' @export
-#'
 
-scrape_abs_catalogues <- function(refresh = TRUE) {
+scrape_abs_catalogues <- function() {
 
   # scrape the main page
   abs_stats_page <- xml2::read_html("https://www.abs.gov.au/statistics")
@@ -59,13 +50,5 @@ scrape_abs_catalogues <- function(refresh = TRUE) {
 
   new_abs_lookup_table <- purrr::map_dfr(main_page_data$url_suffix, scrape_sub_page)
 
-
-  if (refresh) {
-    # unlock binding of object
-    unlockBinding("abs_lookup_table", as.environment("package:readabs"))
-    assign("abs_lookup_table", new_abs_lookup_table, as.environment("package:readabs"))
-    lockBinding("abs_lookup_table", as.environment("package:readabs"))
-  } else {
-    return(new_abs_lookup_table)
-  }
+  return(new_abs_lookup_table)
 }

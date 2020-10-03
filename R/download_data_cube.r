@@ -64,6 +64,8 @@ download_abs_data_cube <- function(catalogue_string,
     stop("path does not exist. Please create a folder.")
   }
 
+  check_abs_connection()
+
   available_cubes <- get_available_files(catalogue_string)
 
   file_download_url <- available_cubes %>%

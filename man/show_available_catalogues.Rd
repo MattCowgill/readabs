@@ -4,11 +4,13 @@
 \alias{show_available_catalogues}
 \title{Helper function for \code{download_abs_data_cube} to show the available catalogues.}
 \usage{
-show_available_catalogues(selected_heading = NULL)
+show_available_catalogues(selected_heading = NULL, refresh = FALSE)
 }
 \arguments{
 \item{selected_heading}{optional character string specifying the heading on the \href{https://www.abs.gov.au/statistics}{ABS statistics webpage}.
 e.g. "Earnings and work hours"}
+
+\item{refresh}{logical; `FALSE` by default. If `FALSE`, an internal table of the available ABS catalogues is used. If `TRUE`, this table is refreshed from the ABS website.}
 }
 \value{
 a character vector of catalogues.

@@ -4,7 +4,6 @@ check_abs_site <- function() {
   }
 }
 
-
 test_that("File is downloaded", {
   # Download latest EQ09
 

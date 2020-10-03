@@ -4,11 +4,15 @@
 \alias{get_available_files}
 \title{Helper function for \code{download_abs_data_cube} to show the available catalogues.}
 \usage{
-get_available_files(catalogue_string)
+get_available_files(catalogue_string, refresh = FALSE)
 }
 \arguments{
 \item{catalogue_string}{character string specifying the catalogue, e.g. "labour-force-australia-detailed".
 You can use \code{show_available_catalogues} to find this out.}
+
+\item{refresh}{logical; `FALSE` by default. If `FALSE`, an internal table
+of the available ABS catalogues is used. If `TRUE`, this table is refreshed
+from the ABS website.}
 }
 \value{
 A tibble containing the title of the file, the filename and the complete url.
