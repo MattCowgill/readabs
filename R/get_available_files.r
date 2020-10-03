@@ -64,11 +64,10 @@ get_available_files <- function(catalogue_string, refresh = FALSE) {
 
   # Find the url for the download
   available_downloads <- tibble::tibble(
-    label = download_page %>% rvest::html_nodes(".abs-data-download-left") %>% rvest::html_text(),
     url = download_page %>% rvest::html_nodes(".file a") %>% rvest::html_attr("href")
   ) %>%
     mutate(file = str_extract(url, "[^/]*$")) %>%
-    select(.data$label, .data$file, .data$url)
+    select(.data$file, .data$url)
 
   return(available_downloads)
 }
