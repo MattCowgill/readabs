@@ -17,7 +17,6 @@ test_that("get_available_files() works", {
 
   error_names <- names(errors)
 
-  # Temporarily allow errors for catalogues that are known to not work
-  expect_lt(length(error_names), 9)
+  expect_equal(length(error_names), 0)
 
 })
