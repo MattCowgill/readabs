@@ -20,7 +20,7 @@ test_that("File is downloaded", {
 
 
   # Check file exists
-  expect_true(file.exists(file.path(temp_path, "eq09.xlsx")))
+  expect_true(file.exists(file.path(temp_path, "EQ09.xlsx")))
 
 
   # Check file can be read
