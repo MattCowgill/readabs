@@ -15,20 +15,23 @@ download_abs <- function(urls,
   # if libcurl is available we can vectorise urls and destfile to download
   # files simultaneously; if not, we have to iterate
   if (isTRUE(capabilities("libcurl"))) {
-    utils::download.file(url = urls,
-                         mode = "wb",
-                         quiet = !show_progress_bars,
-                         destfile = filenames,
-                         method = "libcurl",
-                         cacheOK = FALSE)
-
+    utils::download.file(
+      url = urls,
+      mode = "wb",
+      quiet = !show_progress_bars,
+      destfile = filenames,
+      method = "libcurl",
+      cacheOK = FALSE
+    )
   } else {
-    purrr::walk2(.x = urls,
-                 .y = filenames,
-                 .f = utils::download.file,
-                 mode = "wb",
-                 quiet = !show_progress_bars,
-                 cacheOK = FALSE)
+    purrr::walk2(
+      .x = urls,
+      .y = filenames,
+      .f = utils::download.file,
+      mode = "wb",
+      quiet = !show_progress_bars,
+      cacheOK = FALSE
+    )
   }
 
   return(TRUE)

@@ -1,6 +1,6 @@
 
 check_abs_site <- function() {
-  if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
+  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
     skip("ABS Time Series Directory not available")
   }
 }
@@ -9,13 +9,16 @@ test_that("download_abs() fetches files", {
   skip_on_cran()
   check_abs_site()
 
-  xml_urls <- form_abs_tsd_url(cat_no = "6202.0",
-                               tables = c("11", "11a"),
-                               series_id = NULL)
+  xml_urls <- form_abs_tsd_url(
+    cat_no = "6202.0",
+    tables = c("11", "11a"),
+    series_id = NULL
+  )
 
   xml_dfs <- purrr::map_dfr(xml_urls,
-                            .f = get_abs_xml_metadata,
-                            issue = "latest")
+    .f = get_abs_xml_metadata,
+    issue = "latest"
+  )
 
   urls <- unique(xml_dfs$TableURL)
 
@@ -32,9 +35,10 @@ test_that("download_abs() fetches files", {
 
   # Multiple files using purrr::walk()
   purrr::walk(urls,
-              download_abs,
-              path = .path,
-              show_progress_bars = F)
+    download_abs,
+    path = .path,
+    show_progress_bars = F
+  )
 
   expect_true(all(file.exists(file.path(.path, basename(urls)))))
 
@@ -46,5 +50,4 @@ test_that("download_abs() fetches files", {
   expect_true(all(file.exists(file.path(.path, basename(urls)))))
 
   unlink(.path)
-
 })

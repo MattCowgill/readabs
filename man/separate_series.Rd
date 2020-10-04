@@ -37,6 +37,9 @@ downloaded using \code{read_abs()} into multiple columns using the ";"
 separator.
 }
 \examples{
-\dontrun{motor_vehicles <- read_abs("9314.0") \%>\% separate_series()}
+\dontrun{
+motor_vehicles <- read_abs("9314.0") \%>\%
+  separate_series()
+}
 
 }

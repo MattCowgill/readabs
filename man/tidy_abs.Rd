@@ -23,13 +23,15 @@ Tidy ABS time series data.
 \examples{
 
 # First extract the data from the local spreadsheet
-
-\dontrun{wpi <- extract_abs_sheets("634501.xls")}
+\dontrun{
+wpi <- extract_abs_sheets("634501.xls")
+}
 
 # Then tidy the data extracted from the spreadsheet. Note that
 # \code{extract_abs_sheets()} returns a list of data frames, so we need to
 # subset the list.
-
-\dontrun{tidy_wpi <- tidy_abs(wpi[[1]])}
+\dontrun{
+tidy_wpi <- tidy_abs(wpi[[1]])
+}
 
 }

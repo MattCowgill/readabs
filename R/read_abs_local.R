@@ -36,11 +36,11 @@
 #'
 #' @examples
 #'
-#'  # Load and tidy two specified files from the "data/ABS" subdirectory
-#'  # of your working directory
-#'
-#'  \dontrun{lfs <- read_abs_local(c("6202001.xls", "6202005.xls"))}
-#'
+#' # Load and tidy two specified files from the "data/ABS" subdirectory
+#' # of your working directory
+#' \dontrun{
+#' lfs <- read_abs_local(c("6202001.xls", "6202005.xls"))
+#' }
 #'
 #' @export
 #'
@@ -48,7 +48,8 @@
 read_abs_local <- function(cat_no = NULL,
                            filenames = NULL,
                            path = Sys.getenv("R_READABS_PATH",
-                                             unset = tempdir()),
+                             unset = tempdir()
+                           ),
                            use_fst = TRUE,
                            metadata = TRUE) {
 
@@ -62,9 +63,11 @@ read_abs_local <- function(cat_no = NULL,
   }
 
   if (is.null(path)) {
-    warning(paste0("`path` not specified.",
-                   "\nLooking for ABS time series files in ",
-                   getwd()))
+    warning(paste0(
+      "`path` not specified.",
+      "\nLooking for ABS time series files in ",
+      getwd()
+    ))
   }
 
   if (!is.null(cat_no) && !is.character(cat_no)) {
@@ -83,7 +86,6 @@ read_abs_local <- function(cat_no = NULL,
 
   # If catalogue number is specifid, that takes precedence
   if (!is.null(cat_no)) {
-
     path <- file.path(path, cat_no)
 
     filenames <- list.files(path = path, pattern = "\\.xls$")
@@ -92,17 +94,18 @@ read_abs_local <- function(cat_no = NULL,
       stop(paste0("Could not find any .xls files in path: '", path, "'"))
     }
 
-  # If cat_no isn't specified and filenames isn't specified,
-  # get all files in path
+    # If cat_no isn't specified and filenames isn't specified,
+    # get all files in path
   } else if (is.null(filenames)) {
-
-    message(paste0("`filenames` and `cat_no` not specified. ",
-                   "Looking for ABS time series files in '",
-                   path,
-                   "' and attempting to read all files.",
-                   "\nSpecify `cat_no` or filenames` if you do not wish to",
-                   " attempt to import all .xls files in ",
-                   path))
+    message(paste0(
+      "`filenames` and `cat_no` not specified. ",
+      "Looking for ABS time series files in '",
+      path,
+      "' and attempting to read all files.",
+      "\nSpecify `cat_no` or filenames` if you do not wish to",
+      " attempt to import all .xls files in ",
+      path
+    ))
 
     # Get a list of all filenames in path, as `filenames` is null
 
@@ -111,7 +114,6 @@ read_abs_local <- function(cat_no = NULL,
     if (length(filenames) == 0) {
       stop(paste0("Could not find any .xls files in path: '", path, "'"))
     }
-
   }
 
   # Create filenames for local ABS time series files
@@ -124,7 +126,8 @@ read_abs_local <- function(cat_no = NULL,
   table_titles <- purrr::map(filenames, extract_abs_tabletitles, path = path)
   # then read in the data
   sheets <- purrr::map2(filenames, table_titles,
-                        .f = extract_abs_sheets, path = path)
+    .f = extract_abs_sheets, path = path
+  )
 
   # remove one 'layer' of the list,
   # so that each sheet is its own element in the list
@@ -134,5 +137,4 @@ read_abs_local <- function(cat_no = NULL,
   sheet <- tidy_abs_list(sheets, metadata = metadata)
 
   sheet
-
 }

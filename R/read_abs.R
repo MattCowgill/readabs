@@ -59,12 +59,14 @@
 #'
 #' # Download and tidy all time series spreadsheets
 #' # from the Wage Price Index (6345.0)
-#'
-#' \dontrun{wpi <- read_abs("6345.0")}
+#' \dontrun{
+#' wpi <- read_abs("6345.0")
+#' }
 #'
 #' # Get two specific time series, based on their time series IDs
-#'
-#' \dontrun{cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))}
+#' \dontrun{
+#' cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))
+#' }
 #'
 #' @importFrom purrr walk walk2 map map_dfr map2
 #' @importFrom curl nslookup
@@ -80,13 +82,14 @@ read_abs <- function(cat_no = NULL,
                      show_progress_bars = TRUE,
                      retain_files = TRUE,
                      check_local = TRUE) {
-
   if (isTRUE(check_local) &&
-      fst_available(cat_no = cat_no, path = path)) {
+    fst_available(cat_no = cat_no, path = path)) {
     if (!identical(tables, "all")) {
-      warning("`tables` was provided",
-              "yet `check_local = TRUE` and fst files are available ",
-              "so `tables` will be ignored.")
+      warning(
+        "`tables` was provided",
+        "yet `check_local = TRUE` and fst files are available ",
+        "so `tables` will be ignored."
+      )
     }
     out <- fst::read_fst(path = catno2fst(cat_no = cat_no, path = path))
     out <- tibble::as_tibble(out)
@@ -97,8 +100,10 @@ read_abs <- function(cat_no = NULL,
       users_series_id <- series_id
       out <- dplyr::filter(out, series_id %in% users_series_id)
     } else {
-      warning("`series_id` was provided,",
-              "but was not present in the local table and will be ignored.")
+      warning(
+        "`series_id` was provided,",
+        "but was not present in the local table and will be ignored."
+      )
     }
     return(out)
   }
@@ -108,9 +113,11 @@ read_abs <- function(cat_no = NULL,
   }
 
   if (is.null(cat_no) & is.null(series_id)) {
-    stop("read_abs() requires either an ABS catalogue number,",
-         "such as '6202.0' or '6401.0',",
-         "or an ABS time series ID like 'A84423127L'.")
+    stop(
+      "read_abs() requires either an ABS catalogue number,",
+      "such as '6202.0' or '6401.0',",
+      "or an ABS time series ID like 'A84423127L'."
+    )
   }
 
   if (!is.null(cat_no) & !is.null(series_id)) {
@@ -119,17 +126,21 @@ read_abs <- function(cat_no = NULL,
 
   if (!is.null(cat_no)) {
     if (nchar(cat_no) < 6) {
-      message(paste0("Please ensure you include the cat_no extension.\n",
-                     "`read_abs()` will assume you meant \"", cat_no,
-                     ".0\"", " rather than ", cat_no))
+      message(paste0(
+        "Please ensure you include the cat_no extension.\n",
+        "`read_abs()` will assume you meant \"", cat_no,
+        ".0\"", " rather than ", cat_no
+      ))
       cat_no <- paste0(cat_no, ".0")
     }
   }
 
   if (!is.null(cat_no) & is.null(tables)) {
-    message(paste0("`tables` not specified;",
-                   "attempting to fetch all tables from "
-                   , cat_no))
+    message(paste0(
+      "`tables` not specified;",
+      "attempting to fetch all tables from ",
+      cat_no
+    ))
     tables <- "all"
   }
 
@@ -138,7 +149,7 @@ read_abs <- function(cat_no = NULL,
   }
 
   # satisfy CRAN
-  ProductReleaseDate = SeriesID = NULL
+  ProductReleaseDate <- SeriesID <- NULL
 
   # create a subdirectory of 'path' corresponding to the catalogue number
   # if specified
@@ -155,50 +166,30 @@ read_abs <- function(cat_no = NULL,
   }
 
   # check that R has access to the internet
-
-  # Function to try accessing abs.gov.au/robots.txt. If this fails, return FALSE
-  test_abs_robots <- function() {
-    tmp <- tempfile()
-    on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
-    result <- tryCatch({
-      suppressWarnings(utils::download.file(
-        "https://www.abs.gov.au/robots.txt",
-        destfile = tmp,
-        quiet = TRUE))
-      file.exists(tmp)
-    },
-    error = function(e) {
-      FALSE
-    }
-    )
-    return(result)
-  }
-
-  # Try nslookup. If this fails, try accessing abs.gov.au/robots.txt
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    if (isFALSE(test_abs_robots())) {
-      stop("R cannot access the ABS website.",
-           " `read_abs()` requires access to the ABS site.",
-           " Please check your internet connection and security settings.")
-    }
-  }
+  check_abs_connection()
 
   # Create URLs to query the ABS Time Series Directory
-  xml_urls <- form_abs_tsd_url(cat_no = cat_no,
-                               tables = tables,
-                               series_id = series_id)
+  xml_urls <- form_abs_tsd_url(
+    cat_no = cat_no,
+    tables = tables,
+    series_id = series_id
+  )
 
 
   # find spreadsheet URLs from cat_no in the Time Series Directory
   download_message <- ifelse(!is.null(cat_no), paste0("catalogue ", cat_no),
-                             "series ID ")
+    "series ID "
+  )
 
-  message(paste0("Finding filenames for tables corresponding to ABS ",
-                 download_message))
+  message(paste0(
+    "Finding filenames for tables corresponding to ABS ",
+    download_message
+  ))
 
   xml_dfs <- purrr::map_dfr(xml_urls,
-                            .f = get_abs_xml_metadata,
-                            issue = "latest")
+    .f = get_abs_xml_metadata,
+    issue = "latest"
+  )
 
   # the same Series ID can appear in multiple spreadsheets;
   # we just want one (the latest)
@@ -215,22 +206,27 @@ read_abs <- function(cat_no = NULL,
   table_titles <- unique(xml_dfs$TableTitle)
 
   # download tables corresponding to URLs
-  message(paste0("Attempting to download files from ", download_message,
-                 ", ", xml_dfs$ProductTitle[1]))
+  message(paste0(
+    "Attempting to download files from ", download_message,
+    ", ", xml_dfs$ProductTitle[1]
+  ))
 
-  download_abs(urls = urls,
-               path = .path,
-               show_progress_bars = show_progress_bars)
+  download_abs(
+    urls = urls,
+    path = .path,
+    show_progress_bars = show_progress_bars
+  )
 
 
   # extract the sheets to a list
   filenames <- base::basename(urls)
   message("Extracting data from downloaded spreadsheets")
   sheets <- purrr::map2(filenames, table_titles,
-                        .f = extract_abs_sheets, path = .path)
+    .f = extract_abs_sheets, path = .path
+  )
 
   # remove one 'layer' of the list,
-  #so that each sheet is its own element in the list
+  # so that each sheet is its own element in the list
   sheets <- unlist(sheets, recursive = FALSE)
 
   # tidy the sheets
@@ -245,26 +241,27 @@ read_abs <- function(cat_no = NULL,
   # if series_id is specified, remove all other series_ids
 
   if (!is.null(series_id)) {
-
     users_series_id <- series_id
 
     sheet <- sheet %>%
       dplyr::filter(series_id %in% users_series_id)
-
   }
 
   # if fst is available, and what has been requested is the full data,
   #  write the result to the <path>/fst/ file
   if (retain_files &&
-      is.null(series_id) &&
-      identical(tables, "all") &&
-      requireNamespace("fst", quietly = TRUE)) {
-    fst::write_fst(sheet,
-                   catno2fst(cat_no = cat_no,
-                             path = path))
+    is.null(series_id) &&
+    identical(tables, "all") &&
+    requireNamespace("fst", quietly = TRUE)) {
+    fst::write_fst(
+      sheet,
+      catno2fst(
+        cat_no = cat_no,
+        path = path
+      )
+    )
   }
 
   # return a data frame
   sheet
-
 }

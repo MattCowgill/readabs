@@ -4,15 +4,14 @@ local_path <- "../testdata"
 local_filename <- "6202021.xls"
 
 check_abs_site <- function() {
-  if(is.null(curl::nslookup("abs.gov.au", error = FALSE))){
+  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
     skip("ABS Time Series Directory not available")
   }
 }
 
 # These functions are deprecated; they date to the pre-0.3.0 version of the package
 
-test_that("Old read_abs_data() function imports a spreadsheet",{
-
+test_that("Old read_abs_data() function imports a spreadsheet", {
   filepath <- paste0(local_path, "/", local_filename)
 
   expect_warning(read_abs_data(filepath, "Data1"))
@@ -22,11 +21,9 @@ test_that("Old read_abs_data() function imports a spreadsheet",{
   expect_is(local_file, "data.frame")
 
   expect_equal(length(colnames(local_file)), 3)
-
 })
 
-test_that("Old read_abs_metadata() function imports a spreadsheet",{
-
+test_that("Old read_abs_metadata() function imports a spreadsheet", {
   filepath <- paste0(local_path, "/", local_filename)
 
   expect_warning(read_abs_metadata(filepath, "Data1"))
@@ -36,11 +33,9 @@ test_that("Old read_abs_metadata() function imports a spreadsheet",{
   expect_is(local_file, "data.frame")
 
   expect_equal(length(colnames(local_file)), 9)
-
 })
 
-test_that("Old read_abs_sdmx function works",{
-
+test_that("Old read_abs_sdmx function works", {
   skip_on_cran()
 
   check_abs_site()
@@ -50,5 +45,4 @@ test_that("Old read_abs_sdmx function works",{
   sdmx_result <- read_abs_sdmx(sdmx_url)
 
   expect_true(is.data.frame(sdmx_result))
-
 })

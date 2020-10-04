@@ -5,35 +5,27 @@
 \title{Experimental helper function to download ABS data cubes that are not compatible with read_abs.}
 \usage{
 download_abs_data_cube(
-  cat_no,
+  catalogue_string,
   cube,
-  path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-  latest = TRUE,
-  date = NULL
+  path = Sys.getenv("R_READABS_PATH", unset = tempdir())
 )
 }
 \arguments{
-\item{cat_no}{ABS catalogue number, as a string, including the extension.
-For example, Labour Force, Australia, Detailed, Quarterly is "6291.0.55.003".}
+\item{catalogue_string}{ABS catalogue name as a string from the new website.
+For example, Labour Force, Australia, Detailed is "labour-force-australia-detailed".
+The possible catalogues can be obtained using the helper function \code{show_available_catalogues()}}
 
-\item{cube}{character. A character string that is in the filename of the data cube you want to
-download, e.g. "EQ09".}
+\item{cube}{character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
+download, e.g. "EQ09". #' The available filenames can be obtained using the helper function \code{get_available_filenames()}}
 
 \item{path}{Local directory in which downloaded files should be stored. By default, `path`
 takes the value set in the #' environment variable "R_READABS_PATH".
 If this variable is not set, #' any files downloaded by read_abs()
 will be stored in a temporary directory #' (\code{tempdir()}).
 See \code{Details} below for #' more information.}
-
-\item{latest}{logical. If `TRUE` (the default), the function tries to find the latest release.}
-
-\item{date}{character. If `latest` is set to `FALSE` the function will attempt to download the
-files on the page specified by that date.
-The format of the date should match the format on the human readable ABS website,
-e.g. "Feb 2020" for Catalogue Number 6291.0.55.003.}
 }
 \description{
-\code{download_abs_data_cube()} downloads ABS data cubes based on the catalogue number and cube.
+\code{download_abs_data_cube()} downloads the latest ABS data cubes based on the catalogue name (from the new website url) and cube.
 The function downloads the file to disk.
 In comparison to \code{read_abs()} this function doesn't tidy the data.
 }
@@ -52,11 +44,15 @@ If you would like to change this variable for all future R sessions, edit
 your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 
-The filepath is returned invisibly which enables piping to \code{unzip()} or \code{reaxl::read_excel}.
+The filepath is returned invisibly which enables piping to \code{unzip()} or \code{readxl::read_excel}.
 }
 \examples{
 
-\dontrun{download_abs_data_cube(cat_no = "6291.0.55.003",
-                                        cube = "EQ09")}
+\dontrun{
+download_abs_data_cube(
+  catalogue_string = "labour-force-australia-detailed",
+  cube = "EQ09"
+)
+}
 
 }

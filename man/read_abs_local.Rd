@@ -51,10 +51,10 @@ please use \code{read_abs()} instead.
 }
 \examples{
 
- # Load and tidy two specified files from the "data/ABS" subdirectory
- # of your working directory
-
- \dontrun{lfs <- read_abs_local(c("6202001.xls", "6202005.xls"))}
-
+# Load and tidy two specified files from the "data/ABS" subdirectory
+# of your working directory
+\dontrun{
+lfs <- read_abs_local(c("6202001.xls", "6202005.xls"))
+}
 
 }

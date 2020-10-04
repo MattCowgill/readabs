@@ -17,35 +17,44 @@
 
 catno2fst <- function(cat_no,
                       path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
-  hutils::provide.file(file.path(path,
-                                 "fst",
-                                 paste0(gsub(".", "-", cat_no, fixed = TRUE),
-                                        ".fst")),
-                       on_failure = stop("`path = ", normalizePath(path,
-                                                                   winslash = "/"),
-                                         "`, ",
-                                         "but it was not possible to write to this directory."))
+  hutils::provide.file(file.path(
+    path,
+    "fst",
+    paste0(
+      gsub(".", "-", cat_no, fixed = TRUE),
+      ".fst"
+    )
+  ),
+  on_failure = stop(
+    "`path = ", normalizePath(path,
+      winslash = "/"
+    ),
+    "`, ",
+    "but it was not possible to write to this directory."
+  )
+  )
 }
 
 fst_available <- function(cat_no,
                           path = Sys.getenv("R_READABS_PATH",
-                                            unset = tempdir())) {
+                            unset = tempdir()
+                          )) {
   if (!requireNamespace("fst", quietly = TRUE) ||
-      !dir.exists(path)) {
+    !dir.exists(path)) {
     return(FALSE)
   }
 
   if (!is.character(cat_no) ||
-      length(cat_no) != 1L ||
-      anyNA(cat_no) ||
-      nchar(cat_no) < 6L) {
+    length(cat_no) != 1L ||
+    anyNA(cat_no) ||
+    nchar(cat_no) < 6L) {
     return(FALSE)
   }
 
   file.fst <- catno2fst(cat_no, path)
 
   if (!file.exists(file.fst)) {
-    return(FALSE)  # nocov
+    return(FALSE) # nocov
   }
 
   # fst may be damaged. If it appears to be (i.e. fst metadata returns an error)
@@ -53,8 +62,9 @@ fst_available <- function(cat_no,
 
 
   out <- tryCatch(inherits(fst::fst.metadata(file.fst), "fstmetadata"),
-                  error = function(e) FALSE,
-                  warning = function(e) FALSE)
+    error = function(e) FALSE,
+    warning = function(e) FALSE
+  )
 
   out
 }

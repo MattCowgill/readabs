@@ -4,7 +4,6 @@
 form_abs_tsd_url <- function(cat_no = NULL,
                              tables = "all",
                              series_id = NULL) {
-
   if (is.null(cat_no) & is.null(series_id)) {
     stop("Must specify either `cat_no` or `series_id`")
   }
@@ -18,22 +17,20 @@ form_abs_tsd_url <- function(cat_no = NULL,
     }
 
     xml_urls <- paste0(base_url, "sid=", series_id)
-
   } else {
-
     if (tables[1] == "all") {
       tables_url <- ""
     } else {
       tables_url <- paste0("&ttitle=", tables)
     }
 
-    xml_urls <- paste0(base_url,
-                       "catno=", cat_no,
-                       tables_url)
-
+    xml_urls <- paste0(
+      base_url,
+      "catno=", cat_no,
+      tables_url
+    )
   }
 
 
   xml_urls
-
 }
