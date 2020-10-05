@@ -24,7 +24,7 @@ Imports:
     fst,
     curl,
     purrr,
-    tidyr, 
+    tidyr (>= 1.0.0), 
     stringr,
     stringi,
     rsdmx, 
