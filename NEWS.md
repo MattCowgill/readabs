@@ -1,3 +1,6 @@
+# readabs 0.4.5.1
+* minor fixes to unit tests
+
 # readabs 0.4.5
 * download_abs_data_cube() and associated functions revamped for new ABS website
 
