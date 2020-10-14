@@ -157,10 +157,12 @@ For more examples, please see the readabs vignette (run
 
 ## New in recent versions
 
-In 0.4.5, \* A new `download_data_cube()` function has been added
-courtesy of David Diviny. \* readabs has been updated to work with the
-new ABS website. \* Some internal functions have been rewritten to
-improve their speed
+In 0.4.5,
+
+  - A new `download_data_cube()` function has been added courtesy of
+    David Diviny.
+  - readabs has been updated to work with the new ABS website.
+  - Some internal functions have been rewritten to improve their speed
 
 In 0.4.3,
 
