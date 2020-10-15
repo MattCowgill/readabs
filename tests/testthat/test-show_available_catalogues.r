@@ -4,7 +4,7 @@ test_that("show_available_catalogues() returns expected vector", {
 
   expect_type(cats, "character")
   expect_gt(length(cats), 200)
-  expect_identical(cats, abs_lookup_table$catalogue)
+  expect_equal(sort(cats), sort(abs_lookup_table$catalogue))
 
   filtered_cats <- show_available_catalogues(selected_heading = "Price indexes and inflation")
 
@@ -23,5 +23,6 @@ test_that("show_available_catalogues(refresh = TRUE) returns tibble", {
 
   expect_type(cats, "character")
   expect_gt(length(cats), 200)
-  expect_identical(cats, abs_lookup_table$catalogue)
+  expect_equal(sort(cats),
+               sort(abs_lookup_table$catalogue))
 })

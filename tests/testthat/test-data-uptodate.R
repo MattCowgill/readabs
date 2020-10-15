@@ -6,7 +6,9 @@ test_that("Lookup table down download_data_cube() is up to date", {
 
   updated_lookup_table <- scrape_abs_catalogues()
 
-  expect_identical(updated_lookup_table, abs_lookup_table)
+  expect_equal(dplyr::arrange(updated_lookup_table, url),
+               dplyr::arrange(abs_lookup_table, url) )
+
 
 })
 
