@@ -1,12 +1,12 @@
 Package: readabs
 Type: Package
 Title: Download and Tidy Time Series Data from the Australian Bureau of Statistics
-Version: 0.4.5.1.900
+Version: 0.4.5.1.901
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com"),
            person("Zoe", "Meers", role = "aut", email = "zoe.meers@sydney.edu.au"),
            person("Jaron", "Lee", role = "aut", email = "jaron.lee@sydney.edu.au"),
-           person("David", "Diviny", role = "ctb", email = "David.Diviny@nousgroup.com.au"),
+           person("David", "Diviny", role = "aut", email = "David.Diviny@nousgroup.com.au"),
            person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"))
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
