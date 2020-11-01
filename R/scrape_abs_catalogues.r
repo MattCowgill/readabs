@@ -21,12 +21,9 @@ scrape_abs_catalogues <- function() {
   abs_stats_page <- xml2::read_html("https://www.abs.gov.au/statistics")
 
   main_page_data <- tibble::tibble(
-    heading = abs_stats_page %>%
-      rvest::html_nodes("h3") %>% rvest::html_text() %>% stringr::str_trim(),
-    url_suffix = abs_stats_page %>% rvest::html_nodes(".layout__region--content a") %>% rvest::html_attr("href") %>% stringr::str_trim()
-  ) %>%
-    filter(grepl("/statistics", .data$url_suffix)) %>%
-    filter(.data$heading != "Key economic indicators")
+    heading = abs_stats_page %>% rvest::html_nodes(".field--type-ds h3") %>% rvest::html_text() %>% stringr::str_trim(),
+    url_suffix = abs_stats_page %>% rvest::html_nodes(".card") %>% rvest::html_attr("href") %>% stringr::str_trim()
+  )
 
   # scrape each page
 
