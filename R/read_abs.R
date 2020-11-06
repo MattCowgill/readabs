@@ -202,6 +202,8 @@ read_abs <- function(cat_no = NULL,
   }
 
   urls <- unique(xml_dfs$TableURL)
+  # Remove spaces from URLs
+  urls <- gsub(" ", "+", urls)
 
   table_titles <- unique(xml_dfs$TableTitle)
 
