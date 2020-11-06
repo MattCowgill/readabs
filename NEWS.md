@@ -1,3 +1,6 @@
+# readabs 0.4.5.2
+* Bug fixes, including addressing a case where an ABS URL has a space in it
+
 # readabs 0.4.5.1
 * minor fixes to unit tests
 
