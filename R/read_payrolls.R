@@ -1,7 +1,10 @@
-#' Download and tidy ABS-ATO payrolls data
+#' Download and tidy ABS payroll jobs and wages data
 #'
-#' The ABS 'Weekly Payroll Jobs and Wages in Australia' dataset is very useful
-#' to analysts of the Australian labour market. It draws upon data collected
+#' Import a tidy tibble of ABS Weekly Payrolls data.
+#'
+#' @details The ABS 'Weekly Payroll Jobs and Wages in Australia' dataset
+#' is very useful to analysts of the Australian labour market.
+#' It draws upon data collected
 #' by the Australian Taxation Office as part of its Single-Touch Payroll
 #' initiative and supplements the monthly Labour Force Survey. Unfortunately,
 #' the data as published by the ABS (1) is not in a standard time series
@@ -40,23 +43,26 @@
 #' environment variable "R_READABS_PATH". If this variable is not set,
 #' any files downloaded by read_abs()  will be stored in a temporary directory
 #' (\code{tempdir()}).
+#'
+#' @importFrom rlang .data
 #' @export
 
-read_payrolls <- function(series = c("industry_jobs",
-                                     "industry_wages",
-                                     "sa4_jobs",
-                                     "sa3_jobs",
-                                     "subindustry_jobs",
-                                     "empsize_jobs"),
+read_payrolls <- function(series = c(
+                            "industry_jobs",
+                            "industry_wages",
+                            "sa4_jobs",
+                            "sa3_jobs",
+                            "subindustry_jobs",
+                            "empsize_jobs"
+                          ),
                           path = Sys.getenv("R_READABS_PATH",
-                                            unset = tempdir())
-                          ) {
-
+                            unset = tempdir()
+                          )) {
   check_abs_connection()
 
   series <- match.arg(series)
 
-  cube_name <- switch (series,
+  cube_name <- switch(series,
     "industry_jobs" = "DO004",
     "industry_wages" = "DO004",
     "sa4_jobs" = "DO005",
@@ -65,7 +71,7 @@ read_payrolls <- function(series = c("industry_jobs",
     "empsize_jobs" = "DO007"
   )
 
-  safely_download_cube <- purrr::safely(.f = ~download_abs_data_cube(
+  safely_download_cube <- purrr::safely(.f = ~ download_abs_data_cube(
     catalogue_string = "weekly-payroll-jobs-and-wages-australia",
     cube = cube_name,
     path = path
@@ -79,7 +85,7 @@ read_payrolls <- function(series = c("industry_jobs",
 
   cube_path <- cube_path$result
 
-  sheet_name <- switch (series,
+  sheet_name <- switch(series,
     "industry_jobs" = "Payroll jobs index",
     "industry_wages" = "Total wages index",
     "sa4_jobs" = "Payroll jobs index-SA4",
@@ -89,45 +95,53 @@ read_payrolls <- function(series = c("industry_jobs",
   )
 
   cube <- readxl::read_excel(cube_path,
-                             sheet = sheet_name,
-                             col_types = "text",
-                             skip = 5)
+    sheet = sheet_name,
+    col_types = "text",
+    skip = 5
+  )
+
+  to_snake <- function(x) {
+    x <- gsub(" ", "_", x)
+    tolower(x)
+  }
 
   cube <- cube %>%
-    dplyr::rename_with(.fn = ~dplyr::case_when(.x == "State or Territory" ~ "state",
-                                        .x == "Industry division" ~ "industry",
-                                        .x == "Sex" ~ "sex",
-                                        .x == "Age group" ~ "age",
-                                        .x == "Statistical Area 4" ~ "sa4",
-                                        .x == "Statistical Area 3" ~ "sa3",
-                                        TRUE ~ .x))
+    dplyr::rename_with(.fn = ~ dplyr::case_when(
+      .x == "State or Territory" ~ "state",
+      .x == "Industry division" ~ "industry",
+      .x == "Sub-division" ~ "industry_subdivision",
+      .x == "Employment size" ~ "emp_size",
+      .x == "Sex" ~ "sex",
+      .x == "Age group" ~ "age",
+      .x == "Statistical Area 4" ~ "sa4",
+      .x == "Statistical Area 3" ~ "sa3",
+      TRUE ~ to_snake(.x)
+    ))
+
+  cube <- cube[!is.na(cube[[1]]), ]
 
   cube <- cube %>%
-    dplyr::filter(!is.na(state))
+    tidyr::pivot_longer(
+      cols = dplyr::starts_with("4"),
+      names_to = "date",
+      values_to = "value"
+    )
 
   cube <- cube %>%
-    tidyr::pivot_longer(cols = dplyr::starts_with("4"),
-                        names_to = "date",
-                        values_to = "value")
+    dplyr::filter(.data$value != "NA") %>%
+    dplyr::mutate(value = as.numeric(.data$value))
 
   cube <- cube %>%
-    dplyr::filter(value != "NA") %>%
-    dplyr::mutate(value = as.numeric(value))
+    dplyr::mutate(date = as.Date(as.numeric(.data$date), origin = "1899-12-30"))
 
   cube <- cube %>%
-    dplyr::mutate(date = as.Date(as.numeric(date), origin = "1899-12-30"))
-
-  # cube <- cube %>%
-  #   dplyr::mutate_if(.predicate = is.character,
-  #                    .funs = ~gsub(".\\. ", "", .))
-  #
-  # cube <- cube %>%
-  #   dplyr::mutate_if(.predicate = is.character,
-  #                    .funs = ~gsub("[[:digit:]].-", "", .))
-
-  cube <- cube %>%
-    dplyr::mutate_if(.predicate = is.character,
-                     .funs = ~gsub(".*\\. ", "", .))
+    dplyr::mutate_if(
+      .predicate = is.character,
+      .funs = gsub,
+      pattern = ".*\\. ",
+      replacement = "",
+      perl = TRUE
+    )
 
   if (grepl("wages", series)) {
     cube$series <- "wages"

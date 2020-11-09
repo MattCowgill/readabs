@@ -18,5 +18,4 @@ test_that("get_available_files() works", {
   error_names <- names(errors)
 
   expect_equal(length(error_names), 0)
-
 })

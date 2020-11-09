@@ -63,20 +63,32 @@ get_available_files <- function(catalogue_string, refresh = FALSE) {
   )
 
   # Find the url for the download
-  urls <- download_page %>% rvest::html_nodes(".file a") %>% rvest::html_attr("href")
+  urls <- download_page %>%
+    rvest::html_nodes(".file a") %>%
+    rvest::html_attr("href")
 
-  labels <- download_page %>% rvest::html_nodes(".abs-data-download-left") %>% rvest::html_text()
+  labels <- download_page %>%
+    rvest::html_nodes(".abs-data-download-left") %>%
+    rvest::html_text()
 
-  #fix for some inconsistent CSS on ABS website
-  if(length(labels) != length(urls)) {labels <- download_page %>% rvest::html_nodes("h4") %>% rvest::html_text()}
+  # fix for some inconsistent CSS on ABS website
+  if (length(labels) != length(urls)) {
+    labels <- download_page %>%
+      rvest::html_nodes("h4") %>%
+      rvest::html_text()
+  }
 
-  #fix for anything that doesn't fit the above patterns
+  # fix for anything that doesn't fit the above patterns
 
-  if(length(labels) != length(urls)) {labels <- rep(NA, length(urls))}
+  if (length(labels) != length(urls)) {
+    labels <- rep(NA, length(urls))
+  }
 
 
-  available_downloads <- tibble::tibble(url = urls,
-                                        label = labels) %>%
+  available_downloads <- tibble::tibble(
+    url = urls,
+    label = labels
+  ) %>%
     mutate(file = str_extract(url, "[^/]*$")) %>%
     select(.data$label, .data$file, .data$url)
 

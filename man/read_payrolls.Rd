@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_payrolls.R
 \name{read_payrolls}
 \alias{read_payrolls}
-\title{Download and tidy ABS-ATO payrolls data}
+\title{Download and tidy ABS payroll jobs and wages data}
 \usage{
 read_payrolls(
   series = c("industry_jobs", "industry_wages", "sa4_jobs", "sa3_jobs",
@@ -37,8 +37,12 @@ any files downloaded by read_abs()  will be stored in a temporary directory
 A tidy (long) `tbl_df`. The number of columns differs based on the `series`.
 }
 \description{
-The ABS 'Weekly Payroll Jobs and Wages in Australia' dataset is very useful
-to analysts of the Australian labour market. It draws upon data collected
+Import a tidy tibble of ABS Weekly Payrolls data.
+}
+\details{
+The ABS 'Weekly Payroll Jobs and Wages in Australia' dataset
+is very useful to analysts of the Australian labour market.
+It draws upon data collected
 by the Australian Taxation Office as part of its Single-Touch Payroll
 initiative and supplements the monthly Labour Force Survey. Unfortunately,
 the data as published by the ABS (1) is not in a standard time series
