@@ -24,4 +24,6 @@ test_that("read_awe() returns expected output", {
     .f = ~expect_is(read_awe(wage_measure = .y, sex = .x),
                     "tbl_df")
   )
+
+  expect_gt(nrow(read_awe()), nrow(read_awe(na.rm = TRUE)))
 })
