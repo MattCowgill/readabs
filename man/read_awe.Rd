@@ -7,6 +7,7 @@
 read_awe(
   wage_measure = c("awote", "ftawe", "awe"),
   sex = c("persons", "males", "females"),
+  na.rm = FALSE,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
   show_progress_bars = FALSE,
   check_local = FALSE
@@ -22,6 +23,10 @@ read_awe(
 
 \item{sex}{Character. Must be one of: `persons`, `males`, or `females`.}
 
+\item{na.rm}{Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
+series is returned, with `NA` values for quarters in which there is no data.
+If `TRUE`, only dates with data are included in the returned data frame.}
+
 \item{path}{See `?read_abs`}
 
 \item{show_progress_bars}{See `?read_abs`}
@@ -30,8 +35,7 @@ read_awe(
 }
 \value{
 A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
-The data is quarterly and is nominal (ie. not inflation-adjusted).
-The `value` for any quarters for which the ABS didn't record data is `NA`.
+The data is nominal (ie. not inflation-adjusted).
 }
 \description{
 Convenience function to obtain wage levels from ABS
@@ -44,7 +48,7 @@ from quarterly to biannual collection and release of the AWE data. The
 `read_awe()` function assembles on time series back to November 1983 quarter;
 it is quarterly to 2012 and biannual from then. Note that the data
 returned with this function is consistently quarterly; any quarters for
-which there are no observations are recorded as `NA`.
+which there are no observations are recorded as `NA` unless `na.rm` = `TRUE`.
 }
 \examples{
 \dontrun{
