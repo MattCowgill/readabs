@@ -17,9 +17,13 @@
 #' However, this time series only goes back to 2012, when the ABS switched
 #' from quarterly to biannual collection and release of the AWE data. The
 #' `read_awe()` function assembles on time series back to November 1983 quarter;
-#' it is quarterly to 2012 and biannual from then.
+#' it is quarterly to 2012 and biannual from then. Note that the data
+#' returned with this function is consistently quarterly; any quarters for
+#' which there are no observations are recorded as `NA`.
 #' @return
 #' A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
+#' The data is quarterly and is nominal (ie. not inflation-adjusted).
+#' The `value` for any quarters for which the ABS didn't record data is `NA`.
 #'
 #' @examples
 #' \dontrun{
@@ -59,8 +63,27 @@ read_awe <- function(wage_measure = c("awote",
     filter(.data$sex == .sex,
            .data$wage_measure == .wage_measure)
 
+  # Pad to ensure data is quarterly
+  missing_dates <- expand.grid(month = unique(format(awe$date, "%m")),
+              year = unique(format(awe$date, "%Y")),
+              day = 15,
+              sex = .sex,
+              wage_measure = .wage_measure,
+              stringsAsFactors = FALSE) %>%
+    dplyr::mutate(date = as.Date(paste(.data$year,
+                                       .data$month,
+                                       .data$day,
+                                       sep = "-"))) %>%
+    dplyr::filter(!date %in% awe$date & date > min(awe$date)) %>%
+    mutate(value = NA_real_) %>%
+    dplyr::select(.data$date, .data$sex, .data$wage_measure, .data$value)
+
+  awe <- missing_dates %>%
+    dplyr::bind_rows(awe) %>%
+    dplyr::as_tibble()
+
   awe <- awe %>%
-    dplyr::arrange(date)
+    dplyr::arrange(.data$date)
 
   awe
 }

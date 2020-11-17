@@ -30,6 +30,8 @@ read_awe(
 }
 \value{
 A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
+The data is quarterly and is nominal (ie. not inflation-adjusted).
+The `value` for any quarters for which the ABS didn't record data is `NA`.
 }
 \description{
 Convenience function to obtain wage levels from ABS
@@ -40,7 +42,9 @@ The latest AWE data is available using `read_abs(cat_no = "6302.0", tables = 2)`
 However, this time series only goes back to 2012, when the ABS switched
 from quarterly to biannual collection and release of the AWE data. The
 `read_awe()` function assembles on time series back to November 1983 quarter;
-it is quarterly to 2012 and biannual from then.
+it is quarterly to 2012 and biannual from then. Note that the data
+returned with this function is consistently quarterly; any quarters for
+which there are no observations are recorded as `NA`.
 }
 \examples{
 \dontrun{
