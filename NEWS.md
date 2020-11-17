@@ -1,5 +1,6 @@
 # readabs 0.4.6
 * New read_payrolls() convenience function added
+* New read_awe() convenience function added
 * Package logo added
 
 # readabs 0.4.5.2
