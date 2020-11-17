@@ -56,7 +56,7 @@ There are some other functions you may find useful.
 * `download_abs_data_cube()` downloads a data cube (ie. non-time series spreadsheet) from the ABS website. Thanks to David Diviny for writing this function.
 * `read_cpi()` imports the Consumer Price Index numbers as a two-column tibble: `date` and `cpi`. This is useful for joining to other series to adjust data for changes in consumer prices.
 * `read_payrolls()` downloads, imports, and tidies tables from the ABS Weekly Payroll Jobs dataset.
-
+* `read_awe()` returns a long time series of Average Weekly Earnings data. 
 
 ## Using read_abs()
 

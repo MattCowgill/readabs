@@ -62,6 +62,8 @@ There are some other functions you may find useful.
     other series to adjust data for changes in consumer prices.
   - `read_payrolls()` downloads, imports, and tidies tables from the ABS
     Weekly Payroll Jobs dataset.
+  - `read_awe()` returns a long time series of Average Weekly Earnings
+    data.
 
 ## Using read\_abs()
 
@@ -77,11 +79,11 @@ library(readabs)
 #> You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use
 #>  Sys.setenv(R_READABS_PATH = <path>)
 library(tidyverse)
-#> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+#> ── Attaching packages ────────────────────────────────── tidyverse 1.3.0.9000 ──
 #> ✓ ggplot2 3.3.2          ✓ purrr   0.3.4.9000
-#> ✓ tibble  3.0.4          ✓ dplyr   1.0.2     
+#> ✓ tibble  3.0.4.9000     ✓ dplyr   1.0.2     
 #> ✓ tidyr   1.1.2          ✓ stringr 1.4.0.9000
-#> ✓ readr   1.4.0.9000     ✓ forcats 0.5.0.9000
+#> ✓ readr   1.4.0          ✓ forcats 0.5.0.9000
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> x dplyr::filter() masks stats::filter()
 #> x dplyr::lag()    masks stats::lag()
