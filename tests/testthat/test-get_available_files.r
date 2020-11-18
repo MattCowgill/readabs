@@ -7,7 +7,7 @@ test_that("get_available_files() works", {
 
   safely_get_available_files <- purrr::safely(get_available_files)
 
-  results <- map(cats, safely_get_available_files)
+  results <- purrr::map(cats, safely_get_available_files)
 
   results <- setNames(results, cats)
 
