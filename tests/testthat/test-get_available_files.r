@@ -5,9 +5,14 @@ test_that("get_available_files() works", {
 
   cats <- show_available_catalogues()
 
-  safely_get_available_files <- purrr::safely(get_available_files)
+  get_available_files_printname <- function(cat) {
+    print(cat)
+    get_available_files(cat)
+  }
 
-  results <- map(cats, safely_get_available_files)
+  safely_get_available_files <- purrr::safely(get_available_files_printname)
+
+  results <- purrr::map(cats, safely_get_available_files)
 
   results <- setNames(results, cats)
 

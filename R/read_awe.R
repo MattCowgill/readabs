@@ -9,6 +9,9 @@
 #'   \item{`awe`}{ Average weekly total earnings of all employees}
 #' }
 #' @param sex Character. Must be one of: `persons`, `males`, or `females`.
+#' @param na.rm Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
+#' series is returned, with `NA` values for quarters in which there is no data.
+#' If `TRUE`, only dates with data are included in the returned data frame.
 #' @param path See `?read_abs`
 #' @param show_progress_bars See `?read_abs`
 #' @param check_local See `?read_abs`
@@ -17,9 +20,12 @@
 #' However, this time series only goes back to 2012, when the ABS switched
 #' from quarterly to biannual collection and release of the AWE data. The
 #' `read_awe()` function assembles on time series back to November 1983 quarter;
-#' it is quarterly to 2012 and biannual from then.
+#' it is quarterly to 2012 and biannual from then. Note that the data
+#' returned with this function is consistently quarterly; any quarters for
+#' which there are no observations are recorded as `NA` unless `na.rm` = `TRUE`.
 #' @return
 #' A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
+#' The data is nominal (ie. not inflation-adjusted).
 #'
 #' @examples
 #' \dontrun{
@@ -33,6 +39,7 @@ read_awe <- function(wage_measure = c("awote",
                      sex = c("persons",
                              "males",
                              "females"),
+                     na.rm = FALSE,
                      path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = FALSE,
                      check_local = FALSE) {
@@ -59,8 +66,34 @@ read_awe <- function(wage_measure = c("awote",
     filter(.data$sex == .sex,
            .data$wage_measure == .wage_measure)
 
+  if (isFALSE(na.rm)) {
+    # Pad to ensure data is quarterly
+    missing_dates <- expand.grid(month = unique(format(awe$date, "%m")),
+                year = unique(format(awe$date, "%Y")),
+                day = 15,
+                sex = .sex,
+                wage_measure = .wage_measure,
+                stringsAsFactors = FALSE) %>%
+      dplyr::mutate(date = as.Date(paste(.data$year,
+                                         .data$month,
+                                         .data$day,
+                                         sep = "-"))) %>%
+      dplyr::filter(!date %in% awe$date &
+                      date > min(awe$date) &
+                      date < max(awe$date)) %>%
+      mutate(value = NA_real_) %>%
+      dplyr::select(.data$date, .data$sex, .data$wage_measure, .data$value)
+
+    awe <- missing_dates %>%
+      dplyr::bind_rows(awe) %>%
+      dplyr::as_tibble()
+  } else {
+    awe <- awe %>%
+      dplyr::filter(!is.na(.data$value))
+  }
+
   awe <- awe %>%
-    dplyr::arrange(date)
+    dplyr::arrange(.data$date)
 
   awe
 }

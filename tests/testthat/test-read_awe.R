@@ -10,7 +10,8 @@ test_that("read_awe() returns expected output", {
   expect_identical(min(no_params$date), as.Date("1983-11-15"))
   expect_gt(max(no_params$date), as.Date("2020-05-14"))
   expect_is(no_params$value, "numeric")
-  expect_gt(max(no_params$value) / min(no_params$value),
+  expect_gt(max(no_params$value, na.rm = T) /
+              min(no_params$value, na.rm = T),
             4.5)
 
   params_df <- expand.grid(sex = c("persons", "males", "females"),
@@ -23,4 +24,6 @@ test_that("read_awe() returns expected output", {
     .f = ~expect_is(read_awe(wage_measure = .y, sex = .x),
                     "tbl_df")
   )
+
+  expect_gt(nrow(read_awe()), nrow(read_awe(na.rm = TRUE)))
 })
