@@ -20,10 +20,8 @@
 #'
 #' @importFrom glue glue
 #' @importFrom xml2 read_html
-#' @importFrom dplyr  %>% filter pull slice
-#' @importFrom tibble tibble
+#' @importFrom dplyr  %>% filter pull slice tibble
 #' @importFrom rvest html_nodes html_attr html_text
-#' @importFrom stringr str_extract str_replace_all
 #' @importFrom rlang .data
 #'
 #' @export
@@ -85,11 +83,11 @@ get_available_files <- function(catalogue_string, refresh = FALSE) {
   }
 
 
-  available_downloads <- tibble::tibble(
+  available_downloads <- dplyr::tibble(
     url = urls,
     label = labels
   ) %>%
-    mutate(file = str_extract(url, "[^/]*$")) %>%
+    mutate(file = stringi::stri_extract_first_regex(url, "[^/]*$")) %>%
     select(.data$label, .data$file, .data$url)
 
   return(available_downloads)

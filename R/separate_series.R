@@ -47,10 +47,6 @@ separate_series <- function(data,
     original_series = series
   )
 
-  fast_str_squish <- function(string) {
-    stringi::stri_trim_both(gsub("\\s+", " ", string, perl = TRUE))
-  }
-
   # Minor data cleaning of series column
   data <- mutate(data,
     # Extract everything before trailing ;

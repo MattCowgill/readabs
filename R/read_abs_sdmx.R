@@ -23,6 +23,7 @@
 #' }
 #'
 read_abs_sdmx <- function(url) {
+  .Deprecated(msg = "read_abs_sdmx() is deprecated and will be removed in a future version.")
   url <- url
   dataset <- rsdmx::readSDMX(url)
   abs_data <- as.data.frame(dataset)

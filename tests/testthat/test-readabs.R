@@ -1,5 +1,4 @@
 library(readabs)
-library(RCurl)
 
 wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
 
