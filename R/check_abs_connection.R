@@ -27,7 +27,8 @@ test_abs_robots <- function() {
       suppressWarnings(utils::download.file(
         "https://www.abs.gov.au/robots.txt",
         destfile = tmp,
-        quiet = TRUE
+        quiet = TRUE,
+        headers = c("User-Agent" = readabs_user_agent)
       ))
       file.exists(tmp)
     },

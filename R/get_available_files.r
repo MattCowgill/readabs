@@ -19,7 +19,6 @@
 #' }
 #'
 #' @importFrom glue glue
-#' @importFrom xml2 read_html
 #' @importFrom dplyr  %>% filter pull slice tibble
 #' @importFrom rvest html_nodes html_attr html_text
 #' @importFrom rlang .data
@@ -50,7 +49,8 @@ get_available_files <- function(catalogue_string, refresh = FALSE) {
 
   # Try to download the page
   download_page <- tryCatch(
-    xml2::read_html(download_url),
+    xml2::read_html(download_url,
+                    user_agent = readabs_user_agent),
     error = function(cond) {
       message(paste("URL does not seem to exist:", download_url))
       message("Here's the original error message:")

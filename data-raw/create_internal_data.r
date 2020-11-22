@@ -2,10 +2,14 @@
 devtools::load_all()
 library(dplyr)
 
+# User agent for all download.file() / read_html() functions
+readabs_user_agent <- "readabs R package - https://mattcowgill.github.io/readabs/index.html"
+
 # Old AWE/AWOTE data for read_awe() / read_awote() convenience functions -----
 dl_if_not <- function(file, url) {
   if (!file.exists(file)) {
     download.file(url = url,
+                  headers = c("User-Agent" = readabs_user_agent),
                   destfile = file)
   }
 }
@@ -31,6 +35,8 @@ abs_lookup_table <- scrape_abs_catalogues()
 
 data_last_updated <- Sys.Date()
 
-usethis::use_data(abs_lookup_table, data_last_updated, awe_old,
+usethis::use_data(abs_lookup_table, data_last_updated,
+                  awe_old,
+                  readabs_user_agent,
   overwrite = TRUE, internal = TRUE
 )

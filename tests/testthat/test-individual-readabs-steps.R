@@ -39,7 +39,8 @@ test_that("individual steps of read_abs() work", {
       temp_xml_1,
       temp_xml_2
     ),
-    .f = download.file
+    .f = download.file,
+    headers = c("User-Agent" = readabs_user_agent)
   )
 
   expect_true(file.exists(temp_xml_1))

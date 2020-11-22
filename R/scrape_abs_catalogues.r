@@ -16,7 +16,8 @@
 scrape_abs_catalogues <- function() {
 
   # scrape the main page
-  abs_stats_page <- xml2::read_html("https://www.abs.gov.au/statistics")
+  abs_stats_page <- xml2::read_html("https://www.abs.gov.au/statistics",
+                                    user_agent = readabs_user_agent)
 
   main_page_data <- dplyr::tibble(
     heading = abs_stats_page %>% rvest::html_nodes(".field--type-ds h3") %>% rvest::html_text() %>% stringi::stri_trim_both(),
@@ -29,7 +30,8 @@ scrape_abs_catalogues <- function() {
     main_page_heading <- main_page_data$heading[main_page_data$url_suffix == sub_page_url_suffix]
 
 
-    sub_page <- xml2::read_html(glue::glue("https://www.abs.gov.au{sub_page_url_suffix}"))
+    sub_page <- xml2::read_html(glue::glue("https://www.abs.gov.au{sub_page_url_suffix}"),
+                                user_agent = readabs_user_agent)
 
     sub_page_data <- dplyr::tibble(
       heading = main_page_heading,
