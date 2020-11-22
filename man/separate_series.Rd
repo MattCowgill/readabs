@@ -38,7 +38,7 @@ separator.
 }
 \examples{
 \dontrun{
-motor_vehicles <- read_abs("9314.0") \%>\%
+wpi <- read_abs("6345.0", 1) \%>\%
   separate_series()
 }
 

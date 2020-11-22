@@ -14,7 +14,6 @@
 #' `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
 #'
 #' @importFrom readxl excel_sheets read_excel
-#' @importFrom tibble tibble
 #' @importFrom dplyr filter "%>%"
 #' @importFrom purrr map set_names
 #' @importFrom tools file_path_sans_ext

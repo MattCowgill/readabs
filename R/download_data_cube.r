@@ -45,11 +45,8 @@
 #'
 #' @importFrom dplyr %>%
 #' @importFrom glue glue
-#' @importFrom xml2 read_html
 #' @importFrom dplyr filter pull slice
-#' @importFrom tibble tibble
 #' @importFrom rvest html_nodes html_attr html_text
-#' @importFrom stringr str_remove str_extract str_replace_all
 #' @importFrom httr GET
 #'
 #' @export
@@ -82,7 +79,8 @@ download_abs_data_cube <- function(catalogue_string,
 
 
   # ==================download file======================
-  download_object <- httr::GET(file_download_url)
+  download_object <- httr::GET(file_download_url,
+                               httr::user_agent(readabs_user_agent))
 
   # save file path to disk
 

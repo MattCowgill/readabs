@@ -1,3 +1,6 @@
+# readabs 0.4.6.900
+* Package dependencies reduced
+
 # readabs 0.4.6
 * New read_payrolls() convenience function added
 * New read_awe() convenience function added

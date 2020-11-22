@@ -21,7 +21,8 @@ download_abs <- function(urls,
       quiet = !show_progress_bars,
       destfile = filenames,
       method = "libcurl",
-      cacheOK = FALSE
+      cacheOK = FALSE,
+      headers = c("User-Agent" = readabs_user_agent)
     )
   } else {
     purrr::walk2(
@@ -30,7 +31,8 @@ download_abs <- function(urls,
       .f = utils::download.file,
       mode = "wb",
       quiet = !show_progress_bars,
-      cacheOK = FALSE
+      cacheOK = FALSE,
+      headers = c("User-Agent" = readabs_user_agent)
     )
   }
 

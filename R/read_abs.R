@@ -92,7 +92,7 @@ read_abs <- function(cat_no = NULL,
       )
     }
     out <- fst::read_fst(path = catno2fst(cat_no = cat_no, path = path))
-    out <- tibble::as_tibble(out)
+    out <- dplyr::as_tibble(out)
     if (is.null(series_id)) {
       return(out)
     }
