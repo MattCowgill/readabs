@@ -5,14 +5,12 @@
 
 <!-- badges: start -->
 
-[![Build
-Status](https://travis-ci.org/MattCowgill/readabs.svg?branch=master)](https://travis-ci.org/MattCowgill/readabs)
+[![R build
+status](https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg)](https://github.com/mattcowgill/readabs/actions)
 [![codecov
 status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://codecov.io/gh/MattCowgill/readabs)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
-[![R build
-status](https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg)](https://github.com/mattcowgill/readabs/actions)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
@@ -47,22 +45,22 @@ imports, and tidies time series data from the ABS website.
 
 There are some other functions you may find useful.
 
-  - `read_abs_local()` imports and tidies time series data from ABS
+-   `read_abs_local()` imports and tidies time series data from ABS
     spreadsheets stored on a local drive. Thanks to Hugh Parsonage for
     contributing to this functionality.
-  - `separate_series()` splits the `series` column of a tidied ABS time
+-   `separate_series()` splits the `series` column of a tidied ABS time
     series spreadsheet into multiple columns, reducing the manual
     wrangling that’s needed to work with the data. Thanks to David
     Diviny for writing this function.
-  - `download_abs_data_cube()` downloads a data cube (ie. non-time
+-   `download_abs_data_cube()` downloads a data cube (ie. non-time
     series spreadsheet) from the ABS website. Thanks to David Diviny for
     writing this function.
-  - `read_cpi()` imports the Consumer Price Index numbers as a
+-   `read_cpi()` imports the Consumer Price Index numbers as a
     two-column tibble: `date` and `cpi`. This is useful for joining to
     other series to adjust data for changes in consumer prices.
-  - `read_payrolls()` downloads, imports, and tidies tables from the ABS
+-   `read_payrolls()` downloads, imports, and tidies tables from the ABS
     Weekly Payroll Jobs dataset.
-  - `read_awe()` returns a long time series of Average Weekly Earnings
+-   `read_awe()` returns a long time series of Average Weekly Earnings
     data.
 
 ## Using read\_abs()
@@ -79,11 +77,11 @@ library(readabs)
 #> You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use
 #>  Sys.setenv(R_READABS_PATH = <path>)
 library(tidyverse)
-#> ── Attaching packages ────────────────────────────────── tidyverse 1.3.0.9000 ──
+#> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
 #> ✓ ggplot2 3.3.2          ✓ purrr   0.3.4.9000
-#> ✓ tibble  3.0.4.9000     ✓ dplyr   1.0.2     
+#> ✓ tibble  3.0.4          ✓ dplyr   1.0.2     
 #> ✓ tidyr   1.1.2          ✓ stringr 1.4.0.9000
-#> ✓ readr   1.4.0          ✓ forcats 0.5.0.9000
+#> ✓ readr   1.4.0.9000     ✓ forcats 0.5.0.9000
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> x dplyr::filter() masks stats::filter()
 #> x dplyr::lag()    masks stats::lag()
@@ -104,19 +102,19 @@ This is what it looks like:
 
 ``` r
 str(all_wpi)
-#> tibble [58,834 × 12] (S3: tbl_df/tbl/data.frame)
-#>  $ table_no        : chr [1:58834] "634501" "634501" "634501" "634501" ...
-#>  $ sheet_no        : chr [1:58834] "Data1" "Data1" "Data1" "Data1" ...
-#>  $ table_title     : chr [1:58834] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
-#>  $ date            : Date[1:58834], format: "1997-09-01" "1997-09-01" ...
-#>  $ series          : chr [1:58834] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
-#>  $ value           : num [1:58834] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...
-#>  $ series_type     : chr [1:58834] "Original" "Original" "Original" "Seasonally Adjusted" ...
-#>  $ data_type       : chr [1:58834] "INDEX" "INDEX" "INDEX" "INDEX" ...
-#>  $ collection_month: chr [1:58834] "3" "3" "3" "3" ...
-#>  $ frequency       : chr [1:58834] "Quarter" "Quarter" "Quarter" "Quarter" ...
-#>  $ series_id       : chr [1:58834] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...
-#>  $ unit            : chr [1:58834] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
+#> tibble [59,377 × 12] (S3: tbl_df/tbl/data.frame)
+#>  $ table_no        : chr [1:59377] "634501" "634501" "634501" "634501" ...
+#>  $ sheet_no        : chr [1:59377] "Data1" "Data1" "Data1" "Data1" ...
+#>  $ table_title     : chr [1:59377] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
+#>  $ date            : Date[1:59377], format: "1997-09-01" "1997-09-01" ...
+#>  $ series          : chr [1:59377] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
+#>  $ value           : num [1:59377] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...
+#>  $ series_type     : chr [1:59377] "Original" "Original" "Original" "Seasonally Adjusted" ...
+#>  $ data_type       : chr [1:59377] "INDEX" "INDEX" "INDEX" "INDEX" ...
+#>  $ collection_month: chr [1:59377] "3" "3" "3" "3" ...
+#>  $ frequency       : chr [1:59377] "Quarter" "Quarter" "Quarter" "Quarter" ...
+#>  $ series_id       : chr [1:59377] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...
+#>  $ unit            : chr [1:59377] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
 ```
 
 It only takes you a few lines of code to make a graph from your data:
