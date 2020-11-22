@@ -23,11 +23,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' motor_vehicles <- read_abs("9314.0") %>%
+#' wpi <- read_abs("6345.0", 1) %>%
 #'   separate_series()
 #' }
 #'
-#' @importFrom stringr str_count
 #' @importFrom stringi stri_trim_both
 #' @importFrom dplyr filter mutate_at sym
 #' @importFrom tidyr separate
@@ -70,7 +69,7 @@ separate_series <- function(data,
   }
 
   # Determine number of ; separators in series column
-  n_seps <- max(str_count(data$series, ";"))
+  n_seps <- max(stringi::stri_count_fixed(data$series, ";"))
 
   # Determine number of columns to split series into
   n_columns <- n_seps + 1

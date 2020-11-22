@@ -114,9 +114,9 @@ tidy_awe <- function(df) {
 
   df$measure <- gsub(";", "", df$measure, fixed = TRUE)
   df$measure <- tolower(df$measure)
-  df$measure <- stringr::str_squish(df$measure)
+  df$measure <- fast_str_squish(df$measure)
 
-  df$sex <- stringr::str_squish(df$sex)
+  df$sex <- fast_str_squish(df$sex)
   df$sex <- tolower(df$sex)
 
   df <- df %>%
