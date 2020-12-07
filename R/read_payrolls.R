@@ -128,8 +128,9 @@ read_payrolls <- function(series = c(
     )
 
   cube <- cube %>%
-    dplyr::filter(.data$value != "NA") %>%
-    dplyr::mutate(value = suppressWarnings(as.numeric(.data$value)))
+    # Note that some NA values are hardcoded as "N/A" or similar by the ABS
+    dplyr::mutate(value = suppressWarnings(as.numeric(.data$value))) %>%
+    dplyr::filter(.data$value != "NA")
 
   cube <- cube %>%
     dplyr::mutate(date = as.Date(as.numeric(.data$date), origin = "1899-12-30"))
