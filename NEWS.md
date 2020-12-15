@@ -1,5 +1,6 @@
-# readabs 0.4.6.900
+# readabs 0.4.7
 * Package dependencies reduced
+* Bug fixed in read_payrolls()
 
 # readabs 0.4.6
 * New read_payrolls() convenience function added

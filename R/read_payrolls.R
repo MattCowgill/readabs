@@ -91,14 +91,32 @@ read_payrolls <- function(series = c(
     "sa4_jobs" = "Payroll jobs index-SA4",
     "sa3_jobs" = "Payroll jobs index-SA3",
     "subindustry_jobs" = "Payroll jobs index-Subdivision",
-    "empsize_jobs" = "Employment Size"
+    "empsize_jobs" = "Employment size"
   )
 
-  cube <- readxl::read_excel(cube_path,
-    sheet = sheet_name,
+  sheets_present <- readxl::excel_sheets(cube_path)
+  sheets_present <- sheets_present[!sheets_present == "Contents"]
+
+  sheet_to_read <- sheets_present[grepl(sheet_name,
+                                        sheets_present,
+                                        ignore.case = TRUE)]
+
+  safely_read_excel <- purrr::safely(read_excel)
+
+  read_attempt <- safely_read_excel(cube_path,
+    sheet = sheet_to_read,
     col_types = "text",
     skip = 5
   )
+
+  if (is.null(read_attempt$error)) {
+    cube <- read_attempt$result
+  } else {
+    stop("Could not find a sheet called '", sheet_name, "' in the payrolls ",
+         "workbook ", cube_name, ". Sheets present are: ",
+         paste0(sheets_present, collapse = ", "))
+  }
+
 
   to_snake <- function(x) {
     x <- gsub(" ", "_", x)
