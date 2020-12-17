@@ -1,4 +1,3 @@
-library(readabs)
 
 local_path <- "../testdata"
 local_filename <- "6202021.xls"
@@ -40,9 +39,9 @@ test_that("Old read_abs_sdmx function works", {
 
   check_abs_site()
 
-  sdmx_url <- url <- "http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013"
+  sdmx_url <- "http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013"
 
-  sdmx_result <- read_abs_sdmx(sdmx_url)
+  sdmx_result <- suppressWarnings(read_abs_sdmx(sdmx_url))
 
   expect_true(is.data.frame(sdmx_result))
 })
