@@ -5,7 +5,7 @@ on:
     - cron:  '0 0 * * *'
 
 
-name: R-CMD-check
+name: R-CMD-check-CRON
 
 jobs:
   R-CMD-check:
