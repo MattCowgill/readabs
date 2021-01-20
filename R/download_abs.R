@@ -13,7 +13,7 @@ download_abs <- function(urls,
 
   filenames <- file.path(path, basename(urls))
 
-  dl_file <- function(url, filename, show_progress_bars) {
+  dl_file <- function(url, filename, show_progress_bars, handle) {
     if (show_progress_bars) {
       message("Downloading ", url)
     }
@@ -21,14 +21,21 @@ download_abs <- function(urls,
     curl::curl_download(
       url = url,
       destfile = filename,
-      quiet = !show_progress_bars
+      mode = "wb",
+      quiet = !show_progress_bars,
+      handle = handle
     )
   }
+
+  handle <- curl::new_handle()
+  curl::handle_setheaders(handle,
+                          "User-Agent" = readabs_user_agent)
 
   purrr::walk2(.x = urls,
                .y = filenames,
                .f = dl_file,
-               show_progress_bars = show_progress_bars)
+               show_progress_bars = show_progress_bars,
+               handle = handle)
 
 
   return(TRUE)
