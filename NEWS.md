@@ -1,3 +1,6 @@
+# readabs 0.4.7.900
+* Internal changes to the way files are downloaded
+
 # readabs 0.4.7
 * Package dependencies reduced
 * Bug fixed in read_payrolls()
