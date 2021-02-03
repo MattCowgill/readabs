@@ -78,6 +78,8 @@ tidy_abs <- function(df, metadata = TRUE) {
   if (isTRUE(metadata)) {
     df <- df %>%
       tidyr::pivot_longer(cols = !one_of("X__1"), names_to = "series") %>%
+      filter(!is.na(X__1),
+             !stringi::stri_detect_fixed(X__1, "Trend Break")) %>%
       dplyr::group_by(series) %>%
       dplyr::mutate(
         series_type = value[X__1 == "Series Type"],
