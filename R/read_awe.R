@@ -2,13 +2,15 @@
 #' @description Convenience function to obtain wage levels from ABS
 #' 6302.0, Average Weekly Earnings, Australia.
 #' @title read_awe
-#' @param wage_measure Character. Must be one of:
+#' @param wage_measure Character of length 1. Must be one of:
 #' \itemize{
 #'   \item{`awote`}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
 #'   \item{`ftawe`}{ Full-time adult total earnings}
 #'   \item{`awe`}{ Average weekly total earnings of all employees}
 #' }
-#' @param sex Character. Must be one of: `persons`, `males`, or `females`.
+#' @param sex Character of length 1. Must be one of: `persons`, `males`, or `females`.
+#' @param sector Character of length 1. Must be one of: `total`, `private`, or
+#' `public`.
 #' @param na.rm Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
 #' series is returned, with `NA` values for quarters in which there is no data.
 #' If `TRUE`, only dates with data are included in the returned data frame.

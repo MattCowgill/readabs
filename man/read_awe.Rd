@@ -7,6 +7,7 @@
 read_awe(
   wage_measure = c("awote", "ftawe", "awe"),
   sex = c("persons", "males", "females"),
+  sector = c("total", "private", "public"),
   na.rm = FALSE,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
   show_progress_bars = FALSE,
@@ -14,14 +15,17 @@ read_awe(
 )
 }
 \arguments{
-\item{wage_measure}{Character. Must be one of:
+\item{wage_measure}{Character of length 1. Must be one of:
 \itemize{
   \item{`awote`}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
   \item{`ftawe`}{ Full-time adult total earnings}
   \item{`awe`}{ Average weekly total earnings of all employees}
 }}
 
-\item{sex}{Character. Must be one of: `persons`, `males`, or `females`.}
+\item{sex}{Character of length 1. Must be one of: `persons`, `males`, or `females`.}
+
+\item{sector}{Character of length 1. Must be one of: `total`, `private`, or
+`public`.}
 
 \item{na.rm}{Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
 series is returned, with `NA` values for quarters in which there is no data.
