@@ -39,6 +39,9 @@ read_awe <- function(wage_measure = c("awote",
                      sex = c("persons",
                              "males",
                              "females"),
+                     sector = c("total",
+                                "private",
+                                "public"),
                      na.rm = FALSE,
                      path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = FALSE,
@@ -46,10 +49,17 @@ read_awe <- function(wage_measure = c("awote",
 
   .wage_measure <- match.arg(wage_measure)
   .sex <- match.arg(sex)
+  .sector <- match.arg(sector)
   check_abs_connection()
 
+  tables <- switch (.sector,
+    "total" = "2",
+    "private" = "5",
+    "public" = "8"
+  )
+
   awe_latest <- suppressMessages(read_abs(cat_no = "6302.0",
-                                          tables = 2,
+                                          tables = tables,
                                           path = path,
                                           show_progress_bars = show_progress_bars,
                                           check_local = check_local))
@@ -57,6 +67,8 @@ read_awe <- function(wage_measure = c("awote",
   awe_latest <- tidy_awe(df = awe_latest)
 
   # awe_old is an internal data object created in /data-raw
+  awe_old <- bind_rows(awe_old[tables])
+
   awe_old <- awe_old %>%
     dplyr::filter(!.data$date %in% awe_latest$date)
 
@@ -82,7 +94,11 @@ read_awe <- function(wage_measure = c("awote",
                       date > min(awe$date) &
                       date < max(awe$date)) %>%
       mutate(value = NA_real_) %>%
-      dplyr::select(.data$date, .data$sex, .data$wage_measure, .data$value)
+      dplyr::select(dplyr::any_of(c("date", "sex", "wage_measure", "value", "crosstab")))
+
+    if (!is.null(awe[["crosstab"]])) {
+      missing_dates$crosstab <- unique(awe$crosstab)
+    }
 
     awe <- missing_dates %>%
       dplyr::bind_rows(awe) %>%
@@ -104,30 +120,90 @@ read_awe <- function(wage_measure = c("awote",
 #' @keywords internal
 tidy_awe <- function(df) {
 
+  # cols <- c("earnings", "sex", "measure")
+
   df <- df %>%
-    dplyr::select(.data$series, .data$date, .data$value) %>%
+    dplyr::select(.data$series, .data$date, .data$value)
+
+  df <- df %>%
+    dplyr::mutate(series = fast_str_squish(series),
+                  series = stringi::stri_replace_all_fixed(series, " ;", ";"))
+
+  # Usually the cross tab (eg. state, sector) is at the end of the series string;
+  # For fun, sometimes the ABS puts it as the second element!
+  df <- df %>%
+    tidyr::separate(series,
+             into = c("earnse_crosstab1", "series"),
+             sep = "(?=Males|Females|Persons;)",
+             extra = "merge",
+             fill = "right")
+
+  df <- df %>%
+    tidyr::separate(earnse_crosstab1,
+             into = c("earnse", "crosstab1"),
+             sep = ";",
+             extra = "merge",
+             fill = "right")
+
+  df <- df %>%
     tidyr::separate(.data$series,
-                    into = c("earnings", "sex", "measure"),
+                    into = c("sex_measure",
+                             "crosstab2"),
+                    sep = "earnings;",
+                    extra = "merge",
+                    fill = "right")
+
+  df <- df %>%
+    dplyr::mutate(crosstab = paste0(crosstab1, crosstab2),
+                  crosstab = fast_str_squish(crosstab),
+                  crosstab = dplyr::if_else(crosstab == "",
+                                     NA_character_,
+                                     crosstab))
+
+  df <- df %>%
+    mutate(crosstab = stringi::stri_replace_all_fixed(crosstab, " sector", ""))
+
+  df <- df %>%
+    # Drop the crosstab column if it's full of NAs
+    dplyr::select_if(~all(!is.na(.))) %>%
+    dplyr::select(-crosstab1, -crosstab2)
+
+  df <- df %>%
+    tidyr::separate(.data$sex_measure,
+                    into = c("sex", "measure"),
                     sep = ";",
                     extra = "merge",
                     fill = "right")
 
-  df$measure <- gsub(";", "", df$measure, fixed = TRUE)
-  df$measure <- tolower(df$measure)
-  df$measure <- fast_str_squish(df$measure)
+  fix_col <- function(col) {
+    col <- gsub(";", "", col, fixed = TRUE)
+    col <- tolower(col)
+    col <- fast_str_squish(col)
+    col
+  }
 
-  df$sex <- fast_str_squish(df$sex)
-  df$sex <- tolower(df$sex)
+  df <- df %>%
+    dplyr::mutate(dplyr::across(
+      dplyr::any_of(c("earnse", "sex", "measure", "crosstab")),
+      fix_col
+    ))
+
+  # Some sheets contain standard errors of estimates; we want to drop these
+  df <- df %>%
+    dplyr::filter(earnse == "earnings") %>%
+    dplyr::select(-earnse)
 
   df <- df %>%
     dplyr::mutate(
       wage_measure = dplyr::case_when(
-        measure == "full time adult ordinary time earnings" ~ "awote",
-        measure == "full time adult total earnings" ~ "ftawe",
-        measure == "total earnings" ~ "awe",
+        measure == "full time adult ordinary time" ~ "awote",
+        measure == "full time adult total" ~ "ftawe",
+        measure == "total" ~ "awe",
         TRUE ~ NA_character_
-      )) %>%
-    dplyr::select(.data$date, .data$sex, .data$wage_measure, .data$value)
+      ))
+
+  df <- df %>%
+    dplyr::select(dplyr::any_of(c("date", "sex", "wage_measure", "value", "crosstab")))
 
   df
 }

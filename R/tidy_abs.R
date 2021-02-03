@@ -79,7 +79,10 @@ tidy_abs <- function(df, metadata = TRUE) {
     df <- df %>%
       tidyr::pivot_longer(cols = !one_of("X__1"), names_to = "series") %>%
       filter(!is.na(X__1),
-             !stringi::stri_detect_fixed(X__1, "Trend Break")) %>%
+             # This filtering is necessary for cases where the ABS adds notes
+             # to the bottom of the data for some reason
+             !stringi::stri_detect_fixed(X__1, "Trend Break"),
+             !stringi::stri_detect_fixed(X__1, "see")) %>%
       dplyr::group_by(series) %>%
       dplyr::mutate(
         series_type = value[X__1 == "Series Type"],
@@ -95,10 +98,13 @@ tidy_abs <- function(df, metadata = TRUE) {
     df <- df %>%
       dplyr::rename(date = X__1) %>%
       dplyr::mutate(
-        date = as.Date(as.numeric(date), origin = "1899-12-30"),
+        date = suppressWarnings(as.numeric(date)),
+        date = as.Date(date, origin = "1899-12-30"),
         unit = as.character(unit),
         value = as.numeric(value)
-      )
+      ) %>%
+      dplyr::filter(!is.na(date))
+
 
     df <- df %>%
       # now remove appended series ID from the end of 'series'
