@@ -7,8 +7,10 @@ test_that("tidy_awe() returns tidied data frame", {
   download.file(url = "https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&6302002.xls&6302.0&Time%20Series%20Spreadsheet&5379E96E39273CF5CA25761000199DDA&0&May%202009&13.08.2009&Latest",
                 destfile = temp_loc)
 
-  awe <- read_abs_local(filenames = basename(temp_loc),
-                        path = dirname(temp_loc))
+  awe <- readxl::read_excel(temp_loc,
+                            sheet = "Data1")
+
+  awe <- tidy_abs(awe)
 
   tidied_awe <- tidy_awe(awe)
 
