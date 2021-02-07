@@ -4,7 +4,9 @@ test_that("tidy_awe() returns tidied data frame", {
 
   temp_loc <- tempfile(fileext = ".xls")
 
-  download.file(url = "https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&6302002.xls&6302.0&Time%20Series%20Spreadsheet&5379E96E39273CF5CA25761000199DDA&0&May%202009&13.08.2009&Latest",
+  awe_url <- utils::URLencode("https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&6302002.xls&6302.0&Time%20Series%20Spreadsheet&5379E96E39273CF5CA25761000199DDA&0&May%202009&13.08.2009&Latest")
+
+  download.file(url = awe_url,
                 destfile = temp_loc)
 
   awe <- readxl::read_excel(temp_loc,
