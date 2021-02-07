@@ -1,15 +1,12 @@
 test_that("tidy_awe() returns tidied data frame", {
-  skip_if_offline()
-  skip_on_cran()
+  # test_awe_file <- file.path("tests", "testdata", "6302002.xls")
+  #
+  # awe_url <- utils::URLencode("https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&6302002.xls&6302.0&Time%20Series%20Spreadsheet&5379E96E39273CF5CA25761000199DDA&0&May%202009&13.08.2009&Latest")
+  #
+  # download.file(url = awe_url,
+  #               destfile = test_awe_file)
 
-  temp_loc <- tempfile(fileext = ".xls")
-
-  awe_url <- utils::URLencode("https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&6302002.xls&6302.0&Time%20Series%20Spreadsheet&5379E96E39273CF5CA25761000199DDA&0&May%202009&13.08.2009&Latest")
-
-  download.file(url = awe_url,
-                destfile = temp_loc)
-
-  awe <- readxl::read_excel(temp_loc,
+  awe <- readxl::read_excel(file.path("..", "testdata", "6302002.xls"),
                             sheet = "Data1")
 
   awe <- tidy_abs(awe)
@@ -59,7 +56,6 @@ test_that("read_awe() returns expected output", {
 
 
   for (i in seq_len(nrow(params_df))) {
-    print(params_df[i, ])
 
     awe_data <- read_awe(wage_measure = params_df$wage_measure[i],
              sex = params_df$sex[i],
