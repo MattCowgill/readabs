@@ -178,26 +178,24 @@ read_awe <- function(wage_measure = c("awote",
 #' @keywords internal
 tidy_awe <- function(df) {
 
-  # cols <- c("earnings", "sex", "measure")
-
   df <- df %>%
     dplyr::select(.data$series, .data$date, .data$value)
 
   df <- df %>%
-    dplyr::mutate(series = fast_str_squish(series),
-                  series = stringi::stri_replace_all_fixed(series, " ;", ";"))
+    dplyr::mutate(series = fast_str_squish(.data$series),
+                  series = stringi::stri_replace_all_fixed(.data$series, " ;", ";"))
 
   # Usually the cross tab (eg. state, sector) is at the end of the series string;
   # For fun, sometimes the ABS puts it as the second element!
   df <- df %>%
-    tidyr::separate(series,
+    tidyr::separate(.data$series,
              into = c("earnse_crosstab1", "series"),
              sep = "(?=Males|Females|Persons;)",
              extra = "merge",
              fill = "right")
 
   df <- df %>%
-    tidyr::separate(earnse_crosstab1,
+    tidyr::separate(.data$earnse_crosstab1,
              into = c("earnse", "crosstab1"),
              sep = ";",
              extra = "merge",
@@ -212,19 +210,19 @@ tidy_awe <- function(df) {
                     fill = "right")
 
   df <- df %>%
-    dplyr::mutate(crosstab = paste0(crosstab1, crosstab2),
-                  crosstab = fast_str_squish(crosstab),
-                  crosstab = dplyr::if_else(crosstab == "",
+    dplyr::mutate(crosstab = paste0(.data$crosstab1, .data$crosstab2),
+                  crosstab = fast_str_squish(.data$crosstab),
+                  crosstab = dplyr::if_else(.data$crosstab == "",
                                      NA_character_,
-                                     crosstab))
+                                     .data$crosstab))
 
   df <- df %>%
-    mutate(crosstab = stringi::stri_replace_all_fixed(crosstab, " sector", ""))
+    mutate(crosstab = stringi::stri_replace_all_fixed(.data$crosstab, " sector", ""))
 
   df <- df %>%
     # Drop the crosstab column if it's full of NAs
     dplyr::select_if(~all(!is.na(.))) %>%
-    dplyr::select(-crosstab1, -crosstab2)
+    dplyr::select(-.data$crosstab1, -.data$crosstab2)
 
   df <- df %>%
     tidyr::separate(.data$sex_measure,
@@ -248,15 +246,15 @@ tidy_awe <- function(df) {
 
   # Some sheets contain standard errors of estimates; we want to drop these
   df <- df %>%
-    dplyr::filter(earnse == "earnings") %>%
-    dplyr::select(-earnse)
+    dplyr::filter(.data$earnse == "earnings") %>%
+    dplyr::select(-.data$earnse)
 
   df <- df %>%
     dplyr::mutate(
       wage_measure = dplyr::case_when(
-        measure == "full time adult ordinary time" ~ "awote",
-        measure == "full time adult total" ~ "ftawe",
-        measure == "total" ~ "awe",
+        .data$measure == "full time adult ordinary time" ~ "awote",
+        .data$measure == "full time adult total" ~ "ftawe",
+        .data$measure == "total" ~ "awe",
         TRUE ~ NA_character_
       ))
 
