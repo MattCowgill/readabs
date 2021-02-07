@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.7.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8</span>
       </span>
     </div>
 
@@ -145,6 +145,8 @@
     <pre class="usage"><span class='fu'>read_awe</span><span class='op'>(</span>
   wage_measure <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"awote"</span>, <span class='st'>"ftawe"</span>, <span class='st'>"awe"</span><span class='op'>)</span>,
   sex <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"persons"</span>, <span class='st'>"males"</span>, <span class='st'>"females"</span><span class='op'>)</span>,
+  sector <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"total"</span>, <span class='st'>"private"</span>, <span class='st'>"public"</span><span class='op'>)</span>,
+  state <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"all"</span>, <span class='st'>"nsw"</span>, <span class='st'>"vic"</span>, <span class='st'>"qld"</span>, <span class='st'>"sa"</span>, <span class='st'>"wa"</span>, <span class='st'>"tas"</span>, <span class='st'>"nt"</span>, <span class='st'>"act"</span><span class='op'>)</span>,
   na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
   path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"R_READABS_PATH"</span>, unset <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
   show_progress_bars <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -156,7 +158,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>wage_measure</th>
-      <td><p>Character. Must be one of:</p><ul>
+      <td><p>Character of length 1. Must be one of:</p><ul>
 <li><p>`awote` Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings</p></li>
 <li><p>`ftawe` Full-time adult total earnings</p></li>
 <li><p>`awe` Average weekly total earnings of all employees</p></li>
@@ -164,7 +166,19 @@
     </tr>
     <tr>
       <th>sex</th>
-      <td><p>Character. Must be one of: `persons`, `males`, or `females`.</p></td>
+      <td><p>Character of length 1. Must be one of: `persons`, `males`, or `females`.</p></td>
+    </tr>
+    <tr>
+      <th>sector</th>
+      <td><p>Character of length 1. Must be one of: `total`, `private`, or
+`public`. Note that you cannot get sector-by-state data; if `state` is not
+`all` then `sector` must be `total`.</p></td>
+    </tr>
+    <tr>
+      <th>state</th>
+      <td><p>Character of length 1. Must be one of: `all`, `nsw`, `vic`, `qld`,
+`sa`, `wa`, `nt`, or `act`. Note that you cannot get sector-by-state data;
+if `sector` is not `total` then `state` must be `all`.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -189,7 +203,7 @@ If `TRUE`, only dates with data are included in the returned data frame.</p></td
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
-The data is nominal (ie. not inflation-adjusted).</p>
+The data is nominal and seasonally adjusted.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The latest AWE data is available using `read_abs(cat_no = "6302.0", tables = 2)`.

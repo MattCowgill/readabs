@@ -82,7 +82,7 @@ from ABS time series spreadsheets that are already saved to your local drive." /
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.7.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8</span>
       </span>
     </div>
 
@@ -161,7 +161,8 @@ from ABS time series spreadsheets that are already saved to your local drive.</p
 When `cat_no` is specified, all local files in `path` corresponding to
 the specified catalogue number will be imported.
 For example, if you run `read_abs_local("6202.0")`, it will look in
-"data/ABS/6202.0" and attempt to load any .xls files in that location.
+the `6202.0` sub-folder of `path` and attempt to load any
+.xls files in that location.
 If `cat_no`` is specified, `filenames` will be ignored.</p></td>
     </tr>
     <tr>
