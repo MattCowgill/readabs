@@ -2,13 +2,19 @@
 #' @description Convenience function to obtain wage levels from ABS
 #' 6302.0, Average Weekly Earnings, Australia.
 #' @title read_awe
-#' @param wage_measure Character. Must be one of:
+#' @param wage_measure Character of length 1. Must be one of:
 #' \itemize{
 #'   \item{`awote`}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
 #'   \item{`ftawe`}{ Full-time adult total earnings}
 #'   \item{`awe`}{ Average weekly total earnings of all employees}
 #' }
-#' @param sex Character. Must be one of: `persons`, `males`, or `females`.
+#' @param sex Character of length 1. Must be one of: `persons`, `males`, or `females`.
+#' @param sector Character of length 1. Must be one of: `total`, `private`, or
+#' `public`. Note that you cannot get sector-by-state data; if `state` is not
+#' `all` then `sector` must be `total`.
+#' @param state Character of length 1. Must be one of: `all`, `nsw`, `vic`, `qld`,
+#' `sa`, `wa`, `nt`, or `act`. Note that you cannot get sector-by-state data;
+#' if `sector` is not `total` then `state` must be `all`.
 #' @param na.rm Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
 #' series is returned, with `NA` values for quarters in which there is no data.
 #' If `TRUE`, only dates with data are included in the returned data frame.
@@ -25,7 +31,7 @@
 #' which there are no observations are recorded as `NA` unless `na.rm` = `TRUE`.
 #' @return
 #' A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
-#' The data is nominal (ie. not inflation-adjusted).
+#' The data is nominal and seasonally adjusted.
 #'
 #' @examples
 #' \dontrun{
@@ -39,6 +45,18 @@ read_awe <- function(wage_measure = c("awote",
                      sex = c("persons",
                              "males",
                              "females"),
+                     sector = c("total",
+                                "private",
+                                "public"),
+                     state = c("all",
+                               "nsw",
+                               "vic",
+                               "qld",
+                               "sa",
+                               "wa",
+                               "tas",
+                               "nt",
+                               "act"),
                      na.rm = FALSE,
                      path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = FALSE,
@@ -46,10 +64,46 @@ read_awe <- function(wage_measure = c("awote",
 
   .wage_measure <- match.arg(wage_measure)
   .sex <- match.arg(sex)
+  .sector <- match.arg(sector)
+  .state <- match.arg(state)
+
   check_abs_connection()
 
+  if (.sector != "total" &
+      .state != "all") {
+    stop('You cannot get sector-by-state data. Either set sector to "total"',
+         ' or state to "all".')
+  }
+
+  if (.state == "all") {
+    tables <- switch (.sector,
+                      "total" = "2",
+                      "private" = "5",
+                      "public" = "8"
+    )
+
+    if (.sector == "total") {
+      crosstab_name <- ""
+    } else {
+      crosstab_name <- "sector"
+    }
+
+  } else {
+    tables <- switch (.state,
+                      "nsw" = "12a",
+                      "vic" = "12b",
+                      "qld" = "12c",
+                      "sa" = "12d",
+                      "wa" = "12e",
+                      "tas" = "12f",
+                      "nt" = "12g",
+                      "act" = "12h")
+
+    crosstab_name <- "state"
+  }
+
   awe_latest <- suppressMessages(read_abs(cat_no = "6302.0",
-                                          tables = 2,
+                                          tables = tables,
                                           path = path,
                                           show_progress_bars = show_progress_bars,
                                           check_local = check_local))
@@ -57,10 +111,12 @@ read_awe <- function(wage_measure = c("awote",
   awe_latest <- tidy_awe(df = awe_latest)
 
   # awe_old is an internal data object created in /data-raw
-  awe_old <- awe_old %>%
+  awe_old_table <- bind_rows(awe_old[tables])
+
+  awe_old_table <- awe_old_table %>%
     dplyr::filter(!.data$date %in% awe_latest$date)
 
-  awe <- dplyr::bind_rows(awe_old, awe_latest)
+  awe <- dplyr::bind_rows(awe_old_table, awe_latest)
 
   awe <- awe %>%
     filter(.data$sex == .sex,
@@ -82,7 +138,11 @@ read_awe <- function(wage_measure = c("awote",
                       date > min(awe$date) &
                       date < max(awe$date)) %>%
       mutate(value = NA_real_) %>%
-      dplyr::select(.data$date, .data$sex, .data$wage_measure, .data$value)
+      dplyr::select(dplyr::any_of(c("date", "sex", "wage_measure", "value", "crosstab")))
+
+    if (!is.null(awe[["crosstab"]])) {
+      missing_dates$crosstab <- unique(awe$crosstab)
+    }
 
     awe <- missing_dates %>%
       dplyr::bind_rows(awe) %>%
@@ -90,6 +150,20 @@ read_awe <- function(wage_measure = c("awote",
   } else {
     awe <- awe %>%
       dplyr::filter(!is.na(.data$value))
+  }
+
+  names(awe)[names(awe) == "crosstab"] <- crosstab_name
+
+  if (!is.null(awe[["state"]])) {
+    awe <- awe %>%
+      dplyr::mutate(state = dplyr::case_when(state == "new south wales" ~ "nsw",
+                                             state == "victoria" ~ "vic",
+                                             state == "queensland" ~ "qld",
+                                             state == "south australia" ~ "sa",
+                                             state == "western australia" ~ "wa",
+                                             state == "tasmania" ~ "tas",
+                                             state == "northern territory" ~ "nt",
+                                             state == "australian capital territory" ~ "act"))
   }
 
   awe <- awe %>%
@@ -105,29 +179,87 @@ read_awe <- function(wage_measure = c("awote",
 tidy_awe <- function(df) {
 
   df <- df %>%
-    dplyr::select(.data$series, .data$date, .data$value) %>%
+    dplyr::select(.data$series, .data$date, .data$value)
+
+  df <- df %>%
+    dplyr::mutate(series = fast_str_squish(.data$series),
+                  series = stringi::stri_replace_all_fixed(.data$series, " ;", ";"))
+
+  # Usually the cross tab (eg. state, sector) is at the end of the series string;
+  # For fun, sometimes the ABS puts it as the second element!
+  df <- df %>%
     tidyr::separate(.data$series,
-                    into = c("earnings", "sex", "measure"),
+             into = c("earnse_crosstab1", "series"),
+             sep = "(?=Males|Females|Persons;)",
+             extra = "merge",
+             fill = "right")
+
+  df <- df %>%
+    tidyr::separate(.data$earnse_crosstab1,
+             into = c("earnse", "crosstab1"),
+             sep = ";",
+             extra = "merge",
+             fill = "right")
+
+  df <- df %>%
+    tidyr::separate(.data$series,
+                    into = c("sex_measure",
+                             "crosstab2"),
+                    sep = "earnings;",
+                    extra = "merge",
+                    fill = "right")
+
+  df <- df %>%
+    dplyr::mutate(crosstab = paste0(.data$crosstab1, .data$crosstab2),
+                  crosstab = fast_str_squish(.data$crosstab),
+                  crosstab = dplyr::if_else(.data$crosstab == "",
+                                     NA_character_,
+                                     .data$crosstab))
+
+  df <- df %>%
+    mutate(crosstab = stringi::stri_replace_all_fixed(.data$crosstab, " sector", ""))
+
+  df <- df %>%
+    # Drop the crosstab column if it's full of NAs
+    dplyr::select_if(~all(!is.na(.))) %>%
+    dplyr::select(-.data$crosstab1, -.data$crosstab2)
+
+  df <- df %>%
+    tidyr::separate(.data$sex_measure,
+                    into = c("sex", "measure"),
                     sep = ";",
                     extra = "merge",
                     fill = "right")
 
-  df$measure <- gsub(";", "", df$measure, fixed = TRUE)
-  df$measure <- tolower(df$measure)
-  df$measure <- fast_str_squish(df$measure)
+  fix_col <- function(col) {
+    col <- gsub(";", "", col, fixed = TRUE)
+    col <- tolower(col)
+    col <- fast_str_squish(col)
+    col
+  }
 
-  df$sex <- fast_str_squish(df$sex)
-  df$sex <- tolower(df$sex)
+  df <- df %>%
+    dplyr::mutate(dplyr::across(
+      dplyr::any_of(c("earnse", "sex", "measure", "crosstab")),
+      fix_col
+    ))
+
+  # Some sheets contain standard errors of estimates; we want to drop these
+  df <- df %>%
+    dplyr::filter(.data$earnse == "earnings") %>%
+    dplyr::select(-.data$earnse)
 
   df <- df %>%
     dplyr::mutate(
       wage_measure = dplyr::case_when(
-        measure == "full time adult ordinary time earnings" ~ "awote",
-        measure == "full time adult total earnings" ~ "ftawe",
-        measure == "total earnings" ~ "awe",
+        .data$measure == "full time adult ordinary time" ~ "awote",
+        .data$measure == "full time adult total" ~ "ftawe",
+        .data$measure == "total" ~ "awe",
         TRUE ~ NA_character_
-      )) %>%
-    dplyr::select(.data$date, .data$sex, .data$wage_measure, .data$value)
+      ))
+
+  df <- df %>%
+    dplyr::select(dplyr::any_of(c("date", "sex", "wage_measure", "value", "crosstab")))
 
   df
 }

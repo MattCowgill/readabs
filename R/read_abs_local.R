@@ -12,7 +12,8 @@
 #' When `cat_no` is specified, all local files in `path` corresponding to
 #' the specified catalogue number will be imported.
 #' For example, if you run `read_abs_local("6202.0")`, it will look in
-#' "data/ABS/6202.0" and attempt to load any .xls files in that location.
+#' the `6202.0` sub-folder of `path` and attempt to load any
+#' .xls files in that location.
 #' If `cat_no`` is specified, `filenames` will be ignored.
 #'
 #' @param filenames character vector of at least one filename of a
