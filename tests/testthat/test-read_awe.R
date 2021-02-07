@@ -40,27 +40,52 @@ test_that("read_awe() returns expected output", {
 
   params_df <- expand.grid(sex = c("persons", "males", "females"),
               wage_measure = c("awote", "ftawe", "awe"),
+              sector = c("total", "private", "public"),
+              state = c("all",
+                        "nsw",
+                        "vic",
+                        "qld",
+                        "sa",
+                        "wa",
+                        "tas",
+                        "nt",
+                        "act"),
               stringsAsFactors = FALSE)
 
-  sex_wage_meas <- purrr::map2(
-    .x = params_df$sex,
-    .y = params_df$wage_measure,
-    .f = ~read_awe(wage_measure = .y, sex = .x))
+  params_df <- params_df %>%
+    dplyr::filter(sector == "total" | state == "all")
 
-  sex_wage_meas
 
-  purrr::map(sex_wage_meas,
-      ~expect_is(.x, "tbl_df"))
+  for (i in seq_len(nrow(params_df))) {
+    print(params_df[i, ])
 
-  purrr::map(sex_wage_meas,
-             ~expect_identical(names(.x),
-                               c("date", "sex", "wage_measure", "value")))
+    awe_data <- read_awe(wage_measure = params_df$wage_measure[i],
+             sex = params_df$sex[i],
+             sector = params_df$sector[i],
+             state = params_df$state[i])
 
-  expect_identical(unique(read_awe(sector = "public")$crosstab),
-                   "public")
+    expect_is(awe_data, "tbl_df")
 
-  expect_identical(unique(read_awe(sector = "private")$crosstab),
-                   "private")
+    expect_gt(length(awe_data), 3)
+
+    if (params_df$sector[i] != "total") {
+      expect_length(unique(awe_data$sector), 1)
+      expect_true(unique(awe_data$sector) != "total")
+      expect_true(unique(awe_data$sector) == params_df$sector[i])
+      expect_length(awe_data, 5)
+      expect_true("sector" %in% names(awe_data))
+    }
+
+    if (params_df$state[i] != "all") {
+      expect_length(unique(awe_data$state), 1)
+      expect_true(unique(awe_data$state) != "all")
+      expect_true(unique(awe_data$state) == params_df$state[i])
+      expect_length(awe_data, 5)
+      expect_true("state" %in% names(awe_data))
+    }
+
+  }
+
 
 
   expect_gt(nrow(read_awe()), nrow(read_awe(na.rm = TRUE)))

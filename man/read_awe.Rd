@@ -8,6 +8,7 @@ read_awe(
   wage_measure = c("awote", "ftawe", "awe"),
   sex = c("persons", "males", "females"),
   sector = c("total", "private", "public"),
+  state = c("all", "nsw", "vic", "qld", "sa", "wa", "tas", "nt", "act"),
   na.rm = FALSE,
   path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
   show_progress_bars = FALSE,
@@ -25,7 +26,12 @@ read_awe(
 \item{sex}{Character of length 1. Must be one of: `persons`, `males`, or `females`.}
 
 \item{sector}{Character of length 1. Must be one of: `total`, `private`, or
-`public`.}
+`public`. Note that you cannot get sector-by-state data; if `state` is not
+`all` then `sector` must be `total`.}
+
+\item{state}{Character of length 1. Must be one of: `all`, `nsw`, `vic`, `qld`,
+`sa`, `wa`, `nt`, or `act`. Note that you cannot get sector-by-state data;
+if `sector` is not `total` then `state` must be `all`.}
 
 \item{na.rm}{Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
 series is returned, with `NA` values for quarters in which there is no data.
@@ -39,7 +45,7 @@ If `TRUE`, only dates with data are included in the returned data frame.}
 }
 \value{
 A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
-The data is nominal (ie. not inflation-adjusted).
+The data is nominal and seasonally adjusted.
 }
 \description{
 Convenience function to obtain wage levels from ABS

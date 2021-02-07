@@ -10,7 +10,11 @@
 #' }
 #' @param sex Character of length 1. Must be one of: `persons`, `males`, or `females`.
 #' @param sector Character of length 1. Must be one of: `total`, `private`, or
-#' `public`.
+#' `public`. Note that you cannot get sector-by-state data; if `state` is not
+#' `all` then `sector` must be `total`.
+#' @param state Character of length 1. Must be one of: `all`, `nsw`, `vic`, `qld`,
+#' `sa`, `wa`, `nt`, or `act`. Note that you cannot get sector-by-state data;
+#' if `sector` is not `total` then `state` must be `all`.
 #' @param na.rm Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
 #' series is returned, with `NA` values for quarters in which there is no data.
 #' If `TRUE`, only dates with data are included in the returned data frame.
@@ -27,7 +31,7 @@
 #' which there are no observations are recorded as `NA` unless `na.rm` = `TRUE`.
 #' @return
 #' A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
-#' The data is nominal (ie. not inflation-adjusted).
+#' The data is nominal and seasonally adjusted.
 #'
 #' @examples
 #' \dontrun{
@@ -44,6 +48,15 @@ read_awe <- function(wage_measure = c("awote",
                      sector = c("total",
                                 "private",
                                 "public"),
+                     state = c("all",
+                               "nsw",
+                               "vic",
+                               "qld",
+                               "sa",
+                               "wa",
+                               "tas",
+                               "nt",
+                               "act"),
                      na.rm = FALSE,
                      path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = FALSE,
@@ -52,13 +65,42 @@ read_awe <- function(wage_measure = c("awote",
   .wage_measure <- match.arg(wage_measure)
   .sex <- match.arg(sex)
   .sector <- match.arg(sector)
+  .state <- match.arg(state)
+
   check_abs_connection()
 
-  tables <- switch (.sector,
-    "total" = "2",
-    "private" = "5",
-    "public" = "8"
-  )
+  if (.sector != "total" &
+      .state != "all") {
+    stop('You cannot get sector-by-state data. Either set sector to "total"',
+         ' or state to "all".')
+  }
+
+  if (.state == "all") {
+    tables <- switch (.sector,
+                      "total" = "2",
+                      "private" = "5",
+                      "public" = "8"
+    )
+
+    if (.sector == "total") {
+      crosstab_name <- ""
+    } else {
+      crosstab_name <- "sector"
+    }
+
+  } else {
+    tables <- switch (.state,
+                      "nsw" = "12a",
+                      "vic" = "12b",
+                      "qld" = "12c",
+                      "sa" = "12d",
+                      "wa" = "12e",
+                      "tas" = "12f",
+                      "nt" = "12g",
+                      "act" = "12h")
+
+    crosstab_name <- "state"
+  }
 
   awe_latest <- suppressMessages(read_abs(cat_no = "6302.0",
                                           tables = tables,
@@ -69,12 +111,12 @@ read_awe <- function(wage_measure = c("awote",
   awe_latest <- tidy_awe(df = awe_latest)
 
   # awe_old is an internal data object created in /data-raw
-  awe_old <- bind_rows(awe_old[tables])
+  awe_old_table <- bind_rows(awe_old[tables])
 
-  awe_old <- awe_old %>%
+  awe_old_table <- awe_old_table %>%
     dplyr::filter(!.data$date %in% awe_latest$date)
 
-  awe <- dplyr::bind_rows(awe_old, awe_latest)
+  awe <- dplyr::bind_rows(awe_old_table, awe_latest)
 
   awe <- awe %>%
     filter(.data$sex == .sex,
@@ -108,6 +150,20 @@ read_awe <- function(wage_measure = c("awote",
   } else {
     awe <- awe %>%
       dplyr::filter(!is.na(.data$value))
+  }
+
+  names(awe)[names(awe) == "crosstab"] <- crosstab_name
+
+  if (!is.null(awe[["state"]])) {
+    awe <- awe %>%
+      dplyr::mutate(state = dplyr::case_when(state == "new south wales" ~ "nsw",
+                                             state == "victoria" ~ "vic",
+                                             state == "queensland" ~ "qld",
+                                             state == "south australia" ~ "sa",
+                                             state == "western australia" ~ "wa",
+                                             state == "tasmania" ~ "tas",
+                                             state == "northern territory" ~ "nt",
+                                             state == "australian capital territory" ~ "act"))
   }
 
   awe <- awe %>%
