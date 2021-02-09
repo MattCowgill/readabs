@@ -22,7 +22,7 @@ version <- gsub('-', '.', version)
 [![R build status](https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg)](https://github.com/mattcowgill/readabs/actions)
 [![codecov status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://codecov.io/gh/MattCowgill/readabs)
 [![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 ## Overview

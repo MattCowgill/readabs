@@ -12,7 +12,7 @@ status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https:
 [![CRAN
 status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
 [![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 ## Overview
@@ -78,10 +78,10 @@ library(readabs)
 #>  Sys.setenv(R_READABS_PATH = <path>)
 library(tidyverse)
 #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
-#> ✓ ggplot2 3.3.2          ✓ purrr   0.3.4.9000
-#> ✓ tibble  3.0.4          ✓ dplyr   1.0.2     
+#> ✓ ggplot2 3.3.3          ✓ purrr   0.3.4.9000
+#> ✓ tibble  3.0.6          ✓ dplyr   1.0.4     
 #> ✓ tidyr   1.1.2          ✓ stringr 1.4.0.9000
-#> ✓ readr   1.4.0.9000     ✓ forcats 0.5.0.9000
+#> ✓ readr   1.4.0.9000     ✓ forcats 0.5.1.9000
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> x dplyr::filter() masks stats::filter()
 #> x dplyr::lag()    masks stats::lag()
@@ -94,6 +94,23 @@ from the Wage Price Index, catalogue number 6345.0:
 all_wpi <- read_abs("6345.0")
 #> Finding filenames for tables corresponding to ABS catalogue 6345.0
 #> Attempting to download files from catalogue 6345.0, Wage Price Index, Australia
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634501.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634502a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634502b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634503a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634503b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634504a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634504b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634505a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634505b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634507a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634507b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634508a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634508b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634509a.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634509b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/63450table2bto9b.xls
+#> Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/63450table2ato9a.xls
 #> Extracting data from downloaded spreadsheets
 #> Tidying data from imported ABS spreadsheets
 ```
