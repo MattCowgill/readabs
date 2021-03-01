@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8.900</span>
       </span>
     </div>
 
@@ -159,14 +159,14 @@
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">wpi</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 12</span>
-<span class="co">#&gt;   table_no sheet_no table_title date       series value series_type data_type</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 634501   Data1    Table 1. T… 1997-09-01 Quart…  67.4 Original    INDEX    </span>
-<span class="co">#&gt; 2 634501   Data1    Table 1. T… 1997-12-01 Quart…  67.9 Original    INDEX    </span>
-<span class="co">#&gt; 3 634501   Data1    Table 1. T… 1998-03-01 Quart…  68.5 Original    INDEX    </span>
-<span class="co">#&gt; 4 634501   Data1    Table 1. T… 1998-06-01 Quart…  68.8 Original    INDEX    </span>
-<span class="co">#&gt; 5 634501   Data1    Table 1. T… 1998-09-01 Quart…  69.6 Original    INDEX    </span>
-<span class="co">#&gt; 6 634501   Data1    Table 1. T… 1998-12-01 Quart…  70   Original    INDEX    </span>
+<span class="co">#&gt;   table_no sheet_no table_title   date       series  value series_type data_type</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;         &lt;date&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  67.4 Original    INDEX    </span>
+<span class="co">#&gt; 2 634501   Data1    Table 1. Tot… 1997-12-01 Quarte…  67.9 Original    INDEX    </span>
+<span class="co">#&gt; 3 634501   Data1    Table 1. Tot… 1998-03-01 Quarte…  68.5 Original    INDEX    </span>
+<span class="co">#&gt; 4 634501   Data1    Table 1. Tot… 1998-06-01 Quarte…  68.8 Original    INDEX    </span>
+<span class="co">#&gt; 5 634501   Data1    Table 1. Tot… 1998-09-01 Quarte…  69.6 Original    INDEX    </span>
+<span class="co">#&gt; 6 634501   Data1    Table 1. Tot… 1998-12-01 Quarte…  70   Original    INDEX    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
 <p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you’ll have a data frame with over 2.1 million rows.</p>
@@ -206,14 +206,14 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 12</span>
-<span class="co">#&gt;   table_no sheet_no table_title date       series value series_type data_type</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. L… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. L… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. L… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. L… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. L… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. L… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
 <p>If you want more than one table, but not the whole catalogue number, you can specify multiple tables:</p>
@@ -223,14 +223,14 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lfs_1_5</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 12</span>
-<span class="co">#&gt;   table_no sheet_no table_title date       series value series_type data_type</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. L… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. L… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. L… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. L… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. L… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. L… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
 <p>The <code>tables</code> argument can be either a numeric vector (eg. <code><a href="https://rdrr.io/r/base/c.html">c(1, 5)</a></code>) or a character vector (eg. <code><a href="https://rdrr.io/r/base/c.html">c("1", "5a")</a></code>).</p>
@@ -254,14 +254,14 @@
 
 <span class="va">lfs_1_sep</span>
 <span class="co">#&gt; # A tibble: 6 x 14</span>
-<span class="co">#&gt;   table_no sheet_no table_title date       series series_1 series_2 value</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. L… 1978-02-01 Emplo… Employe… Persons     NA</span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. L… 1978-03-01 Emplo… Employe… Persons     NA</span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. L… 1978-04-01 Emplo… Employe… Persons     NA</span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. L… 1978-05-01 Emplo… Employe… Persons     NA</span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. L… 1978-06-01 Emplo… Employe… Persons     NA</span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. L… 1978-07-01 Emplo… Employe… Persons     NA</span>
+<span class="co">#&gt;   table_no sheet_no table_title      date       series   series_1 series_2 value</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;            &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 6202001  Data1    Table 1. Labour… 1978-02-01 Employe… Employe… Persons     NA</span>
+<span class="co">#&gt; 2 6202001  Data1    Table 1. Labour… 1978-03-01 Employe… Employe… Persons     NA</span>
+<span class="co">#&gt; 3 6202001  Data1    Table 1. Labour… 1978-04-01 Employe… Employe… Persons     NA</span>
+<span class="co">#&gt; 4 6202001  Data1    Table 1. Labour… 1978-05-01 Employe… Employe… Persons     NA</span>
+<span class="co">#&gt; 5 6202001  Data1    Table 1. Labour… 1978-06-01 Employe… Employe… Persons     NA</span>
+<span class="co">#&gt; 6 6202001  Data1    Table 1. Labour… 1978-07-01 Employe… Employe… Persons     NA</span>
 <span class="co">#&gt; # … with 6 more variables: series_type &lt;chr&gt;, data_type &lt;chr&gt;,</span>
 <span class="co">#&gt; #   collection_month &lt;chr&gt;, frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
 <p>The <code>remove_totals</code> and <code>remove_nas</code> arguments to <code><a href="../reference/separate_series.html">separate_series()</a></code> can be very useful when you are tidying data. They’re both set to <code>FALSE</code> by default.</p>
@@ -314,14 +314,14 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">employed</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 12</span>
-<span class="co">#&gt;   table_no sheet_no table_title date       series value series_type data_type</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. L… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. L… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. L… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. L… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. L… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. L… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span>
 
