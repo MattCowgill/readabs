@@ -1,7 +1,27 @@
+#' Convenience function to download and import 'gross flows' data cube
+#' from the monthly ABS Labour Force survey.
+#'
+#' The gross flows data cube (GM1) shows estimates of the number of people who
+#' transitioned from one labour force status to another between two months.
+#'
+#' @param weights either `"current"` or "previous". If `current`, figures will
+#' use the current month's Labour Force survey weights; if `previous`, the
+#' previous month's weights are used.
+#' @param path Local directory in which downloaded files should be stored.
+#' By default, 'path' takes the value set in the environment variable
+#' "R_READABS_PATH". If this variable is not set, any files downloaded by
+#' read_abs() will be stored in a temporary directory (tempdir()).
+#' See `Details` in \code{?read_abs} for more information.
+#' @return A tibble containing data cube GM1 from the monthly Labour Force survey.
+#' @export
+#' @examples
+#' read_lfs_grossflows()
+
 
 read_lfs_grossflows <- function(weights = c("current",
                                            "previous"),
-                                path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
+                                path = Sys.getenv("R_READABS_PATH",
+                                                  unset = tempdir())) {
 
   weights <- match.arg(weights)
 
@@ -44,11 +64,17 @@ read_lfs_grossflows <- function(weights = c("current",
            unit = "000s",
            weights = weight_desc)
 
+  # Run some minimal checks on the data frame to ensure its contents are as
+  # expected
   stopifnot(check_lfs_grossflows(gf))
 
   gf
 }
 
+#' Internal function to check if the data frame returned by read_lfs_grossflows()
+#' contains expected unique values in key columns
+#' @param df data frame containing gross flows data
+#' @keywords internal
 check_lfs_grossflows <- function(df) {
 
   names_match <- identical(names(df),

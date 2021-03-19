@@ -1,3 +1,6 @@
+# readabs 0.4.8.900
+* read_lfs_grossflows() convenience function added
+
 # readabs 0.4.8
 * Internal changes to the way files are downloaded
 * Improvements to the read_awe() convenience function (able to get more data)
