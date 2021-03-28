@@ -6,8 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form. — read_abs_metadata • readabs</title>
+<title>Convenience function to download and import 'gross flows' data cube
+from the monthly ABS Labour Force survey. — read_lfs_grossflows • readabs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,10 @@ converts to long-form. — read_abs_metadata • readabs</title>
 
 
 
-<meta property="og:title" content="Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form. — read_abs_metadata" />
-<meta property="og:description" content="Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form." />
+<meta property="og:title" content="Convenience function to download and import 'gross flows' data cube
+from the monthly ABS Labour Force survey. — read_lfs_grossflows" />
+<meta property="og:description" content="The gross flows data cube (GM1) shows estimates of the number of people who
+transitioned from one labour force status to another between two months." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -139,36 +139,61 @@ converts to long-form." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mattcowgill/readabs/blob/master/R/read_abs_data.R'><code>R/read_abs_data.R</code></a></small>
-    <div class="hidden name"><code>read_abs_metadata.Rd</code></div>
+    <h1>Convenience function to download and import 'gross flows' data cube
+from the monthly ABS Labour Force survey.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mattcowgill/readabs/blob/master/R/read_lfs_grossflows.R'><code>R/read_lfs_grossflows.R</code></a></small>
+    <div class="hidden name"><code>read_lfs_grossflows.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form.</p>
+    <p>The gross flows data cube (GM1) shows estimates of the number of people who
+transitioned from one labour force status to another between two months.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_abs_metadata</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>sheet</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_lfs_grossflows</span><span class='op'>(</span>
+  weights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"current"</span>, <span class='st'>"previous"</span><span class='op'>)</span>,
+  path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"R_READABS_PATH"</span>, unset <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>Filepath to Excel spreadsheet.</p></td>
+      <th>weights</th>
+      <td><p>either `"current"` or "previous". If `current`, figures will
+use the current month's Labour Force survey weights; if `previous`, the
+previous month's weights are used.</p></td>
     </tr>
     <tr>
-      <th>sheet</th>
-      <td><p>Sheet name or number.</p></td>
+      <th>path</th>
+      <td><p>Local directory in which downloaded files should be stored.
+By default, 'path' takes the value set in the environment variable
+"R_READABS_PATH". If this variable is not set, any files downloaded by
+read_abs() will be stored in a temporary directory (tempdir()).
+See `Details` in <code><a href='read_abs.html'>?read_abs</a></code> for more information.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Long-form dataframe</p>
+    <p>A tibble containing data cube GM1 from the monthly Labour Force survey.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>read_lfs_grossflows</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>File downloaded in /var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//RtmpKnWXhJ/GM1.xlsx</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1,035,747 x 9</span><span>
+#&gt;    date       sex   age    state lfs_current lfs_previous  persons unit  weights
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 2001-03-01 Males 15-19… New … Employed f… Employed ful…  28.5   000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 2001-03-01 Males 15-19… New … Employed f… Employed par…   1.93  000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 2001-03-01 Males 15-19… New … Employed f… Unemployed      2.93  000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 2001-03-01 Males 15-19… New … Employed f… Not in the l…   0.334 000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 2001-03-01 Males 15-19… New … Employed f… Unmatched in…   1.63  000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 2001-03-01 Males 15-19… New … Employed f… Incoming rot…   7.57  000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 2001-03-01 Males 15-19… New … Employed p… Employed ful…   2.99  000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 2001-03-01 Males 15-19… New … Employed p… Employed par…  35.0   000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 2001-03-01 Males 15-19… New … Employed p… Unemployed      3.92  000s  curren…
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 2001-03-01 Males 15-19… New … Employed p… Not in the l…   5.52  000s  curren…
+#&gt; </span><span style='color: #949494;'># … with 1,035,737 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

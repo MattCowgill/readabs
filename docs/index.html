@@ -27,6 +27,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8.900</span>
       </span>
     </div>
 
@@ -56,7 +58,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/readabs_vignette.html">Using readabs</a>
+      <a href="articles/read_data_cubes.html">Downloading ABS data cubes</a>
+    </li>
+    <li>
+      <a href="articles/readabs_vignette.html">Importing tidy ABS time series data</a>
     </li>
   </ul>
 </li>
@@ -99,12 +104,12 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the latest CRAN version of {readabs} with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"readabs"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"readabs"</span><span class="op">)</span></code></pre></div>
 <p>You can install the development version of {readabs} from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if you don't have devtools installed, first run:</span>
 <span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"mattcowgill/readabs"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mattcowgill/readabs"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -132,16 +137,16 @@
 <p>To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use <code><a href="reference/read_abs.html">read_abs()</a></code>.</p>
 <p>First we’ll load {readabs} and the {tidyverse}:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs">readabs</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a></span><span class="op">)</span>
 <span class="co">#&gt; Environment variable 'R_READABS_PATH' is unset. Downloaded files will be saved in a temporary directory.</span>
 <span class="co">#&gt; You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use</span>
 <span class="co">#&gt;  Sys.setenv(R_READABS_PATH = &lt;path&gt;)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
 <span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
-<span class="co">#&gt; ✓ ggplot2 3.3.2          ✓ purrr   0.3.4.9000</span>
-<span class="co">#&gt; ✓ tibble  3.0.4          ✓ dplyr   1.0.2     </span>
+<span class="co">#&gt; ✓ ggplot2 3.3.3          ✓ purrr   0.3.4.9000</span>
+<span class="co">#&gt; ✓ tibble  3.0.6          ✓ dplyr   1.0.4     </span>
 <span class="co">#&gt; ✓ tidyr   1.1.2          ✓ stringr 1.4.0.9000</span>
-<span class="co">#&gt; ✓ readr   1.4.0.9000     ✓ forcats 0.5.0.9000</span>
+<span class="co">#&gt; ✓ readr   1.4.0.9000     ✓ forcats 0.5.1.9000</span>
 <span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></code></pre></div>
@@ -150,11 +155,28 @@
 <code class="sourceCode R"><span class="va">all_wpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span>
 <span class="co">#&gt; Finding filenames for tables corresponding to ABS catalogue 6345.0</span>
 <span class="co">#&gt; Attempting to download files from catalogue 6345.0, Wage Price Index, Australia</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634501.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634502a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634502b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634503a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634503b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634504a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634504b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634505a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634505b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634507a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634507b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634508a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634508b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634509a.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/634509b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/63450table2bto9b.xls</span>
+<span class="co">#&gt; Downloading https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release/63450table2ato9a.xls</span>
 <span class="co">#&gt; Extracting data from downloaded spreadsheets</span>
 <span class="co">#&gt; Tidying data from imported ABS spreadsheets</span></code></pre></div>
 <p>This is what it looks like:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">all_wpi</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">all_wpi</span><span class="op">)</span>
 <span class="co">#&gt; tibble [59,377 × 12] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;  $ table_no        : chr [1:59377] "634501" "634501" "634501" "634501" ...</span>
 <span class="co">#&gt;  $ sheet_no        : chr [1:59377] "Data1" "Data1" "Data1" "Data1" ...</span>
@@ -171,8 +193,8 @@
 <p>It only takes you a few lines of code to make a graph from your data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_wpi</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">series</span> <span class="op">==</span> <span class="st">"Percentage Change From Corresponding Quarter of Previous Year ;  Australia ;  Total hourly rates of pay excluding bonuses ;  Private and Public ;  All industries ;"</span>,
-         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series</span> <span class="op">==</span> <span class="st">"Percentage Change From Corresponding Quarter of Previous Year ;  Australia ;  Total hourly rates of pay excluding bonuses ;  Private and Public ;  All industries ;"</span>,
+         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">value</span>, col <span class="op">=</span> <span class="va">series_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -185,11 +207,11 @@
 <span class="co">#&gt; = TRUE` and fst files are available so `tables` will be ignored.</span></code></pre></div>
 <p>If you want multiple tables, but not the whole catalogue, that’s easy too:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wpi_t1_t5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"5a"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">wpi_t1_t5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"5a"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning in read_abs("6345.0", tables = c("1", "5a")): `tables` was providedyet</span>
 <span class="co">#&gt; `check_local = TRUE` and fst files are available so `tables` will be ignored.</span></code></pre></div>
 <p>In most cases, the <code>series</code> column will contain multiple components, separated by ‘;’. The <code><a href="reference/separate_series.html">separate_series()</a></code> function can help wrangling this column.</p>
-<p>For more examples, please see the readabs vignette (run <code><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes("readabs")</a></code>).</p>
+<p>For more examples, please see the readabs vignette (run <code><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes("readabs")</a></code>).</p>
 </div>
 <div id="bug-reports-and-feedback" class="section level2">
 <h2 class="hasAnchor">
@@ -204,15 +226,15 @@
 <div id="awesome-official-statistics-software" class="section level2">
 <h2 class="hasAnchor">
 <a href="#awesome-official-statistics-software" class="anchor"></a>Awesome Official Statistics Software</h2>
-<p><a href="https://github.com/SNStatComp/awesome-official-statistics-software"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Official Statistics"></a></p>
-<p>We’re pleased to be included in a <a href="https://github.com/SNStatComp/awesome-official-statistics-software">list of software</a> that can be used to work with official statistics.</p>
+<p><a href="https://github.com/SNStatComp/awesome-official-statistics-software" class="external-link"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Official Statistics"></a></p>
+<p>We’re pleased to be included in a <a href="https://github.com/SNStatComp/awesome-official-statistics-software" class="external-link">list of software</a> that can be used to work with official statistics.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=readabs">https://​cloud.r-project.org/​package=readabs</a>
 </li>
@@ -222,44 +244,50 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>
 <a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
+
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Matt Cowgill <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-0422-3300" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Zoe Meers <br><small class="roles"> Author </small>  </li>
 <li>Jaron Lee <br><small class="roles"> Author </small>  </li>
 <li>David Diviny <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More on authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/mattcowgill/readabs/actions"><img src="https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/gh/MattCowgill/readabs"><img src="https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg" alt="codecov status"></a></li>
-<li><a href="https://cran.r-project.org/package=readabs"><img src="https://www.r-pkg.org/badges/version/readabs" alt="CRAN status"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://github.com/mattcowgill/readabs/actions" class="external-link"><img src="https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/MattCowgill/readabs" class="external-link"><img src="https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg" alt="codecov status"></a></li>
+<li><a href="https://cran.r-project.org/package=readabs" class="external-link"><img src="https://www.r-pkg.org/badges/version/readabs" alt="CRAN status"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Matt Cowgill, Zoe Meers, Jaron Lee, David Diviny.</p>
+  <p></p>
+<p>Developed by Matt Cowgill, Zoe Meers, Jaron Lee, David Diviny.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -267,6 +295,8 @@
 
   
 
+
+  
 
   </body>
 </html>

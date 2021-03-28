@@ -1,0 +1,22 @@
+---
+title: "Working with ABS data cubes"
+output: rmarkdown::html_vignette
+author: "Matt Cowgill"
+vignette: >
+  %\VignetteIndexEntry{Working with ABS data cubes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(readabs)
+```
+
+Some text about `download_abs_data_cube()` etc. in here

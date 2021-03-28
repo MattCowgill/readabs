@@ -6,8 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form. — read_abs_metadata • readabs</title>
+<title>Internal function to check if the data frame returned by read_lfs_grossflows()
+contains expected unique values in key columns — check_lfs_grossflows • readabs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +47,10 @@ converts to long-form. — read_abs_metadata • readabs</title>
 
 
 
-<meta property="og:title" content="Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form. — read_abs_metadata" />
-<meta property="og:description" content="Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form." />
+<meta property="og:title" content="Internal function to check if the data frame returned by read_lfs_grossflows()
+contains expected unique values in key columns — check_lfs_grossflows" />
+<meta property="og:description" content="Internal function to check if the data frame returned by read_lfs_grossflows()
+contains expected unique values in key columns" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -139,35 +139,28 @@ converts to long-form." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mattcowgill/readabs/blob/master/R/read_abs_data.R'><code>R/read_abs_data.R</code></a></small>
-    <div class="hidden name"><code>read_abs_metadata.Rd</code></div>
+    <h1>Internal function to check if the data frame returned by read_lfs_grossflows()
+contains expected unique values in key columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mattcowgill/readabs/blob/master/R/read_lfs_grossflows.R'><code>R/read_lfs_grossflows.R</code></a></small>
+    <div class="hidden name"><code>check_lfs_grossflows.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form.</p>
+    <p>Internal function to check if the data frame returned by read_lfs_grossflows()
+contains expected unique values in key columns</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_abs_metadata</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>sheet</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_lfs_grossflows</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>Filepath to Excel spreadsheet.</p></td>
-    </tr>
-    <tr>
-      <th>sheet</th>
-      <td><p>Sheet name or number.</p></td>
+      <th>df</th>
+      <td><p>data frame containing gross flows data</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Long-form dataframe</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
