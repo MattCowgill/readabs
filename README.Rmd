@@ -57,7 +57,7 @@ There are some other functions you may find useful.
 * `read_payrolls()` downloads, imports, and tidies tables from the ABS Weekly Payroll Jobs dataset.
 * `read_awe()` returns a long time series of Average Weekly Earnings data. 
 
-## Using read_abs()
+## Download, import, and tidy ABS time series data
 
 To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. 
 
@@ -65,6 +65,7 @@ First we'll load {readabs} and the {tidyverse}:
 ```{r load-packages, results=FALSE, warning=FALSE}
 library(readabs)
 library(tidyverse)
+library(readxl)
 ```
 
 Now we'll create one data frame that contains all the time series data from the Wage Price Index, catalogue number 6345.0:
@@ -107,14 +108,54 @@ wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
 
 In most cases, the `series` column will contain multiple components, separated by ';'. The `separate_series()` function can help wrangling this column.
 
-For more examples, please see the readabs vignette (run `browseVignettes("readabs")`).
+For more examples, please see the vignette on working with time series data (run `browseVignettes("readabs")`).
+
+## Download ABS data cubes
+
+The ABS (generally) releases time series data in a standard format, which allows `read_abs()` to download, import and tidy it (see above). But not all ABS data is time series data - the ABS also releases data as 'data cubes'. These are all formatted in their own, unique way. 
+
+Unfortunately, because data cubes are all formatted in their own way, there is no one function that can import tidy data cubes for you in the same way that `read_abs()` works with all time series. But `{readabs}` still has functions that can help.
+
+### Doing it manually
+The `download_abs_data_cube()` function can download an ABS data cube for you. It works with any data cube on the ABS website.
+
+For example, let's say you wanted to download table 4 from _Weekly Payroll Jobs and Wages in Australia_. This code would do the trick:
+
+```{r download-data-cube}
+payrolls_t4_path <- download_abs_data_cube("weekly-payroll-jobs-and-wages-australia", "004")
+
+payrolls_t4_path
+```
+The `download_abs_data_cube()` function downloads the file and returns the full file path to the saved file. You can then pipe that in to another function:
+
+```{r}
+payrolls_t4_path %>%
+  read_excel(sheet = "Payroll jobs index",
+                     skip = 5)
+```
+
+### Using convenience functions for select data cubes
+
+As it happens, if you want the ABS Weekly Payrolls data, you don't need to use `download_abs_data_cube()` directly. Instead, there is a convenience function available that downloads, imports, and tidies the data for you:
+
+```{r}
+read_payrolls()
+```
+
+There is also a convenience function available for data cube GM1 from the monthly Labour Force data, which contains labour force gross flows:
+
+```{r}
+read_lfs_grossflows()
+```
+
 
 ## Bug reports and feedback
-GitHub issues containing error reports or feature requests are welcome. 
+GitHub issues containing error reports or feature requests are welcome. Please try to make a [reprex](https://reprex.tidyverse.org) (a minimal, reproducible example) if possible.
+
 Alternatively you can email the package maintainer at mattcowgill at gmail dot com.
 
 ## Disclaimer
-The {readabs} package is not associated with the Australian Bureau of Statistics.
+The `{readabs}` package is not associated with the Australian Bureau of Statistics.
 All data is provided subject to any restrictions and licensing arrangements
 noted on the ABS website.
 
