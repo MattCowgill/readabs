@@ -1,13 +1,8 @@
 
-check_abs_site <- function() {
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    skip("ABS Time Series Directory not available")
-  }
-}
-
 test_that("individual steps of read_abs() work", {
-  check_abs_site()
   skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
 
   # Set parameters ---
   cat_no <- "6202.0"
@@ -39,8 +34,8 @@ test_that("individual steps of read_abs() work", {
       temp_xml_1,
       temp_xml_2
     ),
-    .f = download.file,
-    headers = c("User-Agent" = readabs_user_agent)
+    .f = utils::download.file,
+    headers = readabs_header
   )
 
   expect_true(file.exists(temp_xml_1))

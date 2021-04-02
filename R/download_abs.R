@@ -1,4 +1,3 @@
-#' @importFrom purrr walk2
 
 download_abs <- function(urls,
                          path,
@@ -18,25 +17,19 @@ download_abs <- function(urls,
       message("Downloading ", url)
     }
 
-    curl::curl_download(
+    utils::download.file(
       url = url,
       destfile = filename,
       mode = "wb",
       quiet = !show_progress_bars,
-      handle = handle
+      headers = readabs_header
     )
   }
-
-  handle <- curl::new_handle()
-  curl::handle_setheaders(handle,
-                          "User-Agent" = readabs_user_agent)
 
   purrr::walk2(.x = urls,
                .y = filenames,
                .f = dl_file,
-               show_progress_bars = show_progress_bars,
-               handle = handle)
-
+               show_progress_bars = show_progress_bars)
 
   return(TRUE)
 }
