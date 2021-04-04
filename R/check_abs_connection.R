@@ -4,7 +4,6 @@
 #' @noRd
 
 check_abs_connection <- function() {
-
   abs_url_works <- url_exists("https://www.abs.gov.au")
 
 
@@ -45,6 +44,7 @@ url_exists <- function(url, ...) {
     if (((httr::status_code(res$result) %/% 200) != 1)) {
       warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200-299 range", url))
       return(FALSE)
+
     }
 
     return(TRUE)

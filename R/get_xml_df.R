@@ -1,5 +1,4 @@
 
-#' @importFrom utils download.file
 #' @importFrom dplyr filter select "%>%"
 
 get_xml_df <- function(url) {

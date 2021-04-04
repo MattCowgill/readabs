@@ -13,7 +13,7 @@ dl_if_not <- function(file, url) {
       dir.create(dirname(file), recursive = TRUE)
     }
 
-    download.file(url = url,
+    utils::download.file(url = url,
                   headers = c("User-Agent" = readabs_user_agent),
                   destfile = file)
   }

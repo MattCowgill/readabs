@@ -1,16 +1,12 @@
 local_path <- "../testdata"
 local_filename <- "6202021.xls"
 
-check_abs_site <- function() {
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    skip("ABS Time Series Directory not available")
-  }
-}
+
 
 test_that("separate_series() performs as expected", {
   skip_on_cran()
-
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   wpi_raw <- read_abs("6345.0",
     tables = "1",
@@ -56,8 +52,8 @@ test_that("separate_series(remove_nas = TRUE) removes NAs", {
 
 test_that("separate_series works with remove_totals and remove_nas both TRUE", {
   skip_on_cran()
-
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   awote <- read_abs("6302.0", "10G", retain_files = FALSE, path = tempdir())
 
