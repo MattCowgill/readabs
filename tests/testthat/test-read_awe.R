@@ -1,10 +1,4 @@
 test_that("tidy_awe() returns tidied data frame", {
-  # test_awe_file <- file.path("tests", "testdata", "6302002.xls")
-  #
-  # awe_url <- utils::URLencode("https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&6302002.xls&6302.0&Time%20Series%20Spreadsheet&5379E96E39273CF5CA25761000199DDA&0&May%202009&13.08.2009&Latest")
-  #
-  # download.file(url = awe_url,
-  #               destfile = test_awe_file)
 
   awe <- readxl::read_excel(file.path("..", "testdata", "6302002.xls"),
                             sheet = "Data1")

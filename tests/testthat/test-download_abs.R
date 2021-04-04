@@ -1,13 +1,9 @@
 
-check_abs_site <- function() {
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    skip("ABS Time Series Directory not available")
-  }
-}
 
 test_that("download_abs() fetches files", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   xml_urls <- form_abs_tsd_url(
     cat_no = "6202.0",

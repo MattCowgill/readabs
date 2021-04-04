@@ -3,9 +3,9 @@ devtools::load_all()
 library(dplyr)
 library(purrr)
 
-# User agent for all download.file() / read_html() / curl_download() functions
+# User agent for all download.file() / read_html()
 readabs_user_agent <- "readabs R package - https://mattcowgill.github.io/readabs/index.html"
-
+readabs_header <- c("User-Agent" = readabs_user_agent)
 
 # Create old AWE/AWOTE data objects for read_awe() / read_awote() convenience functions -----
 
@@ -20,5 +20,6 @@ data_last_updated <- Sys.Date()
 usethis::use_data(abs_lookup_table, data_last_updated,
                   awe_old,
                   readabs_user_agent,
+                  readabs_header,
   overwrite = TRUE, internal = TRUE
 )
