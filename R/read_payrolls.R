@@ -238,12 +238,13 @@ download_previous_payrolls <- function(cube_name,
     stop("Found multiple patching URLs for the requested cube in previous payrolls release")
   }
 
-  safely_download <- purrr::safely(download.file)
+  safely_download <- purrr::safely(utils::download.file)
 
   full_path <- file.path(path, basename(table_link))
 
   dl_result <- safely_download(url = table_link,
-                               destfile = full_path)
+                               destfile = full_path,
+                               mode = "wb")
 
   out <- list(result = NULL,
               error = NULL)
