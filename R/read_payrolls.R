@@ -139,7 +139,7 @@ read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
     cube <- read_attempt$result
   } else {
     stop("Could not find a sheet called '", sheet_name, "' in the payrolls ",
-         "workbook ", cube_name, ". Sheets present are: ",
+         "workbook ", cube_path, ". Sheets present are: ",
          paste0(sheets_present, collapse = ", "))
   }
 
@@ -218,8 +218,9 @@ download_previous_payrolls <- function(cube_name,
 
   prev_payrolls_url <- rvest::read_html(latest_payrolls_url) %>%
     rvest::html_element(prev_payrolls_css) %>%
-    rvest::html_attr("href") %>%
-    paste0("https://www.abs.gov.au/", .)
+    rvest::html_attr("href")
+
+  prev_payrolls_url <- paste0("https://www.abs.gov.au/", prev_payrolls_url)
 
   prev_payrolls_page <- prev_payrolls_url %>%
     rvest::read_html()
