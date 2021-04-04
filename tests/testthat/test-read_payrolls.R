@@ -3,6 +3,7 @@ test_that("read_payrolls() works", {
   skip_on_cran()
 
   check_payrolls <- function(series) {
+    print(series)
     df <- read_payrolls(series)
     expect_is(df, "tbl_df")
     expect_is(df$date, "Date")
