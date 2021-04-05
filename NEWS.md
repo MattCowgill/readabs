@@ -1,5 +1,7 @@
 # readabs 0.4.8.900
 * read_lfs_grossflows() convenience function added
+* utils::download.file() used rather than curl::curl_download()
+* Workaround implemented for changes to ABS Weekly Payrolls release
 
 # readabs 0.4.8
 * Internal changes to the way files are downloaded

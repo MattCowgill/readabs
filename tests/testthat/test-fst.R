@@ -1,13 +1,10 @@
-check_abs_site <- function() {
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    skip("ABS Time Series Directory not available")
-  }
-}
 
 
 test_that("read_abs works out of the box", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
+
   out6345_init <- read_abs(cat_no = "6345.0")
   skip_if_not(file.exists(catno2fst("6345.0")))
   out6345_next <- read_abs(cat_no = "6345.0")

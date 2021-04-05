@@ -69,7 +69,6 @@
 #' }
 #'
 #' @importFrom purrr walk walk2 map map_dfr map2
-#' @importFrom curl nslookup
 #' @importFrom dplyr group_by filter
 #' @name read_abs
 #' @export

@@ -80,7 +80,20 @@ read_payrolls <- function(series = c(
   cube_path <- safely_download_cube()
 
   if (!is.null(cube_path$error)) {
-    stop("Could not download ABS payrolls data.")
+    # Attempt to download requested cube from PREVIOUS payrolls release
+    # Necessary because (for the time being) not all tables are included
+    # in each release
+
+    attempted_prev_payrolls <- download_previous_payrolls(cube_name,
+                                                          path)
+
+    if (is.null(attempted_prev_payrolls$error)) {
+      print("Using table from previous payrolls release")
+      cube_path <- attempted_prev_payrolls
+    } else {
+      stop("Could not download ABS payrolls data.")
+
+    }
   }
 
   cube_path <- cube_path$result
@@ -94,6 +107,19 @@ read_payrolls <- function(series = c(
     "empsize_jobs" = "Employment size"
   )
 
+  cube <- read_payrolls_local(cube_path = cube_path,
+                              sheet_name = sheet_name,
+                              series = series)
+
+  cube
+}
+
+#' @keywords internal
+#' @param cube_path Path + filename (incl. extension) to ABS payrolls data cube
+#' @param sheet_name Name of the sheet on the Excel cube to import
+#' @param series "wages" or "jobs" (the default)
+
+read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
   sheets_present <- readxl::excel_sheets(cube_path)
   sheets_present <- sheets_present[!sheets_present == "Contents"]
 
@@ -104,16 +130,16 @@ read_payrolls <- function(series = c(
   safely_read_excel <- purrr::safely(read_excel)
 
   read_attempt <- safely_read_excel(cube_path,
-    sheet = sheet_to_read,
-    col_types = "text",
-    skip = 5
+                                    sheet = sheet_to_read,
+                                    col_types = "text",
+                                    skip = 5
   )
 
   if (is.null(read_attempt$error)) {
     cube <- read_attempt$result
   } else {
     stop("Could not find a sheet called '", sheet_name, "' in the payrolls ",
-         "workbook ", cube_name, ". Sheets present are: ",
+         "workbook ", cube_path, ". Sheets present are: ",
          paste0(sheets_present, collapse = ", "))
   }
 
@@ -170,3 +196,66 @@ read_payrolls <- function(series = c(
 
   cube
 }
+
+
+#' This function is temporarily necessary while the readabs maintainer
+#' attempts to resolve an issue with the ABS. The ABS as at late March 2021
+#' stopped including Table 5 of the Weekly Payrolls release with each new
+#' release of the data. This function finds the link from the previous
+#' release and attemps to download it. This function will no longer be required
+#' if/when the ABS reverts to the previous release arrangements. The function
+#' is internal and is called by `read_payrolls()`.
+#' @param cube_name eg. DO005 for table 5
+#' @param path Directory in which to download payrolls cube
+#' @keywords internal
+#' @return A list containing two elements: `result` (will contain path + filename
+#' to downloaded file if download was successful); and `error` (NULL if file
+#' downloaded successfully; character otherwise).
+download_previous_payrolls <- function(cube_name,
+                                       path) {
+  latest_payrolls_url <- "https://www.abs.gov.au/statistics/labour/earnings-and-work-hours/weekly-payroll-jobs-and-wages-australia/latest-release"
+  prev_payrolls_css <- "#release-date-section > div.field.field--name-dynamic-block-fieldnode-previous-releases.field--type-ds.field--label-hidden > div > div > ul > li:nth-child(1) > a"
+
+  prev_payrolls_url <- rvest::read_html(latest_payrolls_url) %>%
+    rvest::html_element(prev_payrolls_css) %>%
+    rvest::html_attr("href")
+
+  prev_payrolls_url <- paste0("https://www.abs.gov.au/", prev_payrolls_url)
+
+  prev_payrolls_page <- prev_payrolls_url %>%
+    rvest::read_html()
+
+  prev_payrolls_excel_links <- prev_payrolls_page %>%
+    rvest::html_elements(".file--x-office-spreadsheet a") %>%
+    rvest::html_attr("href")
+
+  table_link <- prev_payrolls_excel_links[grepl(cube_name,
+                                                prev_payrolls_excel_links)]
+
+  if (length(table_link) == 0) {
+    stop("Could not find URL for requested cube in previous payrolls release")
+  } else if (length(table_link) > 1) {
+    stop("Found multiple patching URLs for the requested cube in previous payrolls release")
+  }
+
+  safely_download <- purrr::safely(utils::download.file)
+
+  full_path <- file.path(path, basename(table_link))
+
+  dl_result <- safely_download(url = table_link,
+                               destfile = full_path,
+                               mode = "wb")
+
+  out <- list(result = NULL,
+              error = NULL)
+
+
+  if (is.null(dl_result$error)) {
+    out$result <- full_path
+  } else {
+    out$error <- "Could not download payrolls"
+  }
+
+  return(out)
+}
+

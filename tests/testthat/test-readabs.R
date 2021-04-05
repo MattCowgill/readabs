@@ -2,15 +2,11 @@ library(readabs)
 
 wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
 
-check_abs_site <- function() {
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    skip("ABS Time Series Directory not available")
-  }
-}
 
 test_that("read_abs() works for a series with a space in its URL", {
-  skip_if_offline()
   skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
   # At time of test creation, ABS 8501.0 table 22 has a space in its URL:
   # https://www.abs.gov.au/statistics/industry/retail-and-wholesale-trade/retail-trade-australia/latest-release/table_23_online_retail_turnover_australia_by_type_of_activity_percentage_of_total_australian_retail turnover.xls
 
@@ -20,7 +16,8 @@ test_that("read_abs() works for a series with a space in its URL", {
 
 test_that("WPI XML page is a data.frame with expected column names", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   wpi_1_xml <- get_xml_df(wpi_url)
 
@@ -32,7 +29,8 @@ test_that("WPI XML page is a data.frame with expected column names", {
 
 test_that("read_abs() downloads, imports, and tidies a data frame", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   wpi_1 <- read_abs("6345.0",
     tables = "1", retain_files = FALSE,
@@ -50,7 +48,8 @@ test_that("read_abs() downloads, imports, and tidies a data frame", {
 
 test_that("read_abs() gets a whole catalogue number", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   wpi <- read_abs("6345.0", retain_files = FALSE, check_local = FALSE, path = tempdir())
 
@@ -61,7 +60,8 @@ test_that("read_abs() gets a whole catalogue number", {
 
 test_that("read_abs() works when retain_files = FALSE", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   wpi_7 <- read_abs("6345.0",
     tables = "7a", retain_files = FALSE, check_local = F,
@@ -73,7 +73,8 @@ test_that("read_abs() works when retain_files = FALSE", {
 
 test_that("read_abs() works with series ID(s)", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
 
@@ -88,7 +89,8 @@ test_that("read_abs() works with series ID(s)", {
 
 test_that("read_abs() returns appropriate errors and messages when given invalid input", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   expect_error(read_abs(cat_no = NULL))
   expect_error(read_abs("6202.0", 1, retain_files = NULL, check_local = FALSE))
@@ -100,7 +102,8 @@ test_that("read_abs() returns appropriate errors and messages when given invalid
 
 test_that("read_abs() works with 'table 01' as well as 'table 1' filename structures", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   const_df <- read_abs("8755.0", 1, retain_files = FALSE, check_local = FALSE, path = tempdir())
   const_df_2 <- read_abs("8755.0", "1", retain_files = FALSE, check_local = FALSE, path = tempdir())
@@ -112,7 +115,8 @@ test_that("read_abs() works with 'table 01' as well as 'table 1' filename struct
 
 test_that("read_abs() returns an error when requesting non-existing cat_no", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   expect_error(read_abs("9999.0"))
 })
@@ -120,7 +124,8 @@ test_that("read_abs() returns an error when requesting non-existing cat_no", {
 
 test_that("read_cpi() function downloads CPI index numbers", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   cpi <- read_cpi()
 
@@ -153,17 +158,11 @@ test_that("read_cpi() function downloads CPI index numbers", {
 
 test_that("read_cpi() returns appropriate errors", {
   skip_on_cran()
-  check_abs_site()
+  skip_if_offline()
+  check_abs_connection()
 
   expect_error(read_cpi(retain_files = NULL))
   expect_error(read_cpi(show_progress_bars = NULL))
   expect_error(read_cpi(retain_files = TRUE, path = 1))
 })
 
-test_that("read_abs() fails when offline", {
-  skip_if(curl::has_internet())
-
-  expect_error(read_abs("6202.0", 1),
-    regexp = "R cannot access the ABS website."
-  )
-})

@@ -1,14 +1,10 @@
-check_abs_site <- function() {
-  if (is.null(curl::nslookup("abs.gov.au", error = FALSE))) {
-    skip("ABS Time Series Directory not available")
-  }
-}
 
 test_that("File is downloaded", {
   # Download latest EQ09
 
-  testthat::skip_on_cran()
-  check_abs_site()
+  skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
 
   temp_path <- tempdir()
 
