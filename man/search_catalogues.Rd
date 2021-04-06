@@ -27,3 +27,10 @@ a given string in the catalogue names, product title, and broad topic.
 
 search_catalogues("labour")
 }
+\seealso{
+Other data cube functions: 
+\code{\link{download_abs_data_cube}()},
+\code{\link{get_available_files}()},
+\code{\link{show_available_catalogues}()}
+}
+\concept{data cube functions}

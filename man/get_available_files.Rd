@@ -8,7 +8,8 @@ get_available_files(catalogue_string, refresh = FALSE)
 }
 \arguments{
 \item{catalogue_string}{character string specifying the catalogue, e.g. "labour-force-australia-detailed".
-You can use \code{show_available_catalogues} to find this out.}
+You can use \code{show_available_catalogues} see all the possible catalogues
+or \code{search_catalogues} to find catalogues that contain a given string.}
 
 \item{refresh}{logical; `FALSE` by default. If `FALSE`, an internal table
 of the available ABS catalogues is used. If `TRUE`, this table is refreshed
@@ -28,3 +29,10 @@ get_available_files("labour-force-australia-detailed")
 }
 
 }
+\seealso{
+Other data cube functions: 
+\code{\link{download_abs_data_cube}()},
+\code{\link{search_catalogues}()},
+\code{\link{show_available_catalogues}()}
+}
+\concept{data cube functions}

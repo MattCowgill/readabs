@@ -11,27 +11,32 @@ download_abs_data_cube(
 )
 }
 \arguments{
-\item{catalogue_string}{ABS catalogue name as a string from the new website.
+\item{catalogue_string}{ABS catalogue name as a string from the ABS website.
 For example, Labour Force, Australia, Detailed is "labour-force-australia-detailed".
-The possible catalogues can be obtained using the helper function \code{show_available_catalogues()}}
+The possible catalogues can be obtained using the helper function \code{show_available_catalogues()};
+or search these catalogues using \code{search_catalogues()},}
 
 \item{cube}{character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
-download, e.g. "EQ09". #' The available filenames can be obtained using the helper function \code{get_available_filenames()}}
+download, e.g. "EQ09". The available filenames can be obtained using the helper function \code{get_available_filenames()}}
 
 \item{path}{Local directory in which downloaded files should be stored. By default, `path`
-takes the value set in the #' environment variable "R_READABS_PATH".
-If this variable is not set, #' any files downloaded by read_abs()
-will be stored in a temporary directory #' (\code{tempdir()}).
-See \code{Details} below for #' more information.}
+takes the value set in the environment variable "R_READABS_PATH".
+If this variable is not set, any files downloaded
+will be stored in a temporary directory (\code{tempdir()}).
+See \code{Details} below for  more information.}
 }
 \description{
-\code{download_abs_data_cube()} downloads the latest ABS data cubes based on the catalogue name (from the new website url) and cube.
+\code{download_abs_data_cube()} downloads the latest ABS data cubes based on the catalogue name (from the website url) and cube.
 The function downloads the file to disk.
-In comparison to \code{read_abs()} this function doesn't tidy the data.
 }
 \details{
-`download_abs_data_cube()` downloads a file from the ABS containing a data cube.
-These files need to be saved somewhere on your disk.
+Unlike \code{read_abs()}, this function doesn't import or tidy the data.
+Convenience functions are provided to import and tidy key data cubes; see
+\code{?read_payrolls()} and \code{?read_lfs_grossflows()}.
+
+`download_abs_data_cube()` downloads an Excel spreadsheet from the ABS.
+
+The file need to be saved somewhere on your disk.
 This local directory can be controlled using the `path` argument to
 `read_abs()`. If the `path` argument is not set, `read_abs()` will store
 the files in a directory set in the "R_READABS_PATH" environment variable.
@@ -56,3 +61,10 @@ download_abs_data_cube(
 }
 
 }
+\seealso{
+Other data cube functions: 
+\code{\link{get_available_files}()},
+\code{\link{search_catalogues}()},
+\code{\link{show_available_catalogues}()}
+}
+\concept{data cube functions}

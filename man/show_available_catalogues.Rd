@@ -22,3 +22,10 @@ These catalogues must be specified as a string as an argument to \code{download_
 \examples{
 show_available_catalogues("Earnings and work hours")
 }
+\seealso{
+Other data cube functions: 
+\code{\link{download_abs_data_cube}()},
+\code{\link{get_available_files}()},
+\code{\link{search_catalogues}()}
+}
+\concept{data cube functions}

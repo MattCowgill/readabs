@@ -2,6 +2,7 @@
 * read_lfs_grossflows() convenience function added
 * utils::download.file() used rather than curl::curl_download()
 * Workaround implemented for changes to ABS Weekly Payrolls release
+* search_catalogues() function added to make data cubes easier to find
 
 # readabs 0.4.8
 * Internal changes to the way files are downloaded

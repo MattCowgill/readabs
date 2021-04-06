@@ -16,6 +16,7 @@
 #'
 #' search_catalogues("labour")
 #' @export
+#' @family data cube functions
 
 search_catalogues <- function(string, refresh = FALSE) {
   stopifnot(!missing(string))
@@ -25,8 +26,6 @@ search_catalogues <- function(string, refresh = FALSE) {
   } else {
     df <- scrape_abs_catalogues()
   }
-
-
 
   # Using dplyr::if_any() is fast and clean but requires dplyr >= 1.0.4
   if (getNamespaceVersion("dplyr") > "1.0.4") {

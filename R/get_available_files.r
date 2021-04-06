@@ -5,7 +5,8 @@
 #' as a string as an argument to \code{download_abs_data_cube}.
 #'
 #' @param catalogue_string character string specifying the catalogue, e.g. "labour-force-australia-detailed".
-#' You can use \code{show_available_catalogues} to find this out.
+#' You can use \code{show_available_catalogues} see all the possible catalogues
+#' or \code{search_catalogues} to find catalogues that contain a given string.
 #' @param refresh logical; `FALSE` by default. If `FALSE`, an internal table
 #' of the available ABS catalogues is used. If `TRUE`, this table is refreshed
 #' from the ABS website.
@@ -24,7 +25,8 @@
 #' @importFrom rlang .data
 #'
 #' @export
-#'
+#' @family data cube functions
+
 get_available_files <- function(catalogue_string, refresh = FALSE) {
   if (isFALSE(is.logical(refresh))) {
     stop("`refresh` must be `TRUE` or `FALSE`.")

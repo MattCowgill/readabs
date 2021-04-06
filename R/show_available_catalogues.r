@@ -15,7 +15,7 @@
 #' @return a character vector of catalogues.
 #'
 #' @export
-#'
+#' @family data cube functions
 show_available_catalogues <- function(selected_heading = NULL, refresh = FALSE) {
   if (isFALSE(is.logical(refresh))) {
     stop("`refresh` must be `TRUE` or `FALSE`.")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_lfs_grossflows.R
 \name{read_lfs_grossflows}
 \alias{read_lfs_grossflows}
-\title{Convenience function to download and import 'gross flows' data cube
+\title{Download, import and tidy 'gross flows' data cube
 from the monthly ABS Labour Force survey.}
 \usage{
 read_lfs_grossflows(
@@ -11,21 +11,23 @@ read_lfs_grossflows(
 )
 }
 \arguments{
-\item{weights}{either `"current"` or "previous". If `current`, figures will
-use the current month's Labour Force survey weights; if `previous`, the
+\item{weights}{either `"current"` or `"previous"`. If `"current"`, figures will
+use the current month's Labour Force survey weights; if `"previous"`, the
 previous month's weights are used.}
 
 \item{path}{Local directory in which downloaded files should be stored.
 By default, 'path' takes the value set in the environment variable
-"R_READABS_PATH". If this variable is not set, any files downloaded by
-read_abs() will be stored in a temporary directory (tempdir()).
+"R_READABS_PATH". If this variable is not set, any files downloaded
+will be stored in a temporary directory (`tempdir()`).
 See `Details` in \code{?read_abs} for more information.}
 }
 \value{
 A tibble containing data cube GM1 from the monthly Labour Force survey.
 }
 \description{
-The gross flows data cube (GM1) shows estimates of the number of people who
+This convenience function downloads, imports and tidies the 'gross flows' data
+cube from the monthly ABS Labour Force survey. The gross flows data cube (GM1)
+shows estimates of the number of people who
 transitioned from one labour force status to another between two months.
 }
 \examples{

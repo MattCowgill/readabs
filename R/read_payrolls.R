@@ -118,6 +118,7 @@ read_payrolls <- function(series = c(
 #' @param cube_path Path + filename (incl. extension) to ABS payrolls data cube
 #' @param sheet_name Name of the sheet on the Excel cube to import
 #' @param series "wages" or "jobs" (the default)
+#' @noRd
 
 read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
   sheets_present <- readxl::excel_sheets(cube_path)

@@ -58,10 +58,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/read_data_cubes.html">Downloading ABS data cubes</a>
-    </li>
-    <li>
-      <a href="articles/readabs_vignette.html">Importing tidy ABS time series data</a>
+      <a href="articles/readabs_vignette.html">Using readabs</a>
     </li>
   </ul>
 </li>
@@ -131,9 +128,9 @@
 <code><a href="reference/read_awe.html">read_awe()</a></code> returns a long time series of Average Weekly Earnings data.</li>
 </ul>
 </div>
-<div id="using-read_abs" class="section level2">
+<div id="download-import-and-tidy-abs-time-series-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#using-read_abs" class="anchor"></a>Using read_abs()</h2>
+<a href="#download-import-and-tidy-abs-time-series-data" class="anchor"></a>Download, import, and tidy ABS time series data</h2>
 <p>To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use <code><a href="reference/read_abs.html">read_abs()</a></code>.</p>
 <p>First we’ll load {readabs} and the {tidyverse}:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -143,13 +140,14 @@
 <span class="co">#&gt;  Sys.setenv(R_READABS_PATH = &lt;path&gt;)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
 <span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
-<span class="co">#&gt; ✓ ggplot2 3.3.3          ✓ purrr   0.3.4.9000</span>
-<span class="co">#&gt; ✓ tibble  3.0.6          ✓ dplyr   1.0.4     </span>
-<span class="co">#&gt; ✓ tidyr   1.1.2          ✓ stringr 1.4.0.9000</span>
-<span class="co">#&gt; ✓ readr   1.4.0.9000     ✓ forcats 0.5.1.9000</span>
+<span class="co">#&gt; ✓ ggplot2 3.3.3     ✓ purrr   0.3.4</span>
+<span class="co">#&gt; ✓ tibble  3.1.0     ✓ dplyr   1.0.5</span>
+<span class="co">#&gt; ✓ tidyr   1.1.3     ✓ stringr 1.4.0</span>
+<span class="co">#&gt; ✓ readr   1.4.0     ✓ forcats 0.5.1</span>
 <span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
-<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></code></pre></div>
+<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></code></pre></div>
 <p>Now we’ll create one data frame that contains all the time series data from the Wage Price Index, catalogue number 6345.0:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_wpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span>
@@ -177,19 +175,19 @@
 <p>This is what it looks like:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">all_wpi</span><span class="op">)</span>
-<span class="co">#&gt; tibble [59,377 × 12] (S3: tbl_df/tbl/data.frame)</span>
-<span class="co">#&gt;  $ table_no        : chr [1:59377] "634501" "634501" "634501" "634501" ...</span>
-<span class="co">#&gt;  $ sheet_no        : chr [1:59377] "Data1" "Data1" "Data1" "Data1" ...</span>
-<span class="co">#&gt;  $ table_title     : chr [1:59377] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...</span>
-<span class="co">#&gt;  $ date            : Date[1:59377], format: "1997-09-01" "1997-09-01" ...</span>
-<span class="co">#&gt;  $ series          : chr [1:59377] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...</span>
-<span class="co">#&gt;  $ value           : num [1:59377] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...</span>
-<span class="co">#&gt;  $ series_type     : chr [1:59377] "Original" "Original" "Original" "Seasonally Adjusted" ...</span>
-<span class="co">#&gt;  $ data_type       : chr [1:59377] "INDEX" "INDEX" "INDEX" "INDEX" ...</span>
-<span class="co">#&gt;  $ collection_month: chr [1:59377] "3" "3" "3" "3" ...</span>
-<span class="co">#&gt;  $ frequency       : chr [1:59377] "Quarter" "Quarter" "Quarter" "Quarter" ...</span>
-<span class="co">#&gt;  $ series_id       : chr [1:59377] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...</span>
-<span class="co">#&gt;  $ unit            : chr [1:59377] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...</span></code></pre></div>
+<span class="co">#&gt; tibble [59,920 × 12] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ table_no        : chr [1:59920] "634501" "634501" "634501" "634501" ...</span>
+<span class="co">#&gt;  $ sheet_no        : chr [1:59920] "Data1" "Data1" "Data1" "Data1" ...</span>
+<span class="co">#&gt;  $ table_title     : chr [1:59920] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...</span>
+<span class="co">#&gt;  $ date            : Date[1:59920], format: "1997-09-01" "1997-09-01" ...</span>
+<span class="co">#&gt;  $ series          : chr [1:59920] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...</span>
+<span class="co">#&gt;  $ value           : num [1:59920] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...</span>
+<span class="co">#&gt;  $ series_type     : chr [1:59920] "Original" "Original" "Original" "Seasonally Adjusted" ...</span>
+<span class="co">#&gt;  $ data_type       : chr [1:59920] "INDEX" "INDEX" "INDEX" "INDEX" ...</span>
+<span class="co">#&gt;  $ collection_month: chr [1:59920] "3" "3" "3" "3" ...</span>
+<span class="co">#&gt;  $ frequency       : chr [1:59920] "Quarter" "Quarter" "Quarter" "Quarter" ...</span>
+<span class="co">#&gt;  $ series_id       : chr [1:59920] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...</span>
+<span class="co">#&gt;  $ unit            : chr [1:59920] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...</span></code></pre></div>
 <p>It only takes you a few lines of code to make a graph from your data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_wpi</span> <span class="op">%&gt;%</span>
@@ -211,17 +209,107 @@
 <span class="co">#&gt; Warning in read_abs("6345.0", tables = c("1", "5a")): `tables` was providedyet</span>
 <span class="co">#&gt; `check_local = TRUE` and fst files are available so `tables` will be ignored.</span></code></pre></div>
 <p>In most cases, the <code>series</code> column will contain multiple components, separated by ‘;’. The <code><a href="reference/separate_series.html">separate_series()</a></code> function can help wrangling this column.</p>
-<p>For more examples, please see the readabs vignette (run <code><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes("readabs")</a></code>).</p>
+<p>For more examples, please see the vignette on working with time series data (run <code><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes("readabs")</a></code>).</p>
+</div>
+<div id="download-abs-data-cubes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#download-abs-data-cubes" class="anchor"></a>Download ABS data cubes</h2>
+<p>The ABS (generally) releases time series data in a standard format, which allows <code><a href="reference/read_abs.html">read_abs()</a></code> to download, import and tidy it (see above). But not all ABS data is time series data - the ABS also releases data as ‘data cubes’. These are all formatted in their own, unique way.</p>
+<p>Unfortunately, because data cubes are all formatted in their own way, there is no one function that can import tidy data cubes for you in the same way that <code><a href="reference/read_abs.html">read_abs()</a></code> works with all time series. But <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> still has functions that can help.</p>
+<div id="doing-it-manually" class="section level3">
+<h3 class="hasAnchor">
+<a href="#doing-it-manually" class="anchor"></a>Doing it manually</h3>
+<p>The <code><a href="reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> function can download an ABS data cube for you. It works with any data cube on the ABS website.</p>
+<p>For example, let’s say you wanted to download table 4 from <em>Weekly Payroll Jobs and Wages in Australia</em>. This code would do the trick:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">payrolls_t4_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"weekly-payroll-jobs-and-wages-australia"</span>, <span class="st">"004"</span><span class="op">)</span>
+<span class="co">#&gt; File downloaded in /var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//Rtmprh0x0l/6160055001_DO004.xlsx</span>
+
+<span class="va">payrolls_t4_path</span>
+<span class="co">#&gt; [1] "/var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//Rtmprh0x0l/6160055001_DO004.xlsx"</span></code></pre></div>
+<p>The <code><a href="reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> function downloads the file and returns the full file path to the saved file. You can then pipe that in to another function:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">payrolls_t4_path</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></span><span class="op">(</span>sheet <span class="op">=</span> <span class="st">"Payroll jobs index"</span>,
+                     skip <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 4,322 x 65</span>
+<span class="co">#&gt;    `State or Territ… `Industry divisi… Sex   `Age group` `43834` `43841` `43848`</span>
+<span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 0. Australia      0. All industries 0. P… 0. All ages 92.85   95.32   96.82  </span>
+<span class="co">#&gt;  2 0. Australia      0. All industries 0. P… 1. 15-19    91.07   93.92   96.32  </span>
+<span class="co">#&gt;  3 0. Australia      0. All industries 0. P… 2. 20-29    92.05   94.97   97.02  </span>
+<span class="co">#&gt;  4 0. Australia      0. All industries 0. P… 3. 30-39    93.63   95.9    97.18  </span>
+<span class="co">#&gt;  5 0. Australia      0. All industries 0. P… 4. 40-49    93.61   95.68   96.84  </span>
+<span class="co">#&gt;  6 0. Australia      0. All industries 0. P… 5. 50-59    93.75   95.93   97.11  </span>
+<span class="co">#&gt;  7 0. Australia      0. All industries 0. P… 6. 60-69    91.8    93.91   95.01  </span>
+<span class="co">#&gt;  8 0. Australia      0. All industries 0. P… 7. 70 and … 87.29   89.56   90.76  </span>
+<span class="co">#&gt;  9 0. Australia      0. All industries 1. M… 0. All ages 93.09   96.14   97.86  </span>
+<span class="co">#&gt; 10 0. Australia      0. All industries 1. M… 1. 15-19    93.92   97.54   100.07 </span>
+<span class="co">#&gt; # … with 4,312 more rows, and 58 more variables: 43855 &lt;chr&gt;, 43862 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   43869 &lt;chr&gt;, 43876 &lt;chr&gt;, 43883 &lt;chr&gt;, 43890 &lt;chr&gt;, 43897 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   43904 &lt;chr&gt;, 43911 &lt;chr&gt;, 43918 &lt;chr&gt;, 43925 &lt;chr&gt;, 43932 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   43939 &lt;chr&gt;, 43946 &lt;chr&gt;, 43953 &lt;chr&gt;, 43960 &lt;chr&gt;, 43967 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   43974 &lt;chr&gt;, 43981 &lt;chr&gt;, 43988 &lt;chr&gt;, 43995 &lt;chr&gt;, 44002 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44009 &lt;chr&gt;, 44016 &lt;chr&gt;, 44023 &lt;chr&gt;, 44030 &lt;chr&gt;, 44037 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44044 &lt;chr&gt;, 44051 &lt;chr&gt;, 44058 &lt;chr&gt;, 44065 &lt;chr&gt;, 44072 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44079 &lt;chr&gt;, 44086 &lt;chr&gt;, 44093 &lt;chr&gt;, 44100 &lt;chr&gt;, 44107 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44114 &lt;chr&gt;, 44121 &lt;chr&gt;, 44128 &lt;chr&gt;, 44135 &lt;chr&gt;, 44142 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44149 &lt;chr&gt;, 44156 &lt;chr&gt;, 44163 &lt;chr&gt;, 44170 &lt;chr&gt;, 44177 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44184 &lt;chr&gt;, 44191 &lt;chr&gt;, 44198 &lt;chr&gt;, 44205 &lt;chr&gt;, 44212 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44219 &lt;chr&gt;, 44226 &lt;chr&gt;, 44233 &lt;chr&gt;, 44240 &lt;chr&gt;, 44247 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   44254 &lt;chr&gt;</span></code></pre></div>
+</div>
+<div id="using-convenience-functions-for-select-data-cubes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#using-convenience-functions-for-select-data-cubes" class="anchor"></a>Using convenience functions for select data cubes</h3>
+<p>As it happens, if you want the ABS Weekly Payrolls data, you don’t need to use <code><a href="reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> directly. Instead, there is a convenience function available that downloads, imports, and tidies the data for you:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/read_payrolls.html">read_payrolls</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; File downloaded in /var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//Rtmprh0x0l/6160055001_DO004.xlsx</span>
+<span class="co">#&gt; # A tibble: 52,582 x 7</span>
+<span class="co">#&gt;    state     industry       sex     age      date       value series</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;    &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Australia All industries Persons All ages 2020-01-04  92.8 jobs  </span>
+<span class="co">#&gt;  2 Australia All industries Persons All ages 2020-01-11  95.3 jobs  </span>
+<span class="co">#&gt;  3 Australia All industries Persons All ages 2020-01-18  96.8 jobs  </span>
+<span class="co">#&gt;  4 Australia All industries Persons All ages 2020-01-25  97.6 jobs  </span>
+<span class="co">#&gt;  5 Australia All industries Persons All ages 2020-02-01  98.1 jobs  </span>
+<span class="co">#&gt;  6 Australia All industries Persons All ages 2020-02-08  98.8 jobs  </span>
+<span class="co">#&gt;  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs  </span>
+<span class="co">#&gt;  8 Australia All industries Persons All ages 2020-02-22  99.4 jobs  </span>
+<span class="co">#&gt;  9 Australia All industries Persons All ages 2020-02-29  99.4 jobs  </span>
+<span class="co">#&gt; 10 Australia All industries Persons All ages 2020-03-07  99.8 jobs  </span>
+<span class="co">#&gt; # … with 52,572 more rows</span></code></pre></div>
+<p>There is also a convenience function available for data cube GM1 from the monthly Labour Force data, which contains labour force gross flows:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; File downloaded in /var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//Rtmprh0x0l/GM1.xlsx</span>
+<span class="co">#&gt; # A tibble: 1,035,747 x 9</span>
+<span class="co">#&gt;    date       sex   age    state lfs_current lfs_previous  persons unit  weights</span>
+<span class="co">#&gt;    &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 2001-03-01 Males 15-19… New … Employed f… Employed ful…  28.5   000s  curren…</span>
+<span class="co">#&gt;  2 2001-03-01 Males 15-19… New … Employed f… Employed par…   1.93  000s  curren…</span>
+<span class="co">#&gt;  3 2001-03-01 Males 15-19… New … Employed f… Unemployed      2.93  000s  curren…</span>
+<span class="co">#&gt;  4 2001-03-01 Males 15-19… New … Employed f… Not in the l…   0.334 000s  curren…</span>
+<span class="co">#&gt;  5 2001-03-01 Males 15-19… New … Employed f… Unmatched in…   1.63  000s  curren…</span>
+<span class="co">#&gt;  6 2001-03-01 Males 15-19… New … Employed f… Incoming rot…   7.57  000s  curren…</span>
+<span class="co">#&gt;  7 2001-03-01 Males 15-19… New … Employed p… Employed ful…   2.99  000s  curren…</span>
+<span class="co">#&gt;  8 2001-03-01 Males 15-19… New … Employed p… Employed par…  35.0   000s  curren…</span>
+<span class="co">#&gt;  9 2001-03-01 Males 15-19… New … Employed p… Unemployed      3.92  000s  curren…</span>
+<span class="co">#&gt; 10 2001-03-01 Males 15-19… New … Employed p… Not in the l…   5.52  000s  curren…</span>
+<span class="co">#&gt; # … with 1,035,737 more rows</span></code></pre></div>
+</div>
 </div>
 <div id="bug-reports-and-feedback" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-reports-and-feedback" class="anchor"></a>Bug reports and feedback</h2>
-<p>GitHub issues containing error reports or feature requests are welcome. Alternatively you can email the package maintainer at mattcowgill at gmail dot com.</p>
+<p>GitHub issues containing error reports or feature requests are welcome. Please try to make a <a href="https://reprex.tidyverse.org" class="external-link">reprex</a> (a minimal, reproducible example) if possible.</p>
+<p>Alternatively you can email the package maintainer at mattcowgill at gmail dot com.</p>
 </div>
 <div id="disclaimer" class="section level2">
 <h2 class="hasAnchor">
 <a href="#disclaimer" class="anchor"></a>Disclaimer</h2>
-<p>The {readabs} package is not associated with the Australian Bureau of Statistics. All data is provided subject to any restrictions and licensing arrangements noted on the ABS website.</p>
+<p>The <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> package is not associated with the Australian Bureau of Statistics. All data is provided subject to any restrictions and licensing arrangements noted on the ABS website.</p>
 </div>
 <div id="awesome-official-statistics-software" class="section level2">
 <h2 class="hasAnchor">
@@ -287,7 +375,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
