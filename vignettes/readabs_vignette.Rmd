@@ -1,9 +1,11 @@
 ---
-title: "Working with ABS time series data"
-output: rmarkdown::html_vignette
+title: "Using readabs"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 author: "Matt Cowgill"
 vignette: >
-  %\VignetteIndexEntry{Working with ABS time series data}
+  %\VignetteIndexEntry{Using readabs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,18 +21,25 @@ set.seed(42)
 
 ```
 
-When working with time series data from the Australian Bureau of Statistics (ABS), you must:
+# About {readabs}
 
-1.  Download the data;
-2.  Read the data into R; and
-3.  Tidy the data.
+The `{readabs}` package helps you work with two types of data released by the Australian Bureau of Statistics: **time series spreadsheets** and **data cubes**.
 
-Each of these steps can be a pain. `{readabs}`  provides functions to help you with each of those steps. One key function -- `readabs::read_abs()` -- performs all three steps if you're working with time series data.
+All ABS time series spreadsheets look like this -- with the series in the first row, then 9 further rows of metadata, then the data. 
 
-If the data you want to load is not stored in a standard ABS time series format, 
-`{readabs}` has other functions that can help. See the [vignette on downloading data cubes](read_data_cubes.html) for more on this.
+```{r out.width = "100%", echo = FALSE}
+include_graphics("VIGNETTE-ts-example.png")
+```
 
-## The problem: ABS time series data is messy
+Data cubes can look like anything -- if it's not formatted like the screenshot above, it's a data cube.
+
+This vignette provides information about how to use `{readabs}` to work with each of these data types.
+
+# Working with ABS time series data
+
+One key function -- `read_abs()` -- downloads, imports, and tidies ABS time series data.
+
+## ABS time series data is messy
 
 If you want to visualise or analyse data in R, you will often need to tidy it first. In [tidy data](http://vita.had.co.nz/papers/tidy-data.html):
 
@@ -49,9 +58,7 @@ ABS time series data is not tidy. Tidying it requires a bit of work. This screen
 include_graphics("VIGNETTE-spreadsheet-screenshot.png")
 ```
 
-`{readabs}` does a lot of the work of tidying these spreadsheets for you, so you can get to your analysis more quickly.
-
-## The solution: `read_abs()`
+## Download, import, and tidy time series data
 
 `read_abs()` is the main function of the `{readabs}` package. First, let's load `{readabs}` and a couple of other packages we'll use for demonstration purposes:
 ```{r library, message=FALSE}
@@ -154,7 +161,36 @@ head(lfs_1_5)
 
 ```
 
-## Use `separate_series()` to work with your data
+### Get time series using their IDs
+
+Every ABS time series has a unique identifier. If you know the ID for the time series you need, you can supply it to the `series_id` argument to `read_abs()`. You can give it a single ID, or multiple IDs.
+
+For example, the time series ID for the number of employed people in Australia (trend) is `"A84423127L"`. We can get a data frame that only contains that series as follows:
+
+```{r create-local-seriesid, eval=FALSE, include=FALSE}
+employed <- read_abs(series_id = "A84423127L")
+employed <- head(employed)
+saveRDS(employed, "employed.rds")
+
+```
+
+```{r read-local-seriesid, include = FALSE}
+employed <- readRDS("employed.rds")
+```
+
+```{r read-abs-seriesid, eval = FALSE}
+employed <- read_abs(series_id = "A84423127L")
+```
+
+```{r glimpse-seriesid}
+head(employed)
+
+unique(employed$series)
+```
+
+A benefit of this approach is that the filtering is done for you - the data frame only contains the series you're interested in. 
+
+## Use `separate_series()` to work with your time series data
 
 The `series` column of a table imported using `read_abs()` often contains a long, multi-part string, as this is how the ABS labels its series. This is where the `separate_series()` function comes in handy.
 
@@ -228,66 +264,10 @@ unemp %>%
 
 Ta-da! Now we've got a nice little graph - and you didn't need to go to the ABS website or click around in Excel.
 
-## How to get time series using their unique ID(s)
-
-Every ABS time series has a unique identifier. If you know the ID for the time series you need, you can supply it to the `series_id` argument to `read_abs()`. You can give it a single ID, or multiple IDs.
-
-For example, the time series ID for the number of employed people in Australia (trend) is `"A84423127L"`. We can get a data frame that only contains that series as follows:
-
-```{r create-local-seriesid, eval=FALSE, include=FALSE}
-employed <- read_abs(series_id = "A84423127L")
-employed <- head(employed)
-saveRDS(employed, "employed.rds")
-
-```
-
-```{r read-local-seriesid, include = FALSE}
-employed <- readRDS("employed.rds")
-```
-
-```{r read-abs-seriesid, eval = FALSE}
-employed <- read_abs(series_id = "A84423127L")
-```
-
-```{r glimpse-seriesid}
-head(employed)
-
-unique(employed$series)
-```
-
-A benefit of this approach is that the filtering is done for you - the data frame only contains the series you're interested in. You can also supply a vector of multiple series IDs. 
-
-## {readabs} only works with time series
-
-The spreadsheets on the ABS website are divided into one of two categories: **time series spreadsheets** and **data cubes**. Many ABS releases include spreadsheets of both types, though it's harder to tell them apart on the new ABS website.
-
-All ABS time series spreadsheets look like this -- with the series in the first row, then 9 further rows of metadata, then the data. 
-
-```{r out.width = "100%", echo = FALSE}
-include_graphics("VIGNETTE-ts-example.png")
-```
-
-Data cubes can look like anything -- if it's not formatted like the screenshot above, it's a data cube.
-
-`read_abs()` can download and tidy data contained in ABS time series spreadsheets. 
-
-The `download_abs_data_cube()` function can download data cubes. See [the vignette on data cubes](read_data_cubes.html) for more on this and related functions.
-
-## Where do the spreadsheets go?
-
-The `read_abs()` function downloads spreadsheets from the ABS website to your machine, then loads them into R, then tidies them.
-
-By default, the spreadsheets will be saved in the directory specified by the environment variable `R_READABS_PATH`. If this variable isn't set, the spreadsheets are saved to a temporary directory. You can change this location for a specific instance by using the `path` argument to `read_abs()`.
-
-Keeping the spreadsheets is often a good idea. But if you don't want to retain them, no problem. Just specify `retain_files = FALSE` when you use `read_abs()`. The spreadsheets will still be downloaded, but they'll be stored in a temporary directory that is flushed when your R session ends.
 
 ## Importing and tidying local time series spreadsheets
 
 If you already have ABS time series spreadsheets saved locally that you want to read, the `read_abs_local()` function is what you want.
-
-If you run `read_abs_local()` without any arguments specified, it will look in the directory given by the `R_READABS_PATH` environment variable (if set) and attempt to read any .xls files located there (note: it won't look in any of its subdirectories).
-
-If you want to read all the files from a different directory, specify it using the `path` argument.
 
 If you've downloaded files using `read_abs()`, you can import them using `read_abs_local()` by specifying the catalogue number. This will look in the subdirectory of `path` that corresponds to `cat_no`:
 
@@ -295,15 +275,106 @@ If you've downloaded files using `read_abs()`, you can import them using `read_a
 lfs_local_1 <- read_abs_local("6202.0")
 ```
 
-If you want to read a particular table, or tables, you can specify them using the `filenames` argument. If your files are not in `Sys.getenv("R_READABS_PATH")` or if they are in a subdirectory of this path, you'll need to specify the directory using `path`, like this:
-
-```{r read-lfs-local, eval = FALSE}
-lfs_local_2 <- read_abs_local(filenames = c("6202001.xls", "6202005.xls"),
-                              path = file.path(current_path, "6202.0"))
-```
-
 The data frame you'll get will look the same as if you'd used `read_abs()` to get the spreadsheet(s) from the ABS website.
 
-# What else can the package do?
+# Working with ABS data cubes
 
-See [the vignette on data cubes](read_data_cubes.html) for an overview of some other functions in `{readabs}`.
+All ABS time series spreadsheets are alike. Each ABS data cube is formatted in its own unique way.
+
+There is no data cube equivalent of the `read_abs()` function that will download, import, and tidy any data cube for you. But `download_abs_data_cube()` can download any data cube, for you to then manually import and tidy. Use `show_available_catalogues()` to see all the 
+possible catalogues, `search_catalogues()` to find catalogues that contain a given string (in the catalogue name itself, or the topic). Similarly, use `show_available_files()` to find all the filenames in a given catalogue, or `search_files()` to look for filenames within a catalogue that contain a particular string.
+
+Convenience functions - `read_payrolls()` and `read_lfs_grossflows()` are included to download, import, and tidy particular commonly-used data cubes.
+
+## Download data cubes
+
+Any ABS data cube can be downloaded using the `download_abs_data_cube()` function. You need to specify the name of the catalogue (`catalogue_string`), and the filename (in whole or unique part) of the file you want to download (`cube`).
+
+Let's say I want to download cube GM1, the gross flows spreadsheet from the monthly Labour Force release.
+
+Let's look for the name of the catalogue:
+
+```{r}
+search_catalogues("labour force")
+```
+
+It looks like `labour-force-australia` is the catalogue name for the monthly Labour Force survey.
+
+Now I need to find the filename for the gross flows spreadsheet, GM1.
+
+```{r}
+search_files("GM1", "labour-force-australia")
+```
+
+The GM1 table is, conveniently enough, called `GM1.xlsx`. 
+
+So we can download it like this:
+
+```{r, eval=FALSE}
+gm1_path <- download_abs_data_cube("labour-force-australia", "GM1")
+
+print(gm1_path)
+```
+```{r, include=FALSE}
+print("/var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//RtmpZT2ffU/GM1.xlsx")
+```
+
+Now we have an Excel sheet saved at that path, which you can import using `readxl::read_excel()` or the Excel-reading function of your choice.
+
+## Download, import and tidy key data cubes
+For most data cubes, you'll need to write your own code to import and tidy the data. But for some key cubes, convenience functions are provided.
+
+### Labour force gross flows
+
+The labour force gross flows cube is one of the cubes for which `readabs` includes a convenience function, `read_lfs_grossflows()`.
+
+```{r, eval=FALSE, include=FALSE}
+gf <- read_lfs_grossflows()
+gf <- head(gf)
+saveRDS(gf, "gf.rds")
+```
+```{r, include=FALSE}
+gf <- readRDS("gf.rds")
+```
+```{r, eval=FALSE}
+gf <- read_lfs_grossflows()
+```
+
+Now we have a tidy tibble of the Labour Force gross flows data:
+
+```{r}
+head(gf)
+```
+
+### ABS Weekly Payroll Jobs and Wages
+
+The ABS Weekly Payroll Jobs and Wages release contains a range of useful information. Even though this release contains time series data, the ABS does not release it in its standard time series spreadsheet format, and `read_abs()` therefore cannot import it. The `read_payrolls()` function can be used instead.
+
+Let's say you want to download the jobs figures, as index numbers, for each geographical area (SA3) over time. That's straightforward with `read_payrolls()`:
+
+```{r, eval=FALSE, include=FALSE}
+payrolls <- read_payrolls("sa3_jobs")
+payrolls <- head(payrolls)
+saveRDS(payrolls, "payrolls.rds")
+```
+```{r, include=FALSE}
+payrolls <- readRDS("payrolls.rds")
+```
+```{r, eval=FALSE}
+payrolls <- read_payrolls()
+```
+
+Here's what we've got:
+
+```{r}
+head(payrolls)
+```
+
+
+# Choosing where ABS data is saved
+
+The `read_abs()` function downloads spreadsheets from the ABS website to your machine, then loads them into R, then tidies them.
+
+By default, the spreadsheets will be saved in the directory specified by the environment variable `R_READABS_PATH`. If this variable isn't set, the spreadsheets are saved to a temporary directory. You can change this location for a specific instance by using the `path` argument to `read_abs()`.
+
+Keeping the spreadsheets is often a good idea. But if you don't want to retain them, no problem. Just specify `retain_files = FALSE` when you use `read_abs()`. The spreadsheets will still be downloaded, but they'll be stored in a temporary directory that is flushed when your R session ends.

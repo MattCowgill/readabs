@@ -63,8 +63,8 @@ download_abs_data_cube(
 }
 \seealso{
 Other data cube functions: 
-\code{\link{get_available_files}()},
 \code{\link{search_catalogues}()},
-\code{\link{show_available_catalogues}()}
+\code{\link{show_available_catalogues}()},
+\code{\link{show_available_files}()}
 }
 \concept{data cube functions}

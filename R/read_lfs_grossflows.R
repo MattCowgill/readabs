@@ -17,7 +17,9 @@
 #' @return A tibble containing data cube GM1 from the monthly Labour Force survey.
 #' @export
 #' @examples
+#' \dontrun{
 #' read_lfs_grossflows()
+#' }
 
 
 read_lfs_grossflows <- function(weights = c("current",

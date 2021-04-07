@@ -31,5 +31,7 @@ shows estimates of the number of people who
 transitioned from one labour force status to another between two months.
 }
 \examples{
+\dontrun{
 read_lfs_grossflows()
+}
 }

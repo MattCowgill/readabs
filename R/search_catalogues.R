@@ -35,14 +35,15 @@ search_catalogues <- function(string, refresh = FALSE) {
                                            perl = TRUE, ignore.case = TRUE)))
 
   } else {
-    out <- purrr::map_dfr(df,
+    matches <- purrr::map_dfr(df,
                           grepl,
                           pattern = string, perl = TRUE, ignore.case = TRUE) %>%
-      rowSums() %>%
-      dplyr::tibble(sum_true = .) %>%
+      rowSums()
+
+    out <- dplyr::tibble(sum_true = matches) %>%
       dplyr::bind_cols(df) %>%
-      dplyr::filter(sum_true >= 1) %>%
-      dplyr::select(-sum_true)
+      dplyr::filter(.data$sum_true >= 1) %>%
+      dplyr::select(-.data$sum_true)
   }
 
   out <- out %>%

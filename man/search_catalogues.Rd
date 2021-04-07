@@ -30,7 +30,7 @@ search_catalogues("labour")
 \seealso{
 Other data cube functions: 
 \code{\link{download_abs_data_cube}()},
-\code{\link{get_available_files}()},
-\code{\link{show_available_catalogues}()}
+\code{\link{show_available_catalogues}()},
+\code{\link{show_available_files}()}
 }
 \concept{data cube functions}
