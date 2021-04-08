@@ -47,9 +47,8 @@
 
 
 <meta property="og:title" content="Experimental helper function to download ABS data cubes that are not compatible with read_abs. — download_abs_data_cube" />
-<meta property="og:description" content="download_abs_data_cube() downloads the latest ABS data cubes based on the catalogue name (from the new website url) and cube.
-The function downloads the file to disk.
-In comparison to read_abs() this function doesn't tidy the data." />
+<meta property="og:description" content="download_abs_data_cube() downloads the latest ABS data cubes based on the catalogue name (from the website url) and cube.
+The function downloads the file to disk." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -139,9 +138,8 @@ In comparison to read_abs() this function doesn't tidy the data." />
     </div>
 
     <div class="ref-description">
-    <p><code>download_abs_data_cube()</code> downloads the latest ABS data cubes based on the catalogue name (from the new website url) and cube.
-The function downloads the file to disk.
-In comparison to <code><a href='read_abs.html'>read_abs()</a></code> this function doesn't tidy the data.</p>
+    <p><code>download_abs_data_cube()</code> downloads the latest ABS data cubes based on the catalogue name (from the website url) and cube.
+The function downloads the file to disk.</p>
     </div>
 
     <pre class="usage"><span class='fu'>download_abs_data_cube</span><span class='op'>(</span>
@@ -155,29 +153,33 @@ In comparison to <code><a href='read_abs.html'>read_abs()</a></code> this functi
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>catalogue_string</th>
-      <td><p>ABS catalogue name as a string from the new website.
+      <td><p>ABS catalogue name as a string from the ABS website.
 For example, Labour Force, Australia, Detailed is "labour-force-australia-detailed".
-The possible catalogues can be obtained using the helper function <code><a href='show_available_catalogues.html'>show_available_catalogues()</a></code></p></td>
+The possible catalogues can be obtained using the helper function <code><a href='show_available_catalogues.html'>show_available_catalogues()</a></code>;
+or search these catalogues using <code><a href='search_catalogues.html'>search_catalogues()</a></code>,</p></td>
     </tr>
     <tr>
       <th>cube</th>
       <td><p>character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
-download, e.g. "EQ09". #' The available filenames can be obtained using the helper function <code>get_available_filenames()</code></p></td>
+download, e.g. "EQ09". The available filenames can be obtained using the helper function <code>get_available_filenames()</code></p></td>
     </tr>
     <tr>
       <th>path</th>
       <td><p>Local directory in which downloaded files should be stored. By default, `path`
-takes the value set in the #' environment variable "R_READABS_PATH".
-If this variable is not set, #' any files downloaded by read_abs()
-will be stored in a temporary directory #' (<code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>).
-See <code>Details</code> below for #' more information.</p></td>
+takes the value set in the environment variable "R_READABS_PATH".
+If this variable is not set, any files downloaded
+will be stored in a temporary directory (<code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>).
+See <code>Details</code> below for  more information.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>`download_abs_data_cube()` downloads a file from the ABS containing a data cube.
-These files need to be saved somewhere on your disk.
+    <p>Unlike <code><a href='read_abs.html'>read_abs()</a></code>, this function doesn't import or tidy the data.
+Convenience functions are provided to import and tidy key data cubes; see
+<code>?read_payrolls()</code> and <code>?read_lfs_grossflows()</code>.</p>
+<p>`download_abs_data_cube()` downloads an Excel spreadsheet from the ABS.</p>
+<p>The file need to be saved somewhere on your disk.
 This local directory can be controlled using the `path` argument to
 `read_abs()`. If the `path` argument is not set, `read_abs()` will store
 the files in a directory set in the "R_READABS_PATH" environment variable.
@@ -189,6 +191,12 @@ If you would like to change this variable for all future R sessions, edit
 your `.Renviron` file and add <code>R_READABS_PATH = &lt;path&gt;</code> line.
 The easiest way to edit this file is using <code>usethis::edit_r_environ()</code>.</p>
 <p>The filepath is returned invisibly which enables piping to <code><a href='https://rdrr.io/r/utils/unzip.html'>unzip()</a></code> or <code><a href='https://readxl.tidyverse.org/reference/read_excel.html'>readxl::read_excel</a></code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other data cube functions: 
+<code><a href='search_catalogues.html'>search_catalogues</a>()</code>,
+<code><a href='show_available_catalogues.html'>show_available_catalogues</a>()</code>,
+<code><a href='show_available_files.html'>show_available_files</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

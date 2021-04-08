@@ -100,18 +100,22 @@
 
     
     
-<p>When working with time series data from the Australian Bureau of Statistics (ABS), you must:</p>
-<ol style="list-style-type: decimal">
-<li>Download the data;</li>
-<li>Read the data into R; and</li>
-<li>Tidy the data.</li>
-</ol>
-<p>The {readabs} package provides functions to help you with each of those steps. One key function – <code><a href="../reference/read_abs.html">read_abs()</a></code> – streamlines the process for you.</p>
-<p>The <code><a href="../reference/separate_series.html">separate_series()</a></code> function also helps with step three, tidying the data. You use it in conjunction with <code><a href="../reference/read_abs.html">read_abs()</a></code> - see the examples below.</p>
-<p>Another function, <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> is useful if you have already downloaded ABS time series spreadsheet to disk; it imports and tidies the spreadsheets.</p>
-<div id="the-problem-abs-time-series-data-is-messy" class="section level2">
+<div id="about-readabs" class="section level1">
+<h1 class="hasAnchor">
+<a href="#about-readabs" class="anchor"></a>About {readabs}</h1>
+<p>The <a href="https://github.com/mattcowgill/readabs">readabs</a> package helps you work with two types of data released by the Australian Bureau of Statistics: <strong>time series spreadsheets</strong> and <strong>data cubes</strong>.</p>
+<p>All ABS time series spreadsheets look like this – with the series in the first row, then 9 further rows of metadata, then the data.</p>
+<p><img src="VIGNETTE-ts-example.png" width="100%"></p>
+<p>Data cubes can look like anything – if it’s not formatted like the screenshot above, it’s a data cube.</p>
+<p>This vignette provides information about how to use <a href="https://github.com/mattcowgill/readabs">readabs</a> to work with each of these data types.</p>
+</div>
+<div id="working-with-abs-time-series-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#working-with-abs-time-series-data" class="anchor"></a>Working with ABS time series data</h1>
+<p>One key function – <code><a href="../reference/read_abs.html">read_abs()</a></code> – downloads, imports, and tidies ABS time series data.</p>
+<div id="abs-time-series-data-is-messy" class="section level2">
 <h2 class="hasAnchor">
-<a href="#the-problem-abs-time-series-data-is-messy" class="anchor"></a>The problem: ABS time series data is messy</h2>
+<a href="#abs-time-series-data-is-messy" class="anchor"></a>ABS time series data is messy</h2>
 <p>If you want to visualise or analyse data in R, you will often need to tidy it first. In <a href="http://vita.had.co.nz/papers/tidy-data.html">tidy data</a>:</p>
 <ol style="list-style-type: decimal">
 <li>Each variable forms a column.</li>
@@ -122,35 +126,23 @@
 <ul>
 <li>metadata and data are in the same columns;</li>
 <li>in some cases, the data are spread across multiple worksheets;</li>
-<li>each time series has its own column; and</li>
-<li>dates are in an Excel format (eg. Feb-1978 is stored as 28522), which is a pain to convert.</li>
+<li>each time series has its own column (it’s ‘wide’, not ‘long’); and</li>
+<li>dates are in an Excel format (eg. <code>Feb-1978</code> is stored as <code>28522</code>), which is a pain to convert to an actual date.</li>
 </ul>
 <p><img src="VIGNETTE-spreadsheet-screenshot.png" width="100%"></p>
-<p>{readabs} does a lot of the work of tidying these spreadsheets for you, so you can get to your analysis more quickly.</p>
 </div>
-<div id="the-solution-read_abs" class="section level2">
+<div id="download-import-and-tidy-time-series-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#the-solution-read_abs" class="anchor"></a>The solution: <code>read_abs()</code>
-</h2>
+<a href="#download-import-and-tidy-time-series-data" class="anchor"></a>Download, import, and tidy time series data</h2>
+<p><code><a href="../reference/read_abs.html">read_abs()</a></code> is the main function of the <a href="https://github.com/mattcowgill/readabs">readabs</a> package. First, let’s load <a href="https://github.com/mattcowgill/readabs">readabs</a> and a couple of other packages we’ll use for demonstration purposes:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs">readabs</a></span><span class="op">)</span>
-<span class="co">#&gt; Environment variable 'R_READABS_PATH' is unset. Downloaded files will be saved in a temporary directory.</span>
-<span class="co">#&gt; You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use</span>
-<span class="co">#&gt;  Sys.setenv(R_READABS_PATH = &lt;path&gt;)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
 <div id="getting-a-whole-catalogue-number-worth-of-time-series-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getting-a-whole-catalogue-number-worth-of-time-series-data" class="anchor"></a>Getting a whole catalogue number worth of time series data</h3>
-<p>The main function in the package is <code><a href="../reference/read_abs.html">read_abs()</a></code>. If you give it an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. Easy!</p>
+<p>If you give <code><a href="../reference/read_abs.html">read_abs()</a></code> an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. Easy!</p>
 <p>For example, to get all the spreadsheets from the Wage Price Index, catalogue number 6345.0, we’d do:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">wpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span></code></pre></div>
@@ -162,18 +154,18 @@
 <span class="co">#&gt;   table_no sheet_no table_title   date       series  value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;         &lt;date&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  67.4 Original    INDEX    </span>
-<span class="co">#&gt; 2 634501   Data1    Table 1. Tot… 1997-12-01 Quarte…  67.9 Original    INDEX    </span>
-<span class="co">#&gt; 3 634501   Data1    Table 1. Tot… 1998-03-01 Quarte…  68.5 Original    INDEX    </span>
-<span class="co">#&gt; 4 634501   Data1    Table 1. Tot… 1998-06-01 Quarte…  68.8 Original    INDEX    </span>
-<span class="co">#&gt; 5 634501   Data1    Table 1. Tot… 1998-09-01 Quarte…  69.6 Original    INDEX    </span>
-<span class="co">#&gt; 6 634501   Data1    Table 1. Tot… 1998-12-01 Quarte…  70   Original    INDEX    </span>
+<span class="co">#&gt; 2 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  64.7 Original    INDEX    </span>
+<span class="co">#&gt; 3 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  66.7 Original    INDEX    </span>
+<span class="co">#&gt; 4 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  67.3 Seasonally… INDEX    </span>
+<span class="co">#&gt; 5 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  64.8 Seasonally… INDEX    </span>
+<span class="co">#&gt; 6 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  66.6 Seasonally… INDEX    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
-<p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you’ll have a data frame with over 2.1 million rows.</p>
+<p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you’ll have a data frame with well over 2 million rows.</p>
 <p>All the metadata from the time series spreadsheets is included in the data frame:</p>
 <ul>
 <li>
-<code>table_title</code> is, as you’d expect, the title of the table;</li>
+<code>table_title</code> is the title of the table;</li>
 <li>
 <code>date</code> is the date of the observation in that row;</li>
 <li>
@@ -199,7 +191,7 @@
 <h3 class="hasAnchor">
 <a href="#get-individual-tables" class="anchor"></a>Get individual table(s)</h3>
 <p>Unless you tell it otherwise, <code><a href="../reference/read_abs.html">read_abs()</a></code> will get all the time series spreadsheets from a given catalogue number.</p>
-<p>Generally this will be overkill. Maybe you don’t want all 2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the <code>tables</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code> to specify the table(s) you want:</p>
+<p>Generally this will be overkill. Maybe you don’t want all ~2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the <code>tables</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code> to specify the table(s) you want:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">lfs_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
@@ -208,12 +200,12 @@
 <span class="co">#&gt; # A tibble: 6 x 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   NA  Trend       STOCK    </span>
+<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 5998. Seasonally… STOCK    </span>
+<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 5986. Original    STOCK    </span>
+<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   NA  Trend       STOCK    </span>
+<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 3881. Seasonally… STOCK    </span>
+<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 3887. Original    STOCK    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
 <p>If you want more than one table, but not the whole catalogue number, you can specify multiple tables:</p>
@@ -225,93 +217,23 @@
 <span class="co">#&gt; # A tibble: 6 x 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    NA Trend       STOCK    </span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    NA Trend       STOCK    </span>
+<span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   NA  Trend       STOCK    </span>
+<span class="co">#&gt; 2 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 5998. Seasonally… STOCK    </span>
+<span class="co">#&gt; 3 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 5986. Original    STOCK    </span>
+<span class="co">#&gt; 4 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   NA  Trend       STOCK    </span>
+<span class="co">#&gt; 5 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 3881. Seasonally… STOCK    </span>
+<span class="co">#&gt; 6 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… 3887. Original    STOCK    </span>
 <span class="co">#&gt; # … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span>
 <span class="co">#&gt; #   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
-<p>The <code>tables</code> argument can be either a numeric vector (eg. <code><a href="https://rdrr.io/r/base/c.html">c(1, 5)</a></code>) or a character vector (eg. <code><a href="https://rdrr.io/r/base/c.html">c("1", "5a")</a></code>).</p>
 </div>
-</div>
-<div id="use-separate_series-to-work-with-your-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#use-separate_series-to-work-with-your-data" class="anchor"></a>Use <code>separate_series()</code> to work with your data</h2>
-<p>The <code><a href="../reference/read_abs.html">read_abs()</a></code> function does a lot of the work for you by getting your data in a tidy (long) format. This makes it easier to filter to the data you’re interested in and generate output (like graphs) using the <a href="https://www.tidyverse.org">Tidyverse</a> packages, such as <code>dplyr</code> and <code>ggplot2</code>. You’ll often want to do some further cleaning up of the data to make it easier to work with. This is where the <code><a href="../reference/separate_series.html">separate_series()</a></code> function comes in handy.</p>
-<p>In this example, we’ll work with data from the Labour Force survey that we downloaded and tidied earlier using <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
-<p>Now let’s have a look at the time series from table 1 of the Labour Force survey:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">$</span><span class="va">series</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Employed total ;  Persons ;"</span></code></pre></div>
-<p>There’s a bunch of data in here. We can see that the <code>series</code> column contains a first part, like “Participation rate” or “Unemployment rate”, and a second part, which is “Persons”, “Males”, or “Females”. You will often want to filter using one or both of these components separately - and sometimes there will be more than two components.</p>
-<p>The <code>separate_series</code> function helps you by separating the <code>series</code> column into multiple components and removing extraneous symbols.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_1_sep</span> <span class="op">&lt;-</span> <span class="va">lfs_1</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/separate_series.html">separate_series</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Warning in separate_series(.): value column(s) have NA values.</span>
-
-<span class="va">lfs_1_sep</span>
-<span class="co">#&gt; # A tibble: 6 x 14</span>
-<span class="co">#&gt;   table_no sheet_no table_title      date       series   series_1 series_2 value</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;            &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 6202001  Data1    Table 1. Labour… 1978-02-01 Employe… Employe… Persons     NA</span>
-<span class="co">#&gt; 2 6202001  Data1    Table 1. Labour… 1978-03-01 Employe… Employe… Persons     NA</span>
-<span class="co">#&gt; 3 6202001  Data1    Table 1. Labour… 1978-04-01 Employe… Employe… Persons     NA</span>
-<span class="co">#&gt; 4 6202001  Data1    Table 1. Labour… 1978-05-01 Employe… Employe… Persons     NA</span>
-<span class="co">#&gt; 5 6202001  Data1    Table 1. Labour… 1978-06-01 Employe… Employe… Persons     NA</span>
-<span class="co">#&gt; 6 6202001  Data1    Table 1. Labour… 1978-07-01 Employe… Employe… Persons     NA</span>
-<span class="co">#&gt; # … with 6 more variables: series_type &lt;chr&gt;, data_type &lt;chr&gt;,</span>
-<span class="co">#&gt; #   collection_month &lt;chr&gt;, frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;</span></code></pre></div>
-<p>The <code>remove_totals</code> and <code>remove_nas</code> arguments to <code><a href="../reference/separate_series.html">separate_series()</a></code> can be very useful when you are tidying data. They’re both set to <code>FALSE</code> by default.</p>
-<p>We’ve now got a new tibble that still contains the original <code>series</code> column, but also contains new columns <code>series_1</code> and <code>series_2</code>, with the two parts of <code>series</code> split into these new columns.</p>
-<p>Let’s make a data frame that just contains the male and female unemployment rates over time, using the seasonally adjusted time series.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">lfs_1_sep</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">series_1</span> <span class="op">==</span> <span class="st">"Unemployment rate"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_1</span><span class="op">)</span>
-<span class="co">#&gt; character(0)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span>
-<span class="co">#&gt; character(0)</span></code></pre></div>
-<p>Now we have a data frame, <code>unemp</code>, that contains various unemployment rate series. Let’s filter to only Males or Females.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">unemp</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">series_2</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Males"</span>, <span class="st">"Females"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span>
-<span class="co">#&gt; character(0)</span></code></pre></div>
-<p>Now our data frame only contains the male and female unemployment rates, which is what we want. Let’s graph it, filtering once more to show only the seasonally adjusted series and adding a ‘sex’ column:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">unemp</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">series_type</span> <span class="op">==</span> <span class="st">"Seasonally Adjusted"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="va">series_2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">value</span>, col <span class="op">=</span> <span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
-        axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-        legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-        text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"The male and female unemployment rates have converged"</span>,
-       subtitle <span class="op">=</span> <span class="st">"Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)"</span>,
-       caption <span class="op">=</span> <span class="st">"Source: ABS 6202.0"</span><span class="op">)</span></code></pre></div>
-<p><img src="VIGNETTE-graph-unemp-1.png" width="1458.33333333333"></p>
-<p>Ta-da! Now we’ve got a nice little ggplot2 graph - and you didn’t need to go to the ABS website or click around in Excel.</p>
-</div>
-<div id="how-to-get-time-series-using-their-unique-ids" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-get-time-series-using-their-unique-ids" class="anchor"></a>How to get time series using their unique ID(s)</h2>
+<div id="get-time-series-using-their-ids" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-time-series-using-their-ids" class="anchor"></a>Get time series using their IDs</h3>
 <p>Every ABS time series has a unique identifier. If you know the ID for the time series you need, you can supply it to the <code>series_id</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code>. You can give it a single ID, or multiple IDs.</p>
-<p>For example, the time series ID for the number of employed people in Australia (trend) is “A84423127L”. We can get a data frame that only contains that series as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p>For example, the time series ID for the number of employed people in Australia (trend) is <code>"A84423127L"</code>. We can get a data frame that only contains that series as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">employed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">"A84423127L"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">employed</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
@@ -329,40 +251,220 @@
 <span class="co">#&gt; [1] "Employed total ;  Persons ;"</span></code></pre></div>
 <p>A benefit of this approach is that the filtering is done for you - the data frame only contains the series you’re interested in.</p>
 </div>
-<div id="readabs-only-works-with-time-series" class="section level2">
-<h2 class="hasAnchor">
-<a href="#readabs-only-works-with-time-series" class="anchor"></a>{readabs} only works with time series</h2>
-<p>The spreadsheets on the ABS website are divided into one of two categories: <strong>time series spreadsheets</strong> and <strong>data cubes</strong>. For example, the main Labour Force release contains both:</p>
-<p><img src="VIGNETTE-6202-screenshot.png" width="100%"></p>
-<p>The readabs package can download and tidy data contained in ABS time series spreadsheets. It can’t download or tidy any spreadsheet the ABS describes as a ‘data cube’.</p>
 </div>
-<div id="why-is-my-hard-drive-filling-up-with-spreadsheets" class="section level2">
+<div id="use-separate_series-to-work-with-your-time-series-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why-is-my-hard-drive-filling-up-with-spreadsheets" class="anchor"></a>Why is my hard drive filling up with spreadsheets?</h2>
-<p>The <code><a href="../reference/read_abs.html">read_abs()</a></code> function downloads spreadsheets from the ABS website to your machine, then loads them into R, then tidies them.</p>
-<p>By default, the spreadsheets will be saved in the directory specified by the environment variable <code>R_READABS_PATH</code> or, if it is unset, a temporary directory. You can change this location for a specific instance by using the <code>path</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
-<p>Keeping the spreadsheets is often a good idea. But if you don’t want to retain them, no problem. Just specify <code>retain_files = FALSE</code> when you use <code><a href="../reference/read_abs.html">read_abs()</a></code>. The spreadsheets will still be downloaded, but they’ll be stored in a temporary directory that is flushed when your R session ends.</p>
+<a href="#use-separate_series-to-work-with-your-time-series-data" class="anchor"></a>Use <code>separate_series()</code> to work with your time series data</h2>
+<p>The <code>series</code> column of a table imported using <code><a href="../reference/read_abs.html">read_abs()</a></code> often contains a long, multi-part string, as this is how the ABS labels its series. This is where the <code><a href="../reference/separate_series.html">separate_series()</a></code> function comes in handy.</p>
+<p>In this example, we’ll work with data from the Labour Force survey that we downloaded and tidied earlier using <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
+<p>Now let’s have a look at the time series from table 1 of the Labour Force survey:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">$</span><span class="va">series</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "Employed total ;  Persons ;"                                      </span>
+<span class="co">#&gt;  [2] "Employed total ;  &gt; Males ;"                                      </span>
+<span class="co">#&gt;  [3] "Employed total ;  &gt; Females ;"                                    </span>
+<span class="co">#&gt;  [4] "&gt; Employed full-time ;  Persons ;"                                </span>
+<span class="co">#&gt;  [5] "&gt; Employed full-time ;  &gt; Males ;"                                </span>
+<span class="co">#&gt;  [6] "&gt; Employed full-time ;  &gt; Females ;"                              </span>
+<span class="co">#&gt;  [7] "&gt; Employed part-time ;  Persons ;"                                </span>
+<span class="co">#&gt;  [8] "&gt; Employed part-time ;  &gt; Males ;"                                </span>
+<span class="co">#&gt;  [9] "&gt; Employed part-time ;  &gt; Females ;"                              </span>
+<span class="co">#&gt; [10] "Employment to population ratio ;  Persons ;"                      </span>
+<span class="co">#&gt; [11] "Employment to population ratio ;  &gt; Males ;"                      </span>
+<span class="co">#&gt; [12] "Employment to population ratio ;  &gt; Females ;"                    </span>
+<span class="co">#&gt; [13] "Unemployed total ;  Persons ;"                                    </span>
+<span class="co">#&gt; [14] "Unemployed total ;  &gt; Males ;"                                    </span>
+<span class="co">#&gt; [15] "Unemployed total ;  &gt; Females ;"                                  </span>
+<span class="co">#&gt; [16] "&gt; Unemployed looked for full-time work ;  Persons ;"              </span>
+<span class="co">#&gt; [17] "&gt; Unemployed looked for full-time work ;  &gt; Males ;"              </span>
+<span class="co">#&gt; [18] "&gt; Unemployed looked for full-time work ;  &gt; Females ;"            </span>
+<span class="co">#&gt; [19] "&gt; Unemployed looked for only part-time work ;  Persons ;"         </span>
+<span class="co">#&gt; [20] "&gt; Unemployed looked for only part-time work ;  &gt; Males ;"         </span>
+<span class="co">#&gt; [21] "&gt; Unemployed looked for only part-time work ;  &gt; Females ;"       </span>
+<span class="co">#&gt; [22] "Unemployment rate ;  Persons ;"                                   </span>
+<span class="co">#&gt; [23] "Unemployment rate ;  &gt; Males ;"                                   </span>
+<span class="co">#&gt; [24] "Unemployment rate ;  &gt; Females ;"                                 </span>
+<span class="co">#&gt; [25] "&gt; Unemployment rate looked for full-time work ;  Persons ;"       </span>
+<span class="co">#&gt; [26] "&gt; Unemployment rate looked for full-time work ;  &gt; Males ;"       </span>
+<span class="co">#&gt; [27] "&gt; Unemployment rate looked for full-time work ;  &gt; Females ;"     </span>
+<span class="co">#&gt; [28] "&gt; Unemployment rate looked for only part-time work ;  Persons ;"  </span>
+<span class="co">#&gt; [29] "&gt; Unemployment rate looked for only part-time work ;  &gt; Males ;"  </span>
+<span class="co">#&gt; [30] "&gt; Unemployment rate looked for only part-time work ;  &gt; Females ;"</span>
+<span class="co">#&gt; [31] "Labour force total ;  Persons ;"                                  </span>
+<span class="co">#&gt; [32] "Labour force total ;  &gt; Males ;"                                  </span>
+<span class="co">#&gt; [33] "Labour force total ;  &gt; Females ;"                                </span>
+<span class="co">#&gt; [34] "Participation rate ;  Persons ;"                                  </span>
+<span class="co">#&gt; [35] "Participation rate ;  &gt; Males ;"                                  </span>
+<span class="co">#&gt; [36] "Participation rate ;  &gt; Females ;"                                </span>
+<span class="co">#&gt; [37] "Not in the labour force (NILF) ;  Persons ;"                      </span>
+<span class="co">#&gt; [38] "Not in the labour force (NILF) ;  &gt; Males ;"                      </span>
+<span class="co">#&gt; [39] "Not in the labour force (NILF) ;  &gt; Females ;"                    </span>
+<span class="co">#&gt; [40] "Civilian population aged 15 years and over ;  Persons ;"          </span>
+<span class="co">#&gt; [41] "Civilian population aged 15 years and over ;  &gt; Males ;"          </span>
+<span class="co">#&gt; [42] "Civilian population aged 15 years and over ;  &gt; Females ;"</span></code></pre></div>
+<p>There’s a bunch of data in here. We can see that the <code>series</code> column contains a first part, like “Participation rate” or “Unemployment rate”, and a second part, which is “Persons”, “Males”, or “Females”. You will often want to filter using one or both of these components separately - and sometimes there will be more than two components.</p>
+<p>The <code>separate_series</code> function helps you by separating the <code>series</code> column into multiple components and removing extraneous symbols.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lfs_1_sep</span> <span class="op">&lt;-</span> <span class="va">lfs_1</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/separate_series.html">separate_series</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Warning in separate_series(.): value column(s) have NA values.</span>
+
+<span class="va">lfs_1_sep</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">series_1</span>, <span class="va">series_2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'series_1'. You can override using the `.groups` argument.</span>
+<span class="co">#&gt; # A tibble: 42 x 2</span>
+<span class="co">#&gt; # Groups:   series_1 [14]</span>
+<span class="co">#&gt;    series_1                                   series_2</span>
+<span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;   </span>
+<span class="co">#&gt;  1 Civilian population aged 15 years and over Females </span>
+<span class="co">#&gt;  2 Civilian population aged 15 years and over Males   </span>
+<span class="co">#&gt;  3 Civilian population aged 15 years and over Persons </span>
+<span class="co">#&gt;  4 Employed full-time                         Females </span>
+<span class="co">#&gt;  5 Employed full-time                         Males   </span>
+<span class="co">#&gt;  6 Employed full-time                         Persons </span>
+<span class="co">#&gt;  7 Employed part-time                         Females </span>
+<span class="co">#&gt;  8 Employed part-time                         Males   </span>
+<span class="co">#&gt;  9 Employed part-time                         Persons </span>
+<span class="co">#&gt; 10 Employed total                             Females </span>
+<span class="co">#&gt; # … with 32 more rows</span></code></pre></div>
+<p>The <code>remove_totals</code> and <code>remove_nas</code> arguments to <code><a href="../reference/separate_series.html">separate_series()</a></code> can be very useful when you are tidying data. They’re both set to <code>FALSE</code> by default.</p>
+<p>We’ve now got a new tibble that still contains the original <code>series</code> column, but also contains new columns <code>series_1</code> and <code>series_2</code>, with the two parts of <code>series</code> split into these new columns.</p>
+<p>Let’s make a data frame that just contains the male and female unemployment rates over time.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">lfs_1_sep</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">series_1</span> <span class="op">==</span> <span class="st">"Unemployment rate"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_1</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Unemployment rate"</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Persons" "Males"   "Females"</span></code></pre></div>
+<p>Now we have a data frame, <code>unemp</code>, that contains various unemployment rate series. Let’s filter to only Males or Females.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">unemp</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">series_2</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Males"</span>, <span class="st">"Females"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Males"   "Females"</span></code></pre></div>
+<p>Now our data frame only contains the male and female unemployment rates, which is what we want. Let’s graph it, filtering once more to show only the seasonally adjusted series and adding a ‘sex’ column:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">unemp</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">series_type</span> <span class="op">==</span> <span class="st">"Seasonally Adjusted"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="va">series_2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">value</span>, col <span class="op">=</span> <span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
+        axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"The male and female unemployment rates have converged"</span>,
+       subtitle <span class="op">=</span> <span class="st">"Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)"</span>,
+       caption <span class="op">=</span> <span class="st">"Source: ABS 6202.0"</span><span class="op">)</span></code></pre></div>
+<p><img src="VIGNETTE-graph-unemp-1.png" width="1458.33333333333"></p>
+<p>Ta-da! Now we’ve got a nice little graph - and you didn’t need to go to the ABS website or click around in Excel.</p>
 </div>
-<div id="what-if-ive-already-downloaded-spreadsheets" class="section level2">
+<div id="importing-and-tidying-local-time-series-spreadsheets" class="section level2">
 <h2 class="hasAnchor">
-<a href="#what-if-ive-already-downloaded-spreadsheets" class="anchor"></a>What if I’ve already downloaded spreadsheets?</h2>
+<a href="#importing-and-tidying-local-time-series-spreadsheets" class="anchor"></a>Importing and tidying local time series spreadsheets</h2>
 <p>If you already have ABS time series spreadsheets saved locally that you want to read, the <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> function is what you want.</p>
-<p>If you just run <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> without any arguments specified, it will look in the directory given by the <code>R_READABS_PATH</code> environment variable (if set) and attempt to read any .xls files located there (note: it won’t look in any of its subdirectories).</p>
-<p>In this vignette, the location of the files we’ve downloaded so far depend on whether you have this environment variable set. To demonstrate <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> we’ll need to know the path in order to demonstrate how to use <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">current_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_READABS_PATH"</span><span class="op">)</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nzchar</a></span><span class="op">(</span><span class="va">current_path</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">current_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
-<p>If you want to read all the files from a different directory, specify it using the <code>path</code> argument.</p>
 <p>If you’ve downloaded files using <code><a href="../reference/read_abs.html">read_abs()</a></code>, you can import them using <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> by specifying the catalogue number. This will look in the subdirectory of <code>path</code> that corresponds to <code>cat_no</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lfs_local_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs_local.html">read_abs_local</a></span><span class="op">(</span><span class="st">"6202.0"</span><span class="op">)</span></code></pre></div>
-<p>If you want to read a particular table, or tables, you can specify them using the <code>filenames</code> argument. If your files are not in <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("R_READABS_PATH")</a></code> or if they are in a subdirectory of this path, you’ll need to specify the directory using <code>path</code>, like this:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_local_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs_local.html">read_abs_local</a></span><span class="op">(</span>filenames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"6202001.xls"</span>, <span class="st">"6202005.xls"</span><span class="op">)</span>,
-                              path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">current_path</span>, <span class="st">"6202.0"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The data frame you’ll get will look the same as if you’d used <code><a href="../reference/read_abs.html">read_abs()</a></code> to get the spreadsheet(s) from the ABS website.</p>
+</div>
+</div>
+<div id="working-with-abs-data-cubes" class="section level1">
+<h1 class="hasAnchor">
+<a href="#working-with-abs-data-cubes" class="anchor"></a>Working with ABS data cubes</h1>
+<p>All ABS time series spreadsheets are alike. Each ABS data cube is formatted in its own unique way.</p>
+<p>There is no data cube equivalent of the <code><a href="../reference/read_abs.html">read_abs()</a></code> function that will download, import, and tidy any data cube for you. But <code><a href="../reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> can download any data cube, for you to then manually import and tidy. Use <code><a href="../reference/show_available_catalogues.html">show_available_catalogues()</a></code> to see all the possible catalogues, <code><a href="../reference/search_catalogues.html">search_catalogues()</a></code> to find catalogues that contain a given string (in the catalogue name itself, or the topic). Similarly, use <code><a href="../reference/show_available_files.html">show_available_files()</a></code> to find all the filenames in a given catalogue, or <code><a href="../reference/search_files.html">search_files()</a></code> to look for filenames within a catalogue that contain a particular string.</p>
+<p>Convenience functions - <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code> and <code><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows()</a></code> are included to download, import, and tidy particular commonly-used data cubes.</p>
+<div id="download-data-cubes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#download-data-cubes" class="anchor"></a>Download data cubes</h2>
+<p>Any ABS data cube can be downloaded using the <code><a href="../reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> function. You need to specify the name of the catalogue (<code>catalogue_string</code>), and the filename (in whole or unique part) of the file you want to download (<code>cube</code>).</p>
+<p>Let’s say I want to download cube GM1, the gross flows spreadsheet from the monthly Labour Force release.</p>
+<p>Let’s look for the name of the catalogue:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 4</span>
+<span class="co">#&gt;   heading      sub_heading             catalogue            url                 </span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                &lt;chr&gt;               </span>
+<span class="co">#&gt; 1 Employment … Labour Force, Australia labour-force-austra… https://www.abs.gov…</span>
+<span class="co">#&gt; 2 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</span>
+<span class="co">#&gt; 3 Employment … Labour Force Status of… labour-force-status… https://www.abs.gov…</span>
+<span class="co">#&gt; 4 Employment … Barriers and Incentive… barriers-and-incent… https://www.abs.gov…</span>
+<span class="co">#&gt; 5 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</span>
+<span class="co">#&gt; 6 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</span></code></pre></div>
+<p>It looks like <code>labour-force-australia</code> is the catalogue name for the monthly Labour Force survey.</p>
+<p>Now I need to find the filename for the gross flows spreadsheet, GM1.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/search_files.html">search_files</a></span><span class="op">(</span><span class="st">"GM1"</span>, <span class="st">"labour-force-australia"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "GM1.xlsx"</span></code></pre></div>
+<p>The GM1 table is, conveniently enough, called <code>GM1.xlsx</code>.</p>
+<p>So we can download it like this:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gm1_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"labour-force-australia"</span>, <span class="st">"GM1"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">gm1_path</span><span class="op">)</span></code></pre></div>
+<p>Now we have an Excel sheet saved at that path, which you can import using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> or the Excel-reading function of your choice.</p>
+</div>
+<div id="download-import-and-tidy-key-data-cubes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#download-import-and-tidy-key-data-cubes" class="anchor"></a>Download, import and tidy key data cubes</h2>
+<p>For most data cubes, you’ll need to write your own code to import and tidy the data. But for some key cubes, convenience functions are provided.</p>
+<div id="labour-force-gross-flows" class="section level3">
+<h3 class="hasAnchor">
+<a href="#labour-force-gross-flows" class="anchor"></a>Labour force gross flows</h3>
+<p>The labour force gross flows cube is one of the cubes for which <code>readabs</code> includes a convenience function, <code><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows()</a></code>.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Now we have a tidy tibble of the Labour Force gross flows data:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 9</span>
+<span class="co">#&gt;   date       sex   age    state lfs_current lfs_previous   persons unit  weights</span>
+<span class="co">#&gt;   &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 2001-03-01 Males 15-19… New … Employed f… Employed full…  28.5   000s  curren…</span>
+<span class="co">#&gt; 2 2001-03-01 Males 15-19… New … Employed f… Employed part…   1.93  000s  curren…</span>
+<span class="co">#&gt; 3 2001-03-01 Males 15-19… New … Employed f… Unemployed       2.93  000s  curren…</span>
+<span class="co">#&gt; 4 2001-03-01 Males 15-19… New … Employed f… Not in the la…   0.334 000s  curren…</span>
+<span class="co">#&gt; 5 2001-03-01 Males 15-19… New … Employed f… Unmatched in …   1.63  000s  curren…</span>
+<span class="co">#&gt; 6 2001-03-01 Males 15-19… New … Employed f… Incoming rota…   7.57  000s  curren…</span></code></pre></div>
+</div>
+<div id="abs-weekly-payroll-jobs-and-wages" class="section level3">
+<h3 class="hasAnchor">
+<a href="#abs-weekly-payroll-jobs-and-wages" class="anchor"></a>ABS Weekly Payroll Jobs and Wages</h3>
+<p>The ABS Weekly Payroll Jobs and Wages release contains a range of useful information. Even though this release contains time series data, the ABS does not release it in its standard time series spreadsheet format, and <code><a href="../reference/read_abs.html">read_abs()</a></code> therefore cannot import it. The <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code> function can be used instead.</p>
+<p>Let’s say you want to download the jobs figures, as index numbers, for each geographical area (SA3) over time. That’s straightforward with <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code>:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">payrolls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_payrolls.html">read_payrolls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Here’s what we’ve got:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">payrolls</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 6</span>
+<span class="co">#&gt;   state sa4            sa3        date       value series</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;      &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 NSW   Capital Region Queanbeyan 2020-01-04  92.6 jobs  </span>
+<span class="co">#&gt; 2 NSW   Capital Region Queanbeyan 2020-01-11  95.2 jobs  </span>
+<span class="co">#&gt; 3 NSW   Capital Region Queanbeyan 2020-01-18  97.1 jobs  </span>
+<span class="co">#&gt; 4 NSW   Capital Region Queanbeyan 2020-01-25  97.2 jobs  </span>
+<span class="co">#&gt; 5 NSW   Capital Region Queanbeyan 2020-02-01  98.0 jobs  </span>
+<span class="co">#&gt; 6 NSW   Capital Region Queanbeyan 2020-02-08  98.8 jobs</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="choosing-where-abs-data-is-saved" class="section level1">
+<h1 class="hasAnchor">
+<a href="#choosing-where-abs-data-is-saved" class="anchor"></a>Choosing where ABS data is saved</h1>
+<p>The <code><a href="../reference/read_abs.html">read_abs()</a></code> function downloads spreadsheets from the ABS website to your machine, then loads them into R, then tidies them.</p>
+<p>By default, the spreadsheets will be saved in the directory specified by the environment variable <code>R_READABS_PATH</code>. If this variable isn’t set, the spreadsheets are saved to a temporary directory. You can change this location for a specific instance by using the <code>path</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
+<p>Keeping the spreadsheets is often a good idea. But if you don’t want to retain them, no problem. Just specify <code>retain_files = FALSE</code> when you use <code><a href="../reference/read_abs.html">read_abs()</a></code>. The spreadsheets will still be downloaded, but they’ll be stored in a temporary directory that is flushed when your R session ends.</p>
 </div>
   </div>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • readabs</title>
+<title>Search for ABS catalogues that match a string — search_catalogues • readabs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Search for ABS catalogues that match a string — search_catalogues" />
+<meta property="og:description" content="`download_abs_data_cube()` requires that you specify a `catalogue`.
+`search_catalogues()` helps you find the catalogue you want, by searching for
+a given string in the catalogue names, product title, and broad topic." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +69,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,154 +131,66 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Search for ABS catalogues that match a string</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mattcowgill/readabs/blob/master/R/search_catalogues.R'><code>R/search_catalogues.R</code></a></small>
+    <div class="hidden name"><code>search_catalogues.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>`download_abs_data_cube()` requires that you specify a `catalogue`.
+`search_catalogues()` helps you find the catalogue you want, by searching for
+a given string in the catalogue names, product title, and broad topic.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>search_catalogues</span><span class='op'>(</span><span class='va'>string</span>, refresh <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="download_abs_data_cube.html">download_abs_data_cube()</a></code> </p>
-        </td>
-        <td><p>Experimental helper function to download ABS data cubes that are not compatible with read_abs.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_abs_sheets.html">extract_abs_sheets()</a></code> </p>
-        </td>
-        <td><p>Extract data sheets from an ABS timeseries workbook saved locally as an
-Excel file.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_abs.html">read_abs()</a></code> </p>
-        </td>
-        <td><p>Download, extract, and tidy ABS time series spreadsheets</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_abs_data.html">read_abs_data()</a></code> </p>
-        </td>
-        <td><p>Extracts ABS time series data from local Excel spreadsheets and converts to
-long format.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_abs_local.html">read_abs_local()</a></code> </p>
-        </td>
-        <td><p>Read and tidy locally-saved ABS time series spreadsheet(s)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_abs_metadata.html">read_abs_metadata()</a></code> </p>
-        </td>
-        <td><p>Extracts ABS series metadata directly from Excel spreadsheets and
-converts to long-form.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_abs_sdmx.html">read_abs_sdmx()</a></code> </p>
-        </td>
-        <td><p>Extracts ABS XML-formatted data using the SDMX API</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_awe.html">read_awe()</a></code> </p>
-        </td>
-        <td><p>read_awe</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_cpi.html">read_cpi()</a></code> </p>
-        </td>
-        <td><p>Download a tidy tibble containing the Consumer Price Index from the ABS</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_lfs_grossflows.html">read_lfs_grossflows()</a></code> </p>
-        </td>
-        <td><p>Download, import and tidy 'gross flows' data cube
-from the monthly ABS Labour Force survey.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_payrolls.html">read_payrolls()</a></code> </p>
-        </td>
-        <td><p>Download and tidy ABS payroll jobs and wages data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scrape_abs_catalogues.html">scrape_abs_catalogues()</a></code> </p>
-        </td>
-        <td><p>Helper function for <code>download_abs_data_cube</code> to scrape the available catalogues from the ABS website.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="search_catalogues.html">search_catalogues()</a></code> </p>
-        </td>
-        <td><p>Search for ABS catalogues that match a string</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="search_files.html">search_files()</a></code> </p>
-        </td>
-        <td><p>Search for a file within an ABS catalogue</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="separate_series.html">separate_series()</a></code> </p>
-        </td>
-        <td><p>Separate the series column in a tidy ABS time series data frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="show_available_catalogues.html">show_available_catalogues()</a></code> </p>
-        </td>
-        <td><p>Helper function for <code>download_abs_data_cube</code> to show the available catalogues.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="show_available_files.html">show_available_files()</a></code> <code><a href="show_available_files.html">get_available_files()</a></code> </p>
-        </td>
-        <td><p>Helper function to show the files available in a particular catalogue number.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tidy_abs.html">tidy_abs()</a></code> </p>
-        </td>
-        <td><p>Tidy ABS time series data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tidy_abs_list.html">tidy_abs_list()</a></code> </p>
-        </td>
-        <td><p>Tidy multiple dataframes of ABS time series data contained in a list.</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>string</th>
+      <td><p>Character. A word or phrase you want to search for, such as "labour" or
+"union". Not case sensitive.</p></td>
+    </tr>
+    <tr>
+      <th>refresh</th>
+      <td><p>Logical. `FALSE` by default. If `TRUE`, will re-scrape the ABS
+website to ensure that the list of catalogues is up-to-date.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame (tibble) containing the topic (`heading`), product title
+(`sub_heading`), catalogue (`catalogue`) and URL (`URL`) of any catalogues
+that match the provided string.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other data cube functions: 
+<code><a href='download_abs_data_cube.html'>download_abs_data_cube</a>()</code>,
+<code><a href='show_available_catalogues.html'>show_available_catalogues</a>()</code>,
+<code><a href='show_available_files.html'>show_available_files</a>()</code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'>search_catalogues</span><span class='op'>(</span><span class='st'>"labour"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 26 x 4</span><span>
+#&gt;    heading     sub_heading              catalogue             url               
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> National a… Tourism Satellite Accou… tourism-satellite-ac… https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Finance     Labour Costs, Australia  labour-costs-austral… https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Earnings a… Weekly Payroll Jobs and… weekly-payroll-jobs-… https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Earnings a… Industrial Disputes, Au… industrial-disputes-… https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Earnings a… Jobs in Australia        jobs-australia        https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Earnings a… Average Weekly Earnings… average-weekly-earni… https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Earnings a… Personal Income in Aust… personal-income-aust… https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Earnings a… Working arrangements     working-arrangements  https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Earnings a… Employee earnings        employee-earnings     https://www.abs.g…
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Earnings a… Trade union membership   trade-union-membersh… https://www.abs.g…
+#&gt; </span><span style='color: #949494;'># … with 16 more rows</span><span></div></span></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
