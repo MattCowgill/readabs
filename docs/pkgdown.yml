@@ -1,7 +1,7 @@
-pandoc: 2.11.2
-pkgdown: 1.6.1.9000
-pkgdown_sha: 84f234cf19153ce99bf1bcf875dc56248ddf0cbe
+pandoc: 2.11.4
+pkgdown: 1.6.1.9001
+pkgdown_sha: 5b5baea274400b242e0a2194fe9d392f753d3508
 articles:
   readabs_vignette: readabs_vignette.html
-last_built: 2021-02-07T05:43Z
+last_built: 2021-04-05T04:04Z
 

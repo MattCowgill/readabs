@@ -79,7 +79,6 @@ get_abs_xml_metadata <- function(url, issue = "latest") {
 
   # Extract the date on the first page of the metadata
   # (it'll be the oldest in the directory)
-  # first_page_df <- XML::xmlToDataFrame(first_page, stringsAsFactors = FALSE)
 
   max_date <- as.Date(first_page_list$Series$ProductReleaseDate[[1]],
     format = "%d/%m/%Y"

@@ -1,21 +1,27 @@
-#' Helper function for \code{download_abs_data_cube} to show the available catalogues.
+#' Helper function to show the files available in a particular catalogue number.
+#'
+#' To be used in conjunction with \code{get_abs_data_cube()}.
 #'
 #' This function lists the possible files that are available in a catalogue.
 #' The filename (or an unambiguous part of the filename) must be specified
 #' as a string as an argument to \code{download_abs_data_cube}.
 #'
-#' @param catalogue_string character string specifying the catalogue, e.g. "labour-force-australia-detailed".
-#' You can use \code{show_available_catalogues} to find this out.
+#' @param catalogue_string character string specifying the catalogue,
+#' e.g. "labour-force-australia-detailed".
+#' You can use \code{show_available_catalogues()} see all the possible catalogues,
+#' or \code{search_catalogues()} to find catalogues that contain a given string.
+#'
 #' @param refresh logical; `FALSE` by default. If `FALSE`, an internal table
 #' of the available ABS catalogues is used. If `TRUE`, this table is refreshed
 #' from the ABS website.
 #'
+#' @details `get_available_files()` is an alias for `show_available_files()`.
+#'
 #' @return A tibble containing the title of the file, the filename and the complete url.
-
 #'
 #' @examples
 #' \dontrun{
-#' get_available_files("labour-force-australia-detailed")
+#' show_available_files("labour-force-australia-detailed")
 #' }
 #'
 #' @importFrom glue glue
@@ -24,8 +30,9 @@
 #' @importFrom rlang .data
 #'
 #' @export
-#'
-get_available_files <- function(catalogue_string, refresh = FALSE) {
+#' @family data cube functions
+
+show_available_files <- function(catalogue_string, refresh = FALSE) {
   if (isFALSE(is.logical(refresh))) {
     stop("`refresh` must be `TRUE` or `FALSE`.")
   }
@@ -91,4 +98,13 @@ get_available_files <- function(catalogue_string, refresh = FALSE) {
     select(.data$label, .data$file, .data$url)
 
   return(available_downloads)
+}
+
+#' @rdname show_available_files
+#' @family data cube functions
+#' @export
+
+get_available_files <- function(catalogue_string, refresh = FALSE) {
+  show_available_files(catalogue_string = catalogue_string,
+                       refresh = refresh)
 }
