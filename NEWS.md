@@ -1,3 +1,6 @@
+# readabs 0.4.8.901
+* residual upstream dependence on curl eliminated
+
 # readabs 0.4.8.900
 * read_lfs_grossflows() convenience function added
 * utils::download.file() used rather than curl::curl_download()

@@ -245,7 +245,8 @@ download_previous_payrolls <- function(cube_name,
 
   dl_result <- safely_download(url = table_link,
                                destfile = full_path,
-                               mode = "wb")
+                               mode = "wb",
+                               cacheOK = FALSE)
 
   out <- list(result = NULL,
               error = NULL)

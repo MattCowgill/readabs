@@ -22,7 +22,8 @@ download_abs <- function(urls,
       destfile = filename,
       mode = "wb",
       quiet = !show_progress_bars,
-      headers = readabs_header
+      headers = readabs_header,
+      cacheOK = FALSE
     )
   }
 
