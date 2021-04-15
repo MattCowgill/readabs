@@ -91,7 +91,7 @@ download_abs_data_cube <- function(catalogue_string,
 
   utils::download.file(file_download_url, filepath,
                        quiet = TRUE,
-                       mode = 'wb',
+                       mode = "wb",
                        cacheOK = FALSE,
                        headers = readabs_header)
 

@@ -84,15 +84,16 @@ read_payrolls <- function(series = c(
     # Necessary because (for the time being) not all tables are included
     # in each release
 
-    attempted_prev_payrolls <- download_previous_payrolls(cube_name,
-                                                          path)
+    attempted_prev_payrolls <- download_previous_payrolls(
+      cube_name,
+      path
+    )
 
     if (is.null(attempted_prev_payrolls$error)) {
       print("Using table from previous payrolls release")
       cube_path <- attempted_prev_payrolls
     } else {
       stop("Could not download ABS payrolls data.")
-
     }
   }
 
@@ -107,9 +108,11 @@ read_payrolls <- function(series = c(
     "empsize_jobs" = "Employment size"
   )
 
-  cube <- read_payrolls_local(cube_path = cube_path,
-                              sheet_name = sheet_name,
-                              series = series)
+  cube <- read_payrolls_local(
+    cube_path = cube_path,
+    sheet_name = sheet_name,
+    series = series
+  )
 
   cube
 }
@@ -125,23 +128,26 @@ read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
   sheets_present <- sheets_present[!sheets_present == "Contents"]
 
   sheet_to_read <- sheets_present[grepl(sheet_name,
-                                        sheets_present,
-                                        ignore.case = TRUE)]
+    sheets_present,
+    ignore.case = TRUE
+  )]
 
   safely_read_excel <- purrr::safely(read_excel)
 
   read_attempt <- safely_read_excel(cube_path,
-                                    sheet = sheet_to_read,
-                                    col_types = "text",
-                                    skip = 5
+    sheet = sheet_to_read,
+    col_types = "text",
+    skip = 5
   )
 
   if (is.null(read_attempt$error)) {
     cube <- read_attempt$result
   } else {
-    stop("Could not find a sheet called '", sheet_name, "' in the payrolls ",
-         "workbook ", cube_path, ". Sheets present are: ",
-         paste0(sheets_present, collapse = ", "))
+    stop(
+      "Could not find a sheet called '", sheet_name, "' in the payrolls ",
+      "workbook ", cube_path, ". Sheets present are: ",
+      paste0(sheets_present, collapse = ", ")
+    )
   }
 
 
@@ -235,8 +241,10 @@ download_previous_payrolls <- function(cube_name,
     rvest::html_elements(".file--x-office-spreadsheet a") %>%
     rvest::html_attr("href")
 
-  table_link <- prev_payrolls_excel_links[grepl(cube_name,
-                                                prev_payrolls_excel_links)]
+  table_link <- prev_payrolls_excel_links[grepl(
+    cube_name,
+    prev_payrolls_excel_links
+  )]
 
   if (length(table_link) == 0) {
     stop("Could not find URL for requested cube in previous payrolls release")
@@ -248,12 +256,16 @@ download_previous_payrolls <- function(cube_name,
 
   full_path <- file.path(path, basename(table_link))
 
-  dl_result <- safely_download(url = table_link,
-                               destfile = full_path,
-                               mode = "wb")
+  dl_result <- safely_download(
+    url = table_link,
+    destfile = full_path,
+    mode = "wb"
+  )
 
-  out <- list(result = NULL,
-              error = NULL)
+  out <- list(
+    result = NULL,
+    error = NULL
+  )
 
 
   if (is.null(dl_result$error)) {
@@ -264,4 +276,3 @@ download_previous_payrolls <- function(cube_name,
 
   return(out)
 }
-

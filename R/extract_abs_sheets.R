@@ -26,8 +26,6 @@ extract_abs_sheets <- function(filename,
                                  unset = tempdir()
                                )) {
 
-  # Satisfy CRAN
-  . <- sheet <- NULL
 
   filename <- file.path(path, filename)
 
