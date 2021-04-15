@@ -217,14 +217,19 @@ download_previous_payrolls <- function(cube_name,
   latest_payrolls_url <- "https://www.abs.gov.au/statistics/labour/earnings-and-work-hours/weekly-payroll-jobs-and-wages-australia/latest-release"
   prev_payrolls_css <- "#release-date-section > div.field.field--name-dynamic-block-fieldnode-previous-releases.field--type-ds.field--label-hidden > div > div > ul > li:nth-child(1) > a"
 
-  prev_payrolls_url <- rvest::read_html(latest_payrolls_url) %>%
+  temp_page_location <- file.path(tempdir(), "temp_readabs.html")
+  utils::download.file(latest_payrolls_url, temp_page_location, quiet = TRUE, cacheOK = FALSE)
+
+  prev_payrolls_url <- rvest::read_html(temp_page_location) %>%
     rvest::html_element(prev_payrolls_css) %>%
     rvest::html_attr("href")
 
   prev_payrolls_url <- paste0("https://www.abs.gov.au/", prev_payrolls_url)
 
-  prev_payrolls_page <- prev_payrolls_url %>%
-    rvest::read_html()
+  temp_page_location <- file.path(tempdir(), "temp_readabs.html")
+  utils::download.file(prev_payrolls_url, temp_page_location, quiet = TRUE, cacheOK = FALSE)
+
+  prev_payrolls_page <- rvest::read_html(temp_page_location)
 
   prev_payrolls_excel_links <- prev_payrolls_page %>%
     rvest::html_elements(".file--x-office-spreadsheet a") %>%
@@ -245,9 +250,7 @@ download_previous_payrolls <- function(cube_name,
 
   dl_result <- safely_download(url = table_link,
                                destfile = full_path,
-                               mode = "wb",
-                               headers = readabs_header,
-                               cacheOK = FALSE)
+                               mode = "wb")
 
   out <- list(result = NULL,
               error = NULL)
