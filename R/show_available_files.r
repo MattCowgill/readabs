@@ -55,9 +55,13 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
 
 
   # Try to download the page
-  download_page <- tryCatch(
-    xml2::read_html(download_url,
-                    user_agent = readabs_user_agent),
+  tryCatch({
+    temp_page_location <- file.path(tempdir(), "temp_readabs.html")
+    utils::download.file(url = download_url,
+                         destfile = temp_page_location,
+                         quiet = TRUE,
+                         cacheOK = FALSE,
+                         headers = readabs_header)},
     error = function(cond) {
       message(paste("URL does not seem to exist:", download_url))
       message("Here's the original error message:")
@@ -67,7 +71,10 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
     }
   )
 
+  download_page <- xml2::read_html(temp_page_location)
+
   # Find the url for the download
+
   urls <- download_page %>%
     rvest::html_nodes(".file a") %>%
     rvest::html_attr("href")
