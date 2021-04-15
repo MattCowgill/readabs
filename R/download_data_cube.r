@@ -81,18 +81,19 @@ download_abs_data_cube <- function(catalogue_string,
     stop(glue("No matching cube. Please check against ABS website at {download_url}."))
   }
 
+  # build file path
 
-  # ==================download file======================
-  download_object <- httr::GET(file_download_url,
-                               httr::user_agent(readabs_user_agent))
-
-  # save file path to disk
-
-  filename <- basename(download_object$url)
+  filename <- basename(file_download_url)
 
   filepath <- file.path(path, filename)
 
-  writeBin(httr::content(download_object, "raw"), filepath)
+  # download file
+
+  utils::download.file(file_download_url, filepath,
+                       quiet = TRUE,
+                       mode = 'wb',
+                       cacheOK = FALSE,
+                       headers = readabs_header)
 
   message("File downloaded in ", filepath)
 
