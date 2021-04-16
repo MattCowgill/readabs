@@ -4,12 +4,13 @@
 get_xml_df <- function(url) {
   text <- NULL
 
-  temp_xml_file <- tempfile(fileext = ".xml")
+  temp_xml_file <- file.path(tempdir(), "temp_readabs_xml.xml")
 
   utils::download.file(url,
                        temp_xml_file,
                        quiet = TRUE,
                        cacheOK = FALSE,
+                       mode = "wb",
                        headers = readabs_header)
 
   xml_page <- xml2::read_xml(temp_xml_file,
