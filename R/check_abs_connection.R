@@ -14,6 +14,7 @@
 #' @noRd
 
 check_abs_connection <- function() {
+
   abs_url_works <- url_exists("https://www.abs.gov.au")
 
 
@@ -41,30 +42,48 @@ check_abs_connection <- function() {
 
 url_exists <- function(url = "https://www.abs.gov.au") {
 
-  sHEAD <- purrr::safely(httr::HEAD)
-  sGET <- purrr::safely(httr::GET)
+  check_url_with_httr <- function(url) {
+    sHEAD <- purrr::safely(httr::HEAD)
+    sGET <- purrr::safely(httr::GET)
 
-  # Try HEAD first since it's lightweight
-  res <- sHEAD(url)
+    # Try HEAD first since it's lightweight
+    res <- sHEAD(url)
 
-  if (is.null(res$result) ||
-      ((httr::status_code(res$result) %/% 200) != 1)) {
+    if (is.null(res$result) ||
+        ((httr::status_code(res$result) %/% 200) != 1)) {
 
-    res <- sGET(url)
+      res <- sGET(url)
 
-    if (is.null(res$result)) return(FALSE)
+      if (is.null(res$result)) return(FALSE)
 
-    if (((httr::status_code(res$result) %/% 200) != 1)) {
-      warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200-299 range", url))
-      return(FALSE)
+      if (((httr::status_code(res$result) %/% 200) != 1)) {
+        warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200-299 range", url))
+        return(FALSE)
 
+      }
+
+      return(TRUE)
+
+    } else {
+      return(TRUE)
     }
-
-    return(TRUE)
-
-  } else {
-    return(TRUE)
   }
+
+  check_url_with_httr_with_timeout <- function(url) {
+    setTimeLimit(2)
+    check_url_with_httr(url)
+  }
+
+  safely_check_url_with_httr_with_timeout <- purrr::safely(check_url_with_httr_with_timeout)
+
+  result <- safely_check_url_with_httr_with_timeout(url)
+
+  if (!is.null(result$result)) {
+    return(result$result)
+  } else {
+    return(FALSE)
+  }
+
 }
 
 #' Internal function to check if URL exists. Slower than url_exists. Used
@@ -75,6 +94,7 @@ url_exists <- function(url = "https://www.abs.gov.au") {
 #' 200 range; `FALSE` otherwise.
 #' @noRd
 url_exists_nocurl <- function(url = "https://www.abs.gov.au") {
+  setTimeLimit(20)
   con <- url(url)
   out <- suppressWarnings(tryCatch(readLines(con), error = function(e) e))
   abs_url_works <- all(class(out) != "error")
