@@ -4,7 +4,16 @@
 get_xml_df <- function(url) {
   text <- NULL
 
-  xml_page <- xml2::read_xml(url, encoding = "ISO-8859-1")
+  temp_xml_file <- tempfile(fileext = ".xml")
+
+  utils::download.file(url,
+                       temp_xml_file,
+                       quiet = TRUE,
+                       cacheOK = FALSE,
+                       headers = readabs_header)
+
+  xml_page <- xml2::read_xml(temp_xml_file,
+                             encoding = "ISO-8859-1")
 
   xml_page <- xml2::xml_find_all(xml_page, "//Series")
 

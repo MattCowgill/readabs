@@ -14,8 +14,8 @@ dl_if_not <- function(file, url) {
     }
 
     utils::download.file(url = url,
-                  headers = c("User-Agent" = readabs_user_agent),
-                  destfile = file)
+                         headers = readabs_header,
+                         destfile = file)
   }
 }
 
