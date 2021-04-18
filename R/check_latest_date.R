@@ -51,16 +51,16 @@ check_latest_date <- function(cat_no = NULL,
     series_id = series_id
   )
 
-  xml_dfs <- purrr::map_dfr(xml_urls,
-                            .f = get_abs_xml_metadata
+  xml_list <- get_first_xml_page(url)
+  xml_df <- xml_to_df(xml_list)
+  # Extract the date on the first page of the metadata
+  # (it'll be the oldest in the directory)
+
+  max_date <- as.Date(first_page_list$Series$ProductReleaseDate[[1]],
+                      format = "%d/%m/%Y"
   )
 
-  latest_date <- xml_dfs %>%
-    dplyr::filter(ProductReleaseDate == max(ProductReleaseDate)) %>%
-    dplyr::pull(ProductReleaseDate) %>%
-    unique()
-
-  latest_date
+  max_date
 
 
 }
