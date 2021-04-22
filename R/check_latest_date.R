@@ -18,7 +18,8 @@
 #' have the same release date. Where the individual time series in your request
 #' have multiple release dates, only the most recent will be returned.
 #'
-#' @return Date vector of length one.
+#' @return Date vector of length one. Date corresponds to the most recent
+#' product release date for any of the time series in the table(s) requested.
 #'
 #' @examples
 #' \dontrun{
@@ -28,8 +29,14 @@
 #'
 #' check_latest_date("6345.0")
 #'
-#' # Return latest release date for a table within a catalogue number
+#' # Return latest release date for a table within a catalogue number  - note
+#' # the function will return the release date
+#' # of the most-recently-updated series within the tables
 #' check_latest_date("6345.0", tables = 1)
+#'
+#' # Or for multiple tables - note the function will return the release date
+#' # of the most-recently-updated series within the tables
+#' check_latest_date("6345.0", tables = c("1", "5a"))
 #'
 #' # Or for an individual time series
 #' check_latest_date(series_id = "A2713849C")
@@ -51,16 +58,15 @@ check_latest_date <- function(cat_no = NULL,
     series_id = series_id
   )
 
-  xml_list <- get_first_xml_page(url)
-  xml_df <- xml_to_df(xml_list)
+  xml_list <- purrr::map(xml_urls, get_first_xml_page)
+  xml_df <- purrr::map_dfr(xml_list, xml_to_df)
   # Extract the date on the first page of the metadata
   # (it'll be the oldest in the directory)
 
-  max_date <- as.Date(first_page_list$Series$ProductReleaseDate[[1]],
-                      format = "%d/%m/%Y"
-  )
+  max_date <- as.Date(xml_df$ProductReleaseDate,
+                      format = "%d/%m/%Y") %>%
+                    max()
 
   max_date
-
 
 }
