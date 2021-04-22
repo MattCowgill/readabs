@@ -1,6 +1,7 @@
-#' Latest release date of ABS time series
-#' This function returns the most recent release date for specified ABS time
-#' series catalogue number (as a whole), individual tables, or series IDs.
+#' Get date of most recent observation(s) in ABS time series
+#'
+#' This function returns the most recent observation date for a specified ABS
+#' time series catalogue number (as a whole), individual tables, or series IDs.
 #'
 #' @param cat_no ABS catalogue number, as a string, including the extension.
 #' For example, "6202.0".
@@ -14,12 +15,12 @@
 #' identifier (such as "A2325807L") to get only that series.
 #' This is an alternative to specifying `cat_no`.
 #'
-#' @details Not all time series in a table, or all tables in a catalogue number,
-#' have the same release date. Where the individual time series in your request
-#' have multiple release dates, only the most recent will be returned.
+#' @details Where the individual time series in your request
+#' have multiple dates, only the most recent will be returned.
 #'
 #' @return Date vector of length one. Date corresponds to the most recent
-#' product release date for any of the time series in the table(s) requested.
+#' observation date for any of the time series in the table(s) requested.
+#' observation date for any of the time series in the table(s) requested.
 #'
 #' @examples
 #' \dontrun{
@@ -63,7 +64,7 @@ check_latest_date <- function(cat_no = NULL,
   # Extract the date on the first page of the metadata
   # (it'll be the oldest in the directory)
 
-  max_date <- as.Date(xml_df$ProductReleaseDate,
+  max_date <- as.Date(xml_df$SeriesEnd,
                       format = "%d/%m/%Y") %>%
                     max()
 
