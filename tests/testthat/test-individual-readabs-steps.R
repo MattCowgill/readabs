@@ -63,8 +63,7 @@ test_that("individual steps of read_abs() work", {
   # Get XML metadata -----
 
   xml_dfs <- purrr::map_dfr(xml_urls,
-    .f = get_abs_xml_metadata,
-    issue = "latest"
+    .f = get_abs_xml_metadata
   )
 
   expect_s3_class(xml_dfs, "data.frame")

@@ -12,8 +12,7 @@ test_that("download_abs() fetches files", {
   )
 
   xml_dfs <- purrr::map_dfr(xml_urls,
-    .f = get_abs_xml_metadata,
-    issue = "latest"
+    .f = get_abs_xml_metadata
   )
 
   urls <- unique(xml_dfs$TableURL)

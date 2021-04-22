@@ -1,5 +1,8 @@
+# readabs 0.4.8.902
+* check_latest_date() function to check latest observation date for ABS time series
+
 # readabs 0.4.8.901
-* residual upstream dependence on curl eliminated
+* Residual upstream dependence on curl eliminated
 
 # readabs 0.4.8.900
 * read_lfs_grossflows() convenience function added
