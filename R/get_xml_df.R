@@ -29,7 +29,7 @@ xml_to_df <- function(xml) {
 
   xml_list <- xml2::as_list(xml_page)
 
-  xml_df <-   purrr::map_dfr(x, dplyr::as_tibble) %>%
+  xml_df <-   purrr::map_dfr(xml_list, dplyr::as_tibble) %>%
     tidyr::unnest(cols = dplyr::everything())
 
   xml_df
