@@ -3,17 +3,20 @@
 
 get_xml_dfs <- function(urls) {
 
-  xml_pages <- purrr::map(urls,
-                          ~xml2::read_xml(file(.x),
-                                          encoding = "ISO-8859-1",
-                                          headers = readabs_header))
+  xml_files <- tempfile(pattern = as.character(seq_along(urls)),
+                        fileext = ".xml")
 
-  xml_pages <- purrr::map(xml_pages, xml2::xml_find_all,
-                          xpath = "//Series")
+  purrr::walk2(urls, xml_files,
+               ~download.file(url = .x, destfile = .y,
+                              mode = "wb", quiet = TRUE,
+                              cacheOK = FALSE,
+                              headers = readabs_header))
 
-  xml_df <- xml_pages %>%
-    purrr::map_dfr(xml2::as_list) %>%
-    tidyr::unnest(cols = dplyr::everything())
+  xml_files %>%
+    purrr::map(XML::xmlParse) %>%
+    purrr::map_dfr(XML::xmlToDataFrame) %>%
+    dplyr::as_tibble() %>%
+    dplyr::filter(is.na(text)) %>%
+    dplyr::select(-text)
 
-  xml_df
 }

@@ -17,19 +17,20 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5)
 Imports: 
-    readxl (>= 1.2.0), 
-    dplyr (>= 0.8.0), 
+    readxl (>= 1.2.0),
+    dplyr (>= 0.8.0),
     hutils (>= 1.5.0),
     fst,
     purrr,
-    tidyr (>= 1.0.0), 
+    tidyr (>= 1.0.0),
     stringi,
     tools,
     glue,
     httr,
     rvest,
     xml2,
-    rlang
+    rlang,
+    XML
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 7.1.1
