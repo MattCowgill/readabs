@@ -57,10 +57,10 @@ identify_category <- function(x) {
 long <- abs_split %>%
   bind_rows() %>%
   group_by(series_id) %>%
-  select(starts_with("series"), -series_type) %>%
+  select(starts_with("series")) %>%
   pivot_longer(
     names_to = "sub_series", values_to = "value",
-               cols = !any_of(c("series_id", "series"))) %>%
+               cols = !any_of(c("series_id", "series", "series_type"))) %>%
   distinct()
 
 long <- long %>%
@@ -74,10 +74,29 @@ wide <- long %>%
   pivot_wider(names_from = category,
               values_from = value)
 
+
+# NOTE -- split out the looking for FT and PT unemp; look for similar cases
 wide %>%
-  filter(grepl("Unemployment", indicator))
+  filter(grepl("Unemployment", indicator)) %>% View
 
-find_lfs <- function()
+find_lfs <- function(indicator,
+                     series_type = "Seasonally Adjusted",
+                     sex = NA_character_,
+                     age = NA_character_,
+                     state = NA_character_,
+                     education = NA_character_,
+                     market_non_market = NA_character_) {
+  wide %>%
+    filter(.data$indicator == .env$indicator,
+           .data$series_type == .env$series_type,
+           .data$sex == .env$sex,
+           .data$age == .env$age,
+           .data$state == .env$state,
+           .data$education == .env$education,
+           .data$market_nonmarket == .env$market_non_market)
+}
 
+find_lfs("Unemployment rate")
 
-
+wide %>%
+  filter(indicator == "Unemployment rate")
