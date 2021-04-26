@@ -14,19 +14,34 @@ get_abs_xml_metadata <- function(url) {
 
   first_page <- get_first_xml_page(url)
 
-  first_page_df <- xml_to_df(first_page)
+  get_numpages <- function(xml) {
+    xml %>%
+      xml2::xml_find_all(xpath = "//NumPages") %>%
+      xml2::as_list() %>%
+      unlist() %>%
+      as.numeric()
+  }
 
-  first_page_list <- xml2::as_list(first_page)[[1]]
+  safely_get_numpages <- purrr::safely(get_numpages)
+
+  num_pages <- first_page %>%
+    safely_get_numpages()
+
+  first_page_df <- first_page %>%
+    xml2::xml_find_all(xpath = "//Series") %>%
+    xml2::as_list() %>%
+    dplyr::bind_rows() %>%
+    tidyr::unnest(cols = dplyr::everything())
 
   xml_dfs <- dplyr::tibble()
 
   # If there's more than one page of XML corresponding to request, get all of them
-  if (!is.null(first_page_list$NumPages)) {
-    tot_pages <- as.numeric(first_page_list$NumPages)
-    all_pages <- seq(2, tot_pages)
+  if (!is.null(num_pages$result) && length(num_pages$result) > 0) {
+    tot_pages <- num_pages$result
+    all_pages <- 2:tot_pages
     # create list of URLs of XML metadata to scrape
     full_urls <- paste0(url, "&pg=", all_pages)
-    xml_dfs <- purrr::map_dfr(full_urls, get_xml_df)
+    xml_dfs <- get_xml_dfs(full_urls)
   }
 
   xml_dfs <- dplyr::bind_rows(first_page_df, xml_dfs)

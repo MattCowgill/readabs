@@ -19,7 +19,7 @@ test_that("WPI XML page is a data.frame with expected column names", {
   skip_if_offline()
   check_abs_connection()
 
-  wpi_1_xml <- get_xml_df(wpi_url)
+  wpi_1_xml <- get_xml_dfs(wpi_url)
 
   expect_is(wpi_1_xml, "data.frame")
   expect_equal(colnames(wpi_1_xml)[1], "ProductNumber")
