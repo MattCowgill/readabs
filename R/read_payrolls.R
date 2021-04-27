@@ -224,7 +224,7 @@ download_previous_payrolls <- function(cube_name,
   prev_payrolls_css <- "#release-date-section > div.field.field--name-dynamic-block-fieldnode-previous-releases.field--type-ds.field--label-hidden > div > div > ul > li:nth-child(1) > a"
 
   temp_page_location <- file.path(tempdir(), "temp_readabs.html")
-  utils::download.file(latest_payrolls_url, temp_page_location, quiet = TRUE, cacheOK = FALSE)
+  dl_file(latest_payrolls_url, temp_page_location)
 
   prev_payrolls_url <- rvest::read_html(temp_page_location) %>%
     rvest::html_element(prev_payrolls_css) %>%
@@ -233,7 +233,7 @@ download_previous_payrolls <- function(cube_name,
   prev_payrolls_url <- paste0("https://www.abs.gov.au/", prev_payrolls_url)
 
   temp_page_location <- file.path(tempdir(), "temp_readabs.html")
-  utils::download.file(prev_payrolls_url, temp_page_location, quiet = TRUE, cacheOK = FALSE)
+  dl_file(prev_payrolls_url, temp_page_location)
 
   prev_payrolls_page <- rvest::read_html(temp_page_location)
 
@@ -252,7 +252,7 @@ download_previous_payrolls <- function(cube_name,
     stop("Found multiple patching URLs for the requested cube in previous payrolls release")
   }
 
-  safely_download <- purrr::safely(utils::download.file)
+  safely_download <- purrr::safely(dl_file)
 
   full_path <- file.path(path, basename(table_link))
 

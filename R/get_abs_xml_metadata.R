@@ -1,4 +1,4 @@
-
+#' @importFrom rlang .data .env
 #' @import dplyr
 #' @noRd
 #' @param url URL for an XML file in the ABS Time Series Directory
@@ -10,27 +10,19 @@ get_abs_xml_metadata <- function(url) {
     stop("`url` argument to get_abs_xml_metadata() must be a string.")
   }
 
-  ProductReleaseDate <- TableOrder <- cat_no <- ProductIssue <- NULL
-
   first_page_df <- get_first_xml_page(url)
 
   get_numpages <- function(url) {
 
     temp_xml <- tempfile(fileext = ".xml")
 
-    download.file(url = url,
-                  destfile = temp_xml,
-                  mode = "wb",
-                  quiet = TRUE,
-                  cacheOK = FALSE,
-                  headers = readabs_header)
+    dl_file(url = url,
+            destfile = temp_xml)
 
     temp_xml %>%
       xml2::read_xml() %>%
       xml2::xml_find_all(xpath = "//NumPages") %>%
-      xml2::as_list() %>%
-      unlist() %>%
-      as.numeric()
+      xml2::xml_double()
   }
 
   safely_get_numpages <- purrr::safely(get_numpages)
@@ -51,7 +43,7 @@ get_abs_xml_metadata <- function(url) {
   xml_dfs <- dplyr::bind_rows(first_page_df, xml_dfs)
 
   xml_dfs <- xml_dfs %>%
-    dplyr::mutate(ProductIssue = as.Date(paste0("01 ", ProductIssue),
+    dplyr::mutate(ProductIssue = as.Date(paste0("01 ", .data$ProductIssue),
       format = "%d %b %Y"
     )) %>%
     dplyr::mutate_at(c("ProductReleaseDate", "SeriesStart", "SeriesEnd"),
@@ -60,9 +52,9 @@ get_abs_xml_metadata <- function(url) {
     )
 
   xml_dfs <- xml_dfs %>%
-    dplyr::filter(ProductReleaseDate == max(ProductReleaseDate))
+    dplyr::filter(.data$ProductReleaseDate == max(.data$ProductReleaseDate))
 
-  xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(TableOrder))
+  xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(.data$TableOrder))
   xml_dfs <- xml_dfs[order(xml_dfs[, "TableOrder"]), ]
 
   xml_dfs
@@ -82,9 +74,10 @@ get_first_xml_page <- function(url) {
   # for a readable XML file using the table number supplied (eg. "1"); if that
   # doesn't work then we try with a leading zero ("01").
 
-  first_page <- get_xml_dfs(first_url)
+  safely_get_xml_dfs <- purrr::safely(get_xml_dfs)
+  first_page <- safely_get_xml_dfs(first_url)
 
-  first_url_works <- if (nrow(first_page) > 0) {
+  first_url_works <- if (!is.null(first_page$result)) {
     TRUE
   } else {
     FALSE
@@ -104,9 +97,9 @@ get_first_xml_page <- function(url) {
 
     first_url <- gsub("ttitle=", "ttitle=0", first_url)
 
-    first_page <- get_xml_dfs(first_url)
+    first_page <- safely_get_xml_dfs(first_url)
 
-    first_url_works <- if (nrow(first_page) > 0) {
+    first_url_works <- if (!is.null(first_page$result)) {
       TRUE
     } else {
       FALSE
@@ -122,5 +115,6 @@ get_first_xml_page <- function(url) {
     }
   }
 
+  first_page <- first_page$result
   first_page
 }

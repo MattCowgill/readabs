@@ -17,11 +17,8 @@ scrape_abs_catalogues <- function() {
 
   # Scrape the main ABS statistics page
   stats_page_file <- tempfile(fileext = ".html")
-  utils::download.file(url = "https://www.abs.gov.au/statistics",
-                       destfile = stats_page_file,
-                       quiet = TRUE,
-                       cacheOK = FALSE,
-                       headers = readabs_header)
+  dl_file(url = "https://www.abs.gov.au/statistics",
+          destfile = stats_page_file)
 
   abs_stats_page <- xml2::read_html(stats_page_file)
 
@@ -37,11 +34,8 @@ scrape_abs_catalogues <- function() {
 
 
     sub_page_file <- tempfile(fileext = ".html")
-    utils::download.file(url = glue::glue("https://www.abs.gov.au{sub_page_url_suffix}"),
-                         destfile = sub_page_file,
-                         quiet = TRUE,
-                         cacheOK = FALSE,
-                         headers = readabs_header)
+    dl_file(url = glue::glue("https://www.abs.gov.au{sub_page_url_suffix}"),
+            destfile = sub_page_file)
 
     sub_page <- xml2::read_html(sub_page_file)
 

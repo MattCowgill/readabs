@@ -9,18 +9,26 @@ get_xml_dfs <- function(urls) {
                         fileext = ".xml")
 
   purrr::walk2(urls, xml_files,
-               ~download.file(url = .x,
-                              destfile = .y,
-                              mode = "wb",
-                              quiet = TRUE,
-                              cacheOK = FALSE,
-                              headers = readabs_header))
+               ~dl_file(url = .x,
+                        destfile = .y))
 
-  xml_files %>%
-    purrr::map(XML::xmlParse) %>%
-    purrr::map_dfr(XML::xmlToDataFrame) %>%
-    dplyr::as_tibble() %>%
-    dplyr::filter(is.na(text)) %>%
-    dplyr::select(-text)
+  xml_to_df <- function(file) {
+    xml_series <- file %>%
+      xml2::read_xml() %>%
+      xml2::xml_find_all("//Series")
+
+    child_list <- xml_series %>%
+      purrr::map(xml2::xml_children)
+
+    xml_names <- child_list %>%
+      purrr::pluck(1) %>%
+      xml2::xml_name(xml_series)
+
+    child_list %>%
+      purrr::map(xml2::xml_text) %>%
+      purrr::map_dfr(.f = ~purrr::set_names(.x, xml_names))
+  }
+
+  purrr::map_dfr(xml_files, xml_to_df)
 
 }
