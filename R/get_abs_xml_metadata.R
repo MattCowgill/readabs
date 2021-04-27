@@ -12,10 +12,21 @@ get_abs_xml_metadata <- function(url) {
 
   ProductReleaseDate <- TableOrder <- cat_no <- ProductIssue <- NULL
 
-  first_page <- get_first_xml_page(url)
+  first_page_df <- get_first_xml_page(url)
 
-  get_numpages <- function(xml) {
-    xml %>%
+  get_numpages <- function(url) {
+
+    temp_xml <- tempfile(fileext = ".xml")
+
+    download.file(url = url,
+                  destfile = temp_xml,
+                  mode = "wb",
+                  quiet = TRUE,
+                  cacheOK = FALSE,
+                  headers = readabs_header)
+
+    temp_xml %>%
+      xml2::read_xml() %>%
       xml2::xml_find_all(xpath = "//NumPages") %>%
       xml2::as_list() %>%
       unlist() %>%
@@ -24,14 +35,7 @@ get_abs_xml_metadata <- function(url) {
 
   safely_get_numpages <- purrr::safely(get_numpages)
 
-  num_pages <- first_page %>%
-    safely_get_numpages()
-
-  first_page_df <- first_page %>%
-    xml2::xml_find_all(xpath = "//Series") %>%
-    xml2::as_list() %>%
-    dplyr::bind_rows() %>%
-    tidyr::unnest(cols = dplyr::everything())
+  num_pages <- safely_get_numpages(url)
 
   xml_dfs <- dplyr::tibble()
 
@@ -78,24 +82,13 @@ get_first_xml_page <- function(url) {
   # for a readable XML file using the table number supplied (eg. "1"); if that
   # doesn't work then we try with a leading zero ("01").
 
-  first_page_file <- file.path(tempdir(), "temp_readabs_xml.xml")
+  first_page <- get_xml_dfs(first_url)
 
-  utils::download.file(first_url,
-                       first_page_file,
-                       quiet = TRUE,
-                       cacheOK = FALSE,
-                       headers = readabs_header
-  )
-
-  first_page <- xml2::read_xml(first_page_file,
-                               encoding = "ISO-8859-1",
-                               user_agent = readabs_user_agent
-  )
-  first_page_list <- xml2::as_list(first_page)[[1]]
-  first_url_works <- ifelse(length(first_page_list) > 0,
-                            TRUE,
-                            FALSE
-  )
+  first_url_works <- if (nrow(first_page) > 0) {
+    TRUE
+  } else {
+    FALSE
+  }
 
   if (!first_url_works) {
     if (!grepl("ttitle", first_url)) { # this is the case when tables == "all"
@@ -111,23 +104,13 @@ get_first_xml_page <- function(url) {
 
     first_url <- gsub("ttitle=", "ttitle=0", first_url)
 
-    utils::download.file(first_url,
-                         first_page_file,
-                         quiet = TRUE,
-                         cacheOK = FALSE,
-                         headers = readabs_header
-    )
+    first_page <- get_xml_dfs(first_url)
 
-    first_page <- xml2::read_xml(first_page_file,
-                                 encoding = "ISO-8859-1",
-                                 user_agent = readabs_user_agent
-    )
-    first_page_list <- xml2::as_list(first_page)
-    first_page_list <- first_page_list[[1]]
-    first_url_works <- ifelse(length(first_page_list) > 0,
-                              TRUE,
-                              FALSE
-    )
+    first_url_works <- if (nrow(first_page) > 0) {
+      TRUE
+    } else {
+      FALSE
+    }
 
     if (first_url_works) {
       url <- gsub("ttitle=", "ttitle=0", url)

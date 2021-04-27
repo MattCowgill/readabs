@@ -1,4 +1,6 @@
-
+#' @param urls vector of URLs pointing to XML files
+#' @return a tibble
+#' @noRd
 #' @importFrom dplyr filter select "%>%"
 
 get_xml_dfs <- function(urls) {
@@ -7,8 +9,10 @@ get_xml_dfs <- function(urls) {
                         fileext = ".xml")
 
   purrr::walk2(urls, xml_files,
-               ~download.file(url = .x, destfile = .y,
-                              mode = "wb", quiet = TRUE,
+               ~download.file(url = .x,
+                              destfile = .y,
+                              mode = "wb",
+                              quiet = TRUE,
                               cacheOK = FALSE,
                               headers = readabs_header))
 
