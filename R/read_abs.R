@@ -35,13 +35,19 @@
 #' from the ABS website will be saved in the directory specified with `path`.
 #' If set to `FALSE`, the files will be stored in a temporary directory.
 #'
+#' @param ... Arguments to `read_abs_series()` are passed to `read_abs()`.
+#'
 #' @param check_local If `TRUE`, the default, local `fst` files are used,
 #' if present.
 #'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
 #'
-#' @details `read_abs()` downloads spreadsheet(s) from the ABS containing time
+#' @details
+#' `read_abs_series()` is a wrapper around `read_abs()`, with `series_id` as
+#' the first argument.
+#'
+#' `read_abs()` downloads spreadsheet(s) from the ABS containing time
 #' series data. These files need to be saved somewhere on your disk.
 #' This local directory can be controlled using the `path` argument to
 #' `read_abs()`. If the `path` argument is not set, `read_abs()` will store
@@ -54,7 +60,7 @@
 #' If you would like to change this variable for all future R sessions, edit
 #' your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 #' The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
-#'
+#' @rdname read_abs
 #' @examples
 #'
 #' # Download and tidy all time series spreadsheets
@@ -63,9 +69,24 @@
 #' wpi <- read_abs("6345.0")
 #' }
 #'
+#' # Download table 1 from the Wage Price Index
+#' \dontrun{
+#' wpi_t1 <- read_abs("6345.0", tables = "1")
+#' }
+#'
+#' # Or tables 1 and 2a from the WPI
+#' \dontrun{
+#' wpi_t1_t2a <- read_abs("6345.0", tables = c("1", "2a"))
+#' }
+#'
 #' # Get two specific time series, based on their time series IDs
 #' \dontrun{
 #' cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))
+#' }
+#'
+#' # Get series IDs using the `read_abs_series()` wrapper function
+#' \dontrun{
+#' cpi <- read_abs_series(c("A2325806K", "A2325807L"))
 #' }
 #'
 #' @importFrom purrr walk walk2 map map_dfr map2
@@ -181,7 +202,7 @@ read_abs <- function(cat_no = NULL,
   )
 
   message(paste0(
-    "Finding filenames for tables corresponding to ABS ",
+    "Finding URLs for tables corresponding to ABS ",
     download_message
   ))
 
@@ -264,4 +285,12 @@ read_abs <- function(cat_no = NULL,
 
   # return a data frame
   sheet
+}
+
+#' @rdname read_abs
+#' @export
+
+read_abs_series <- function(series_id, ...) {
+  read_abs(series_id = series_id,
+           ...)
 }
