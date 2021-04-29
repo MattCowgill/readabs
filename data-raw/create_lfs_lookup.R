@@ -540,6 +540,7 @@ lfs_lookup <- lfs_long %>%
 
 
 lfs_lookup <- lfs_lookup %>%
+  filter(!is.na(category)) %>%
   select(series_id, series_type, value, category) %>%
   spread(key = category, value = value)
 

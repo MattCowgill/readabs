@@ -12,7 +12,8 @@ readabs_header <- c("User-Agent" = readabs_user_agent)
 source(file.path("data-raw", "create_awe_objects.R"))
 
 # Lookup table for LFS series IDs -----
-# To re-create it from scratch / modify it, see the `create_lfs_lookup.R` file
+# To re-create it from scratch source the `create_lfs_lookup.R` file
+# source(file.path("data-raw", "create_lfs_lookup.R"))
 lfs_lookup <- readRDS("data-raw/lfs_lookup.rds")
 
 # Lookup table for data cube functions ------
