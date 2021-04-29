@@ -3,7 +3,7 @@
 #'This function returns a tidy tibble of the flat format and json data queried
 #'using the ABS' API URL. It first identifies whether the URL entered uses the
 #'ABS' old or new API URL structure. If the URL is super long, it's also passed
-#'through the \code{abs_split_url} function, which splits up the large URL into
+#'through the \code{api_split_url} function, which splits up the large URL into
 #'a combination of smaller URLs to increase efficiency. The resulting URL/s
 #'is/are then passed through \code{tidy_api_data}, which returns a tidy tibble
 #'of your data.
@@ -58,7 +58,7 @@ read_abs_api <- function(url) {
   long_url <- nchar(url) > 1000
 
   if (long_url) {
-    abs_split_url(url, old_api) %>%
+    api_split_url(url, old_api) %>%
       purrr::map_dfr(tidy_api_data, old_api = old_api)
   } else {
 
