@@ -52,7 +52,9 @@ get_abs_xml_metadata <- function(url) {
     )
 
   xml_dfs <- xml_dfs %>%
-    dplyr::filter(.data$ProductReleaseDate == max(.data$ProductReleaseDate))
+    dplyr::group_by(.data$TableTitle) %>%
+    dplyr::filter(.data$ProductReleaseDate == max(.data$ProductReleaseDate)) %>%
+    dplyr::ungroup()
 
   xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(.data$TableOrder))
   xml_dfs <- xml_dfs[order(xml_dfs[, "TableOrder"]), ]
