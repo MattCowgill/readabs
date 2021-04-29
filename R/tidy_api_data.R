@@ -61,7 +61,7 @@ tidy_api_data <- function(url, old_api) {
 
   # Replaces all integers with the name of the dimension member.
   suppressMessages(dimensions %>%
-                     purrr::imap(abs_join,
+                     purrr::imap(api_join,
                                  dataset = dataset) %>%
                      purrr::reduce(dplyr::left_join) %>%
                      dplyr::select(-.data$rowid) %>%
