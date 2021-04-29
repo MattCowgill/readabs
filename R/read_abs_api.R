@@ -1,6 +1,6 @@
 #'Get tidy data from ABS
 #'
-#'This function returns a tidy tibble of the flat format and json data queried
+#'This function returns a tidy tibble of flat-view and JSON format data queried
 #'using the ABS' API URL. It first identifies whether the URL entered uses the
 #'ABS' old or new API URL structure. If the URL is super long, it's also passed
 #'through the \code{api_split_url} function, which splits up the large URL into
@@ -14,13 +14,13 @@
 #'  on api.gov.au) are accepted. The following parameters would just need to be
 #'  included in the URLs to organise the data in the flat view and JSON format:
 #'  dimensionAtObservation=allDimensions (for the ABS.Stat SDMX-JSON API) and
-#'  format=jsondata&dimensionAtObservation=AllDimensions (for the new API).s
+#'  format=jsondata&dimensionAtObservation=AllDimensions (for the new API).
 #'
 #'  Automatically generate the ABS.Stat URL:
 #'  Click on the dataset you want at \url{http://stat.data.abs.gov.au/}. Then
 #'  export the data as a "Developer API" and copy and paste the URL under the
-#'  "Data query:" heading. The "SDMX-JSON flavour:" should be checked as "Flat
-#'  format".
+#'  "Data query:" heading. The "SDMX-JSON flavour:" should be checked as
+#'  "Flat format".
 #'
 #'  IMPORTANT!! If your URL is larger than 4087 characters, the RStudio console
 #'  will NOT be able to take the string input. Therefore, first assign your URL
