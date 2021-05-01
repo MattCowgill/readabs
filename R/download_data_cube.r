@@ -89,11 +89,8 @@ download_abs_data_cube <- function(catalogue_string,
 
   # download file
 
-  utils::download.file(file_download_url, filepath,
-                       quiet = TRUE,
-                       mode = "wb",
-                       cacheOK = FALSE,
-                       headers = readabs_header)
+  dl_file(file_download_url,
+          filepath)
 
   message("File downloaded in ", filepath)
 

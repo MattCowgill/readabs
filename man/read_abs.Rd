@@ -2,6 +2,7 @@
 % Please edit documentation in R/read_abs.R
 \name{read_abs}
 \alias{read_abs}
+\alias{read_abs_series}
 \title{Download, extract, and tidy ABS time series spreadsheets}
 \usage{
 read_abs(
@@ -14,6 +15,8 @@ read_abs(
   retain_files = TRUE,
   check_local = TRUE
 )
+
+read_abs_series(series_id, ...)
 }
 \arguments{
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
@@ -48,6 +51,8 @@ If set to `FALSE`, the files will be stored in a temporary directory.}
 
 \item{check_local}{If `TRUE`, the default, local `fst` files are used,
 if present.}
+
+\item{...}{Arguments to `read_abs_series()` are passed to `read_abs()`.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time
@@ -60,6 +65,9 @@ then tidies the data. The result is a single
 data frame (tibble) containing tidied data.
 }
 \details{
+`read_abs_series()` is a wrapper around `read_abs()`, with `series_id` as
+the first argument.
+
 `read_abs()` downloads spreadsheet(s) from the ABS containing time
 series data. These files need to be saved somewhere on your disk.
 This local directory can be controlled using the `path` argument to
@@ -82,9 +90,24 @@ The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 wpi <- read_abs("6345.0")
 }
 
+# Download table 1 from the Wage Price Index
+\dontrun{
+wpi_t1 <- read_abs("6345.0", tables = "1")
+}
+
+# Or tables 1 and 2a from the WPI
+\dontrun{
+wpi_t1_t2a <- read_abs("6345.0", tables = c("1", "2a"))
+}
+
 # Get two specific time series, based on their time series IDs
 \dontrun{
 cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))
+}
+
+# Get series IDs using the `read_abs_series()` wrapper function
+\dontrun{
+cpi <- read_abs_series(c("A2325806K", "A2325807L"))
 }
 
 }

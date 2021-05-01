@@ -11,6 +11,10 @@ readabs_header <- c("User-Agent" = readabs_user_agent)
 
 source(file.path("data-raw", "create_awe_objects.R"))
 
+# Lookup table for LFS series IDs -----
+# To re-create it from scratch source the `create_lfs_lookup.R` file
+# source(file.path("data-raw", "create_lfs_lookup.R"))
+lfs_lookup <- readRDS("data-raw/lfs_lookup.rds")
 
 # Lookup table for data cube functions ------
 abs_lookup_table <- scrape_abs_catalogues()
@@ -19,7 +23,9 @@ data_last_updated <- Sys.Date()
 
 usethis::use_data(abs_lookup_table, data_last_updated,
                   awe_old,
+                  lfs_lookup,
                   readabs_user_agent,
                   readabs_header,
   overwrite = TRUE, internal = TRUE
 )
+
