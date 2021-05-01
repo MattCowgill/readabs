@@ -83,7 +83,7 @@ data frame (tibble) containing tidied data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8.902</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8.903</span>
       </span>
     </div>
 
@@ -155,7 +155,9 @@ data frame (tibble) containing tidied data.</p>
   show_progress_bars <span class='op'>=</span> <span class='cn'>TRUE</span>,
   retain_files <span class='op'>=</span> <span class='cn'>TRUE</span>,
   check_local <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span>
+
+<span class='fu'>read_abs_series</span><span class='op'>(</span><span class='va'>series_id</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,6 +211,10 @@ If set to `FALSE`, the files will be stored in a temporary directory.</p></td>
       <td><p>If `TRUE`, the default, local `fst` files are used,
 if present.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments to `read_abs_series()` are passed to `read_abs()`.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -217,7 +223,9 @@ if present.</p></td>
 series table(s).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>`read_abs()` downloads spreadsheet(s) from the ABS containing time
+    <p>`read_abs_series()` is a wrapper around `read_abs()`, with `series_id` as
+the first argument.</p>
+<p>`read_abs()` downloads spreadsheet(s) from the ABS containing time
 series data. These files need to be saved somewhere on your disk.
 This local directory can be controlled using the `path` argument to
 `read_abs()`. If the `path` argument is not set, `read_abs()` will store
@@ -238,9 +246,24 @@ The easiest way to edit this file is using <code>usethis::edit_r_environ()</code
 <span class='va'>wpi</span> <span class='op'>&lt;-</span> <span class='fu'>read_abs</span><span class='op'>(</span><span class='st'>"6345.0"</span><span class='op'>)</span>
 <span class='op'>}</span>
 
+<span class='co'># Download table 1 from the Wage Price Index</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>wpi_t1</span> <span class='op'>&lt;-</span> <span class='fu'>read_abs</span><span class='op'>(</span><span class='st'>"6345.0"</span>, tables <span class='op'>=</span> <span class='st'>"1"</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Or tables 1 and 2a from the WPI</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>wpi_t1_t2a</span> <span class='op'>&lt;-</span> <span class='fu'>read_abs</span><span class='op'>(</span><span class='st'>"6345.0"</span>, tables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1"</span>, <span class='st'>"2a"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
 <span class='co'># Get two specific time series, based on their time series IDs</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>cpi</span> <span class='op'>&lt;-</span> <span class='fu'>read_abs</span><span class='op'>(</span>series_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A2325806K"</span>, <span class='st'>"A2325807L"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Get series IDs using the `read_abs_series()` wrapper function</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>cpi</span> <span class='op'>&lt;-</span> <span class='fu'>read_abs_series</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A2325806K"</span>, <span class='st'>"A2325807L"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>
