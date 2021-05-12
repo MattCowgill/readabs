@@ -88,7 +88,7 @@ get_first_xml_page <- function(url) {
   if (!first_url_works) {
     if (!grepl("ttitle", first_url)) { # this is the case when tables == "all"
       stop(paste0(
-        "Cannot find valid entry for cat_no ", cat_no,
+        "Cannot find valid entry",
         " in the ABS Time Series Directory.",
         "Check that the cat. no. is correct, and that it contains ",
         "time series spreadsheets (not data cubes)."
