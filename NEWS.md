@@ -4,12 +4,10 @@
 # readabs 0.4.8.902
 * `check_latest_date()` function to check latest observation date for ABS time series
 
-# readabs 0.4.8.901
-* Residual upstream dependence on curl eliminated
-
-# readabs 0.4.8.900
+# readabs 0.4.9
 * `read_lfs_grossflows()` convenience function added
 * `utils::download.file()` used rather than `curl::curl_download()`
+* Residual upstream dependence on curl eliminated
 * Workaround implemented for changes to ABS Weekly Payrolls release
 * `search_catalogues()` function added to make data cubes easier to find
 

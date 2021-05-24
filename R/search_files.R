@@ -6,7 +6,7 @@
 #' list of files within the catalogue.
 #' @export
 #' @examples
-#' search_files("GM1", "labour-force-australia")
+#' \dontrun{  search_files("GM1", "labour-force-australia") }
 
 search_files <- function(string, catalogue, refresh = FALSE) {
   files <- show_available_files(catalogue_string = catalogue,
