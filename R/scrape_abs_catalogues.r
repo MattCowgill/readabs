@@ -22,16 +22,26 @@ scrape_abs_catalogues <- function() {
 
   abs_stats_page <- xml2::read_html(stats_page_file)
 
+  abs_stats_page_cards <- abs_stats_page %>%
+    rvest::html_nodes(".layout__region--content .card")
+
+  headings <- abs_stats_page_cards %>%
+    rvest::html_elements("h3") %>%
+    rvest::html_text() %>%
+    stringi::stri_trim_both()
+
+  url_suffixes <- abs_stats_page_cards %>%
+    rvest::html_attr("href") %>%
+    stringi::stri_trim_both()
+
   main_page_data <- dplyr::tibble(
-    heading = abs_stats_page %>% rvest::html_nodes(".field--type-ds h3") %>% rvest::html_text() %>% stringi::stri_trim_both(),
-    url_suffix = abs_stats_page %>% rvest::html_nodes(".card") %>% rvest::html_attr("href") %>% stringi::stri_trim_both()
+    heading = .env$headings,
+    url_suffix = .env$url_suffixes
   )
 
   # scrape each page
 
-  scrape_sub_page <- function(sub_page_url_suffix) {
-    main_page_heading <- main_page_data$heading[main_page_data$url_suffix == sub_page_url_suffix]
-
+  scrape_sub_page <- function(heading, sub_page_url_suffix) {
 
     sub_page_file <- tempfile(fileext = ".html")
     dl_file(url = glue::glue("https://www.abs.gov.au{sub_page_url_suffix}"),
@@ -39,19 +49,32 @@ scrape_abs_catalogues <- function() {
 
     sub_page <- xml2::read_html(sub_page_file)
 
+    abs_cards <- sub_page %>%
+      rvest::html_elements(".clearfix .card")
+
+    sub_heading <- abs_cards %>%
+      rvest::html_elements(".abs-layout-title") %>%
+      rvest::html_text() %>%
+      stringi::stri_trim_both()
+
+    catalogue <- abs_cards %>%
+      rvest::html_attr("href") %>%
+      stringi::stri_replace_all_fixed(sub_page_url_suffix, "") %>%
+      stringi::stri_replace_all_regex("/[^/]*$", "") %>%
+      stringi::stri_replace_all_fixed("/", "")
+
     sub_page_data <- dplyr::tibble(
-      heading = main_page_heading,
-      sub_heading = sub_page %>% rvest::html_nodes(".abs-layout-title") %>% rvest::html_text() %>% stringi::stri_trim_both(),
-      catalogue = sub_page %>% rvest::html_nodes("#content .card") %>% rvest::html_attr("href") %>%
-        stringi::stri_replace_all_fixed(sub_page_url_suffix, "") %>%
-        stringi::stri_replace_all_regex("/[^/]*$", "") %>%
-        stringi::stri_replace_all_fixed("/", ""),
+      heading = heading,
+      sub_heading = sub_heading,
+      catalogue = catalogue,
       url = glue::glue("https://www.abs.gov.au{sub_page_url_suffix}/{catalogue}/latest-release")
     )
   }
 
 
-  new_abs_lookup_table <- purrr::map_dfr(main_page_data$url_suffix, scrape_sub_page)
+  new_abs_lookup_table <- purrr::map2_dfr(.x = main_page_data$heading,
+                                          .y = main_page_data$url_suffix,
+                                          scrape_sub_page)
 
-  return(new_abs_lookup_table)
+  new_abs_lookup_table
 }
