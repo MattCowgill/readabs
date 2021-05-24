@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.8.903</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.9</span>
       </span>
     </div>
 
@@ -391,24 +391,24 @@
 <p>Let’s say I want to download cube GM1, the gross flows spreadsheet from the monthly Labour Force release.</p>
 <p>Let’s look for the name of the catalogue:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 4</span>
-<span class="co">#&gt;   heading      sub_heading             catalogue            url                 </span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                &lt;chr&gt;               </span>
-<span class="co">#&gt; 1 Employment … Labour Force, Australia labour-force-austra… https://www.abs.gov…</span>
-<span class="co">#&gt; 2 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</span>
-<span class="co">#&gt; 3 Employment … Labour Force Status of… labour-force-status… https://www.abs.gov…</span>
-<span class="co">#&gt; 4 Employment … Barriers and Incentive… barriers-and-incent… https://www.abs.gov…</span>
-<span class="co">#&gt; 5 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</span>
-<span class="co">#&gt; 6 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 6 x 4
+#&gt;   heading      sub_heading             catalogue            url                 
+#&gt;   &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                &lt;chr&gt;               
+#&gt; 1 Employment … Labour Force, Australia labour-force-austra… https://www.abs.gov…
+#&gt; 2 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…
+#&gt; 3 Employment … Labour Force Status of… labour-force-status… https://www.abs.gov…
+#&gt; 4 Employment … Barriers and Incentive… barriers-and-incent… https://www.abs.gov…
+#&gt; 5 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…
+#&gt; 6 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</code></pre>
 <p>It looks like <code>labour-force-australia</code> is the catalogue name for the monthly Labour Force survey.</p>
 <p>Now I need to find the filename for the gross flows spreadsheet, GM1.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/search_files.html">search_files</a></span><span class="op">(</span><span class="st">"GM1"</span>, <span class="st">"labour-force-australia"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "GM1.xlsx"</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/search_files.html">search_files</a></span><span class="op">(</span><span class="st">"GM1"</span>, <span class="st">"labour-force-australia"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; [1] "GM1.xlsx"</code></pre>
 <p>The GM1 table is, conveniently enough, called <code>GM1.xlsx</code>.</p>
 <p>So we can download it like this:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gm1_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"labour-force-australia"</span>, <span class="st">"GM1"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">gm1_path</span><span class="op">)</span></code></pre></div>
@@ -422,10 +422,10 @@
 <h3 class="hasAnchor">
 <a href="#labour-force-gross-flows" class="anchor"></a>Labour force gross flows</h3>
 <p>The labour force gross flows cube is one of the cubes for which <code>readabs</code> includes a convenience function, <code><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows()</a></code>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Now we have a tidy tibble of the Labour Force gross flows data:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 9</span>
 <span class="co">#&gt;   date       sex   age    state lfs_current lfs_previous   persons unit  weights</span>
@@ -442,10 +442,10 @@
 <a href="#abs-weekly-payroll-jobs-and-wages" class="anchor"></a>ABS Weekly Payroll Jobs and Wages</h3>
 <p>The ABS Weekly Payroll Jobs and Wages release contains a range of useful information. Even though this release contains time series data, the ABS does not release it in its standard time series spreadsheet format, and <code><a href="../reference/read_abs.html">read_abs()</a></code> therefore cannot import it. The <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code> function can be used instead.</p>
 <p>Let’s say you want to download the jobs figures, as index numbers, for each geographical area (SA3) over time. That’s straightforward with <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code>:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">payrolls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_payrolls.html">read_payrolls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Here’s what we’ve got:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">payrolls</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt;   state sa4            sa3        date       value series</span>
