@@ -217,7 +217,13 @@ read_abs <- function(cat_no = NULL,
     xml_dfs <- xml_dfs %>%
       dplyr::group_by(SeriesID) %>%
       dplyr::filter(ProductReleaseDate == max(ProductReleaseDate)) %>%
-      dplyr::filter(row_number() == 1)
+      dplyr::filter(row_number() == 1) %>%
+      dplyr::ungroup()
+  } else {
+    xml_dfs <- xml_dfs %>%
+      dplyr::group_by(TableURL) %>%
+      dplyr::filter(ProductReleaseDate == max(ProductReleaseDate)) %>%
+      dplyr::ungroup()
   }
 
   urls <- unique(xml_dfs$TableURL)
