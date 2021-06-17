@@ -221,8 +221,9 @@ read_abs <- function(cat_no = NULL,
       dplyr::ungroup()
   } else {
     xml_dfs <- xml_dfs %>%
-      dplyr::group_by(TableURL) %>%
-      dplyr::filter(ProductReleaseDate == max(ProductReleaseDate)) %>%
+      dplyr::group_by(.data$TableURL) %>%
+      dplyr::filter(.data$ProductReleaseDate == max(.data$ProductReleaseDate)) %>%
+      dplyr::filter(.data$ProductReleaseDate == max(.data$ProductReleaseDate)) %>%
       dplyr::ungroup()
   }
 

@@ -1,10 +1,10 @@
-# readabs 0.4.8.902
-* `read_abs_sdmx()` function hard deprecated.
-
-# readabs 0.4.8.902
-* `check_latest_date()` function to check latest observation date for ABS time series
+# readabs 0.4.9.900
+* Bug fixes
+* Bug fixes
 
 # readabs 0.4.9
+* `read_abs_sdmx()` function hard deprecated.
+* `check_latest_date()` function to check latest observation date for ABS time series
 * `read_lfs_grossflows()` convenience function added
 * `utils::download.file()` used rather than `curl::curl_download()`
 * Residual upstream dependence on curl eliminated
