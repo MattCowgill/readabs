@@ -57,7 +57,7 @@ get_abs_xml_metadata <- function(url) {
     dplyr::ungroup()
 
   xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(.data$TableOrder))
-  xml_dfs <- xml_dfs[order(xml_dfs[, "TableOrder"]), ]
+  xml_dfs <- dplyr::arrange(xml_dfs, .data$TableOrder)
 
   xml_dfs
 }
