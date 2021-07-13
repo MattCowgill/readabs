@@ -2,7 +2,7 @@
 #'
 #' This function gets the nested list of raw data returned using the API URL and
 #' transforms it into into a tidy tibble based on the structure of the API URL
-#' (i.e. whether it follows the old structure or not, as stated in the
+#' (i.e. whether it follows the old or new structure, as stated in the
 #' \code{old_api} parameter).
 #'
 #' @param old_api (boolean) States whether the ABS' API uses the old (ABS.Stat)
@@ -49,15 +49,15 @@ tidy_api_data <- function(url, old_api) {
     purrr::set_names(column_headers)
 
   # dataset = A tibble, which has a column for each dimension (variable) and a
-  # column for the observation value. The key corresponding to each value in the
-  # observations tibble is split among each column so that each column has one
-  # integer. (Each integer corresponds to the position of the dimension member
-  # as found in the dimensions list.)
+  # column for the observation value. The key corresponding to each observation
+  # in the observations tibble is split among the columns so each column
+  # has one integer. (Each integer corresponds to the position of the dimension
+  # member as found in the dimensions list.)
   dataset <- observations %>%
     tidyr::separate(col = .data$key, into = column_headers, sep = ":") %>%
     dplyr::mutate(dplyr::across(.cols = tidyselect::vars_select_helpers$where(is.character),
                                 function(x)
-                                  as.numeric(x) + 1)) #add 1 to each integer to remove indexes of 0
+                                  as.numeric(x) + 1)) #add 1 to each integer to remove indices of 0
 
   # Replaces all integers with the name of the dimension member.
   suppressMessages(dimensions %>%

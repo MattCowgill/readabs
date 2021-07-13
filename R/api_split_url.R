@@ -2,8 +2,8 @@
 #'
 #' This function splits up large URLs (URLs with more than 1000 characters) into
 #' smaller batches to increase efficiency. It identifies the large variables
-#' (dimensions) in the data key (those that have more than 51 values) and
-#' divides these up into batches with a maximum of 51 values. Smaller URLs are
+#' (dimensions) in the data key (those that have more than 50 values) and
+#' divides these up into batches of 50 values. Smaller URLs are
 #' then constructed using these batches.
 #'
 #' @param url (char) The API URL used to query the data you want from the ABS.
