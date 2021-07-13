@@ -11,7 +11,6 @@ readabs_header <- c("User-Agent" = readabs_user_agent)
 
 source(file.path("data-raw", "create_awe_objects.R"))
 
-
 # Lookup table for data cube functions ------
 abs_lookup_table <- scrape_abs_catalogues()
 
@@ -23,3 +22,4 @@ usethis::use_data(abs_lookup_table, data_last_updated,
                   readabs_header,
   overwrite = TRUE, internal = TRUE
 )
+

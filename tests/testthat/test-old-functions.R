@@ -29,14 +29,3 @@ test_that("Old read_abs_metadata() function imports a spreadsheet", {
   expect_equal(length(colnames(local_file)), 9)
 })
 
-test_that("Old read_abs_sdmx function works", {
-  skip_on_cran()
-  skip_if_offline()
-  check_abs_connection()
-
-  sdmx_url <- "http://stat.data.abs.gov.au/restsdmx/sdmx.ashx/GetData/ABS_REGIONAL_ASGS/PENSION_2+BANKRUPT_2.AUS.0.A/all?startTime=2013&endTime=2013"
-
-  sdmx_result <- suppressWarnings(read_abs_sdmx(sdmx_url))
-
-  expect_true(is.data.frame(sdmx_result))
-})

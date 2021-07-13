@@ -1,4 +1,4 @@
-
+#' @importFrom rlang .data .env
 #' @import dplyr
 #' @noRd
 #' @param url URL for an XML file in the ABS Time Series Directory
@@ -10,29 +10,40 @@ get_abs_xml_metadata <- function(url) {
     stop("`url` argument to get_abs_xml_metadata() must be a string.")
   }
 
-  ProductReleaseDate <- TableOrder <- cat_no <- ProductIssue <- NULL
+  first_page_df <- get_first_xml_page(url)
 
-  first_page <- get_first_xml_page(url)
+  get_numpages <- function(url) {
 
-  first_page_df <- xml_to_df(first_page)
+    temp_xml <- tempfile(fileext = ".xml")
 
-  first_page_list <- xml2::as_list(first_page)[[1]]
+    dl_file(url = url,
+            destfile = temp_xml)
+
+    temp_xml %>%
+      xml2::read_xml() %>%
+      xml2::xml_find_all(xpath = "//NumPages") %>%
+      xml2::xml_double()
+  }
+
+  safely_get_numpages <- purrr::safely(get_numpages)
+
+  num_pages <- safely_get_numpages(url)
 
   xml_dfs <- dplyr::tibble()
 
   # If there's more than one page of XML corresponding to request, get all of them
-  if (!is.null(first_page_list$NumPages)) {
-    tot_pages <- as.numeric(first_page_list$NumPages)
-    all_pages <- seq(2, tot_pages)
+  if (!is.null(num_pages$result) && length(num_pages$result) > 0) {
+    tot_pages <- num_pages$result
+    all_pages <- 2:tot_pages
     # create list of URLs of XML metadata to scrape
     full_urls <- paste0(url, "&pg=", all_pages)
-    xml_dfs <- purrr::map_dfr(full_urls, get_xml_df)
+    xml_dfs <- get_xml_dfs(full_urls)
   }
 
   xml_dfs <- dplyr::bind_rows(first_page_df, xml_dfs)
 
   xml_dfs <- xml_dfs %>%
-    dplyr::mutate(ProductIssue = as.Date(paste0("01 ", ProductIssue),
+    dplyr::mutate(ProductIssue = as.Date(paste0("01 ", .data$ProductIssue),
       format = "%d %b %Y"
     )) %>%
     dplyr::mutate_at(c("ProductReleaseDate", "SeriesStart", "SeriesEnd"),
@@ -41,10 +52,12 @@ get_abs_xml_metadata <- function(url) {
     )
 
   xml_dfs <- xml_dfs %>%
-    dplyr::filter(ProductReleaseDate == max(ProductReleaseDate))
+    dplyr::group_by(.data$TableTitle) %>%
+    dplyr::filter(.data$ProductReleaseDate == max(.data$ProductReleaseDate)) %>%
+    dplyr::ungroup()
 
-  xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(TableOrder))
-  xml_dfs <- xml_dfs[order(xml_dfs[, "TableOrder"]), ]
+  xml_dfs <- dplyr::mutate(xml_dfs, TableOrder = as.numeric(.data$TableOrder))
+  xml_dfs <- dplyr::arrange(xml_dfs, .data$TableOrder)
 
   xml_dfs
 }
@@ -63,29 +76,19 @@ get_first_xml_page <- function(url) {
   # for a readable XML file using the table number supplied (eg. "1"); if that
   # doesn't work then we try with a leading zero ("01").
 
-  first_page_file <- file.path(tempdir(), "temp_readabs_xml.xml")
+  safely_get_xml_dfs <- purrr::safely(get_xml_dfs)
+  first_page <- safely_get_xml_dfs(first_url)
 
-  utils::download.file(first_url,
-                       first_page_file,
-                       quiet = TRUE,
-                       cacheOK = FALSE,
-                       headers = readabs_header
-  )
-
-  first_page <- xml2::read_xml(first_page_file,
-                               encoding = "ISO-8859-1",
-                               user_agent = readabs_user_agent
-  )
-  first_page_list <- xml2::as_list(first_page)[[1]]
-  first_url_works <- ifelse(length(first_page_list) > 0,
-                            TRUE,
-                            FALSE
-  )
+  first_url_works <- if (!is.null(first_page$result)) {
+    TRUE
+  } else {
+    FALSE
+  }
 
   if (!first_url_works) {
     if (!grepl("ttitle", first_url)) { # this is the case when tables == "all"
       stop(paste0(
-        "Cannot find valid entry for cat_no ", cat_no,
+        "Cannot find valid entry",
         " in the ABS Time Series Directory.",
         "Check that the cat. no. is correct, and that it contains ",
         "time series spreadsheets (not data cubes)."
@@ -96,23 +99,13 @@ get_first_xml_page <- function(url) {
 
     first_url <- gsub("ttitle=", "ttitle=0", first_url)
 
-    utils::download.file(first_url,
-                         first_page_file,
-                         quiet = TRUE,
-                         cacheOK = FALSE,
-                         headers = readabs_header
-    )
+    first_page <- safely_get_xml_dfs(first_url)
 
-    first_page <- xml2::read_xml(first_page_file,
-                                 encoding = "ISO-8859-1",
-                                 user_agent = readabs_user_agent
-    )
-    first_page_list <- xml2::as_list(first_page)
-    first_page_list <- first_page_list[[1]]
-    first_url_works <- ifelse(length(first_page_list) > 0,
-                              TRUE,
-                              FALSE
-    )
+    first_url_works <- if (!is.null(first_page$result)) {
+      TRUE
+    } else {
+      FALSE
+    }
 
     if (first_url_works) {
       url <- gsub("ttitle=", "ttitle=0", url)
@@ -124,5 +117,6 @@ get_first_xml_page <- function(url) {
     }
   }
 
+  first_page <- first_page$result
   first_page
 }

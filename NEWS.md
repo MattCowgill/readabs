@@ -1,26 +1,26 @@
-# readabs 0.4.8.902
-* check_latest_date() function to check latest observation date for ABS time series
+# readabs 0.4.9.90x
+* Bug fixes
 
-# readabs 0.4.8.901
+# readabs 0.4.9
+* `read_abs_sdmx()` function hard deprecated.
+* `check_latest_date()` function to check latest observation date for ABS time series
+* `read_lfs_grossflows()` convenience function added
+* `utils::download.file()` used rather than `curl::curl_download()`
 * Residual upstream dependence on curl eliminated
-
-# readabs 0.4.8.900
-* read_lfs_grossflows() convenience function added
-* utils::download.file() used rather than curl::curl_download()
 * Workaround implemented for changes to ABS Weekly Payrolls release
-* search_catalogues() function added to make data cubes easier to find
+* `search_catalogues()` function added to make data cubes easier to find
 
 # readabs 0.4.8
 * Internal changes to the way files are downloaded
-* Improvements to the read_awe() convenience function (able to get more data)
+* Improvements to the `read_awe()` convenience function (able to get more data)
 
 # readabs 0.4.7
 * Package dependencies reduced
-* Bug fixed in read_payrolls()
+* Bug fixed in `read_payrolls()`
 
 # readabs 0.4.6
-* New read_payrolls() convenience function added
-* New read_awe() convenience function added
+* New `read_payrolls()` convenience function added
+* New `read_awe()` convenience function added
 * Package logo added
 
 # readabs 0.4.5.2

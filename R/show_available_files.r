@@ -57,11 +57,8 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
   # Try to download the page
   tryCatch({
     temp_page_location <- file.path(tempdir(), "temp_readabs.html")
-    utils::download.file(url = download_url,
-                         destfile = temp_page_location,
-                         quiet = TRUE,
-                         cacheOK = FALSE,
-                         headers = readabs_header)},
+    dl_file(url = download_url,
+            destfile = temp_page_location)},
     error = function(cond) {
       message(paste("URL does not seem to exist:", download_url))
       message("Here's the original error message:")

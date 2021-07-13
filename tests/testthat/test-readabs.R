@@ -19,7 +19,7 @@ test_that("WPI XML page is a data.frame with expected column names", {
   skip_if_offline()
   check_abs_connection()
 
-  wpi_1_xml <- get_xml_df(wpi_url)
+  wpi_1_xml <- get_xml_dfs(wpi_url)
 
   expect_is(wpi_1_xml, "data.frame")
   expect_equal(colnames(wpi_1_xml)[1], "ProductNumber")
@@ -83,6 +83,11 @@ test_that("read_abs() works with series ID(s)", {
   expect_match(unique(cpi_2$series)[1], "Index Numbers ;  All groups CPI ;  Canberra ;")
   expect_match(unique(cpi_2$series)[2], "Index Numbers ;  All groups CPI ;  Australia ;")
   expect_length(cpi_2, 12)
+
+  cpi_wrapper <- read_abs_series(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
+
+  expect_identical(cpi_2, cpi_wrapper)
+
 })
 
 

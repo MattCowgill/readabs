@@ -6,8 +6,10 @@ output:
 author: "Matt Cowgill"
 vignette: >
   %\VignetteIndexEntry{Using readabs}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, echo = FALSE, message = FALSE}
@@ -294,16 +296,27 @@ Let's say I want to download cube GM1, the gross flows spreadsheet from the mont
 
 Let's look for the name of the catalogue:
 
-```{r}
+```{r, eval = FALSE}
 search_catalogues("labour force")
+```
+```{r, eval = FALSE, include = FALSE}
+cats <- search_catalogues("labour force")
+saveRDS(cats, "cats.rds")
+```
+```{r, echo = FALSE}
+readRDS("cats.rds")
 ```
 
 It looks like `labour-force-australia` is the catalogue name for the monthly Labour Force survey.
 
 Now I need to find the filename for the gross flows spreadsheet, GM1.
 
-```{r}
+```{r, eval = FALSE}
 search_files("GM1", "labour-force-australia")
+```
+```{r, echo = FALSE}
+x <- "GM1.xlsx"
+x
 ```
 
 The GM1 table is, conveniently enough, called `GM1.xlsx`. 
