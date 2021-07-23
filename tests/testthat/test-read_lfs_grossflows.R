@@ -3,8 +3,12 @@ test_that("read_lfs_grossflows() downloads and imports LFS cube GM1", {
   skip_if_offline()
   skip_on_cran()
 
+  prev_option <- getOption("timeout")
+  options("timeout" = 120)
   gf_cur <- read_lfs_grossflows()
   gf_prev <- read_lfs_grossflows(weights = "previous")
+
+  options("timeout" = prev_option)
 
   # Current should still be the default
   expect_identical(unique(gf_cur$weights),
