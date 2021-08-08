@@ -19,6 +19,6 @@ structure.}
 \description{
 This function gets the nested list of raw data returned using the API URL and
 transforms it into into a tidy tibble based on the structure of the API URL
-(i.e. whether it follows the old structure or not, as stated in the
+(i.e. whether it follows the old or new structure, as stated in the
 \code{old_api} parameter).
 }

@@ -21,12 +21,12 @@ read_abs_api(url)
  "Data query:" heading. The "SDMX-JSON flavour:" should be checked as
  "Flat format".
 
- IMPORTANT!! If your URL is larger than 4087 characters, the RStudio console
+ IMPORTANT: If the URL is larger than 4087 characters, the RStudio console
  will NOT be able to take the string input. Therefore, first assign your URL
  to a variable by using \code{abs_clipboard} (see first example).}
 }
 \value{
-(tibble) Returns a tibble containing the ABS data you queried.
+(tibble) Returns a tidy tibble containing the ABS data you queried.
 }
 \description{
 This function returns a tidy tibble of flat-view and JSON format data queried
@@ -51,7 +51,7 @@ old_url <- paste0("http://stat.data.abs.gov.au/sdmx-json/data/ALC/",
 tidy_data <- read_abs_api(old_url)
 tidy_data
 
-### Get tidy ALC dataset using the new structure:
+### Get tidy ALC dataset using the new URL structure:
 new_url <- paste0("https://api.data.abs.gov.au/data/ALC/",
   "all?startPeriod=2010&endPeriod=2016&format=jsondata",
   "&dimensionAtObservation=AllDimensions")
