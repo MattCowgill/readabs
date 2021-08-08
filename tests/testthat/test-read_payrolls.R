@@ -16,7 +16,7 @@ test_that("read_payrolls() works", {
   purrr::map(
     c(
       "industry_jobs",
-      "industry_wages",
+      # "industry_wages", # Causing failures because the ABS has suspended this series, so it is a full time series of NAs: https://www.abs.gov.au/statistics/labour/earnings-and-work-hours/weekly-payroll-jobs-and-wages-australia/week-ending-17-july-2021#suspension-of-wages-estimates
       "sa4_jobs",
       "sa3_jobs",
       "subindustry_jobs",

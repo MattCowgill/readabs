@@ -61,7 +61,6 @@ read_abs_api <- function(url) {
     api_split_url(url, old_api) %>%
       purrr::map_dfr(tidy_api_data, old_api = old_api)
   } else {
-
     tidy_api_data(url = url, old_api = old_api)
   }
 }

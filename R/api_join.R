@@ -14,13 +14,13 @@
 api_join <- function(.x, col, dataset) {
   .x <- .x %>%
     tibble::rowid_to_column() %>%
-    dplyr::select({{col}} := .data$rowid,
+    dplyr::select({{ col }} := .data$rowid,
                   .data$name)
 
 
   dplyr::left_join(dataset, .x) %>%
     dplyr::select(-col) %>%
-    dplyr::select({{col}} := .data$name,
+    dplyr::select({{ col }} := .data$name,
                   .data$value) %>%
     tibble::rowid_to_column() %>%
     tibble::as_tibble()
