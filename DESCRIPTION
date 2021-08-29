@@ -26,7 +26,7 @@ Imports:
     tools,
     glue,
     httr,
-    rvest,
+    rvest (>= 1.0.0),
     xml2,
     rlang,
     janitor,
