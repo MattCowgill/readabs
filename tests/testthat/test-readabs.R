@@ -2,18 +2,6 @@ library(readabs)
 
 wpi_url <- "http://ausstats.abs.gov.au/servlet/TSSearchServlet?catno=6345.0&pg=1&ttitle=1"
 
-
-test_that("read_abs() works for a series with a space in its URL", {
-  skip_on_cran()
-  skip_if_offline()
-  check_abs_connection()
-  # At time of test creation, ABS 8501.0 table 22 has a space in its URL:
-  # https://www.abs.gov.au/statistics/industry/retail-and-wholesale-trade/retail-trade-australia/latest-release/table_23_online_retail_turnover_australia_by_type_of_activity_percentage_of_total_australian_retail turnover.xls
-
-  t23_8501 <- read_abs(cat_no = "8501.0", tables = 23)
-})
-
-
 test_that("WPI XML page is a data.frame with expected column names", {
   skip_on_cran()
   skip_if_offline()
