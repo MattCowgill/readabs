@@ -150,7 +150,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">wpi</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 12</span>
+<span class="co">#&gt; # A tibble: 6 × 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title   date       series  value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;         &lt;date&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  67.4 Original    INDEX    </span>
@@ -197,7 +197,7 @@
 <span class="va">lfs_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 12</span>
+<span class="co">#&gt; # A tibble: 6 × 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   NA  Trend       STOCK    </span>
@@ -214,7 +214,7 @@
 <span class="va">lfs_1_5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lfs_1_5</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 12</span>
+<span class="co">#&gt; # A tibble: 6 × 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   NA  Trend       STOCK    </span>
@@ -235,7 +235,7 @@
 <code class="sourceCode R"><span class="va">employed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">"A84423127L"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">employed</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 12</span>
+<span class="co">#&gt; # A tibble: 6 × 12</span>
 <span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    NA Trend       STOCK    </span>
@@ -313,7 +313,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">series_1</span>, <span class="va">series_2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; `summarise()` has grouped output by 'series_1'. You can override using the `.groups` argument.</span>
-<span class="co">#&gt; # A tibble: 42 x 2</span>
+<span class="co">#&gt; # A tibble: 42 × 2</span>
 <span class="co">#&gt; # Groups:   series_1 [14]</span>
 <span class="co">#&gt;    series_1                                   series_2</span>
 <span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;   </span>
@@ -392,15 +392,15 @@
 <p>Let’s look for the name of the catalogue:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 6 x 4
-#&gt;   heading      sub_heading             catalogue            url                 
-#&gt;   &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                &lt;chr&gt;               
-#&gt; 1 Employment … Labour Force, Australia labour-force-austra… https://www.abs.gov…
-#&gt; 2 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…
-#&gt; 3 Employment … Labour Force Status of… labour-force-status… https://www.abs.gov…
-#&gt; 4 Employment … Barriers and Incentive… barriers-and-incent… https://www.abs.gov…
-#&gt; 5 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…
-#&gt; 6 Employment … Labour Force, Australi… labour-force-austra… https://www.abs.gov…</code></pre>
+<pre><code>#&gt; # A tibble: 6 × 4
+#&gt;   heading                     sub_heading        catalogue        url           
+#&gt;   &lt;chr&gt;                       &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;         
+#&gt; 1 Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…
+#&gt; 2 Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…
+#&gt; 3 Employment and unemployment Labour Force Stat… labour-force-st… https://www.a…
+#&gt; 4 Employment and unemployment Barriers and Ince… barriers-and-in… https://www.a…
+#&gt; 5 Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…
+#&gt; 6 Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…</code></pre>
 <p>It looks like <code>labour-force-australia</code> is the catalogue name for the monthly Labour Force survey.</p>
 <p>Now I need to find the filename for the gross flows spreadsheet, GM1.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -427,7 +427,7 @@
 <p>Now we have a tidy tibble of the Labour Force gross flows data:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 9</span>
+<span class="co">#&gt; # A tibble: 6 × 9</span>
 <span class="co">#&gt;   date       sex   age    state lfs_current lfs_previous   persons unit  weights</span>
 <span class="co">#&gt;   &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1 2001-03-01 Males 15-19… New … Employed f… Employed full…  28.5   000s  curren…</span>
@@ -447,7 +447,7 @@
 <p>Here’s what we’ve got:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">payrolls</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 6</span>
+<span class="co">#&gt; # A tibble: 6 × 6</span>
 <span class="co">#&gt;   state sa4            sa3        date       value series</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;      &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt; </span>
 <span class="co">#&gt; 1 NSW   Capital Region Queanbeyan 2020-01-04  92.6 jobs  </span>
