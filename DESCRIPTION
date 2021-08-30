@@ -26,9 +26,14 @@ Imports:
     tools,
     glue,
     httr,
-    rvest,
+    rvest (>= 1.0.0),
     xml2,
-    rlang
+    rlang,
+    janitor,
+    jsonlite,
+    stringr,
+    tibble,
+    tidyselect
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 7.1.1
