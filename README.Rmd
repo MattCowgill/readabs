@@ -20,7 +20,7 @@ version <- gsub('-', '.', version)
 # readabs <img src="man/figures/logo.png" align="right" height="139" />
 <!-- badges: start -->
 [![R build status](https://github.com/mattcowgill/readabs/workflows/R-CMD-check/badge.svg)](https://github.com/mattcowgill/readabs/actions)
-[![codecov status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://codecov.io/gh/MattCowgill/readabs)
+[![codecov status](https://img.shields.io/codecov/c/github/mattcowgill/readabs.svg)](https://app.codecov.io/gh/MattCowgill/readabs)
 [![CRAN status](https://www.r-pkg.org/badges/version/readabs)](https://cran.r-project.org/package=readabs)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
@@ -46,7 +46,7 @@ devtools::install_github("mattcowgill/readabs")
 
 ## Usage
 
-The main function in {readabs} is `read_abs()`, which downloads, imports, and tidies time series data from the ABS website.
+The main function in {readabs} is `read_abs()`, which downloads, imports, and tidies time series data from the ABS website. **Note that `read_abs()` only works with spreadsheets in the standard ABS time series format.**
 
 There are some other functions you may find useful.
 
