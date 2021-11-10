@@ -24,7 +24,8 @@
 #'  \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
 #'  employees) and state (Table 7)}
 #'  \item{"gccsa_jobs"}{ Payroll jobs by Greater Capital City Statistical
-#'  Area (Table)}
+#'  Area (Table 5)}
+#'  \item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
 #' }
 #' The default is "industry_jobs".
 #' @return A tidy (long) `tbl_df`. The number of columns differs based on the `series`.
