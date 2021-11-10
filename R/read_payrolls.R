@@ -23,6 +23,8 @@
 #'  industry division (Table 6)}
 #'  \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
 #'  employees) and state (Table 7)}
+#'  \item{"gccsa_jobs"}{ Payroll jobs by Greater Capital City Statistical
+#'  Area (Table)}
 #' }
 #' The default is "industry_jobs".
 #' @return A tidy (long) `tbl_df`. The number of columns differs based on the `series`.
@@ -50,7 +52,8 @@ read_payrolls <- function(series = c(
                             "sa4_jobs",
                             "sa3_jobs",
                             "subindustry_jobs",
-                            "empsize_jobs"
+                            "empsize_jobs",
+                            "gccsa_jobs"
                           ),
                           path = Sys.getenv("R_READABS_PATH",
                             unset = tempdir()
@@ -64,7 +67,8 @@ read_payrolls <- function(series = c(
     "sa4_jobs" = "DO005",
     "sa3_jobs" = "DO005",
     "subindustry_jobs" = "DO006",
-    "empsize_jobs" = "DO007"
+    "empsize_jobs" = "DO007",
+    "gccsa_jobs" = "DO005"
   )
 
   safely_download_cube <- purrr::safely(.f = ~ download_abs_data_cube(
@@ -97,10 +101,11 @@ read_payrolls <- function(series = c(
 
   sheet_name <- switch(series,
     "industry_jobs" = "Payroll jobs index",
-    "sa4_jobs" = "Payroll jobs index-SA4",
-    "sa3_jobs" = "Payroll jobs index-SA3",
+    "sa4_jobs" = "SA4",
+    "sa3_jobs" = "SA3",
     "subindustry_jobs" = "Payroll jobs index-Subdivision",
-    "empsize_jobs" = "Employment size"
+    "empsize_jobs" = "Employment size",
+    "gccsa_jobs" = "GCCSA"
   )
 
   cube <- read_payrolls_local(
