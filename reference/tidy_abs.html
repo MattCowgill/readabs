@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.10.901</span>
       </span>
     </div>
 
@@ -163,20 +163,20 @@ included in the output. If `FALSE`, metadata is dropped.</p></td>
     <p>data frame (tibble) in long format.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># First extract the data from the local spreadsheet</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>wpi</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_abs_sheets.html'>extract_abs_sheets</a></span><span class='op'>(</span><span class='st'>"634501.xls"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># Then tidy the data extracted from the spreadsheet. Note that</span>
-<span class='co'># \code{extract_abs_sheets()} returns a list of data frames, so we need to</span>
-<span class='co'># subset the list.</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>tidy_wpi</span> <span class='op'>&lt;-</span> <span class='fu'>tidy_abs</span><span class='op'>(</span><span class='va'>wpi</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># First extract the data from the local spreadsheet</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>wpi</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_abs_sheets.html'>extract_abs_sheets</a></span><span class='op'>(</span><span class='st'>"634501.xls"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Then tidy the data extracted from the spreadsheet. Note that</span></span>
+<span class='r-in'><span class='co'># \code{extract_abs_sheets()} returns a list of data frames, so we need to</span></span>
+<span class='r-in'><span class='co'># subset the list.</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>tidy_wpi</span> <span class='op'>&lt;-</span> <span class='fu'>tidy_abs</span><span class='op'>(</span><span class='va'>wpi</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

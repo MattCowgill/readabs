@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.10.901</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
 
     <pre class="usage"><span class='fu'>read_payrolls</span><span class='op'>(</span>
   series <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"industry_jobs"</span>, <span class='st'>"sa4_jobs"</span>, <span class='st'>"sa3_jobs"</span>, <span class='st'>"subindustry_jobs"</span>,
-    <span class='st'>"empsize_jobs"</span><span class='op'>)</span>,
+    <span class='st'>"empsize_jobs"</span>, <span class='st'>"gccsa_jobs"</span>, <span class='st'>"sex_age_jobs"</span><span class='op'>)</span>,
   path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"R_READABS_PATH"</span>, unset <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -161,6 +161,9 @@
  industry division (Table 6)</p></li>
 <li><p>"empsize_jobs" Payroll jobs by size of employer (number of
  employees) and state (Table 7)</p></li>
+<li><p>"gccsa_jobs" Payroll jobs by Greater Capital City Statistical
+ Area (Table 5)</p></li>
+<li><p>"sex_age_jobs Payroll jobs by sex and age (Table 8)</p></li>
 </ul><p>The default is "industry_jobs".</p></td>
     </tr>
     <tr>
@@ -189,15 +192,15 @@ read in R. This convenience function uses `download_abs_data_cube()` to
 import the payrolls data, and then tidies it up.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># Fetch payroll jobs by industry and state (the default, "industry_jobs")</span>
-<span class='fu'>read_payrolls</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Payroll jobs by employer size</span>
-<span class='fu'>read_payrolls</span><span class='op'>(</span><span class='st'>"empsize_jobs"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># Fetch payroll jobs by industry and state (the default, "industry_jobs")</span></span>
+<span class='r-in'><span class='fu'>read_payrolls</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Payroll jobs by employer size</span></span>
+<span class='r-in'><span class='fu'>read_payrolls</span><span class='op'>(</span><span class='st'>"empsize_jobs"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
