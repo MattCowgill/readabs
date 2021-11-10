@@ -210,6 +210,8 @@ read_abs <- function(cat_no = NULL,
     .f = get_abs_xml_metadata
   )
 
+  # Ensure we're not getting spurious matches of table numbers
+
   # the same Series ID can appear in multiple spreadsheets;
   # we just want one (the latest)
 
@@ -300,4 +302,17 @@ read_abs <- function(cat_no = NULL,
 read_abs_series <- function(series_id, ...) {
   read_abs(series_id = series_id,
            ...)
+}
+
+match_tables <- function(table_list, requested_tables) {
+  requested <- paste0(requested_tables, collapse = "|")
+  requested <- paste0("[", requested, "]")
+  regex_pattern <- paste0("\\s",
+                          requested,
+                          "[^0-9]*$")
+
+  predot_matches <- regexpr(".*\\.", table_list)
+  table_list_predot <- regmatches(table_list, m = predot_matches)
+
+  grepl(regex_pattern, table_list_predot)
 }
