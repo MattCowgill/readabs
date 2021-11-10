@@ -53,7 +53,8 @@ read_payrolls <- function(series = c(
                             "sa3_jobs",
                             "subindustry_jobs",
                             "empsize_jobs",
-                            "gccsa_jobs"
+                            "gccsa_jobs",
+                            "sex_age_jobs"
                           ),
                           path = Sys.getenv("R_READABS_PATH",
                             unset = tempdir()
@@ -68,7 +69,8 @@ read_payrolls <- function(series = c(
     "sa3_jobs" = "DO005",
     "subindustry_jobs" = "DO006",
     "empsize_jobs" = "DO007",
-    "gccsa_jobs" = "DO005"
+    "gccsa_jobs" = "DO005",
+    "sex_age_jobs" = "DO008"
   )
 
   safely_download_cube <- purrr::safely(.f = ~ download_abs_data_cube(
@@ -105,7 +107,8 @@ read_payrolls <- function(series = c(
     "sa3_jobs" = "SA3",
     "subindustry_jobs" = "Payroll jobs index-Subdivision",
     "empsize_jobs" = "Employment size",
-    "gccsa_jobs" = "GCCSA"
+    "gccsa_jobs" = "GCCSA",
+    "sex_age_jobs" = "5 year age groups"
   )
 
   cube <- read_payrolls_local(
