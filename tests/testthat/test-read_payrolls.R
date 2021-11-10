@@ -19,7 +19,8 @@ test_that("read_payrolls() works", {
       "sa4_jobs",
       "sa3_jobs",
       "subindustry_jobs",
-      "empsize_jobs"
+      "empsize_jobs",
+      "gccsa_jobs"
     ),
     ~ check_payrolls(.x)
   )

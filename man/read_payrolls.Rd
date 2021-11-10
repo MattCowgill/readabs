@@ -6,7 +6,7 @@
 \usage{
 read_payrolls(
   series = c("industry_jobs", "sa4_jobs", "sa3_jobs", "subindustry_jobs",
-    "empsize_jobs"),
+    "empsize_jobs", "gccsa_jobs", "sex_age_jobs"),
   path = Sys.getenv("R_READABS_PATH", unset = tempdir())
 )
 }
@@ -22,6 +22,9 @@ read_payrolls(
  industry division (Table 6)}
  \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
  employees) and state (Table 7)}
+ \item{"gccsa_jobs"}{ Payroll jobs by Greater Capital City Statistical
+ Area (Table 5)}
+ \item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
 }
 The default is "industry_jobs".}
 

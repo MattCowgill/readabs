@@ -1,3 +1,6 @@
+# readabs 0.4.10.900
+* New options available in read_payrolls()
+
 # readabs 0.4.10
 * "industry_wages" is no longer an option in read_payrolls() as it has been removed from the data
 * Bug fixes
