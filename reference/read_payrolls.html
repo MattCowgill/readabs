@@ -141,8 +141,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>read_payrolls</span><span class='op'>(</span>
-  series <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"industry_jobs"</span>, <span class='st'>"sa4_jobs"</span>, <span class='st'>"sa3_jobs"</span>, <span class='st'>"subindustry_jobs"</span>,
-    <span class='st'>"empsize_jobs"</span>, <span class='st'>"gccsa_jobs"</span>, <span class='st'>"sex_age_jobs"</span><span class='op'>)</span>,
+  series <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"industry_jobs"</span>, <span class='st'>"industry_wages"</span>, <span class='st'>"sa4_jobs"</span>, <span class='st'>"sa3_jobs"</span>,
+    <span class='st'>"subindustry_jobs"</span>, <span class='st'>"empsize_jobs"</span>, <span class='st'>"gccsa_jobs"</span>, <span class='st'>"sex_age_jobs"</span><span class='op'>)</span>,
   path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"R_READABS_PATH"</span>, unset <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -153,6 +153,8 @@
       <th>series</th>
       <td><p>Character. Must be one of:</p><ul>
 <li><p>"industry_jobs" Payroll jobs by industry division, state, sex, and age
+ group (Table 4)</p></li>
+<li><p>"industry_wages" Total wages by industry division, state, sex, and age
  group (Table 4)</p></li>
 <li><p>"sa4_jobs" Payroll jobs by statistical area 4 (SA4) and state (Table 5)</p></li>
 <li><p>"sa3_jobs Payroll jobs by statistical area 4 (SA4), statistical
