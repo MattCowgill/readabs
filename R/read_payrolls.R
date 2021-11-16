@@ -16,6 +16,8 @@
 #' \itemize{
 #'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
 #'  group (Table 4)}
+#'  \item{"industry_wages"}{ Total wages by industry division, state, sex, and age
+#'  group (Table 4)}
 #'  \item{"sa4_jobs"}{ Payroll jobs by statistical area 4 (SA4) and state (Table 5)}
 #'  \item{"sa3_jobs}{ Payroll jobs by statistical area 4 (SA4), statistical
 #'  area 3 (SA3), and state (Table 5)}
@@ -50,6 +52,7 @@
 
 read_payrolls <- function(series = c(
                             "industry_jobs",
+                            "industry_wages",
                             "sa4_jobs",
                             "sa3_jobs",
                             "subindustry_jobs",
@@ -66,6 +69,7 @@ read_payrolls <- function(series = c(
 
   cube_name <- switch(series,
     "industry_jobs" = "DO004",
+    "industry_wages" = "DO004",
     "sa4_jobs" = "DO005",
     "sa3_jobs" = "DO005",
     "subindustry_jobs" = "DO006",
@@ -104,6 +108,7 @@ read_payrolls <- function(series = c(
 
   sheet_name <- switch(series,
     "industry_jobs" = "Payroll jobs index",
+    "industry_wages" = "Total wages index",
     "sa4_jobs" = "SA4",
     "sa3_jobs" = "SA3",
     "subindustry_jobs" = "Payroll jobs index-Subdivision",

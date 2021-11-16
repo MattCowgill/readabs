@@ -5,8 +5,8 @@
 \title{Download and tidy ABS payroll jobs and wages data}
 \usage{
 read_payrolls(
-  series = c("industry_jobs", "sa4_jobs", "sa3_jobs", "subindustry_jobs",
-    "empsize_jobs", "gccsa_jobs", "sex_age_jobs"),
+  series = c("industry_jobs", "industry_wages", "sa4_jobs", "sa3_jobs",
+    "subindustry_jobs", "empsize_jobs", "gccsa_jobs", "sex_age_jobs"),
   path = Sys.getenv("R_READABS_PATH", unset = tempdir())
 )
 }
@@ -14,6 +14,8 @@ read_payrolls(
 \item{series}{Character. Must be one of:
 \itemize{
  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
+ group (Table 4)}
+ \item{"industry_wages"}{ Total wages by industry division, state, sex, and age
  group (Table 4)}
  \item{"sa4_jobs"}{ Payroll jobs by statistical area 4 (SA4) and state (Table 5)}
  \item{"sa3_jobs}{ Payroll jobs by statistical area 4 (SA4), statistical
