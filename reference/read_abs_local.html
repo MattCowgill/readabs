@@ -84,19 +84,19 @@ When `cat_no` is specified, all local files in `path` corresponding to
 the specified catalogue number will be imported.
 For example, if you run `read_abs_local("6202.0")`, it will look in
 the `6202.0` sub-folder of `path` and attempt to load any
-.xls files in that location.
+.xls and .xlsx files in that location.
 If `cat_no`` is specified, `filenames` will be ignored.</p></dd>
 <dt>filenames</dt>
 <dd><p>character vector of at least one filename of a
 locally-stored ABS time series spreadsheet. For example, "6202001.xls" or
 c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to `cat_no`.
 If `filenames` is blank and `cat_no` is blank, `read_abs_local()` will
-attempt to read all .xls files in the directory specified with `path`.</p></dd>
+attempt to read all .xls and .xlsx files in the directory specified with `path`.</p></dd>
 <dt>path</dt>
 <dd><p>path to local directory containing ABS time series file(s).
 Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
  If nothing is specified in `filenames` or `cat_no`,
-`read_abs_local()` will attempt to read all .xls files in the directory
+`read_abs_local()` will attempt to read all .xls and .xlsx files in the directory
 specified with `path`.</p></dd>
 <dt>use_fst</dt>
 <dd><p>logical. If `TRUE` (the default) then, if an `fst` file of the
