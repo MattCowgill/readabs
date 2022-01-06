@@ -13,19 +13,19 @@
 #' the specified catalogue number will be imported.
 #' For example, if you run `read_abs_local("6202.0")`, it will look in
 #' the `6202.0` sub-folder of `path` and attempt to load any
-#' .xls files in that location.
+#' .xls and .xlsx files in that location.
 #' If `cat_no`` is specified, `filenames` will be ignored.
 #'
 #' @param filenames character vector of at least one filename of a
 #' locally-stored ABS time series spreadsheet. For example, "6202001.xls" or
 #' c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to `cat_no`.
 #' If `filenames` is blank and `cat_no` is blank, `read_abs_local()` will
-#' attempt to read all .xls files in the directory specified with `path`.
+#' attempt to read all .xls and .xlsx files in the directory specified with `path`.
 #'
 #' @param path path to local directory containing ABS time series file(s).
 #' Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
 #'  If nothing is specified in `filenames` or `cat_no`,
-#' `read_abs_local()` will attempt to read all .xls files in the directory
+#' `read_abs_local()` will attempt to read all .xls and .xlsx files in the directory
 #' specified with `path`.
 #'
 #' @param use_fst logical. If `TRUE` (the default) then, if an `fst` file of the
@@ -89,10 +89,10 @@ read_abs_local <- function(cat_no = NULL,
   if (!is.null(cat_no)) {
     path <- file.path(path, cat_no)
 
-    filenames <- list.files(path = path, pattern = "\\.xls$")
+    filenames <- list.files(path = path, pattern = "\\.(xls|xlsx)$")
 
     if (length(filenames) == 0) {
-      stop(paste0("Could not find any .xls files in path: '", path, "'"))
+      stop(paste0("Could not find any .xls or .xlsx files in path: '", path, "'"))
     }
 
     # If cat_no isn't specified and filenames isn't specified,
@@ -104,16 +104,16 @@ read_abs_local <- function(cat_no = NULL,
       path,
       "' and attempting to read all files.",
       "\nSpecify `cat_no` or filenames` if you do not wish to",
-      " attempt to import all .xls files in ",
+      " attempt to import all .xls(x) files in ",
       path
     ))
 
     # Get a list of all filenames in path, as `filenames` is null
 
-    filenames <- list.files(path = path, pattern = "\\.xls$")
+    filenames <- list.files(path = path, pattern = "\\.(xls|xlsx)$")
 
     if (length(filenames) == 0) {
-      stop(paste0("Could not find any .xls files in path: '", path, "'"))
+      stop(paste0("Could not find any .xls or .xlsx files in path: '", path, "'"))
     }
   }
 
