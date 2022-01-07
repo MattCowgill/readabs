@@ -20,6 +20,7 @@ test_that("match_tables() returns only requested tables", {
   t3 <- test_match_tables("5368.0", c("1", "12a"))
   expect_length(t3, 2)
 
+
   t4 <- test_match_tables("6401.0", "1")
   expect_length(t4, 1)
 
@@ -33,4 +34,8 @@ test_that("match_tables() returns only requested tables", {
   t7 <- test_match_tables("6202.0",
                           c("1", "4", "10a", "11", "11a", "12", "12a", "21"))
   expect_length(t7, 8)
+
+  t8 <- test_match_tables("5368.0", c("12a", "13a"))
+  expect_length(t8, 2)
+  expect_true(all(grepl("TABLE 12a|TABLE 13a", t8)))
 })
