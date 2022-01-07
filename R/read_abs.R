@@ -317,5 +317,5 @@ match_tables <- function(table_list, requested_tables) {
   predot_matches <- regexpr(".*\\.", table_list)
   table_list_predot <- regmatches(table_list, m = predot_matches)
 
-  grepl(regex_pattern, table_list_predot, perl = TRUE)
+  grepl(regex_pattern, table_list_predot, perl = TRUE, ignore.case = TRUE)
 }
