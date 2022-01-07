@@ -211,10 +211,12 @@ read_abs <- function(cat_no = NULL,
   )
 
   # Ensure we're not getting spurious matches of table numbers
+  if (tables != "all" && is.null(series_id)) {
+    xml_dfs <- xml_dfs[match_tables(xml_dfs$TableTitle, tables), ]
+  }
 
   # the same Series ID can appear in multiple spreadsheets;
   # we just want one (the latest)
-
   if (!is.null(series_id)) {
     xml_dfs <- xml_dfs %>%
       dplyr::group_by(SeriesID) %>%
