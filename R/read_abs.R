@@ -306,13 +306,14 @@ read_abs_series <- function(series_id, ...) {
 
 match_tables <- function(table_list, requested_tables) {
   requested <- paste0(requested_tables, collapse = "|")
-  requested <- paste0("[", requested, "]")
-  regex_pattern <- paste0("\\s",
-                          requested,
-                          "[^0-9]*$")
+  # Looking for table number preceded by a space or a 0, and
+  # followed my a full stop or a space
+  regex_pattern <- paste0("(?<=\\s|0)",
+                          "(", requested, ")",
+                          "(?=\\.|\\s)")
 
   predot_matches <- regexpr(".*\\.", table_list)
   table_list_predot <- regmatches(table_list, m = predot_matches)
 
-  grepl(regex_pattern, table_list_predot)
+  grepl(regex_pattern, table_list_predot, perl = TRUE)
 }
