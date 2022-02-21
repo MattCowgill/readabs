@@ -96,22 +96,22 @@
 
     
     
-<div class="section level1">
-<h1 id="about-readabs">About {readabs}<a class="anchor" aria-label="anchor" href="#about-readabs"></a>
-</h1>
+<div class="section level2">
+<h2 id="about-readabs">About {readabs}<a class="anchor" aria-label="anchor" href="#about-readabs"></a>
+</h2>
 <p>The <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> package helps you work with two types of data released by the Australian Bureau of Statistics: <strong>time series spreadsheets</strong> and <strong>data cubes</strong>.</p>
 <p>All ABS time series spreadsheets look like this – with the series in the first row, then 9 further rows of metadata, then the data.</p>
 <p><img src="VIGNETTE-ts-example.png" width="100%"></p>
 <p>Data cubes can look like anything – if it’s not formatted like the screenshot above, it’s a data cube.</p>
 <p>This vignette provides information about how to use <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> to work with each of these data types.</p>
 </div>
-<div class="section level1">
-<h1 id="working-with-abs-time-series-data">Working with ABS time series data<a class="anchor" aria-label="anchor" href="#working-with-abs-time-series-data"></a>
-</h1>
-<p>One key function – <code><a href="../reference/read_abs.html">read_abs()</a></code> – downloads, imports, and tidies ABS time series data.</p>
 <div class="section level2">
-<h2 id="abs-time-series-data-is-messy">ABS time series data is messy<a class="anchor" aria-label="anchor" href="#abs-time-series-data-is-messy"></a>
+<h2 id="working-with-abs-time-series-data">Working with ABS time series data<a class="anchor" aria-label="anchor" href="#working-with-abs-time-series-data"></a>
 </h2>
+<p>One key function – <code><a href="../reference/read_abs.html">read_abs()</a></code> – downloads, imports, and tidies ABS time series data.</p>
+<div class="section level3">
+<h3 id="abs-time-series-data-is-messy">ABS time series data is messy<a class="anchor" aria-label="anchor" href="#abs-time-series-data-is-messy"></a>
+</h3>
 <p>If you want to visualise or analyse data in R, you will often need to tidy it first. In <a href="http://vita.had.co.nz/papers/tidy-data.html" class="external-link">tidy data</a>:</p>
 <ol style="list-style-type: decimal">
 <li>Each variable forms a column.</li>
@@ -127,17 +127,17 @@
 </ul>
 <p><img src="VIGNETTE-spreadsheet-screenshot.png" width="100%"></p>
 </div>
-<div class="section level2">
-<h2 id="download-import-and-tidy-time-series-data">Download, import, and tidy time series data<a class="anchor" aria-label="anchor" href="#download-import-and-tidy-time-series-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="download-import-and-tidy-time-series-data">Download, import, and tidy time series data<a class="anchor" aria-label="anchor" href="#download-import-and-tidy-time-series-data"></a>
+</h3>
 <p><code><a href="../reference/read_abs.html">read_abs()</a></code> is the main function of the <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> package. First, let’s load <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> and a couple of other packages we’ll use for demonstration purposes:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></code></pre></div>
-<div class="section level3">
-<h3 id="getting-a-whole-catalogue-number-worth-of-time-series-data">Getting a whole catalogue number worth of time series data<a class="anchor" aria-label="anchor" href="#getting-a-whole-catalogue-number-worth-of-time-series-data"></a>
-</h3>
+<div class="section level4">
+<h4 id="getting-a-whole-catalogue-number-worth-of-time-series-data">Getting a whole catalogue number worth of time series data<a class="anchor" aria-label="anchor" href="#getting-a-whole-catalogue-number-worth-of-time-series-data"></a>
+</h4>
 <p>If you give <code><a href="../reference/read_abs.html">read_abs()</a></code> an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. Easy!</p>
 <p>For example, to get all the spreadsheets from the Wage Price Index, catalogue number 6345.0, we’d do:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -147,14 +147,14 @@
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wpi</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="co">#&gt;   table_no sheet_no table_title   date       series  value series_type data_type</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  67.4 Original    INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  64.7 Original    INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  66.7 Original    INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  67.3 Seasonally… INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  64.8 Seasonally… INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. Tot… 1997-09-01 Quarte…  66.6 Seasonally… INDEX    </span>
+<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  67.4 Original    INDEX    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  64.7 Original    INDEX    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  66.7 Original    INDEX    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  67.3 Seasonally… INDEX    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  64.8 Seasonally… INDEX    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  66.6 Seasonally… INDEX    </span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></span></code></pre></div>
 <p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you’ll have a data frame with well over 2 million rows.</p>
@@ -183,9 +183,9 @@
 </ul>
 <p>The <code>table_no</code> and <code>sheet_no</code> columns will help you if you need to cross-check information on the ABS spreadsheet - <code>table_no</code> matches the filename of the spreadsheet (eg. ‘634501.xls’) and <code>sheet_no</code> is the name of the Excel worksheet within the file that contains the time series.</p>
 </div>
-<div class="section level3">
-<h3 id="get-individual-tables">Get individual table(s)<a class="anchor" aria-label="anchor" href="#get-individual-tables"></a>
-</h3>
+<div class="section level4">
+<h4 id="get-individual-tables">Get individual table(s)<a class="anchor" aria-label="anchor" href="#get-individual-tables"></a>
+</h4>
 <p>Unless you tell it otherwise, <code><a href="../reference/read_abs.html">read_abs()</a></code> will get all the time series spreadsheets from a given catalogue number.</p>
 <p>Generally this will be overkill. Maybe you don’t want all ~2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the <code>tables</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code> to specify the table(s) you want:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -222,9 +222,9 @@
 <span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="get-time-series-using-their-ids">Get time series using their IDs<a class="anchor" aria-label="anchor" href="#get-time-series-using-their-ids"></a>
-</h3>
+<div class="section level4">
+<h4 id="get-time-series-using-their-ids">Get time series using their IDs<a class="anchor" aria-label="anchor" href="#get-time-series-using-their-ids"></a>
+</h4>
 <p>Every ABS time series has a unique identifier. If you know the ID for the time series you need, you can supply it to the <code>series_id</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code>. You can give it a single ID, or multiple IDs.</p>
 <p>For example, the time series ID for the number of employed people in Australia (trend) is <code>"A84423127L"</code>. We can get a data frame that only contains that series as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -248,9 +248,9 @@
 <p>A benefit of this approach is that the filtering is done for you - the data frame only contains the series you’re interested in.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="use-separate_series-to-work-with-your-time-series-data">Use <code>separate_series()</code> to work with your time series data<a class="anchor" aria-label="anchor" href="#use-separate_series-to-work-with-your-time-series-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="use-separate_series-to-work-with-your-time-series-data">Use <code>separate_series()</code> to work with your time series data<a class="anchor" aria-label="anchor" href="#use-separate_series-to-work-with-your-time-series-data"></a>
+</h3>
 <p>The <code>series</code> column of a table imported using <code><a href="../reference/read_abs.html">read_abs()</a></code> often contains a long, multi-part string, as this is how the ABS labels its series. This is where the <code><a href="../reference/separate_series.html">separate_series()</a></code> function comes in handy.</p>
 <p>In this example, we’ll work with data from the Labour Force survey that we downloaded and tidied earlier using <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
 <p>Now let’s have a look at the time series from table 1 of the Labour Force survey:</p>
@@ -308,7 +308,8 @@
 <span class="va">lfs_1_sep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">series_1</span>, <span class="va">series_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` has grouped output by 'series_1'. You can override using the `.groups` argument.</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'series_1'. You can override using the</span>
+<span class="co">#&gt; `.groups` argument.</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 42 × 2</span></span>
 <span class="co">#&gt; <span style="color: #949494;"># Groups:   series_1 [14]</span></span>
 <span class="co">#&gt;    series_1                                   series_2</span>
@@ -364,9 +365,9 @@
 <p><img src="VIGNETTE-graph-unemp-1.png" width="1458.33333333333"></p>
 <p>Ta-da! Now we’ve got a nice little graph - and you didn’t need to go to the ABS website or click around in Excel.</p>
 </div>
-<div class="section level2">
-<h2 id="importing-and-tidying-local-time-series-spreadsheets">Importing and tidying local time series spreadsheets<a class="anchor" aria-label="anchor" href="#importing-and-tidying-local-time-series-spreadsheets"></a>
-</h2>
+<div class="section level3">
+<h3 id="importing-and-tidying-local-time-series-spreadsheets">Importing and tidying local time series spreadsheets<a class="anchor" aria-label="anchor" href="#importing-and-tidying-local-time-series-spreadsheets"></a>
+</h3>
 <p>If you already have ABS time series spreadsheets saved locally that you want to read, the <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> function is what you want.</p>
 <p>If you’ve downloaded files using <code><a href="../reference/read_abs.html">read_abs()</a></code>, you can import them using <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> by specifying the catalogue number. This will look in the subdirectory of <code>path</code> that corresponds to <code>cat_no</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -374,29 +375,29 @@
 <p>The data frame you’ll get will look the same as if you’d used <code><a href="../reference/read_abs.html">read_abs()</a></code> to get the spreadsheet(s) from the ABS website.</p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="working-with-abs-data-cubes">Working with ABS data cubes<a class="anchor" aria-label="anchor" href="#working-with-abs-data-cubes"></a>
-</h1>
+<div class="section level2">
+<h2 id="working-with-abs-data-cubes">Working with ABS data cubes<a class="anchor" aria-label="anchor" href="#working-with-abs-data-cubes"></a>
+</h2>
 <p>All ABS time series spreadsheets are alike. Each ABS data cube is formatted in its own unique way.</p>
 <p>There is no data cube equivalent of the <code><a href="../reference/read_abs.html">read_abs()</a></code> function that will download, import, and tidy any data cube for you. But <code><a href="../reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> can download any data cube, for you to then manually import and tidy. Use <code><a href="../reference/show_available_catalogues.html">show_available_catalogues()</a></code> to see all the possible catalogues, <code><a href="../reference/search_catalogues.html">search_catalogues()</a></code> to find catalogues that contain a given string (in the catalogue name itself, or the topic). Similarly, use <code><a href="../reference/show_available_files.html">show_available_files()</a></code> to find all the filenames in a given catalogue, or <code><a href="../reference/search_files.html">search_files()</a></code> to look for filenames within a catalogue that contain a particular string.</p>
 <p>Convenience functions - <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code> and <code><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows()</a></code> are included to download, import, and tidy particular commonly-used data cubes.</p>
-<div class="section level2">
-<h2 id="download-data-cubes">Download data cubes<a class="anchor" aria-label="anchor" href="#download-data-cubes"></a>
-</h2>
+<div class="section level3">
+<h3 id="download-data-cubes">Download data cubes<a class="anchor" aria-label="anchor" href="#download-data-cubes"></a>
+</h3>
 <p>Any ABS data cube can be downloaded using the <code><a href="../reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> function. You need to specify the name of the catalogue (<code>catalogue_string</code>), and the filename (in whole or unique part) of the file you want to download (<code>cube</code>).</p>
 <p>Let’s say I want to download cube GM1, the gross flows spreadsheet from the monthly Labour Force release.</p>
 <p>Let’s look for the name of the catalogue:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span>
-<span class="co">#&gt;   heading                     sub_heading        catalogue        url           </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Employment and unemployment Labour Force Stat… labour-force-st… https://www.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Employment and unemployment Barriers and Ince… barriers-and-in… https://www.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Employment and unemployment Labour Force, Aus… labour-force-au… https://www.a…</span></code></pre>
+<span class="co">#&gt;   heading                     sub_heading                        catalogue url  </span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Employment and unemployment Labour Force, Australia            labour-f… http…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Employment and unemployment Labour Force, Australia, Detailed  labour-f… http…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Employment and unemployment Labour Force Status of Families    labour-f… http…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Employment and unemployment Barriers and Incentives to Labour… barriers… http…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Employment and unemployment Labour Force, Australia, Detailed… labour-f… http…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Employment and unemployment Labour Force, Australia - Rebench… labour-f… http…</span></code></pre>
 <p>It looks like <code>labour-force-australia</code> is the catalogue name for the monthly Labour Force survey.</p>
 <p>Now I need to find the filename for the gross flows spreadsheet, GM1.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -410,13 +411,13 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">gm1_path</span><span class="op">)</span></code></pre></div>
 <p>Now we have an Excel sheet saved at that path, which you can import using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code> or the Excel-reading function of your choice.</p>
 </div>
-<div class="section level2">
-<h2 id="download-import-and-tidy-key-data-cubes">Download, import and tidy key data cubes<a class="anchor" aria-label="anchor" href="#download-import-and-tidy-key-data-cubes"></a>
-</h2>
-<p>For most data cubes, you’ll need to write your own code to import and tidy the data. But for some key cubes, convenience functions are provided.</p>
 <div class="section level3">
-<h3 id="labour-force-gross-flows">Labour force gross flows<a class="anchor" aria-label="anchor" href="#labour-force-gross-flows"></a>
+<h3 id="download-import-and-tidy-key-data-cubes">Download, import and tidy key data cubes<a class="anchor" aria-label="anchor" href="#download-import-and-tidy-key-data-cubes"></a>
 </h3>
+<p>For most data cubes, you’ll need to write your own code to import and tidy the data. But for some key cubes, convenience functions are provided.</p>
+<div class="section level4">
+<h4 id="labour-force-gross-flows">Labour force gross flows<a class="anchor" aria-label="anchor" href="#labour-force-gross-flows"></a>
+</h4>
 <p>The labour force gross flows cube is one of the cubes for which <code>readabs</code> includes a convenience function, <code><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows()</a></code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -424,18 +425,18 @@
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span>
-<span class="co">#&gt;   date       sex   age    state lfs_current lfs_previous   persons unit  weights</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2001-03-01 Males 15-19… New … Employed f… Employed full…  28.5   000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2001-03-01 Males 15-19… New … Employed f… Employed part…   1.93  000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2001-03-01 Males 15-19… New … Employed f… Unemployed       2.93  000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2001-03-01 Males 15-19… New … Employed f… Not in the la…   0.334 000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2001-03-01 Males 15-19… New … Employed f… Unmatched in …   1.63  000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2001-03-01 Males 15-19… New … Employed f… Incoming rota…   7.57  000s  curren…</span></code></pre></div>
+<span class="co">#&gt;   date       sex   age      state lfs_current lfs_previous persons unit  weights</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2001-03-01 Males 15-19 y… New … Employed f… Employed fu…  28.5   000s  curren…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2001-03-01 Males 15-19 y… New … Employed f… Employed pa…   1.93  000s  curren…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2001-03-01 Males 15-19 y… New … Employed f… Unemployed     2.93  000s  curren…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2001-03-01 Males 15-19 y… New … Employed f… Not in the …   0.334 000s  curren…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2001-03-01 Males 15-19 y… New … Employed f… Unmatched i…   1.63  000s  curren…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2001-03-01 Males 15-19 y… New … Employed f… Incoming ro…   7.57  000s  curren…</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="abs-weekly-payroll-jobs-and-wages">ABS Weekly Payroll Jobs and Wages<a class="anchor" aria-label="anchor" href="#abs-weekly-payroll-jobs-and-wages"></a>
-</h3>
+<div class="section level4">
+<h4 id="abs-weekly-payroll-jobs-and-wages">ABS Weekly Payroll Jobs and Wages<a class="anchor" aria-label="anchor" href="#abs-weekly-payroll-jobs-and-wages"></a>
+</h4>
 <p>The ABS Weekly Payroll Jobs and Wages release contains a range of useful information. Even though this release contains time series data, the ABS does not release it in its standard time series spreadsheet format, and <code><a href="../reference/read_abs.html">read_abs()</a></code> therefore cannot import it. The <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code> function can be used instead.</p>
 <p>Let’s say you want to download the jobs figures, as index numbers, for each geographical area (SA3) over time. That’s straightforward with <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -455,9 +456,9 @@
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="choosing-where-abs-data-is-saved">Choosing where ABS data is saved<a class="anchor" aria-label="anchor" href="#choosing-where-abs-data-is-saved"></a>
-</h1>
+<div class="section level2">
+<h2 id="choosing-where-abs-data-is-saved">Choosing where ABS data is saved<a class="anchor" aria-label="anchor" href="#choosing-where-abs-data-is-saved"></a>
+</h2>
 <p>The <code><a href="../reference/read_abs.html">read_abs()</a></code> function downloads spreadsheets from the ABS website to your machine, then loads them into R, then tidies them.</p>
 <p>By default, the spreadsheets will be saved in the directory specified by the environment variable <code>R_READABS_PATH</code>. If this variable isn’t set, the spreadsheets are saved to a temporary directory. You can change this location for a specific instance by using the <code>path</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
 <p>Keeping the spreadsheets is often a good idea. But if you don’t want to retain them, no problem. Just specify <code>retain_files = FALSE</code> when you use <code><a href="../reference/read_abs.html">read_abs()</a></code>. The spreadsheets will still be downloaded, but they’ll be stored in a temporary directory that is flushed when your R session ends.</p>
@@ -481,7 +482,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
