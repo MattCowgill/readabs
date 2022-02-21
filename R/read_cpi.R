@@ -55,8 +55,6 @@ read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
     )
   }
 
-  series <- value <- date <- cpi <- NULL
-
   cpi_raw <- read_abs(
     cat_no = "6401.0",
     tables = 1,
@@ -68,10 +66,10 @@ read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
 
   x <- cpi_raw %>%
     dplyr::filter(
-      series == "Index Numbers ;  All groups CPI ;  Australia ;"
+      .data$series == "Index Numbers ;  All groups CPI ;  Australia ;"
     ) %>%
-    dplyr::select(date,
-      cpi = value
+    dplyr::select(.data$date,
+      "cpi" = .data$value
     )
 
   x
