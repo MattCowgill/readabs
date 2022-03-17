@@ -28,8 +28,8 @@ test_that("match_tables() returns only requested tables", {
   expect_length(t5, 1)
   expect_identical(t5, t4) # Tables 1 and 2 are combined in 6401.0
 
-  t6 <- test_match_tables("6291.0.55.001", c("1", "24b"))
-  expect_length(t6, 2)
+  t6 <- test_match_tables("6291.0.55.001", "1")
+  expect_length(t6, 1)
 
   t7 <- test_match_tables("6202.0",
                           c("1", "4", "10a", "11", "11a", "12", "12a", "21"))
