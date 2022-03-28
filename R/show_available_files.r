@@ -76,6 +76,10 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
     rvest::html_nodes(".file a") %>%
     rvest::html_attr("href")
 
+  urls <- ifelse(stringi::stri_sub(urls, 2L, 11L) == "statistics",
+                 paste0("https://www.abs.gov.au", urls),
+                 urls)
+
   labels <- download_page %>%
     rvest::html_nodes(".abs-data-download-left") %>%
     rvest::html_text()
