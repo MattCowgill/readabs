@@ -1,7 +1,7 @@
 
 ## Test environments
 
-* local macOS 11.1 install, R 4.0.3
+* local macOS 12 install, R release
 * macOS-latest, R release (GitHub Actions)
 * windows-latest, R release (GitHub Actions)
 * ubuntu 20.04, R release (GitHub Actions)
