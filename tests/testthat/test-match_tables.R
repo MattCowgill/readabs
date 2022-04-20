@@ -7,6 +7,8 @@ test_match_tables <- function(cat_no, tables) {
 
 test_that("match_tables() returns only requested tables", {
 
+  skip_on_cran()
+
   t1 <- test_match_tables("5368.0", "1")
   expect_length(t1, 1)
   expect_true(grepl("TABLE 1.", t1))
