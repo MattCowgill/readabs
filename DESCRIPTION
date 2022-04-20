@@ -6,7 +6,10 @@ Authors@R: c(
            person("Zoe", "Meers", role = "aut", email = "zoe.meers@sydney.edu.au"),
            person("Jaron", "Lee", role = "aut", email = "jaron.lee@sydney.edu.au"),
            person("David", "Diviny", role = "aut", email = "David.Diviny@nousgroup.com.au"),
-           person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"))
+           person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"),
+           person("Bas", "Latcham", role = "ctb", email = "bas@latcham.com.au",
+           comment = c(ORCID = "0000-0002-1733-7350"))
+           )
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
