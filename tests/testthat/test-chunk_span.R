@@ -28,6 +28,7 @@ test_that("chunk_span works", {
   chunks %>%
     purrr::walk2(
       .y = c(13, 1, 13, 13, last_length),
-      expect_length
+      expect_length,
+
     )
 })
