@@ -64,6 +64,7 @@ There are some other functions you may find useful.
     Weekly Payroll Jobs dataset.
 -   `read_awe()` returns a long time series of Average Weekly Earnings
     data.
+- `read_abs_api()` queries data from the [Data Explorer API](https://explore.data.abs.gov.au/)
 
 ## Download, import, and tidy ABS time series data
 
@@ -215,17 +216,17 @@ payrolls_t4_path %>%
                      skip = 5)
 #> # A tibble: 4,322 × 93
 #>    `State or Territ… `Industry divisi… Sex   `Age group` `43834` `43841` `43848`
-#>    <chr>             <chr>             <chr> <chr>       <chr>   <chr>   <chr>  
-#>  1 0. Australia      0. All industries 0. P… 0. All ages 92.86   95.3    96.84  
-#>  2 0. Australia      0. All industries 0. P… 1. 15-19    91.01   94.01   96.65  
-#>  3 0. Australia      0. All industries 0. P… 2. 20-29    92.03   95.02   97.16  
-#>  4 0. Australia      0. All industries 0. P… 3. 30-39    93.55   95.86   97.2   
-#>  5 0. Australia      0. All industries 0. P… 4. 40-49    93.55   95.66   96.87  
-#>  6 0. Australia      0. All industries 0. P… 5. 50-59    93.61   95.83   97.09  
-#>  7 0. Australia      0. All industries 0. P… 6. 60-69    91.62   93.78   94.97  
-#>  8 0. Australia      0. All industries 0. P… 7. 70 and … 87.11   89.39   90.65  
-#>  9 0. Australia      0. All industries 1. M… 0. All ages 92.62   95.7    97.5   
-#> 10 0. Australia      0. All industries 1. M… 1. 15-19    89.54   93.5    96.52  
+#>    <chr>             <chr>             <chr> <chr>       <chr>   <chr>   <chr>
+#>  1 0. Australia      0. All industries 0. P… 0. All ages 92.86   95.3    96.84
+#>  2 0. Australia      0. All industries 0. P… 1. 15-19    91.01   94.01   96.65
+#>  3 0. Australia      0. All industries 0. P… 2. 20-29    92.03   95.02   97.16
+#>  4 0. Australia      0. All industries 0. P… 3. 30-39    93.55   95.86   97.2
+#>  5 0. Australia      0. All industries 0. P… 4. 40-49    93.55   95.66   96.87
+#>  6 0. Australia      0. All industries 0. P… 5. 50-59    93.61   95.83   97.09
+#>  7 0. Australia      0. All industries 0. P… 6. 60-69    91.62   93.78   94.97
+#>  8 0. Australia      0. All industries 0. P… 7. 70 and … 87.11   89.39   90.65
+#>  9 0. Australia      0. All industries 1. M… 0. All ages 92.62   95.7    97.5
+#> 10 0. Australia      0. All industries 1. M… 1. 15-19    89.54   93.5    96.52
 #> # … with 4,312 more rows, and 86 more variables: 43855 <chr>, 43862 <chr>,
 #> #   43869 <chr>, 43876 <chr>, 43883 <chr>, 43890 <chr>, 43897 <chr>,
 #> #   43904 <chr>, 43911 <chr>, 43918 <chr>, 43925 <chr>, 43932 <chr>,
@@ -247,17 +248,17 @@ read_payrolls()
 #> File downloaded in /var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//Rtmp3viWaA/6160055001_DO004.xlsx
 #> # A tibble: 76,718 × 7
 #>    state     industry       sex     age      date       value series
-#>    <chr>     <chr>          <chr>   <chr>    <date>     <dbl> <chr> 
-#>  1 Australia All industries Persons All ages 2020-01-04  92.9 jobs  
-#>  2 Australia All industries Persons All ages 2020-01-11  95.3 jobs  
-#>  3 Australia All industries Persons All ages 2020-01-18  96.8 jobs  
-#>  4 Australia All industries Persons All ages 2020-01-25  97.7 jobs  
-#>  5 Australia All industries Persons All ages 2020-02-01  98.2 jobs  
-#>  6 Australia All industries Persons All ages 2020-02-08  98.7 jobs  
-#>  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs  
-#>  8 Australia All industries Persons All ages 2020-02-22  99.4 jobs  
-#>  9 Australia All industries Persons All ages 2020-02-29  99.3 jobs  
-#> 10 Australia All industries Persons All ages 2020-03-07  99.8 jobs  
+#>    <chr>     <chr>          <chr>   <chr>    <date>     <dbl> <chr>
+#>  1 Australia All industries Persons All ages 2020-01-04  92.9 jobs
+#>  2 Australia All industries Persons All ages 2020-01-11  95.3 jobs
+#>  3 Australia All industries Persons All ages 2020-01-18  96.8 jobs
+#>  4 Australia All industries Persons All ages 2020-01-25  97.7 jobs
+#>  5 Australia All industries Persons All ages 2020-02-01  98.2 jobs
+#>  6 Australia All industries Persons All ages 2020-02-08  98.7 jobs
+#>  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs
+#>  8 Australia All industries Persons All ages 2020-02-22  99.4 jobs
+#>  9 Australia All industries Persons All ages 2020-02-29  99.3 jobs
+#> 10 Australia All industries Persons All ages 2020-03-07  99.8 jobs
 #> # … with 76,708 more rows
 ```
 
@@ -269,7 +270,7 @@ read_lfs_grossflows()
 #> File downloaded in /var/folders/_4/ngvkm2811nbd8b_v66wytw1r0000gn/T//Rtmp3viWaA/GM1.xlsx
 #> # A tibble: 1,034,860 × 9
 #>    date       sex   age    state lfs_current lfs_previous  persons unit  weights
-#>    <date>     <chr> <chr>  <chr> <chr>       <chr>           <dbl> <chr> <chr>  
+#>    <date>     <chr> <chr>  <chr> <chr>       <chr>           <dbl> <chr> <chr>
 #>  1 2001-10-01 Males 15-19… New … Employed f… Employed ful…  28.7   000s  curren…
 #>  2 2001-10-01 Males 15-19… New … Employed f… Employed par…   3.02  000s  curren…
 #>  3 2001-10-01 Males 15-19… New … Employed f… Unemployed      0.830 000s  curren…
