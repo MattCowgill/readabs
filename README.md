@@ -217,17 +217,17 @@ payrolls_t4_path %>%
                      skip = 5)
 #> # A tibble: 4,322 x 119
 #>    `State or Territ~` `Industry divi~` Sex   `Age group` `43834` `43841` `43848`
-#>    <chr>              <chr>            <chr> <chr>       <chr>   <chr>   <chr>  
-#>  1 0. Australia       0. All industri~ 0. P~ 0. All ages 92.9    95.34   96.88  
-#>  2 0. Australia       0. All industri~ 0. P~ 1. 15-19    91.05   93.98   96.6   
-#>  3 0. Australia       0. All industri~ 0. P~ 2. 20-29    92.07   95.05   97.18  
-#>  4 0. Australia       0. All industri~ 0. P~ 3. 30-39    93.6    95.92   97.24  
-#>  5 0. Australia       0. All industri~ 0. P~ 4. 40-49    93.58   95.7    96.92  
-#>  6 0. Australia       0. All industri~ 0. P~ 5. 50-59    93.65   95.89   97.15  
-#>  7 0. Australia       0. All industri~ 0. P~ 6. 60-69    91.65   93.83   95     
-#>  8 0. Australia       0. All industri~ 0. P~ 7. 70 and ~ 87.17   89.44   90.69  
-#>  9 0. Australia       0. All industri~ 1. M~ 0. All ages 92.67   95.73   97.51  
-#> 10 0. Australia       0. All industri~ 1. M~ 1. 15-19    89.59   93.44   96.37  
+#>    <chr>              <chr>            <chr> <chr>       <chr>   <chr>   <chr>
+#>  1 0. Australia       0. All industri~ 0. P~ 0. All ages 92.9    95.34   96.88
+#>  2 0. Australia       0. All industri~ 0. P~ 1. 15-19    91.05   93.98   96.6
+#>  3 0. Australia       0. All industri~ 0. P~ 2. 20-29    92.07   95.05   97.18
+#>  4 0. Australia       0. All industri~ 0. P~ 3. 30-39    93.6    95.92   97.24
+#>  5 0. Australia       0. All industri~ 0. P~ 4. 40-49    93.58   95.7    96.92
+#>  6 0. Australia       0. All industri~ 0. P~ 5. 50-59    93.65   95.89   97.15
+#>  7 0. Australia       0. All industri~ 0. P~ 6. 60-69    91.65   93.83   95
+#>  8 0. Australia       0. All industri~ 0. P~ 7. 70 and ~ 87.17   89.44   90.69
+#>  9 0. Australia       0. All industri~ 1. M~ 0. All ages 92.67   95.73   97.51
+#> 10 0. Australia       0. All industri~ 1. M~ 1. 15-19    89.59   93.44   96.37
 #> # ... with 4,312 more rows, and 112 more variables: `43855` <chr>,
 #> #   `43862` <chr>, `43869` <chr>, `43876` <chr>, `43883` <chr>, `43890` <chr>,
 #> #   `43897` <chr>, `43904` <chr>, `43911` <chr>, `43918` <chr>, `43925` <chr>,
@@ -249,17 +249,17 @@ read_payrolls()
 #> File downloaded in C:\Users\abasi\AppData\Local\Temp\Rtmp8qaroF/6160055001_DO004.xlsx
 #> # A tibble: 99,130 x 7
 #>    state     industry       sex     age      date       value series
-#>    <chr>     <chr>          <chr>   <chr>    <date>     <dbl> <chr> 
-#>  1 Australia All industries Persons All ages 2020-01-04  92.9 jobs  
-#>  2 Australia All industries Persons All ages 2020-01-11  95.3 jobs  
-#>  3 Australia All industries Persons All ages 2020-01-18  96.9 jobs  
-#>  4 Australia All industries Persons All ages 2020-01-25  97.7 jobs  
-#>  5 Australia All industries Persons All ages 2020-02-01  98.2 jobs  
-#>  6 Australia All industries Persons All ages 2020-02-08  98.7 jobs  
-#>  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs  
-#>  8 Australia All industries Persons All ages 2020-02-22  99.4 jobs  
-#>  9 Australia All industries Persons All ages 2020-02-29  99.3 jobs  
-#> 10 Australia All industries Persons All ages 2020-03-07  99.8 jobs  
+#>    <chr>     <chr>          <chr>   <chr>    <date>     <dbl> <chr>
+#>  1 Australia All industries Persons All ages 2020-01-04  92.9 jobs
+#>  2 Australia All industries Persons All ages 2020-01-11  95.3 jobs
+#>  3 Australia All industries Persons All ages 2020-01-18  96.9 jobs
+#>  4 Australia All industries Persons All ages 2020-01-25  97.7 jobs
+#>  5 Australia All industries Persons All ages 2020-02-01  98.2 jobs
+#>  6 Australia All industries Persons All ages 2020-02-08  98.7 jobs
+#>  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs
+#>  8 Australia All industries Persons All ages 2020-02-22  99.4 jobs
+#>  9 Australia All industries Persons All ages 2020-02-29  99.3 jobs
+#> 10 Australia All industries Persons All ages 2020-03-07  99.8 jobs
 #> # ... with 99,120 more rows
 ```
 
@@ -271,7 +271,7 @@ read_lfs_grossflows()
 #> File downloaded in C:\Users\abasi\AppData\Local\Temp\Rtmp8qaroF/GM1.xlsx
 #> # A tibble: 1,033,765 x 9
 #>    date       sex   age     state lfs_current lfs_previous persons unit  weights
-#>    <date>     <chr> <chr>   <chr> <chr>       <chr>          <dbl> <chr> <chr>  
+#>    <date>     <chr> <chr>   <chr> <chr>       <chr>          <dbl> <chr> <chr>
 #>  1 2002-04-01 Males 15-19 ~ New ~ Employed f~ Employed fu~  29.4   000s  curren~
 #>  2 2002-04-01 Males 15-19 ~ New ~ Employed f~ Employed pa~   3.10  000s  curren~
 #>  3 2002-04-01 Males 15-19 ~ New ~ Employed f~ Unemployed     0.656 000s  curren~
