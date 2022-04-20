@@ -1,4 +1,5 @@
 # readabs (development version)
+* Adds `read_abs_api()` (and a supporting cast of helper functions) to query the Data Explorer API
 
 # readabs 0.4.12
 * Bug fixes
@@ -94,7 +95,7 @@
 * Matt Cowgill is the new maintainer and author of `readabs`
 * Fixed issue (#1) with blank column names that arose from new name repair behaviour in tibble 2.0.0
 
-# readabs 0.2.1 
+# readabs 0.2.1
 * Add descriptive information to `read_abs_sdmx()`
 
 # readabs 0.2.0
@@ -104,4 +105,3 @@
 
 # readabs 0.1.0
 * Name change from abs to readabs
-
