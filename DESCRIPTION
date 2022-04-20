@@ -2,7 +2,7 @@ Package: readabs
 Type: Package
 Title: Download and Tidy Time Series Data from the Australian Bureau of
     Statistics
-Version: 0.4.12
+Version: 0.4.12.9000
 Date: 2022-04-15
 Authors@R: c(
     person("Matt", "Cowgill", , "mattcowgill@gmail.com", role = c("aut", "cre"),
