@@ -1,19 +1,22 @@
+Package: readabs
 Type: Package
-Title: Download and Tidy Time Series Data from the Australian Bureau of Statistics
+Title: Download and Tidy Time Series Data from the Australian Bureau of
+    Statistics
 Version: 0.4.12
+Date: 2022-04-15
 Authors@R: c(
-           person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com", comment = c(ORCID = "0000-0003-0422-3300")),
-           person("Zoe", "Meers", role = "aut", email = "zoe.meers@sydney.edu.au"),
-           person("Jaron", "Lee", role = "aut", email = "jaron.lee@sydney.edu.au"),
-           person("David", "Diviny", role = "aut", email = "David.Diviny@nousgroup.com.au"),
-           person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"),
-           person("Bas", "Latcham", role = "ctb", email = "bas@latcham.com.au",
+    person("Matt", "Cowgill", , "mattcowgill@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0422-3300")),
+    person("Zoe", "Meers", , "zoe.meers@sydney.edu.au", role = "aut"),
+    person("Jaron", "Lee", , "jaron.lee@sydney.edu.au", role = "aut"),
+    person("David", "Diviny", , "David.Diviny@nousgroup.com.au", role = "aut"),
+    person("Hugh", "Parsonage", , "hugh.parsonage@gmail.com", role = "ctb"),
+    person("Bas", "Latcham", , "bas@latcham.com.au", role = "ctb",
            comment = c(ORCID = "0000-0002-1733-7350"))
-           )
+  )
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
-Date: 2022-04-15
 License: MIT + file LICENSE
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues

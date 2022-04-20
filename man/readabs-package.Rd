@@ -26,12 +26,12 @@ Authors:
   \item Zoe Meers \email{zoe.meers@sydney.edu.au}
   \item Jaron Lee \email{jaron.lee@sydney.edu.au}
   \item David Diviny \email{David.Diviny@nousgroup.com.au}
-  \item Bas Latcham \email{bas@latcham.com.au} (\href{https://orcid.org/0000-0002-1733-7350}{ORCID})
 }
 
 Other contributors:
 \itemize{
   \item Hugh Parsonage \email{hugh.parsonage@gmail.com} [contributor]
+  \item Bas Latcham \email{bas@latcham.com.au} (\href{https://orcid.org/0000-0002-1733-7350}{ORCID}) [contributor]
 }
 
 }
