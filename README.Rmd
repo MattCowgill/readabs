@@ -1,6 +1,6 @@
 ---
 output: github_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 
 version <- as.vector(read.dcf('DESCRIPTION')[, 'Version'])
-version <- gsub('-', '.', version)  
+version <- gsub("-", ".", version)
 ```
 
 # readabs <img src="man/figures/logo.png" align="right" height="139" />
@@ -26,7 +26,7 @@ version <- gsub('-', '.', version)
 <!-- badges: end -->
 
 ## Overview
-{readabs} helps you easily download, import, and tidy data from the Australian Bureau of Statistics within R. 
+{readabs} helps you easily download, import, and tidy data from the Australian Bureau of Statistics within R.
 This saves you time manually downloading and tediously tidying data and allows you to spend more time on your analysis.
 
 ## Installation
@@ -55,11 +55,12 @@ There are some other functions you may find useful.
 * `download_abs_data_cube()` downloads a data cube (ie. non-time series spreadsheet) from the ABS website. Thanks to David Diviny for writing this function.
 * `read_cpi()` imports the Consumer Price Index numbers as a two-column tibble: `date` and `cpi`. This is useful for joining to other series to adjust data for changes in consumer prices.
 * `read_payrolls()` downloads, imports, and tidies tables from the ABS Weekly Payroll Jobs dataset.
-* `read_awe()` returns a long time series of Average Weekly Earnings data. 
+* `read_awe()` returns a long time series of Average Weekly Earnings data.
+* `read_abs_api()` queries data from the [Data Explorer API](https://explore.data.abs.gov.au/)
 
 ## Download, import, and tidy ABS time series data
 
-To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. 
+To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`.
 
 First we'll load {readabs} and the {tidyverse}:
 ```{r load-packages, results=FALSE, warning=FALSE}
@@ -112,7 +113,7 @@ For more examples, please see the vignette on working with time series data (run
 
 ## Download ABS data cubes
 
-The ABS (generally) releases time series data in a standard format, which allows `read_abs()` to download, import and tidy it (see above). But not all ABS data is time series data - the ABS also releases data as 'data cubes'. These are all formatted in their own, unique way. 
+The ABS (generally) releases time series data in a standard format, which allows `read_abs()` to download, import and tidy it (see above). But not all ABS data is time series data - the ABS also releases data as 'data cubes'. These are all formatted in their own, unique way.
 
 Unfortunately, because data cubes are all formatted in their own way, there is no one function that can import tidy data cubes for you in the same way that `read_abs()` works with all time series. But `{readabs}` still has functions that can help.
 
@@ -164,4 +165,3 @@ noted on the ABS website.
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
 We're pleased to be included in a [list of software](https://github.com/SNStatComp/awesome-official-statistics-software) that can be used to work with official statistics.
-
