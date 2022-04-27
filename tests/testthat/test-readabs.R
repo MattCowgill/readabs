@@ -138,15 +138,15 @@ test_that("read_cpi() function downloads CPI index numbers", {
   expect_gt(inflation_99_to_19, 1.675)
   expect_lt(inflation_99_to_19, 1.685)
 
-  # Test that inflation over the most recent year is within expected bounds (0 to 5%)
+  # Test that inflation over the most recent year is within expected bounds
   date_12m_before_latest <- as.POSIXlt(latest_cpi_date)
   date_12m_before_latest$year <- date_12m_before_latest$year - 1
   date_12m_before_latest <- as.Date(date_12m_before_latest)
 
   latest_annual_inflation <- (cpi$cpi[cpi$date == latest_cpi_date] /
     cpi$cpi[cpi$date == date_12m_before_latest]) - 1
-  expect_gt(latest_annual_inflation, -.005)
-  expect_lt(latest_annual_inflation, 0.05)
+  expect_gt(latest_annual_inflation, -.02)
+  expect_lt(latest_annual_inflation, 0.1)
 })
 
 test_that("read_cpi() returns appropriate errors", {
