@@ -4,13 +4,7 @@
 \alias{read_abs_api}
 \title{Get tidy data from ABS' API}
 \usage{
-read_abs_api(
-  query_url,
-  structure_url = NULL,
-  verbose = TRUE,
-  check = TRUE,
-  batch_mode = FALSE
-)
+read_abs_api(query_url, structure_url = NULL, verbose = TRUE, check = TRUE)
 }
 \arguments{
 \item{query_url}{(character) the 'Data query' URL from the 'Developer API'
@@ -27,11 +21,6 @@ dictionary. If \code{NULL} it will be guessed from \code{query_url}.}
 \item{check}{(logical; default = \code{TRUE}) check the URL can be queried?
 Some URLs are too long to be queried, so this can provide some advice on
 how to deal with them (at the expense of speed).}
-
-\item{batch_mode}{(logical; default = \code{FALSE}) Set to \code{TRUE} when
-iterating over a vector of URLs. It will return an empty \code{tibble} if
-the URL doesn't return any data. \code{check} needs to be \code{TRUE}.
-Still questioning the best way to implement this.}
 }
 \value{
 (\code{tibble}) Returns a tidy \code{tibble} containing the ABS data

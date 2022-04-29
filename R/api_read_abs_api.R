@@ -16,10 +16,6 @@
 #' @param check (logical; default = \code{TRUE}) check the URL can be queried?
 #'   Some URLs are too long to be queried, so this can provide some advice on
 #'   how to deal with them (at the expense of speed).
-#' @param batch_mode (logical; default = \code{FALSE}) Set to \code{TRUE} when
-#'   iterating over a vector of URLs. It will return an empty \code{tibble} if
-#'   the URL doesn't return any data. \code{check} needs to be \code{TRUE}.
-#'   Still questioning the best way to implement this.
 #'
 #' @return (\code{tibble}) Returns a tidy \code{tibble} containing the ABS data
 #'   you queried. Each \code{tibble} returns a column \code{value} along with a
@@ -47,8 +43,7 @@ read_abs_api <- function(
   query_url,
   structure_url = NULL,
   verbose = TRUE,
-  check = TRUE,
-  batch_mode = FALSE) {
+  check = TRUE) {
 
   # Check suggested packages
   purrr::walk(c("rsdmx", "urltools"),
@@ -69,24 +64,14 @@ read_abs_api <- function(
     }
 
     ok <- qu_ok(res)
-    if (batch_mode & !ok) {
-      if (verbose) {
-        message("No data there but moving forward because of `batch_mode`.")
-      }
-      return(dplyr::tibble())
-    }
     if (!ok) {
       stop(attr(ok, "msg"),
            call. = FALSE)
     }
-
-
   }
 
   # Get data
   if (verbose) {
-    # res_content <- httr::content(res)
-    # desc <- res_content$structure$name
     glue::glue("Querying the raw data...") %>%
       message()
   }
@@ -107,6 +92,8 @@ read_abs_api <- function(
   ) %>%
     dplyr::as_tibble()
 }
+
+
 
 #' Guess the structure URL for the API
 #'
