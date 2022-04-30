@@ -32,15 +32,28 @@ levels.
 }
 \examples{
 \dontrun{
-# This URL covers multiple years of data (it doesn't need to be chunked, it's
-# just a toy example)
-lf_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M9.3.1599.30+10+20.AUS.M?startPeriod=2010-02&endPeriod=2022-05&dimensionAtObservation=AllDimensions"
+# A simple URL
 
-# Break it up into individual years
-# Returns a URL for each year
-lf_urls_years <- chunk_query_url(lf_url)
+# Labour force data query URL, taken from ABS API site
+# (In `paste0()` to prevent help docs being truncated)
+lf_url <- paste0("https://api.data.abs.gov.au/data/ABS,LF,1.0.0/",
+                 "M9.3.1599.30+10+20.AUS.M?startPeriod=2021-01&",
+                 "endPeriod=2021-12&dimensionAtObservation=AllDimensions")
 
-# Iterate over the vector of URLs
-lf <- purrr::map_dfr(lf_urls_years, read_abs_api, batch_mode = TRUE)
+lf <- read_abs_api(lf_url)
+
+
+
+# A URL that might need breaking up (note the different start date)
+# (this URL doesn't actually need breaking up but it is a good example)
+
+lf_url2 <- paste0("https://api.data.abs.gov.au/data/ABS,LF,1.0.0/",
+                  "M9.3.1599.30+10+20.AUS.M?startPeriod=1978-01&",
+                  "endPeriod=2021-12&dimensionAtObservation=AllDimensions")
+
+lf_urls <- chunk_query_url(lf_url2)
+read_api_safely <- purrr::safely(read_abs_api)
+lf_raw <- purrr::map(lf_urls, read_api_safely)
+lf_data <- purrr::map_dfr(lf_raw, "result")
 }
 }

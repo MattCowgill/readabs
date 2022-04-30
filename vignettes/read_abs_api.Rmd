@@ -130,12 +130,14 @@ dbr_url <- readLines(url_raw)
 ```
 dbr_url <- readClipboard()
 ```
+- for data by region, use the helper function
 
-Please note that R tends to slow down when dealing with long strings (especiallyl if you print them). If your session starts to lag, consider restarting.
-
-```{r, include=FALSE}
+```{r}
 dbr_url <- data_by_region(start = 2011, end = 2020)
 ```
+
+Please note that R tends to slow down when dealing with long strings (especially if you print them). If your session starts to lag, consider restarting.
+
 
 ### Chunking the URL
 
@@ -150,14 +152,23 @@ There are a few options you can tweak, but this should return a list of queriabl
 
 ### Iterating over the URLs
 
-Using the list of URLs, `{purrr}`, and the `batch_mode = TRUE` argument in `read_abs_api()`, we can now read the data into R. The snippet below shows the syntax for this. The `batch_mode` argument acts as a failsafe, because sometimes `chunk_query_url()` will create an unreadable URL, and without this argument set to `TRUE` the whole process would stop and error if such a URL were encountered.
-
-We use `purrr::slowly()` to mitigate the risk of getting 504 Gateway Timeout errors.
-
-
-```{r}
-# This takes about 20 minutes to run
-# read_api_slowly <- purrr::slowly(read_abs_api)
-# dbr <- purrr::map_dfr(dbr_urls, read_api_slowly, batch_mode = TRUE)
+Using the list of URLs and `{purrr}` we can now read the data into R. The
+snippet below shows the syntax for this. The use of `purrr::safely()` acts as a
+failsafe, because sometimes `chunk_query_url()` will create an unreadable URL
+(e.g. something like data from 2013 but by a 2016 geography), and/or the API
+chokes and times out.
 
 ```
+# This takes about 20 minutes to run
+# read_api_safely <- purrr::safely(read_abs_api)
+
+# We use purrr::safely() to discard failed API queries
+# dbr_raw <- purrr::map(dbr_urls, read_api_safely)
+
+# dbr <- dbr_raw %>% 
+#   map_dfr("result")
+```
+
+And there we have it! 10 years and 5.5 million rows of Data by Region, fresh
+from the API! Now you can normalise it, save it locally, and never have to query
+it again!

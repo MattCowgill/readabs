@@ -140,20 +140,8 @@ chunk_big_dim <- function(query_url,
 #' @return (\code{character} vector) a \code{character} vector of URLs for the
 #'   ABS API
 #' @export
+#' @inherit read_abs_api examples
 #'
-#' @examples
-#' \dontrun{
-#' # This URL covers multiple years of data (it doesn't need to be chunked, it's
-#' # just a toy example)
-#' lf_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M9.3.1599.30+10+20.AUS.M?startPeriod=2010-02&endPeriod=2022-05&dimensionAtObservation=AllDimensions"
-#'
-#' # Break it up into individual years
-#' # Returns a URL for each year
-#' lf_urls_years <- chunk_query_url(lf_url)
-#'
-#' # Iterate over the vector of URLs
-#' lf <- purrr::map_dfr(lf_urls_years, read_abs_api, batch_mode = TRUE)
-#' }
 chunk_query_url <- function(query_url, n = 75) {
   requireNamespace("urltools", quietly = TRUE)
 

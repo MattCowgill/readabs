@@ -1,9 +1,14 @@
 #' Get tidy data from ABS' API
 #'
 #' This function returns a tidy \code{tibble} of data queried from the
-#' \href{https://explore.data.abs.gov.au/}{ABS' API}. See the vignette for a
-#' detailed guide on how to use this to get monthly labour force data or
-#' download the last decade of Data by Region at SA2.
+#' \href{https://explore.data.abs.gov.au/}{ABS' API}. If the \code{query_url} is
+#' too big the API to work (which happens sometimes), you may need to use this
+#' function in conjunction with \code{\link{chunk_query_url}} and vectorisation
+#' to query the API (see below for a simple example, with more information in
+#' the vignette).
+#'
+#' See the vignette for a detailed guide on how to use this to get monthly
+#' labour force data or download the last decade of Data by Region at SA2.
 #'
 #' @param query_url (character) the 'Data query' URL from the 'Developer API'
 #'   section from the \href{https://explore.data.abs.gov.au/}{ABS' API}. I'm not
@@ -19,16 +24,11 @@
 #'
 #' @return (\code{tibble}) Returns a tidy \code{tibble} containing the ABS data
 #'   you queried. Each \code{tibble} returns a column \code{value} along with a
-#'   series of other columns for the metadata (suffixed \code{_code},
-#'   \code{_name}, and \code{_notes}). Some metadata returns just one suffixed
-#'   column, others two, and others three (eg querying labour force data returns
-#'   \code{sex_code} and \code{sex_name}, but \code{age_code}, \code{age_name}
-#'   and \code{age_notes}. Generally, the \code{_code} column shows the encoded
-#'   value (eg \code{sex_code} might show a value of \code{3}), the \code{_name}
-#'   shows a human interpretable translation of \code{_code} (eg \code{sex_name}
-#'   would show \code{Persons}), and \code{_notes} is a bit of a mixed bag.
-#'   Sometimes it's missing, sometimes it's the same as \code{_name}, and
-#'   sometimes it's useful context.
+#'   series of pairs of other columns for the metadata (ear pair is suffixed
+#'   \code{_code} and \code{_name}). The \code{_code} column shows the encoded
+#'   value (e.g. \code{sex_code} might show a value of \code{3}), and the
+#'   \code{_name} shows a human interpretable translation of \code{_code} (e.g.
+#'   \code{sex_name} would show \code{Persons}).
 #'
 #' @export
 #'
