@@ -4,7 +4,7 @@
 \alias{chunk_query_url}
 \title{Break up a \code{query_url} into chunks, by date and dimension}
 \usage{
-chunk_query_url(query_url, n = 300)
+chunk_query_url(query_url, n = 75)
 }
 \arguments{
 \item{query_url}{(character) the 'Data query' URL from the 'Developer API'

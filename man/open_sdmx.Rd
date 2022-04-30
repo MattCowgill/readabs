@@ -13,7 +13,7 @@ sure what the difference between 'Flat' and 'Time series' is, because even
 though the URLs are different they return the same data.}
 }
 \value{
-
+a \code{tibble}
 }
 \description{
 There are two packages to read SDMX APIs in R: \code{readsdmx} and

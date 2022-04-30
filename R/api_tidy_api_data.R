@@ -31,7 +31,7 @@ tidy_api_data <- function(query_data,
 
   # Suffix the columns with '_code'
   query_data <- query_data %>%
-    dplyr::rename_with(.fn = ~ paste0(., "_code"))
+    dplyr::rename_with(.fn = ~ paste0(.x, "_code"))
 
   # Extract the values and row ids
   values <- query_data %>%
@@ -48,7 +48,7 @@ tidy_api_data <- function(query_data,
     dplyr::select(id = .data$id_description,
                   label = .data$en_description,
                   code = .data$id) %>%
-    dplyr::mutate(code = code %>%
+    dplyr::mutate(code = .data$code %>%
                     tolower() %>%
                     stringi::stri_replace_first_fixed(replacement = "", "CL_") %>%
                     stringi::stri_extract_first_regex(
@@ -70,9 +70,9 @@ tidy_api_data <- function(query_data,
 
   # This is a list of tibbles, each with a dimension code and description
   split_structure_data <- structure_data %>%
-    split(.$code) %>%
+    split(~ code) %>%
     purrr::map(clean_up_data_dict) %>%
-    purrr::set_names(~ paste0(., "_code"))
+    purrr::set_names(~ paste0(.x, "_code"))
 
 
   # Helper function to join tibble of metadata to query_data
@@ -88,7 +88,7 @@ tidy_api_data <- function(query_data,
   # Using suppressMessages because of all the different joining_by messages in the
   # reduce
   suppressMessages(
-    purrr::imap(split_structure_data,
+    interim <- purrr::imap(split_structure_data,
                 .f = mini_join,
                 .data = query_data
     ) %>%
@@ -100,12 +100,14 @@ tidy_api_data <- function(query_data,
       dplyr::rename(
         value = .data$obsvalue_code,
       ) %>%
-      dplyr::select(-.data$row_code) %>%
-      dplyr::select(sort(colnames(.))) %>%
+      dplyr::select(-.data$row_code))
+
+  # Using `interim` as a way to avoid importing `plyr::.` placeholder
+   interim %>%
+      dplyr::select(sort(colnames(interim))) %>%
       dplyr::relocate(
         .data$value,
         .before = 1
       ) %>%
       dplyr::mutate(value = as.numeric(.data$value))
-  )
 }

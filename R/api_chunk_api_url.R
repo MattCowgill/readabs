@@ -154,7 +154,7 @@ chunk_big_dim <- function(query_url,
 #' # Iterate over the vector of URLs
 #' lf <- purrr::map_dfr(lf_urls_years, read_abs_api, batch_mode = TRUE)
 #' }
-chunk_query_url <- function(query_url, n = 300) {
+chunk_query_url <- function(query_url, n = 75) {
   requireNamespace("urltools", quietly = TRUE)
 
   # Return a vector of query URLs split by year
