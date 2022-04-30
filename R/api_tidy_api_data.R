@@ -6,24 +6,25 @@
 #' \code{old_api} parameter).
 #'
 #' @inheritParams read_abs_api
-#' @param .data (\code{data.frame}) raw data as a \code{data.frame} returned
+#' @param query_data (\code{data.frame}) raw data as a \code{data.frame} returned
 #'   from the ABS API
 #'
 #' @return (tibble) Returns a tibble containing the ABS data you queried.
 #'
-tidy_api_data <- function(.data,
+tidy_api_data <- function(query_data,
                           structure_url) {
 
   # Check suggested packages
-  purrr::walk(c("rsdmx", "urltools"),
-    requireNamespace,
-    quietly = TRUE
+  purrr::walk(c("readsdmx", "urltools"),
+              requireNamespace,
+              quietly = TRUE
   )
 
   # Clean the raw data names, and add an ID
-  .data <- rlang::set_names(.data, tolower(names(.data)))
+  query_data <- rlang::set_names(query_data, tolower(names(query_data)))
 
-  rd <- .data %>%
+
+  rd <- query_data %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     # Need to rename region to state because the data dictionary uses region
     dplyr::rename("state" = dplyr::contains("region"))
@@ -40,12 +41,23 @@ tidy_api_data <- function(.data,
     )
 
   # get the structure info
-  struc_raw <- rsdmx::readSDMX(structure_url)
+  # returns a horrible nested list
+  struc_raw <- open_sdmx(structure_url) %>%
+    dplyr::select(id = .data$id_description,
+                  label = .data$en_description,
+                  code = .data$id)
+
+  codes <- unique(struc_raw$code)
+
+  # - id (the code)
+  # - label (human description of label)
+  # - code (looks like the bit after the CL_)
+
 
   # Bunch of convoluted work to tidy up the structure (Data Structure Definition (DSD))
-  codes_raw <- methods::slot(struc_raw, "codelists")
-  codes <- sapply(methods::slot(codes_raw, "codelists"), function(x) methods::slot(x, "id")) # get list of codelists
-
+  # codes_raw <- methods::slot(struc_raw, "codelists")
+  # codes <- sapply(methods::slot(codes_raw, "codelists"), function(x) methods::slot(x, "id")) # get vector of codelists
+  # returns a vector of things that started with CL_ whatever (About 12 things)
 
 
   standardise_measure <- function(measure, all_measures) {
@@ -88,41 +100,46 @@ tidy_api_data <- function(.data,
   # Still has the stupid region/state problem
   all_measures <- colnames(rd)
 
-  details <- codes %>%
-    purrr::set_names() %>%
-    purrr::map_dfr(tidy_codes,
-      structure_data = struc_raw,
-      all_measures = all_measures
-    ) %>%
-    dplyr::filter(.data$code %in% all_measures)
+  # Details is:
+  # - id (the code)
+  # - label (human description of label)
+  # - code (looks like the bit after the CL_)
+  # - notes (extra info on the field)
+
+  details <- struc_raw %>%
+    mutate(code = code %>%
+             tolower() %>%
+             stringi::stri_replace_first_fixed(replacement = "", "CL_") %>%
+             stringi::stri_extract_first_regex(
+               stringi::stri_c_list(
+                 as.list(all_measures),
+                 collapse = "|"
+               )
+             )) #%>%
+    #dplyr::filter(.data$code %in% all_measures)
+
+  # details <- codes %>%
+  #   purrr::set_names() %>%
+  #   purrr::map_dfr(tidy_codes,
+  #                  structure_data = struc_raw,
+  #                  all_measures = all_measures
+  #   ) %>%
+  #   dplyr::filter(.data$code %in% all_measures)
 
 
 
   clean_up_data_dict <- function(.data) {
     new_names <- .data$code[[1]] %>%
-      paste0(c("_code", "_name", "_notes"))
+      paste0(c("_code", "_name"))
 
 
-    clean <- .data %>%
+    .data %>%
       dplyr::select(-.data$code) %>%
       dplyr::rename_with(~new_names)
-
-
-    drop_desc <- sum(is.na(clean[[3]])) == nrow(clean)
-
-    if (drop_desc) {
-      clean <- dplyr::select(
-        clean,
-        -dplyr::contains("notes")
-      )
-    }
-
-    clean
   }
 
-
+  # This is a list of tibbles, each being 2/3 cols, prefixed with the CL code, and then _code, _name and/or _notes
   all_the_details <- details %>%
-    dplyr::mutate(code = tolower(.data$code)) %>%
     split(.$code) %>%
     purrr::map(clean_up_data_dict) %>%
     purrr::set_names(~ paste0(., "_code"))
@@ -142,8 +159,8 @@ tidy_api_data <- function(.data,
   # reduce
   suppressMessages(
     purrr::imap(all_the_details,
-      .f = mini_join,
-      .data = rd2
+                .f = mini_join,
+                .data = rd2
     ) %>%
       purrr::reduce(
         dplyr::inner_join,

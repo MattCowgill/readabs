@@ -42,7 +42,7 @@ Suggests:
     markdown,
     methods,
     rmarkdown,
-    rsdmx,
+    readsdmx,
     testthat (>= 2.1.0),
     urltools
 VignetteBuilder:

@@ -46,7 +46,7 @@ read_abs_api <- function(
   check = TRUE) {
 
   # Check suggested packages
-  purrr::walk(c("rsdmx", "urltools"),
+  purrr::walk(c("readsdmx", "urltools"),
               requireNamespace,
               quietly = TRUE)
 
@@ -56,7 +56,6 @@ read_abs_api <- function(
   # needs to pass the http get res to qu_ok, should speed it up
 
   if (check) {
-
     res <- httr::GET(query_url)
 
     if (verbose) {
@@ -76,9 +75,7 @@ read_abs_api <- function(
       message()
   }
 
-
-
-  raw_dat <- dplyr::as_tibble(rsdmx::readSDMX(query_url))
+  query_data <- open_sdmx(query_url)
 
   structure_url <- structure_url %||% guess_structure_url(query_url)
   if (verbose) {
@@ -87,7 +84,7 @@ read_abs_api <- function(
 
   # Tidy data
   tidy_api_data(
-    .data = raw_dat,
+    query_data = query_data,
     structure_url = structure_url
   ) %>%
     dplyr::as_tibble()
@@ -120,4 +117,27 @@ guess_structure_url <- function(query_url) {
   components$parameter <- "references=all&detail=referencepartial"
 
   urltools::url_compose(components)
+}
+
+
+
+#' Wrapper to download and read an SDMX XML
+#'
+#' There are two packages to read SDMX APIs in R: \code{readsdmx} and
+#' \code{rsdmx}. The former is much faster, but hasn't been updated since 2019
+#' and sometimes throws weird errors. The latter is works reliably, but is much,
+#' much slower. Anyway, this function tries to improve the stability of the
+#' former by handling the download explicitly.
+#'
+#' @inheritParams read_abs_api
+#'
+#' @return
+#'
+open_sdmx <- function(query_url) {
+  destfile <- tempfile(fileext = ".xml")
+  # Need this step because of some weird windows problem that wouldn't open certain API website
+  xml2::download_xml(query_url, destfile)
+  destfile %>%
+    readsdmx::read_sdmx() %>%
+    dplyr::as_tibble()
 }

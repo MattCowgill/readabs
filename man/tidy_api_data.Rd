@@ -4,10 +4,10 @@
 \alias{tidy_api_data}
 \title{Tidy the raw data returned using the ABS' API}
 \usage{
-tidy_api_data(.data, structure_url)
+tidy_api_data(query_data, structure_url)
 }
 \arguments{
-\item{.data}{(\code{data.frame}) raw data as a \code{data.frame} returned
+\item{query_data}{(\code{data.frame}) raw data as a \code{data.frame} returned
 from the ABS API}
 
 \item{structure_url}{(character; default = \code{NULL}) the 'Structure query'
