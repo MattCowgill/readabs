@@ -86,8 +86,7 @@ read_abs_api <- function(
   tidy_api_data(
     query_data = query_data,
     structure_url = structure_url
-  ) %>%
-    dplyr::as_tibble()
+  )
 }
 
 

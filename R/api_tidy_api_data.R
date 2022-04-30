@@ -20,132 +20,62 @@ tidy_api_data <- function(query_data,
               quietly = TRUE
   )
 
-  # Clean the raw data names, and add an ID
-  query_data <- rlang::set_names(query_data, tolower(names(query_data)))
-
-
-  rd <- query_data %>%
+  # Clean the query_data names, and add an ID (which is used for joining later)
+  query_data <- rlang::set_names(query_data, tolower(names(query_data))) %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     # Need to rename region to state because the data dictionary uses region
     dplyr::rename("state" = dplyr::contains("region"))
 
+  # The vector of dimensions in the query data
+  measures_clean <- colnames(query_data)
+
   # Suffix the columns with '_code'
-  rd2 <- rd %>%
+  query_data <- query_data %>%
     dplyr::rename_with(.fn = ~ paste0(., "_code"))
 
   # Extract the values and row ids
-  values <- rd2 %>%
+  values <- query_data %>%
     dplyr::transmute(
       .data$row_code,
       value_code = .data$obsvalue_code
     )
 
-  # get the structure info
-  # returns a horrible nested list
-  struc_raw <- open_sdmx(structure_url) %>%
+
+
+
+  # Create a long tibble of structure info/metadata
+  structure_data <- open_sdmx(structure_url) %>%
     dplyr::select(id = .data$id_description,
                   label = .data$en_description,
-                  code = .data$id)
-
-  codes <- unique(struc_raw$code)
-
-  # - id (the code)
-  # - label (human description of label)
-  # - code (looks like the bit after the CL_)
-
-
-  # Bunch of convoluted work to tidy up the structure (Data Structure Definition (DSD))
-  # codes_raw <- methods::slot(struc_raw, "codelists")
-  # codes <- sapply(methods::slot(codes_raw, "codelists"), function(x) methods::slot(x, "id")) # get vector of codelists
-  # returns a vector of things that started with CL_ whatever (About 12 things)
-
-
-  standardise_measure <- function(measure, all_measures) {
-    measure %>%
-      tolower() %>%
-      stringi::stri_replace_first_fixed(replacement = "", "CL_") %>%
-      stringi::stri_extract_first_regex(
-        stringi::stri_c_list(
-          as.list(all_measures),
-          collapse = "|"
-        )
-      )
-  }
-
-
-
-  tidy_codes <- function(code, structure_data, all_measures) {
-    clean_measure <- standardise_measure(code, all_measures = all_measures)
-    # get a codelist
-    raw <- as.data.frame(methods::slot(structure_data, "codelists"), codelistId = code) %>%
-      dplyr::as_tibble()
-
-
-
-    names_descs_labels <- raw %>%
-      dplyr::select(-.data$id) %>%
-      colnames()
-
-    raw %>%
-      dplyr::mutate(full_label = dplyr::coalesce(!!!syms(names_descs_labels))) %>%
-      dplyr::select(
-        id = id,
-        label = .data$full_label,
-        notes = dplyr::contains("desc")
-      ) %>%
-      dplyr::mutate(code = clean_measure)
-  }
-
-
-  # Still has the stupid region/state problem
-  all_measures <- colnames(rd)
-
-  # Details is:
-  # - id (the code)
-  # - label (human description of label)
-  # - code (looks like the bit after the CL_)
-  # - notes (extra info on the field)
-
-  details <- struc_raw %>%
-    mutate(code = code %>%
-             tolower() %>%
-             stringi::stri_replace_first_fixed(replacement = "", "CL_") %>%
-             stringi::stri_extract_first_regex(
-               stringi::stri_c_list(
-                 as.list(all_measures),
-                 collapse = "|"
+                  code = .data$id) %>%
+    dplyr::mutate(code = code %>%
+                    tolower() %>%
+                    stringi::stri_replace_first_fixed(replacement = "", "CL_") %>%
+                    stringi::stri_extract_first_regex(
+                      stringi::stri_c_list(
+                        as.list(measures_clean),
+                        collapse = "|"
                )
-             )) #%>%
-    #dplyr::filter(.data$code %in% all_measures)
+             ))
 
-  # details <- codes %>%
-  #   purrr::set_names() %>%
-  #   purrr::map_dfr(tidy_codes,
-  #                  structure_data = struc_raw,
-  #                  all_measures = all_measures
-  #   ) %>%
-  #   dplyr::filter(.data$code %in% all_measures)
-
-
-
+  # Helper function to break up a tibble of measure codes & descriptions into a list of tibbles split by measure
   clean_up_data_dict <- function(.data) {
     new_names <- .data$code[[1]] %>%
       paste0(c("_code", "_name"))
-
 
     .data %>%
       dplyr::select(-.data$code) %>%
       dplyr::rename_with(~new_names)
   }
 
-  # This is a list of tibbles, each being 2/3 cols, prefixed with the CL code, and then _code, _name and/or _notes
-  all_the_details <- details %>%
+  # This is a list of tibbles, each with a dimension code and description
+  split_structure_data <- structure_data %>%
     split(.$code) %>%
     purrr::map(clean_up_data_dict) %>%
     purrr::set_names(~ paste0(., "_code"))
 
 
-
+  # Helper function to join tibble of metadata to query_data
   mini_join <- function(.data,
                         details,
                         var) {
@@ -158,15 +88,15 @@ tidy_api_data <- function(query_data,
   # Using suppressMessages because of all the different joining_by messages in the
   # reduce
   suppressMessages(
-    purrr::imap(all_the_details,
+    purrr::imap(split_structure_data,
                 .f = mini_join,
-                .data = rd2
+                .data = query_data
     ) %>%
       purrr::reduce(
         dplyr::inner_join,
         by = "row_code"
       ) %>%
-      dplyr::inner_join(rd2) %>%
+      dplyr::inner_join(query_data) %>%
       dplyr::rename(
         value = .data$obsvalue_code,
       ) %>%
@@ -175,6 +105,7 @@ tidy_api_data <- function(query_data,
       dplyr::relocate(
         .data$value,
         .before = 1
-      )
+      ) %>%
+      dplyr::mutate(value = as.numeric(.data$value))
   )
 }
