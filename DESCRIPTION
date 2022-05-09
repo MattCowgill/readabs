@@ -28,7 +28,8 @@ Imports:
     httr,
     rvest,
     xml2,
-    rlang
+    rlang,
+    labelled
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
 RoxygenNote: 7.1.2
