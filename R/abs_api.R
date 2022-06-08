@@ -59,7 +59,7 @@
 #' x[x$var=="SEX_ABS" & x$label == "Persons", ]
 #'
 #' # So we build a datakey putting 3 in the first and 0 in the fifth position to get filtered data
-#' y <- abs_data("ABS_C16_T10_SA", datakey = list(ASGS_2016 = 0, SEX= 3))
+#' y <- abs_data("ABS_C16_T10_SA", datakey = list(ASGS_2016 = 0, SEX_ABS= 3))
 #' unique(y["ASGS_2016"]) # Confirming only 'Australia' level records came through
 #' unique(y["SEX_ABS"]) # Confirming only 'Australia' level records came through
 #'
@@ -104,7 +104,7 @@ abs_data <- function(id, datakey = NULL, start_period = NULL, end_period = NULL,
   # Fetch data
   as_csv <- httr::accept("application/vnd.sdmx.data+csv")
   r <- httr::GET(url, as_csv)
-  if (httr::status_code(r) %in% 404 & !is.null(datakey)) {
+  if (httr::status_code(r) %in% 404 && !is.null(datakey)) {
     url <- abs_api_url(c("data", dataflow, "all"), q)
     r <- httr::GET(url, as_csv)
     warning(call.=FALSE, paste(
@@ -124,7 +124,7 @@ abs_data <- function(id, datakey = NULL, start_period = NULL, end_period = NULL,
     labs <- codes$code
 
     # Match class avoiding data loss
-    if (can_numeric(x) & can_numeric(labs)) {
+    if (can_numeric(x) && can_numeric(labs)) {
       x <- as.numeric(x)
       labs <- as.numeric(labs)
     } else {
@@ -227,6 +227,7 @@ abs_api_url <- function(path, query = NULL) {
 #' @keywords internal
 #'
 #' @examples
+#' z <- abs_datastructure("ERP_COB")
 #' abs_api_match_key(list(SEX=1:3, REGION="AUS"), z)
 #' abs_api_match_key(list(SEX=1:10, REGION="AUS"), z)
 #' try(abs_api_match_key(list(SX=1:3, REGION="AUS"), z))
@@ -285,7 +286,7 @@ abs_api_match_key <- function(datakey, datastructure) {
 #' @noRd
 #' @keywords internal
 can_numeric <- function(x) {
-  if (is.numeric(x) | is.integer(x) | is.logical(x) | is.factor(x)) {
+  if (is.numeric(x) || is.logical(x) || is.factor(x)) {
     TRUE
   } else {
     !any(!(x %in% c(NA, "")) & is.na(suppressWarnings(as.numeric(x))))
