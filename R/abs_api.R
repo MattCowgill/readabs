@@ -188,11 +188,7 @@ abs_datastructure <- function(id) {
 #' @keywords internal
 #'
 resp_as_df <- function(r) {
-  fp <- tempfile()
-  writeLines(rawToChar(httr::content(r)), fp)
-  r <- utils::read.csv(fp)
-  unlink(fp)
-
+  r <- utils::read.csv(text = rawToChar(httr::content(r)))
   r
 }
 
