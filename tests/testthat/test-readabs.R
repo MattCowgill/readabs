@@ -159,3 +159,10 @@ test_that("read_cpi() returns appropriate errors", {
   expect_error(read_cpi(retain_files = TRUE, path = 1))
 })
 
+test_that("3401.0 table 1 can be loaded", {
+  skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
+  expect_s3_class(read_abs("3401.0", "1"), "tbl_df")
+})
+

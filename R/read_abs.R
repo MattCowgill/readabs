@@ -312,9 +312,9 @@ match_tables <- function(table_list, requested_tables) {
   # followed my a full stop or a space
   regex_pattern <- paste0("(?<=\\s|0)",
                           "(", requested, ")",
-                          "(?=\\.|\\s)")
+                          "(?=\\.|\\s|\\:)")
 
-  predot_matches <- regexpr(".*\\.", table_list)
+  predot_matches <- regexpr(".*\\.|.*\\:", table_list)
   table_list_predot <- regmatches(table_list, m = predot_matches)
 
   grepl(regex_pattern, table_list_predot, perl = TRUE, ignore.case = TRUE)
