@@ -19,7 +19,7 @@ from ABS time series spreadsheets that are already saved to your local drive."><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.901</span>
       </span>
     </div>
 
@@ -86,25 +86,34 @@ For example, if you run `read_abs_local("6202.0")`, it will look in
 the `6202.0` sub-folder of `path` and attempt to load any
 .xls and .xlsx files in that location.
 If `cat_no`` is specified, `filenames` will be ignored.</p></dd>
+
+
 <dt>filenames</dt>
 <dd><p>character vector of at least one filename of a
 locally-stored ABS time series spreadsheet. For example, "6202001.xls" or
 c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to `cat_no`.
 If `filenames` is blank and `cat_no` is blank, `read_abs_local()` will
 attempt to read all .xls and .xlsx files in the directory specified with `path`.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>path to local directory containing ABS time series file(s).
 Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
  If nothing is specified in `filenames` or `cat_no`,
 `read_abs_local()` will attempt to read all .xls and .xlsx files in the directory
 specified with `path`.</p></dd>
+
+
 <dt>use_fst</dt>
 <dd><p>logical. If `TRUE` (the default) then, if an `fst` file of the
 tidy data frame has already been saved in `path`, it is read immediately.</p></dd>
+
+
 <dt>metadata</dt>
 <dd><p>logical. If `TRUE` (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
 `FALSE`, metadata is dropped.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -136,7 +145,7 @@ please use <code><a href="read_abs.html">read_abs()</a></code> instead.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

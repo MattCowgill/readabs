@@ -18,7 +18,7 @@ time series catalogue number (as a whole), individual tables, or series IDs."><m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.901</span>
       </span>
     </div>
 
@@ -73,19 +73,26 @@ time series catalogue number (as a whole), individual tables, or series IDs.</p>
     <dl><dt>cat_no</dt>
 <dd><p>ABS catalogue number, as a string, including the extension.
 For example, "6202.0".</p></dd>
+
+
 <dt>tables</dt>
 <dd><p>numeric. Time series tables in `cat_no`` to download and
 extract. Default is "all", which will read all time series in `cat_no`.
 Specify `tables` to download and import specific tables(s) -
 eg. `tables = 1` or `tables = c(1, 5)`.</p></dd>
+
+
 <dt>series_id</dt>
 <dd><p>(optional) character. Supply an ABS unique time series
 identifier (such as "A2325807L") to get only that series.
 This is an alternative to specifying `cat_no`.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Date vector of length one. Date corresponds to the most recent
+    
+
+<p>Date vector of length one. Date corresponds to the most recent
 observation date for any of the time series in the table(s) requested.
 observation date for any of the time series in the table(s) requested.</p>
     </div>
@@ -131,7 +138,7 @@ have multiple dates, only the most recent will be returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

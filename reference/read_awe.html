@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.901</span>
       </span>
     </div>
 
@@ -84,30 +84,47 @@
 <li><p>`ftawe` Full-time adult total earnings</p></li>
 <li><p>`awe` Average weekly total earnings of all employees</p></li>
 </ul></dd>
+
+
 <dt>sex</dt>
 <dd><p>Character of length 1. Must be one of: `persons`, `males`, or `females`.</p></dd>
+
+
 <dt>sector</dt>
 <dd><p>Character of length 1. Must be one of: `total`, `private`, or
 `public`. Note that you cannot get sector-by-state data; if `state` is not
 `all` then `sector` must be `total`.</p></dd>
+
+
 <dt>state</dt>
 <dd><p>Character of length 1. Must be one of: `all`, `nsw`, `vic`, `qld`,
 `sa`, `wa`, `nt`, or `act`. Note that you cannot get sector-by-state data;
 if `sector` is not `total` then `state` must be `all`.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
 series is returned, with `NA` values for quarters in which there is no data.
 If `TRUE`, only dates with data are included in the returned data frame.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>See `?read_abs`</p></dd>
+
+
 <dt>show_progress_bars</dt>
 <dd><p>See `?read_abs`</p></dd>
+
+
 <dt>check_local</dt>
 <dd><p>See `?read_abs`</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
+    
+
+<p>A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
 The data is nominal and seasonally adjusted.</p>
     </div>
     <div id="details">
@@ -141,7 +158,7 @@ which there are no observations are recorded as `NA` unless `na.rm` = `TRUE`.</p
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
