@@ -2,29 +2,32 @@
 % Please edit documentation in R/abs_api.R
 \name{abs_api}
 \alias{abs_api}
-\alias{abs_dataflows}
-\alias{abs_data}
-\alias{abs_datastructure}
+\alias{read_api_dataflows}
+\alias{read_api}
+\alias{read_api_url}
+\alias{read_api_datastructure}
 \title{ABS API}
 \usage{
-abs_dataflows()
+read_api_dataflows()
 
-abs_data(
+read_api(
   id,
-  datakey = "all",
+  datakey = NULL,
   start_period = NULL,
   end_period = NULL,
   version = NULL
 )
 
-abs_datastructure(id)
+read_api_url(url)
+
+read_api_datastructure(id)
 }
 \arguments{
-\item{id}{A dataflow id, see `abs_dataflows()` for available dataflows.}
+\item{id}{A dataflow id, see `read_api_dataflows()` for available dataflows.}
 
-\item{datakey}{The key to filter data on. This must be provided in
-dot-delimited format. Position in the string is important. See
-`abs_datastructure()` for information about dimension position and values.}
+\item{datakey}{A named list matching filter variables to codes. All variables
+with a `position` in the datastructure are filterable. See
+`read_api_datastructure()` for information.}
 
 \item{start_period}{The start period (used to filter on time). This is
   inclusive. The supported formats are:
@@ -40,7 +43,7 @@ dot-delimited format. Position in the string is important. See
 The supported formats are the same as for `start_period`}
 
 \item{version}{A version number, if unspecified the latest version of the
-dataset is used. See `abs_dataflows()` for available dataflow versions.}
+dataset is used. See `read_api_dataflows()` for available dataflow versions.}
 }
 \value{
 A data.frame
@@ -49,42 +52,62 @@ A data.frame
 These functions provide a minimal interface to the ABS API.
 }
 \details{
-- Using `abs_dataflows()` you can get information on the dataflows available
-  - Using `abs_datastructure()` you can get metadata relating to a specific dataflow
-  - Using `abs_data()` you can get the data belonging to a given dataflow.
-  Note that the API enforces a reasonably strict gateway timeout policy. This
-  means that, if you're trying to access a reasonably large dataset, you will
-  need to filter it on the server side using the `datakey`.
+- Using `read_api_dataflows()` you can get information on the dataflows
+  available
+  - Using `read_api_datastructure()` you can get metadata relating to a
+  specific dataflow
+  - Using `read_api()` you can get the data belonging to a given dataflow.
+  - Using `read_api_url()` you can get the data for a given query url
+  generated using the [online data viewer](https://explore.data.abs.gov.au/).
+
+Note that the API enforces a reasonably strict gateway timeout policy. This
+means that, if you're trying to access a reasonably large dataset, you will
+need to filter it on the server side using the `datakey`. You might like to
+review the data manually via the [ABS website](https://explore.data.abs.gov.au/)
+to figure out what subset of the data you require.
+
+Note, furthermore, that the datastructure contains a complete codebook for
+the variables appearing in the relevant dataflow. Since some variables are
+shared across multiple dataflows, this means that the datastructure
+corresponding to a particular `id` may contain values for a given variable
+which are not in the corresponding dataflow.
 
 More information can be found on the [ABS website](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api)
 }
 \examples{
 
 # List available flows
-abs_dataflows()
+read_api_dataflows()
 
 # Get full data set for a given flow by providing id and start period:
-abs_data("ERP_COB", start_period = 2020)
+read_api("ERP_COB", start_period = 2020)
 
 # The `ABS_C16_T10_SA` dataflow is very large, so the gateway will timeout if we
 # try to collect the full data set
-try(abs_data("ABS_C16_T10_SA"))
+try(read_api("ABS_C16_T10_SA"))
 
-# We need to go for a subset using a datakey, which will be a dot-delimited
-# query string. To figure out how to build the datakey, we get metadata
-x <- abs_datastructure("ABS_C16_T10_SA")
+# We need to go for a subset using a datakey. To figure out how to build the
+# datakey, we get metadata
+ds <- read_api_datastructure("ABS_C16_T10_SA")
 
-# The `ASGS_2016` dimension is at position 5 and `ASGS_2016=0` is the code for
-# 'Australia'
-x[x$var=="ASGS_2016" & x$label == "Australia", ]
+# The `asgs_2016` code for 'Australia' is 0
+ds[ds$var=="asgs_2016" & ds$label == "Australia", ]
 
-# The `SEX_ABS` dimension is at position 1 and `SEX_ABS=3` is the code for
-# 'Persons' (i.e. all persons)
-x[x$var=="SEX_ABS" & x$label == "Persons", ]
+# The `sex_abs` code for 'Persons' (i.e. all persons) is 3
+ds[ds$var=="sex_abs" & ds$label == "Persons", ]
 
-# So we build a datakey putting 3 in the first and 0 in the fifth position to get filtered data
-y <- abs_data("ABS_C16_T10_SA", datakey = "3....0.", )
-unique(y["ASGS_2016"]) # Confirming only 'Australia' level records came through
-unique(y["SEX_ABS"]) # Confirming only 'Australia' level records came through
+# So we have:
+x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs= 3))
+unique(x["asgs_2016"]) # Confirming only 'Australia' level records came through
+unique(x["sex_abs"]) # Confirming only 'Persons' level records came through
+
+# Please note however that not all values in the datastructure necessarily
+# appear in the data. You get 404s in this case
+ds[ds$var=="regiontype" & ds$label == "Destination Zones", ]
+try(read_api("ABS_C16_T10_SA", datakey=list(regiontype="DZN")))
+
+# If you already have a query API, then use `read_api_url()`
+wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/1.THRPEB..C+B+TOT..AUS.Q?startPeriod=2020-Q1"
+read_api_url(wpi_url)
 
 }
