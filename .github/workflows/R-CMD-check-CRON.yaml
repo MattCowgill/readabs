@@ -1,8 +1,8 @@
 # This smaller action (only r-release, only macOS) is scheduled to run daily
 on:
   schedule:
-  # Run at midnight everyday
-    - cron:  '0 0 * * *'
+  # Run at 1:35am UTC = 11:30 Melb std time
+    - cron:  '35 1 * * THU'
 
 
 name: R-CMD-check-CRON
