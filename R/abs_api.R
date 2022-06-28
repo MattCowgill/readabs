@@ -173,7 +173,8 @@ abs_datastructure <- function(id) {
   out <- out[order(out$position), setdiff(names(out), "local_id")]
   rownames(out) <- NULL
 
-  out
+  out$var <- tolower(out$var)
+  dplyr::tibble(out)
 }
 
 
@@ -189,6 +190,7 @@ abs_datastructure <- function(id) {
 #'
 resp_as_df <- function(r) {
   r <- utils::read.csv(text = rawToChar(httr::content(r)))
+  names(r) <- tolower(names(r))
   r
 }
 
