@@ -79,6 +79,7 @@ abs_dataflows <- function() {
   desc <- purrr::map_chr(desc, ~ifelse(is.null(.), "", .))
   out$desc <- desc
 
+  out$version <- numeric_version(out$version)
   out[c("id", "name", "desc", "version")]
 }
 
