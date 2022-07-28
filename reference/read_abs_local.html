@@ -19,7 +19,7 @@ from ABS time series spreadsheets that are already saved to your local drive."><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.903</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.904</span>
       </span>
     </div>
 
@@ -67,13 +67,13 @@ from ABS time series spreadsheets that are already saved to your local drive.</p
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_abs_local</span><span class="op">(</span>
-  cat_no <span class="op">=</span> <span class="cn">NULL</span>,
-  filenames <span class="op">=</span> <span class="cn">NULL</span>,
-  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_READABS_PATH"</span>, unset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  use_fst <span class="op">=</span> <span class="cn">TRUE</span>,
-  metadata <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_abs_local</span><span class="op">(</span></span>
+<span>  cat_no <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  filenames <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_READABS_PATH"</span>, unset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  use_fst <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  metadata <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -124,13 +124,13 @@ please use <code><a href="read_abs.html">read_abs()</a></code> instead.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># Load and tidy two specified files from the "data/ABS" subdirectory</span></span>
-<span class="r-in"><span class="co"># of your working directory</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">lfs</span> <span class="op">&lt;-</span> <span class="fu">read_abs_local</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"6202001.xls"</span>, <span class="st">"6202005.xls"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Load and tidy two specified files from the "data/ABS" subdirectory</span></span></span>
+<span class="r-in"><span><span class="co"># of your working directory</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">lfs</span> <span class="op">&lt;-</span> <span class="fu">read_abs_local</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"6202001.xls"</span>, <span class="st">"6202005.xls"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -145,7 +145,7 @@ please use <code><a href="read_abs.html">read_abs()</a></code> instead.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

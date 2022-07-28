@@ -18,7 +18,7 @@ time series catalogue number (as a whole), individual tables, or series IDs."><m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.903</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.904</span>
       </span>
     </div>
 
@@ -65,7 +65,7 @@ time series catalogue number (as a whole), individual tables, or series IDs.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">check_latest_date</span><span class="op">(</span>cat_no <span class="op">=</span> <span class="cn">NULL</span>, tables <span class="op">=</span> <span class="st">"all"</span>, series_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_latest_date</span><span class="op">(</span>cat_no <span class="op">=</span> <span class="cn">NULL</span>, tables <span class="op">=</span> <span class="st">"all"</span>, series_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -104,26 +104,26 @@ have multiple dates, only the most recent will be returned.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Check a whole catalogue number; return the latest release date for any</span></span>
-<span class="r-in"><span class="co"># time series in the number</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">check_latest_date</span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Return latest release date for a table within a catalogue number  - note</span></span>
-<span class="r-in"><span class="co"># the function will return the release date</span></span>
-<span class="r-in"><span class="co"># of the most-recently-updated series within the tables</span></span>
-<span class="r-in"><span class="fu">check_latest_date</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Or for multiple tables - note the function will return the release date</span></span>
-<span class="r-in"><span class="co"># of the most-recently-updated series within the tables</span></span>
-<span class="r-in"><span class="fu">check_latest_date</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"5a"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Or for an individual time series</span></span>
-<span class="r-in"><span class="fu">check_latest_date</span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">"A2713849C"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check a whole catalogue number; return the latest release date for any</span></span></span>
+<span class="r-in"><span><span class="co"># time series in the number</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">check_latest_date</span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Return latest release date for a table within a catalogue number  - note</span></span></span>
+<span class="r-in"><span><span class="co"># the function will return the release date</span></span></span>
+<span class="r-in"><span><span class="co"># of the most-recently-updated series within the tables</span></span></span>
+<span class="r-in"><span><span class="fu">check_latest_date</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or for multiple tables - note the function will return the release date</span></span></span>
+<span class="r-in"><span><span class="co"># of the most-recently-updated series within the tables</span></span></span>
+<span class="r-in"><span><span class="fu">check_latest_date</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"5a"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or for an individual time series</span></span></span>
+<span class="r-in"><span><span class="fu">check_latest_date</span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">"A2713849C"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -138,7 +138,7 @@ have multiple dates, only the most recent will be returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

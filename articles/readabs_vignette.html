@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.903</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.904</span>
       </span>
     </div>
 
@@ -132,31 +132,32 @@
 </h3>
 <p><code><a href="../reference/read_abs.html">read_abs()</a></code> is the main function of the <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> package. First, let’s load <a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a> and a couple of other packages we’ll use for demonstration purposes:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="getting-a-whole-catalogue-number-worth-of-time-series-data">Getting a whole catalogue number worth of time series data<a class="anchor" aria-label="anchor" href="#getting-a-whole-catalogue-number-worth-of-time-series-data"></a>
 </h4>
 <p>If you give <code><a href="../reference/read_abs.html">read_abs()</a></code> an ABS catalogue number, it will download, import and tidy all the time series spreadsheets from that catalogue number. Easy!</p>
 <p>For example, to get all the spreadsheets from the Wage Price Index, catalogue number 6345.0, we’d do:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">wpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span></span></code></pre></div>
 <p>Cool! Now we’ve got a data frame (a tibble, to be precise) that contains all the time series from the Wage Price Index, converted to long and stacked on top of each other. Here’s what it looks like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wpi</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  67.4 Original    INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  64.7 Original    INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  66.7 Original    INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  67.3 Seasonally… INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  64.8 Seasonally… INDEX    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  66.6 Seasonally… INDEX    </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wpi</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
+<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  67.4 Origin… INDEX   3      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  64.7 Origin… INDEX   3      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  66.7 Origin… INDEX   3      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  67.3 Season… INDEX   3      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  64.8 Season… INDEX   3      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  66.6 Season… INDEX   3      </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you’ll have a data frame with well over 2 million rows.</p>
 <p>All the metadata from the time series spreadsheets is included in the data frame:</p>
 <ul>
@@ -189,38 +190,40 @@
 <p>Unless you tell it otherwise, <code><a href="../reference/read_abs.html">read_abs()</a></code> will get all the time series spreadsheets from a given catalogue number.</p>
 <p>Generally this will be overkill. Maybe you don’t want all ~2.1 million rows of Labour Force data; perhaps you know that the time series you need is in table 1. In that case you can use the <code>tables</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code> to specify the table(s) you want:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">lfs_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">lfs_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Seasonally… STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Original    STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Seasonally… STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Original    STOCK    </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
+<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Season… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Origin… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Season… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Origin… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>If you want more than one table, but not the whole catalogue number, you can specify multiple tables:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">lfs_1_5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">lfs_1_5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6202.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lfs_1_5</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Seasonally… STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Original    STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Seasonally… STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Original    STOCK    </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lfs_1_5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
+<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Season… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Origin… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Season… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Origin… STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="get-time-series-using-their-ids">Get time series using their IDs<a class="anchor" aria-label="anchor" href="#get-time-series-using-their-ids"></a>
@@ -228,23 +231,24 @@
 <p>Every ABS time series has a unique identifier. If you know the ID for the time series you need, you can supply it to the <code>series_id</code> argument to <code><a href="../reference/read_abs.html">read_abs()</a></code>. You can give it a single ID, or multiple IDs.</p>
 <p>For example, the time series ID for the number of employed people in Australia (trend) is <code>"A84423127L"</code>. We can get a data frame that only contains that series as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">employed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">"A84423127L"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">employed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs.html">read_abs</a></span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">"A84423127L"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">employed</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   series_id &lt;chr&gt;, unit &lt;chr&gt;</span></span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">employed</span><span class="op">$</span><span class="va">series</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Employed total ;  Persons ;"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">employed</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
+<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. La… 1978-03-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. La… 1978-04-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. La… 1978-05-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-06-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-07-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">employed</span><span class="op">$</span><span class="va">series</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Employed total ;  Persons ;"</span></span></code></pre></div>
 <p>A benefit of this approach is that the filtering is done for you - the data frame only contains the series you’re interested in.</p>
 </div>
 </div>
@@ -255,113 +259,114 @@
 <p>In this example, we’ll work with data from the Labour Force survey that we downloaded and tidied earlier using <code><a href="../reference/read_abs.html">read_abs()</a></code>.</p>
 <p>Now let’s have a look at the time series from table 1 of the Labour Force survey:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">$</span><span class="va">series</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "Employed total ;  Persons ;"                                      </span>
-<span class="co">#&gt;  [2] "Employed total ;  &gt; Males ;"                                      </span>
-<span class="co">#&gt;  [3] "Employed total ;  &gt; Females ;"                                    </span>
-<span class="co">#&gt;  [4] "&gt; Employed full-time ;  Persons ;"                                </span>
-<span class="co">#&gt;  [5] "&gt; Employed full-time ;  &gt; Males ;"                                </span>
-<span class="co">#&gt;  [6] "&gt; Employed full-time ;  &gt; Females ;"                              </span>
-<span class="co">#&gt;  [7] "&gt; Employed part-time ;  Persons ;"                                </span>
-<span class="co">#&gt;  [8] "&gt; Employed part-time ;  &gt; Males ;"                                </span>
-<span class="co">#&gt;  [9] "&gt; Employed part-time ;  &gt; Females ;"                              </span>
-<span class="co">#&gt; [10] "Employment to population ratio ;  Persons ;"                      </span>
-<span class="co">#&gt; [11] "Employment to population ratio ;  &gt; Males ;"                      </span>
-<span class="co">#&gt; [12] "Employment to population ratio ;  &gt; Females ;"                    </span>
-<span class="co">#&gt; [13] "Unemployed total ;  Persons ;"                                    </span>
-<span class="co">#&gt; [14] "Unemployed total ;  &gt; Males ;"                                    </span>
-<span class="co">#&gt; [15] "Unemployed total ;  &gt; Females ;"                                  </span>
-<span class="co">#&gt; [16] "&gt; Unemployed looked for full-time work ;  Persons ;"              </span>
-<span class="co">#&gt; [17] "&gt; Unemployed looked for full-time work ;  &gt; Males ;"              </span>
-<span class="co">#&gt; [18] "&gt; Unemployed looked for full-time work ;  &gt; Females ;"            </span>
-<span class="co">#&gt; [19] "&gt; Unemployed looked for only part-time work ;  Persons ;"         </span>
-<span class="co">#&gt; [20] "&gt; Unemployed looked for only part-time work ;  &gt; Males ;"         </span>
-<span class="co">#&gt; [21] "&gt; Unemployed looked for only part-time work ;  &gt; Females ;"       </span>
-<span class="co">#&gt; [22] "Unemployment rate ;  Persons ;"                                   </span>
-<span class="co">#&gt; [23] "Unemployment rate ;  &gt; Males ;"                                   </span>
-<span class="co">#&gt; [24] "Unemployment rate ;  &gt; Females ;"                                 </span>
-<span class="co">#&gt; [25] "&gt; Unemployment rate looked for full-time work ;  Persons ;"       </span>
-<span class="co">#&gt; [26] "&gt; Unemployment rate looked for full-time work ;  &gt; Males ;"       </span>
-<span class="co">#&gt; [27] "&gt; Unemployment rate looked for full-time work ;  &gt; Females ;"     </span>
-<span class="co">#&gt; [28] "&gt; Unemployment rate looked for only part-time work ;  Persons ;"  </span>
-<span class="co">#&gt; [29] "&gt; Unemployment rate looked for only part-time work ;  &gt; Males ;"  </span>
-<span class="co">#&gt; [30] "&gt; Unemployment rate looked for only part-time work ;  &gt; Females ;"</span>
-<span class="co">#&gt; [31] "Labour force total ;  Persons ;"                                  </span>
-<span class="co">#&gt; [32] "Labour force total ;  &gt; Males ;"                                  </span>
-<span class="co">#&gt; [33] "Labour force total ;  &gt; Females ;"                                </span>
-<span class="co">#&gt; [34] "Participation rate ;  Persons ;"                                  </span>
-<span class="co">#&gt; [35] "Participation rate ;  &gt; Males ;"                                  </span>
-<span class="co">#&gt; [36] "Participation rate ;  &gt; Females ;"                                </span>
-<span class="co">#&gt; [37] "Not in the labour force (NILF) ;  Persons ;"                      </span>
-<span class="co">#&gt; [38] "Not in the labour force (NILF) ;  &gt; Males ;"                      </span>
-<span class="co">#&gt; [39] "Not in the labour force (NILF) ;  &gt; Females ;"                    </span>
-<span class="co">#&gt; [40] "Civilian population aged 15 years and over ;  Persons ;"          </span>
-<span class="co">#&gt; [41] "Civilian population aged 15 years and over ;  &gt; Males ;"          </span>
-<span class="co">#&gt; [42] "Civilian population aged 15 years and over ;  &gt; Females ;"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">$</span><span class="va">series</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "Employed total ;  Persons ;"                                      </span></span>
+<span><span class="co">#&gt;  [2] "Employed total ;  &gt; Males ;"                                      </span></span>
+<span><span class="co">#&gt;  [3] "Employed total ;  &gt; Females ;"                                    </span></span>
+<span><span class="co">#&gt;  [4] "&gt; Employed full-time ;  Persons ;"                                </span></span>
+<span><span class="co">#&gt;  [5] "&gt; Employed full-time ;  &gt; Males ;"                                </span></span>
+<span><span class="co">#&gt;  [6] "&gt; Employed full-time ;  &gt; Females ;"                              </span></span>
+<span><span class="co">#&gt;  [7] "&gt; Employed part-time ;  Persons ;"                                </span></span>
+<span><span class="co">#&gt;  [8] "&gt; Employed part-time ;  &gt; Males ;"                                </span></span>
+<span><span class="co">#&gt;  [9] "&gt; Employed part-time ;  &gt; Females ;"                              </span></span>
+<span><span class="co">#&gt; [10] "Employment to population ratio ;  Persons ;"                      </span></span>
+<span><span class="co">#&gt; [11] "Employment to population ratio ;  &gt; Males ;"                      </span></span>
+<span><span class="co">#&gt; [12] "Employment to population ratio ;  &gt; Females ;"                    </span></span>
+<span><span class="co">#&gt; [13] "Unemployed total ;  Persons ;"                                    </span></span>
+<span><span class="co">#&gt; [14] "Unemployed total ;  &gt; Males ;"                                    </span></span>
+<span><span class="co">#&gt; [15] "Unemployed total ;  &gt; Females ;"                                  </span></span>
+<span><span class="co">#&gt; [16] "&gt; Unemployed looked for full-time work ;  Persons ;"              </span></span>
+<span><span class="co">#&gt; [17] "&gt; Unemployed looked for full-time work ;  &gt; Males ;"              </span></span>
+<span><span class="co">#&gt; [18] "&gt; Unemployed looked for full-time work ;  &gt; Females ;"            </span></span>
+<span><span class="co">#&gt; [19] "&gt; Unemployed looked for only part-time work ;  Persons ;"         </span></span>
+<span><span class="co">#&gt; [20] "&gt; Unemployed looked for only part-time work ;  &gt; Males ;"         </span></span>
+<span><span class="co">#&gt; [21] "&gt; Unemployed looked for only part-time work ;  &gt; Females ;"       </span></span>
+<span><span class="co">#&gt; [22] "Unemployment rate ;  Persons ;"                                   </span></span>
+<span><span class="co">#&gt; [23] "Unemployment rate ;  &gt; Males ;"                                   </span></span>
+<span><span class="co">#&gt; [24] "Unemployment rate ;  &gt; Females ;"                                 </span></span>
+<span><span class="co">#&gt; [25] "&gt; Unemployment rate looked for full-time work ;  Persons ;"       </span></span>
+<span><span class="co">#&gt; [26] "&gt; Unemployment rate looked for full-time work ;  &gt; Males ;"       </span></span>
+<span><span class="co">#&gt; [27] "&gt; Unemployment rate looked for full-time work ;  &gt; Females ;"     </span></span>
+<span><span class="co">#&gt; [28] "&gt; Unemployment rate looked for only part-time work ;  Persons ;"  </span></span>
+<span><span class="co">#&gt; [29] "&gt; Unemployment rate looked for only part-time work ;  &gt; Males ;"  </span></span>
+<span><span class="co">#&gt; [30] "&gt; Unemployment rate looked for only part-time work ;  &gt; Females ;"</span></span>
+<span><span class="co">#&gt; [31] "Labour force total ;  Persons ;"                                  </span></span>
+<span><span class="co">#&gt; [32] "Labour force total ;  &gt; Males ;"                                  </span></span>
+<span><span class="co">#&gt; [33] "Labour force total ;  &gt; Females ;"                                </span></span>
+<span><span class="co">#&gt; [34] "Participation rate ;  Persons ;"                                  </span></span>
+<span><span class="co">#&gt; [35] "Participation rate ;  &gt; Males ;"                                  </span></span>
+<span><span class="co">#&gt; [36] "Participation rate ;  &gt; Females ;"                                </span></span>
+<span><span class="co">#&gt; [37] "Not in the labour force (NILF) ;  Persons ;"                      </span></span>
+<span><span class="co">#&gt; [38] "Not in the labour force (NILF) ;  &gt; Males ;"                      </span></span>
+<span><span class="co">#&gt; [39] "Not in the labour force (NILF) ;  &gt; Females ;"                    </span></span>
+<span><span class="co">#&gt; [40] "Civilian population aged 15 years and over ;  Persons ;"          </span></span>
+<span><span class="co">#&gt; [41] "Civilian population aged 15 years and over ;  &gt; Males ;"          </span></span>
+<span><span class="co">#&gt; [42] "Civilian population aged 15 years and over ;  &gt; Females ;"</span></span></code></pre></div>
 <p>There’s a bunch of data in here. We can see that the <code>series</code> column contains a first part, like “Participation rate” or “Unemployment rate”, and a second part, which is “Persons”, “Males”, or “Females”. You will often want to filter using one or both of these components separately - and sometimes there will be more than two components.</p>
 <p>The <code>separate_series</code> function helps you by separating the <code>series</code> column into multiple components and removing extraneous symbols.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_1_sep</span> <span class="op">&lt;-</span> <span class="va">lfs_1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/separate_series.html">separate_series</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Warning in separate_series(.): value column(s) have NA values.</span>
-
-<span class="va">lfs_1_sep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">series_1</span>, <span class="va">series_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` has grouped output by 'series_1'. You can override using the</span>
-<span class="co">#&gt; `.groups` argument.</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 42 × 2</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Groups:   series_1 [14]</span></span>
-<span class="co">#&gt;    series_1                                   series_2</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Civilian population aged 15 years and over Females </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Civilian population aged 15 years and over Males   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Civilian population aged 15 years and over Persons </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Employed full-time                         Females </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Employed full-time                         Males   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Employed full-time                         Persons </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Employed part-time                         Females </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Employed part-time                         Males   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Employed part-time                         Persons </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Employed total                             Females </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 32 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">lfs_1_sep</span> <span class="op">&lt;-</span> <span class="va">lfs_1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/separate_series.html">separate_series</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in separate_series(.): value column(s) have NA values.</span></span>
+<span></span>
+<span><span class="va">lfs_1_sep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">series_1</span>, <span class="va">series_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `summarise()` has grouped output by 'series_1'. You can override using the</span></span>
+<span><span class="co">#&gt; `.groups` argument.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 42 × 2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   series_1 [14]</span></span></span>
+<span><span class="co">#&gt;    series_1                                   series_2</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Civilian population aged 15 years and over Females </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Civilian population aged 15 years and over Males   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Civilian population aged 15 years and over Persons </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Employed full-time                         Females </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Employed full-time                         Males   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Employed full-time                         Persons </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Employed part-time                         Females </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Employed part-time                         Males   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Employed part-time                         Persons </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Employed total                             Females </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 32 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>The <code>remove_totals</code> and <code>remove_nas</code> arguments to <code><a href="../reference/separate_series.html">separate_series()</a></code> can be very useful when you are tidying data. They’re both set to <code>FALSE</code> by default.</p>
 <p>We’ve now got a new tibble that still contains the original <code>series</code> column, but also contains new columns <code>series_1</code> and <code>series_2</code>, with the two parts of <code>series</code> split into these new columns.</p>
 <p>Let’s make a data frame that just contains the male and female unemployment rates over time.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">lfs_1_sep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series_1</span> <span class="op">==</span> <span class="st">"Unemployment rate"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_1</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Unemployment rate"</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Persons" "Males"   "Females"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">lfs_1_sep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series_1</span> <span class="op">==</span> <span class="st">"Unemployment rate"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Unemployment rate"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Persons" "Males"   "Females"</span></span></code></pre></div>
 <p>Now we have a data frame, <code>unemp</code>, that contains various unemployment rate series. Let’s filter to only Males or Females.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">unemp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series_2</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Males"</span>, <span class="st">"Females"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Males"   "Females"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">unemp</span> <span class="op">&lt;-</span> <span class="va">unemp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series_2</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Males"</span>, <span class="st">"Females"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">unemp</span><span class="op">$</span><span class="va">series_2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Males"   "Females"</span></span></code></pre></div>
 <p>Now our data frame only contains the male and female unemployment rates, which is what we want. Let’s graph it, filtering once more to show only the seasonally adjusted series and adding a ‘sex’ column:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">unemp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series_type</span> <span class="op">==</span> <span class="st">"Seasonally Adjusted"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="va">series_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">value</span>, col <span class="op">=</span> <span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
-        axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-        legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-        text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"The male and female unemployment rates have converged"</span>,
-       subtitle <span class="op">=</span> <span class="st">"Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)"</span>,
-       caption <span class="op">=</span> <span class="st">"Source: ABS 6202.0"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">unemp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">series_type</span> <span class="op">==</span> <span class="st">"Seasonally Adjusted"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="va">series_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">value</span>, col <span class="op">=</span> <span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
+<span>        axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"The male and female unemployment rates have converged"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)"</span>,</span>
+<span>       caption <span class="op">=</span> <span class="st">"Source: ABS 6202.0"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="VIGNETTE-graph-unemp-1.png" width="1458.33333333333"></p>
 <p>Ta-da! Now we’ve got a nice little graph - and you didn’t need to go to the ABS website or click around in Excel.</p>
 </div>
@@ -371,7 +376,7 @@
 <p>If you already have ABS time series spreadsheets saved locally that you want to read, the <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> function is what you want.</p>
 <p>If you’ve downloaded files using <code><a href="../reference/read_abs.html">read_abs()</a></code>, you can import them using <code><a href="../reference/read_abs_local.html">read_abs_local()</a></code> by specifying the catalogue number. This will look in the subdirectory of <code>path</code> that corresponds to <code>cat_no</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lfs_local_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs_local.html">read_abs_local</a></span><span class="op">(</span><span class="st">"6202.0"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">lfs_local_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_abs_local.html">read_abs_local</a></span><span class="op">(</span><span class="st">"6202.0"</span><span class="op">)</span></span></code></pre></div>
 <p>The data frame you’ll get will look the same as if you’d used <code><a href="../reference/read_abs.html">read_abs()</a></code> to get the spreadsheet(s) from the ABS website.</p>
 </div>
 </div>
@@ -388,27 +393,28 @@
 <p>Let’s say I want to download cube GM1, the gross flows spreadsheet from the monthly Labour Force release.</p>
 <p>Let’s look for the name of the catalogue:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span>
-<span class="co">#&gt;   heading                     sub_heading                        catalogue url  </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Employment and unemployment Labour Force, Australia            labour-f… http…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Employment and unemployment Labour Force, Australia, Detailed  labour-f… http…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Employment and unemployment Labour Force Status of Families    labour-f… http…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Employment and unemployment Barriers and Incentives to Labour… barriers… http…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Employment and unemployment Labour Force, Australia, Detailed… labour-f… http…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Employment and unemployment Labour Force, Australia - Rebench… labour-f… http…</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">#&gt;   heading                     sub_heading                          catal…¹ url  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Employment and unemployment Labour Force, Australia              labour… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Employment and unemployment Labour Force, Australia, Detailed    labour… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Employment and unemployment Labour Force Status of Families      labour… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Employment and unemployment Barriers and Incentives to Labour F… barrie… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Employment and unemployment Labour Force, Australia, Detailed, … labour… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Employment and unemployment Labour Force, Australia - Rebenchma… labour… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​catalogue</span></span></span></code></pre>
 <p>It looks like <code>labour-force-australia</code> is the catalogue name for the monthly Labour Force survey.</p>
 <p>Now I need to find the filename for the gross flows spreadsheet, GM1.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/search_files.html">search_files</a></span><span class="op">(</span><span class="st">"GM1"</span>, <span class="st">"labour-force-australia"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; [1] "GM1.xlsx"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/search_files.html">search_files</a></span><span class="op">(</span><span class="st">"GM1"</span>, <span class="st">"labour-force-australia"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; [1] "GM1.xlsx"</span></span></code></pre>
 <p>The GM1 table is, conveniently enough, called <code>GM1.xlsx</code>.</p>
 <p>So we can download it like this:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gm1_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"labour-force-australia"</span>, <span class="st">"GM1"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">gm1_path</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">gm1_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"labour-force-australia"</span>, <span class="st">"GM1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">gm1_path</span><span class="op">)</span></span></code></pre></div>
 <p>Now we have an Excel sheet saved at that path, which you can import using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code> or the Excel-reading function of your choice.</p>
 </div>
 <div class="section level3">
@@ -420,19 +426,20 @@
 </h4>
 <p>The labour force gross flows cube is one of the cubes for which <code>readabs</code> includes a convenience function, <code><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows()</a></code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Now we have a tidy tibble of the Labour Force gross flows data:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span>
-<span class="co">#&gt;   date       sex   age      state lfs_current lfs_previous persons unit  weights</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2001-03-01 Males 15-19 y… New … Employed f… Employed fu…  28.5   000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2001-03-01 Males 15-19 y… New … Employed f… Employed pa…   1.93  000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2001-03-01 Males 15-19 y… New … Employed f… Unemployed     2.93  000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2001-03-01 Males 15-19 y… New … Employed f… Not in the …   0.334 000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2001-03-01 Males 15-19 y… New … Employed f… Unmatched i…   1.63  000s  curren…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2001-03-01 Males 15-19 y… New … Employed f… Incoming ro…   7.57  000s  curren…</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
+<span><span class="co">#&gt;   date       sex   age         state       lfs_c…¹ lfs_p…² persons unit  weights</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2001-03-01 Males 15-19 years New South … Employ… Employ…  28.5   000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2001-03-01 Males 15-19 years New South … Employ… Employ…   1.93  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2001-03-01 Males 15-19 years New South … Employ… Unempl…   2.93  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2001-03-01 Males 15-19 years New South … Employ… Not in…   0.334 000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2001-03-01 Males 15-19 years New South … Employ… Unmatc…   1.63  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2001-03-01 Males 15-19 years New South … Employ… Incomi…   7.57  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​lfs_current, ²​lfs_previous</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="abs-weekly-payroll-jobs-and-wages">ABS Weekly Payroll Jobs and Wages<a class="anchor" aria-label="anchor" href="#abs-weekly-payroll-jobs-and-wages"></a>
@@ -440,19 +447,19 @@
 <p>The ABS Weekly Payroll Jobs and Wages release contains a range of useful information. Even though this release contains time series data, the ABS does not release it in its standard time series spreadsheet format, and <code><a href="../reference/read_abs.html">read_abs()</a></code> therefore cannot import it. The <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code> function can be used instead.</p>
 <p>Let’s say you want to download the jobs figures, as index numbers, for each geographical area (SA3) over time. That’s straightforward with <code><a href="../reference/read_payrolls.html">read_payrolls()</a></code>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">payrolls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_payrolls.html">read_payrolls</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">payrolls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_payrolls.html">read_payrolls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s what we’ve got:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">payrolls</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span>
-<span class="co">#&gt;   state sa4            sa3        date       value series</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> NSW   Capital Region Queanbeyan 2020-01-04  92.6 jobs  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> NSW   Capital Region Queanbeyan 2020-01-11  95.2 jobs  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> NSW   Capital Region Queanbeyan 2020-01-18  97.1 jobs  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> NSW   Capital Region Queanbeyan 2020-01-25  97.2 jobs  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> NSW   Capital Region Queanbeyan 2020-02-01  98.0 jobs  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NSW   Capital Region Queanbeyan 2020-02-08  98.8 jobs</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">payrolls</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   state sa4            sa3        date       value series</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> NSW   Capital Region Queanbeyan 2020-01-04  92.6 jobs  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> NSW   Capital Region Queanbeyan 2020-01-11  95.2 jobs  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> NSW   Capital Region Queanbeyan 2020-01-18  97.1 jobs  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> NSW   Capital Region Queanbeyan 2020-01-25  97.2 jobs  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> NSW   Capital Region Queanbeyan 2020-02-01  98.0 jobs  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NSW   Capital Region Queanbeyan 2020-02-08  98.8 jobs</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -482,7 +489,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
