@@ -68,10 +68,13 @@ tidy_abs <- function(df, metadata = TRUE) {
   # a bunch of columns have duplicate names which causes problems; temporarily
   # append the series ID to the colname so they're unique
 
-  new_col_names <- purrr::map_chr(
-    .x = 2:ncol(df),
-    .f = ~ paste0(colnames(df)[.], "_", df[9, .])
-  )
+  # new_col_names <- purrr::map_chr(
+  #   .x = 2:ncol(df),
+  #   .f = ~ paste0(colnames(df)[.], "_", df[9, .])
+  # )
+
+  cols <- 2:ncol(df)
+  new_col_names <- paste(colnames(df)[cols], df[9, cols], sep = "_")
 
   colnames(df)[2:ncol(df)] <- new_col_names
 
