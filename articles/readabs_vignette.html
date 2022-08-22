@@ -156,8 +156,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  64.8 Season… INDEX   3      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  66.6 Season… INDEX   3      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span></code></pre></div>
 <p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue numbers are much bigger - for example, if you get the entire monthly Labour Force release (catalogue number 6202.0), you’ll have a data frame with well over 2 million rows.</p>
 <p>All the metadata from the time series spreadsheets is included in the data frame:</p>
 <ul>
@@ -204,8 +203,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Season… STOCK   1      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Origin… STOCK   1      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span></code></pre></div>
 <p>If you want more than one table, but not the whole catalogue number, you can specify multiple tables:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -222,8 +220,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Season… STOCK   1      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Origin… STOCK   1      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="get-time-series-using-their-ids">Get time series using their IDs<a class="anchor" aria-label="anchor" href="#get-time-series-using-their-ids"></a>
@@ -245,7 +242,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-07-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">employed</span><span class="op">$</span><span class="va">series</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Employed total ;  Persons ;"</span></span></code></pre></div>
@@ -328,8 +324,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Employed part-time                         Males   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Employed part-time                         Persons </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Employed total                             Females </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 32 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 32 more rows</span></span></span></code></pre></div>
 <p>The <code>remove_totals</code> and <code>remove_nas</code> arguments to <code><a href="../reference/separate_series.html">separate_series()</a></code> can be very useful when you are tidying data. They’re both set to <code>FALSE</code> by default.</p>
 <p>We’ve now got a new tibble that still contains the original <code>series</code> column, but also contains new columns <code>series_1</code> and <code>series_2</code>, with the two parts of <code>series</code> split into these new columns.</p>
 <p>Let’s make a data frame that just contains the male and female unemployment rates over time.</p>
