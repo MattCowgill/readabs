@@ -35,3 +35,5 @@ dl_file <- function(url, destfile, quiet = TRUE) {
     cacheOK = FALSE
   )
 }
+
+safely_download_abs <- purrr::safely(download_abs)

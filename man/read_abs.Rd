@@ -13,7 +13,8 @@ read_abs(
   metadata = TRUE,
   show_progress_bars = TRUE,
   retain_files = TRUE,
-  check_local = TRUE
+  check_local = TRUE,
+  release_date = "latest"
 )
 
 read_abs_series(series_id, ...)
@@ -51,6 +52,11 @@ If set to `FALSE`, the files will be stored in a temporary directory.}
 
 \item{check_local}{If `TRUE`, the default, local `fst` files are used,
 if present.}
+
+\item{release_date}{Either `"latest"` or a string coercible to a date, such as
+`"2022-02-01"`. If `"latest"`, the latest release of the requested data will
+be returned. If a date, (eg. `"2022-02-01"`) `read_abs()` will
+attempt to download the data from that month's release.}
 
 \item{...}{Arguments to `read_abs_series()` are passed to `read_abs()`.}
 }
@@ -95,10 +101,16 @@ wpi <- read_abs("6345.0")
 wpi_t1 <- read_abs("6345.0", tables = "1")
 }
 
+# Or table 1 as in the Sep 2019 release of the WPI:
+\dontrun{
+wpi_t1_sep2019 <- read_abs("6345.0", tables = "1", release_date = "2019-09-01")
+}
+
 # Or tables 1 and 2a from the WPI
 \dontrun{
 wpi_t1_t2a <- read_abs("6345.0", tables = c("1", "2a"))
 }
+
 
 # Get two specific time series, based on their time series IDs
 \dontrun{

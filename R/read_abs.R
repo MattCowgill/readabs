@@ -40,6 +40,11 @@
 #' @param check_local If `TRUE`, the default, local `fst` files are used,
 #' if present.
 #'
+#' @param release_date Either `"latest"` or a string coercible to a date, such as
+#' `"2022-02-01"`. If `"latest"`, the latest release of the requested data will
+#' be returned. If a date, (eg. `"2022-02-01"`) `read_abs()` will
+#' attempt to download the data from that month's release.
+#'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
 #'
@@ -74,10 +79,16 @@
 #' wpi_t1 <- read_abs("6345.0", tables = "1")
 #' }
 #'
+#' # Or table 1 as in the Sep 2019 release of the WPI:
+#' \dontrun{
+#' wpi_t1_sep2019 <- read_abs("6345.0", tables = "1", release_date = "2019-09-01")
+#' }
+#'
 #' # Or tables 1 and 2a from the WPI
 #' \dontrun{
 #' wpi_t1_t2a <- read_abs("6345.0", tables = c("1", "2a"))
 #' }
+#'
 #'
 #' # Get two specific time series, based on their time series IDs
 #' \dontrun{
@@ -101,7 +112,9 @@ read_abs <- function(cat_no = NULL,
                      metadata = TRUE,
                      show_progress_bars = TRUE,
                      retain_files = TRUE,
-                     check_local = TRUE) {
+                     check_local = TRUE,
+                     release_date = "latest") {
+
   if (isTRUE(check_local) &&
     fst_available(cat_no = cat_no, path = path)) {
     if (!identical(tables, "all")) {
@@ -235,6 +248,12 @@ read_abs <- function(cat_no = NULL,
   # Remove spaces from URLs
   urls <- gsub(" ", "+", urls)
 
+  if (release_date != "latest") {
+    urls <- gsub("latest-release",
+         tolower(format(as.Date(release_date), "%b-%Y")),
+         urls)
+  }
+
   table_titles <- unique(xml_dfs$TableTitle)
 
   # download tables corresponding to URLs
@@ -243,11 +262,25 @@ read_abs <- function(cat_no = NULL,
     ", ", xml_dfs$ProductTitle[1]
   ))
 
-  download_abs(
+  dl_result <- safely_download_abs(
     urls = urls,
     path = .path,
     show_progress_bars = show_progress_bars
   )
+
+  if (is.null(dl_result$result)) {
+    urls <- gsub(".xlsx", ".xls", urls)
+    dl_result_xls <- safely_download_abs(
+      urls = urls,
+      path = .path,
+      show_progress_bars = show_progress_bars
+    )
+
+    stopifnot(is.null(dl_result_xls$error))
+    if (!is.null(dl_result_xls$error)) {
+      stop(dl_result$error)
+    }
+  }
 
 
   # extract the sheets to a list
