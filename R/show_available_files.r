@@ -55,10 +55,14 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
 
 
   # Try to download the page
-  tryCatch({
-    temp_page_location <- file.path(tempdir(), "temp_readabs.html")
-    dl_file(url = download_url,
-            destfile = temp_page_location)},
+  tryCatch(
+    {
+      temp_page_location <- file.path(tempdir(), "temp_readabs.html")
+      dl_file(
+        url = download_url,
+        destfile = temp_page_location
+      )
+    },
     error = function(cond) {
       message(paste("URL does not seem to exist:", download_url))
       message("Here's the original error message:")
@@ -77,8 +81,9 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
     rvest::html_attr("href")
 
   urls <- ifelse(stringi::stri_sub(urls, 2L, 11L) == "statistics",
-                 paste0("https://www.abs.gov.au", urls),
-                 urls)
+    paste0("https://www.abs.gov.au", urls),
+    urls
+  )
 
   labels <- download_page %>%
     rvest::html_nodes(".abs-data-download-left") %>%
@@ -113,6 +118,8 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
 #' @export
 
 get_available_files <- function(catalogue_string, refresh = FALSE) {
-  show_available_files(catalogue_string = catalogue_string,
-                       refresh = refresh)
+  show_available_files(
+    catalogue_string = catalogue_string,
+    refresh = refresh
+  )
 }

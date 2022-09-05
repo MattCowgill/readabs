@@ -30,14 +30,17 @@ search_catalogues <- function(string, refresh = FALSE) {
   # Using dplyr::if_any() is fast and clean but requires dplyr >= 1.0.4
   if (getNamespaceVersion("dplyr") > "1.0.4") {
     out <- df %>%
-        dplyr::filter(dplyr::if_any(.cols = dplyr::everything(),
-                                    ~grepl(string, .x,
-                                           perl = TRUE, ignore.case = TRUE)))
-
+      dplyr::filter(dplyr::if_any(
+        .cols = dplyr::everything(),
+        ~ grepl(string, .x,
+          perl = TRUE, ignore.case = TRUE
+        )
+      ))
   } else {
     matches <- purrr::map_dfr(df,
-                          grepl,
-                          pattern = string, perl = TRUE, ignore.case = TRUE) %>%
+      grepl,
+      pattern = string, perl = TRUE, ignore.case = TRUE
+    ) %>%
       rowSums()
 
     out <- dplyr::tibble(sum_true = matches) %>%
@@ -50,5 +53,4 @@ search_catalogues <- function(string, refresh = FALSE) {
     dplyr::mutate(url = as.character(url))
 
   return(out)
-
 }

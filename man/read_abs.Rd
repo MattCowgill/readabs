@@ -56,7 +56,7 @@ if present.}
 \item{release_date}{Either `"latest"` or a string coercible to a date, such as
 `"2022-02-01"`. If `"latest"`, the latest release of the requested data will
 be returned. If a date, (eg. `"2022-02-01"`) `read_abs()` will
-attempt to download the data from that month's release.}
+attempt to download the data from that month's release. See `Details`.}
 
 \item{...}{Arguments to `read_abs_series()` are passed to `read_abs()`.}
 }
@@ -87,6 +87,12 @@ for a single session using \code{Sys.setenv(R_READABS_PATH = <path>)}.
 If you would like to change this variable for all future R sessions, edit
 your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
+
+The `release_date` argument allows you to download table(s) other than the
+latest release. This is useful for examining revisions to time series, or
+for obtaining the version of series that were available on a given date.
+Note that you cannot supply more than one date to `release_date`. Note also
+that any dates prior to mid-2019 (the exact date varies by series) will fail.
 }
 \examples{
 

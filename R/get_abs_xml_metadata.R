@@ -13,11 +13,12 @@ get_abs_xml_metadata <- function(url) {
   first_page_df <- get_first_xml_page(url)
 
   get_numpages <- function(url) {
-
     temp_xml <- tempfile(fileext = ".xml")
 
-    dl_file(url = url,
-            destfile = temp_xml)
+    dl_file(
+      url = url,
+      destfile = temp_xml
+    )
 
     temp_xml %>%
       xml2::read_xml() %>%
