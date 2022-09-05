@@ -174,4 +174,7 @@ test_that("previous vintages of time series can be loaded", {
     read_abs("6345.0", 1, release_date = "2020-03-01", check_local = F),
     "tbl_df"
   )
+
+  expect_error(read_abs("6345.0", 1, release_date = "2020-03"))
+  expect_error(read_abs("6345.0", 1, release_date = c("2020-03-01", "2020-06-01")))
 })
