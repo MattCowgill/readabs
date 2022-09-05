@@ -187,6 +187,10 @@ read_abs <- function(cat_no = NULL,
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
+  if (length(release_date) != 1) {
+    stop("`release_date` argument must be length 1.")
+  }
+
   # satisfy CRAN
   ProductReleaseDate <- SeriesID <- NULL
 
@@ -289,7 +293,6 @@ read_abs <- function(cat_no = NULL,
       stop("URL ", url, " does not appear to be valid.")
     }
   }
-
 
   # extract the sheets to a list
   filenames <- base::basename(urls)
