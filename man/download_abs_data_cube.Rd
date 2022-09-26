@@ -52,7 +52,6 @@ The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 The filepath is returned invisibly which enables piping to \code{unzip()} or \code{readxl::read_excel}.
 }
 \examples{
-
 \dontrun{
 download_abs_data_cube(
   catalogue_string = "labour-force-australia-detailed",

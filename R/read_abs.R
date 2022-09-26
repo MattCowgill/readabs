@@ -40,6 +40,11 @@
 #' @param check_local If `TRUE`, the default, local `fst` files are used,
 #' if present.
 #'
+#' @param release_date Either `"latest"` or a string coercible to a date, such as
+#' `"2022-02-01"`. If `"latest"`, the latest release of the requested data will
+#' be returned. If a date, (eg. `"2022-02-01"`) `read_abs()` will
+#' attempt to download the data from that month's release. See `Details`.
+#'
 #' @return A data frame (tibble) containing the tidied data from the ABS time
 #' series table(s).
 #'
@@ -60,6 +65,13 @@
 #' If you would like to change this variable for all future R sessions, edit
 #' your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
 #' The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
+#'
+#' The `release_date` argument allows you to download table(s) other than the
+#' latest release. This is useful for examining revisions to time series, or
+#' for obtaining the version of series that were available on a given date.
+#' Note that you cannot supply more than one date to `release_date`. Note also
+#' that any dates prior to mid-2019 (the exact date varies by series) will fail.
+#'
 #' @rdname read_abs
 #' @examples
 #'
@@ -74,10 +86,16 @@
 #' wpi_t1 <- read_abs("6345.0", tables = "1")
 #' }
 #'
+#' # Or table 1 as in the Sep 2019 release of the WPI:
+#' \dontrun{
+#' wpi_t1_sep2019 <- read_abs("6345.0", tables = "1", release_date = "2019-09-01")
+#' }
+#'
 #' # Or tables 1 and 2a from the WPI
 #' \dontrun{
 #' wpi_t1_t2a <- read_abs("6345.0", tables = c("1", "2a"))
 #' }
+#'
 #'
 #' # Get two specific time series, based on their time series IDs
 #' \dontrun{
@@ -101,7 +119,8 @@ read_abs <- function(cat_no = NULL,
                      metadata = TRUE,
                      show_progress_bars = TRUE,
                      retain_files = TRUE,
-                     check_local = TRUE) {
+                     check_local = TRUE,
+                     release_date = "latest") {
   if (isTRUE(check_local) &&
     fst_available(cat_no = cat_no, path = path)) {
     if (!identical(tables, "all")) {
@@ -168,6 +187,10 @@ read_abs <- function(cat_no = NULL,
     stop("`metadata` argument must be either TRUE or FALSE")
   }
 
+  if (length(release_date) != 1) {
+    stop("`release_date` argument must be length 1.")
+  }
+
   # satisfy CRAN
   ProductReleaseDate <- SeriesID <- NULL
 
@@ -195,10 +218,10 @@ read_abs <- function(cat_no = NULL,
     series_id = series_id
   )
 
-
   # find spreadsheet URLs from cat_no in the Time Series Directory
-  download_message <- ifelse(!is.null(cat_no), paste0("catalogue ", cat_no),
-    "series ID "
+  download_message <- ifelse(!is.null(cat_no),
+    paste0("catalogue ", cat_no),
+    paste0("series ID", series_id)
   )
 
   message(paste0(
@@ -235,6 +258,15 @@ read_abs <- function(cat_no = NULL,
   # Remove spaces from URLs
   urls <- gsub(" ", "+", urls)
 
+  if (release_date != "latest") {
+    requested_date <- format(as.Date(release_date), "%b-%Y")
+    urls <- gsub(
+      "latest-release",
+      tolower(requested_date),
+      urls
+    )
+  }
+
   table_titles <- unique(xml_dfs$TableTitle)
 
   # download tables corresponding to URLs
@@ -243,12 +275,24 @@ read_abs <- function(cat_no = NULL,
     ", ", xml_dfs$ProductTitle[1]
   ))
 
-  download_abs(
+  dl_result <- safely_download_abs(
     urls = urls,
     path = .path,
     show_progress_bars = show_progress_bars
   )
 
+  if (is.null(dl_result$result)) {
+    urls <- gsub(".xlsx", ".xls", urls)
+    dl_result_xls <- safely_download_abs(
+      urls = urls,
+      path = .path,
+      show_progress_bars = show_progress_bars
+    )
+
+    if (!is.null(dl_result_xls$error)) {
+      stop("URL ", url, " does not appear to be valid.")
+    }
+  }
 
   # extract the sheets to a list
   filenames <- base::basename(urls)
@@ -302,17 +346,21 @@ read_abs <- function(cat_no = NULL,
 #' @export
 
 read_abs_series <- function(series_id, ...) {
-  read_abs(series_id = series_id,
-           ...)
+  read_abs(
+    series_id = series_id,
+    ...
+  )
 }
 
 match_tables <- function(table_list, requested_tables) {
   requested <- paste0(requested_tables, collapse = "|")
   # Looking for table number preceded by a space or a 0, and
   # followed my a full stop or a space
-  regex_pattern <- paste0("(?<=\\s|0)",
-                          "(", requested, ")",
-                          "(?=\\.|\\s|\\:)")
+  regex_pattern <- paste0(
+    "(?<=\\s|0)",
+    "(", requested, ")",
+    "(?=\\.|\\s|\\:)"
+  )
 
   predot_matches <- regexpr(".*\\.|.*\\:", table_list)
   table_list_predot <- regmatches(table_list, m = predot_matches)

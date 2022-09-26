@@ -18,9 +18,8 @@ abs_lookup_table <- scrape_abs_catalogues()
 data_last_updated <- Sys.Date()
 
 usethis::use_data(abs_lookup_table, data_last_updated,
-                  awe_old,
-                  readabs_user_agent,
-                  readabs_header,
+  awe_old,
+  readabs_user_agent,
+  readabs_header,
   overwrite = TRUE, internal = TRUE
 )
-

@@ -1,7 +1,7 @@
 test_that("tidy_awe() returns tidied data frame", {
-
   awe <- readxl::read_excel(file.path("..", "testdata", "6302002.xls"),
-                            sheet = "Data1")
+    sheet = "Data1"
+  )
 
   awe <- tidy_abs(awe)
 
@@ -11,7 +11,7 @@ test_that("tidy_awe() returns tidied data frame", {
   expect_equal(nrow(tidied_awe), 927)
   expect_true(all(
     c("date", "sex", "wage_measure", "value") %in% names(tidied_awe)
-                   ))
+  ))
   expect_false(any(is.na(tidied_awe$value)))
 })
 
@@ -27,34 +27,41 @@ test_that("read_awe() returns expected output", {
   expect_identical(min(no_params$date), as.Date("1983-11-15"))
   expect_gt(max(no_params$date), as.Date("2020-05-14"))
   expect_is(no_params$value, "numeric")
-  expect_gt(max(no_params$value, na.rm = T) /
-              min(no_params$value, na.rm = T),
-            4.5)
+  expect_gt(
+    max(no_params$value, na.rm = T) /
+      min(no_params$value, na.rm = T),
+    4.5
+  )
 
-  params_df <- expand.grid(sex = c("persons", "males", "females"),
-              wage_measure = c("awote", "ftawe", "awe"),
-              sector = c("total", "private", "public"),
-              state = c("all",
-                        "nsw",
-                        "vic",
-                        "qld",
-                        "sa",
-                        "wa",
-                        "tas",
-                        "nt",
-                        "act"),
-              stringsAsFactors = FALSE)
+  params_df <- expand.grid(
+    sex = c("persons", "males", "females"),
+    wage_measure = c("awote", "ftawe", "awe"),
+    sector = c("total", "private", "public"),
+    state = c(
+      "all",
+      "nsw",
+      "vic",
+      "qld",
+      "sa",
+      "wa",
+      "tas",
+      "nt",
+      "act"
+    ),
+    stringsAsFactors = FALSE
+  )
 
   params_df <- params_df %>%
     dplyr::filter(sector == "total" | state == "all")
 
 
   for (i in seq_len(nrow(params_df))) {
-
-    awe_data <- read_awe(wage_measure = params_df$wage_measure[i],
-             sex = params_df$sex[i],
-             sector = params_df$sector[i],
-             state = params_df$state[i])
+    awe_data <- read_awe(
+      wage_measure = params_df$wage_measure[i],
+      sex = params_df$sex[i],
+      sector = params_df$sector[i],
+      state = params_df$state[i]
+    )
 
     expect_is(awe_data, "tbl_df")
 
@@ -75,7 +82,6 @@ test_that("read_awe() returns expected output", {
       expect_length(awe_data, 5)
       expect_true("state" %in% names(awe_data))
     }
-
   }
 
 

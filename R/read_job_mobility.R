@@ -16,7 +16,8 @@
 #'
 read_job_mobility <- function(tables = "all",
                               path = Sys.getenv("R_READABS_PATH",
-                                                unset = tempdir())) {
+                                unset = tempdir()
+                              )) {
   check_abs_connection()
 
   available_tables <- show_available_files("job-mobility") %>%
@@ -26,8 +27,10 @@ read_job_mobility <- function(tables = "all",
     selected_tables <- available_tables
   } else {
     selected_tables <- available_tables %>%
-      dplyr::filter(grepl(paste0(tables, collapse = "|"),
-                          label))
+      dplyr::filter(grepl(
+        paste0(tables, collapse = "|"),
+        label
+      ))
   }
 
   cubes <- selected_tables$file
@@ -38,9 +41,10 @@ read_job_mobility <- function(tables = "all",
     )
 
   cube_results <- purrr::map(cubes,
-                            safely_download_cube,
-                            catalogue_string = "job-mobility",
-                            path = path)
+    safely_download_cube,
+    catalogue_string = "job-mobility",
+    path = path
+  )
 
   cube_results <- purrr::set_names(cube_results, cubes)
 
@@ -52,11 +56,12 @@ read_job_mobility <- function(tables = "all",
     result_list$result
   }
 
-  cube_paths <- purrr::map2_chr(cube_results,
-                                cubes,
-                                get_result)
+  cube_paths <- purrr::map2_chr(
+    cube_results,
+    cubes,
+    get_result
+  )
 
 
   read_abs_local(filenames = cube_paths)
-
 }

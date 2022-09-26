@@ -25,13 +25,13 @@ extract_abs_sheets <- function(filename,
                                path = Sys.getenv("R_READABS_PATH",
                                  unset = tempdir()
                                )) {
-
-
   filename <- file.path(path, filename)
 
   sheets <- readxl::excel_sheets(path = filename)
-  sheets <- sheets[!sheets %in% c("Index", "Inquiries", "Enquiries",
-                                  "Contents")]
+  sheets <- sheets[!sheets %in% c(
+    "Index", "Inquiries", "Enquiries",
+    "Contents"
+  )]
   sheets <- sheets[!grepl("Table ", sheets, ignore.case = T)]
 
   if (length(sheets) < 1) {

@@ -14,7 +14,6 @@
 #' @noRd
 
 check_abs_connection <- function() {
-
   abs_url_works <- url_exists("https://www.abs.gov.au")
 
 
@@ -27,7 +26,6 @@ check_abs_connection <- function() {
         " Please check your internet connection and security settings."
       )
     }
-
   }
 
   invisible(TRUE)
@@ -41,32 +39,29 @@ check_abs_connection <- function() {
 #' @noRd
 
 url_exists <- function(url = "https://www.abs.gov.au") {
+  sHEAD <- purrr::safely(httr::HEAD)
+  sGET <- purrr::safely(httr::GET)
 
-    sHEAD <- purrr::safely(httr::HEAD)
-    sGET <- purrr::safely(httr::GET)
+  # Try HEAD first since it's lightweight
+  res <- sHEAD(url)
 
-    # Try HEAD first since it's lightweight
-    res <- sHEAD(url)
+  if (is.null(res$result) ||
+    ((httr::status_code(res$result) %/% 200) != 1)) {
+    res <- sGET(url)
 
-    if (is.null(res$result) ||
-        ((httr::status_code(res$result) %/% 200) != 1)) {
-
-      res <- sGET(url)
-
-      if (is.null(res$result)) return(FALSE)
-
-      if (((httr::status_code(res$result) %/% 200) != 1)) {
-        warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200-299 range", url))
-        return(FALSE)
-
-      }
-
-      return(TRUE)
-
-    } else {
-      return(TRUE)
+    if (is.null(res$result)) {
+      return(FALSE)
     }
 
+    if (((httr::status_code(res$result) %/% 200) != 1)) {
+      warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200-299 range", url))
+      return(FALSE)
+    }
+
+    return(TRUE)
+  } else {
+    return(TRUE)
+  }
 }
 
 #' Internal function to check if URL exists. Slower than url_exists. Used

@@ -12,26 +12,27 @@ download_abs <- function(urls,
 
   filenames <- file.path(path, basename(urls))
 
-  purrr::walk2(.x = urls,
-               .y = filenames,
-               .f = dl_file,
-               quiet = !show_progress_bars)
+  purrr::walk2(
+    .x = urls,
+    .y = filenames,
+    .f = dl_file,
+    quiet = !show_progress_bars
+  )
 
   return(TRUE)
 }
 
 dl_file <- function(url, destfile, quiet = TRUE) {
-
-  if (isFALSE(quiet)) {
-    message("Downloading ", url)
-  }
-
-  utils::download.file(
-    url = url,
-    destfile = destfile,
-    mode = "wb",
-    quiet = quiet,
-    headers = readabs_header,
-    cacheOK = FALSE
+  suppressWarnings(
+    utils::download.file(
+      url = url,
+      destfile = destfile,
+      mode = "wb",
+      quiet = quiet,
+      headers = readabs_header,
+      cacheOK = FALSE
+    )
   )
 }
+
+safely_download_abs <- purrr::safely(download_abs)

@@ -22,7 +22,6 @@
 #'  See \code{Details} below for  more information.
 #'
 #' @examples
-#'
 #' \dontrun{
 #' download_abs_data_cube(
 #'   catalogue_string = "labour-force-australia-detailed",
@@ -89,8 +88,10 @@ download_abs_data_cube <- function(catalogue_string,
 
   # download file
 
-  dl_file(file_download_url,
-          filepath)
+  dl_file(
+    file_download_url,
+    filepath
+  )
 
   message("File downloaded in ", filepath)
 

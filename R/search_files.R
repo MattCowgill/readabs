@@ -6,23 +6,30 @@
 #' list of files within the catalogue.
 #' @export
 #' @examples
-#' \dontrun{  search_files("GM1", "labour-force-australia") }
-
+#' \dontrun{
+#' search_files("GM1", "labour-force-australia")
+#' }
+#'
 search_files <- function(string, catalogue, refresh = FALSE) {
-  files <- show_available_files(catalogue_string = catalogue,
-                                refresh = refresh)
+  files <- show_available_files(
+    catalogue_string = catalogue,
+    refresh = refresh
+  )
 
   # Using dplyr::if_any() is fast and clean but requires dplyr >= 1.0.4
   if (getNamespaceVersion("dplyr") > "1.0.4") {
     out <- files %>%
-      dplyr::filter(dplyr::if_any(.cols = dplyr::everything(),
-                                  ~grepl(string, .x,
-                                         perl = TRUE, ignore.case = TRUE)))
-
+      dplyr::filter(dplyr::if_any(
+        .cols = dplyr::everything(),
+        ~ grepl(string, .x,
+          perl = TRUE, ignore.case = TRUE
+        )
+      ))
   } else {
     matches <- purrr::map_dfr(files,
-                              grepl,
-                              pattern = string, perl = TRUE, ignore.case = TRUE) %>%
+      grepl,
+      pattern = string, perl = TRUE, ignore.case = TRUE
+    ) %>%
       rowSums()
 
     out <- dplyr::tibble(sum_true = matches) %>%
@@ -36,6 +43,4 @@ search_files <- function(string, catalogue, refresh = FALSE) {
     dplyr::pull(file)
 
   return(out)
-
-
 }

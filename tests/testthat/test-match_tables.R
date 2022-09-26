@@ -6,7 +6,6 @@ test_match_tables <- function(cat_no, tables) {
 }
 
 test_that("match_tables() returns only requested tables", {
-
   skip_on_cran()
 
   t1 <- test_match_tables("5368.0", "1")
@@ -33,8 +32,10 @@ test_that("match_tables() returns only requested tables", {
   t6 <- test_match_tables("6291.0.55.001", "1")
   expect_length(t6, 1)
 
-  t7 <- test_match_tables("6202.0",
-                          c("1", "4", "10a", "11", "11a", "12", "12a", "21"))
+  t7 <- test_match_tables(
+    "6202.0",
+    c("1", "4", "10a", "11", "11a", "12", "12a", "21")
+  )
   expect_length(t7, 8)
 
   t8 <- test_match_tables("5368.0", c("12a", "13a"))

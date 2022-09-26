@@ -28,4 +28,3 @@ test_that("Old read_abs_metadata() function imports a spreadsheet", {
 
   expect_equal(length(colnames(local_file)), 9)
 })
-
