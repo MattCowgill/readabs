@@ -20,7 +20,7 @@ data frame (tibble) containing tidied data."><meta property="og:image" content="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.905</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.12.906</span>
       </span>
     </div>
 
@@ -77,7 +77,8 @@ data frame (tibble) containing tidied data.</p>
 <span>  metadata <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show_progress_bars <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  retain_files <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  check_local <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  check_local <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  release_date <span class="op">=</span> <span class="st">"latest"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">read_abs_series</span><span class="op">(</span><span class="va">series_id</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
@@ -134,6 +135,13 @@ If set to `FALSE`, the files will be stored in a temporary directory.</p></dd>
 if present.</p></dd>
 
 
+<dt>release_date</dt>
+<dd><p>Either `"latest"` or a string coercible to a date, such as
+`"2022-02-01"`. If `"latest"`, the latest release of the requested data will
+be returned. If a date, (eg. `"2022-02-01"`) `read_abs()` will
+attempt to download the data from that month's release. See `Details`.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments to `read_abs_series()` are passed to `read_abs()`.</p></dd>
 
@@ -161,6 +169,11 @@ for a single session using <code>Sys.setenv(R_READABS_PATH = &lt;path&gt;)</code
 If you would like to change this variable for all future R sessions, edit
 your `.Renviron` file and add <code>R_READABS_PATH = &lt;path&gt;</code> line.
 The easiest way to edit this file is using <code>usethis::edit_r_environ()</code>.</p>
+<p>The `release_date` argument allows you to download table(s) other than the
+latest release. This is useful for examining revisions to time series, or
+for obtaining the version of series that were available on a given date.
+Note that you cannot supply more than one date to `release_date`. Note also
+that any dates prior to mid-2019 (the exact date varies by series) will fail.</p>
     </div>
 
     <div id="ref-examples">
@@ -177,10 +190,16 @@ The easiest way to edit this file is using <code>usethis::edit_r_environ()</code
 <span class="r-in"><span><span class="va">wpi_t1</span> <span class="op">&lt;-</span> <span class="fu">read_abs</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or table 1 as in the Sep 2019 release of the WPI:</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">wpi_t1_sep2019</span> <span class="op">&lt;-</span> <span class="fu">read_abs</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="st">"1"</span>, release_date <span class="op">=</span> <span class="st">"2019-09-01"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Or tables 1 and 2a from the WPI</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">wpi_t1_t2a</span> <span class="op">&lt;-</span> <span class="fu">read_abs</span><span class="op">(</span><span class="st">"6345.0"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2a"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get two specific time series, based on their time series IDs</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
