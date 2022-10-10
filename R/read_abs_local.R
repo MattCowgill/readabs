@@ -139,3 +139,49 @@ read_abs_local <- function(cat_no = NULL,
 
   sheet
 }
+
+#' Download and import an ABS time series spreadsheet from a given URL
+#'
+#' @details If you have a specific URL to the time series spreadsheet you wish
+#' to download, `read_abs_url()` will download, import and tidy it. This is
+#' useful for older vintages of data, or discontinued data.
+#'
+#' @param url Character vector of url(s) to ABS time series spreadsheet(s).
+#' @param path Local directory in which downloaded ABS time series
+#' spreadsheets should be stored. By default, `path` takes the value set in the
+#' environment variable "R_READABS_PATH". If this variable is not set,
+#' any files downloaded by read_abs()  will be stored in a temporary directory
+#' (\code{tempdir()}). See \code{?read_abs()} for more.
+#' @param show_progress_bars TRUE by default. If set to FALSE, progress bars
+#' will not be shown when ABS spreadsheets are downloading.
+#' @param ... Additional arguments passed to `read_abs_local()`.
+#'
+#' @examples
+#' \dontrun{
+#' url <- paste0("https://www.abs.gov.au/statistics/labour/",
+#' "employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx")
+#' read_abs_url(url)
+#' }
+#' @export
+read_abs_url <- function(url,
+                         path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+                         show_progress_bars = TRUE,
+                         ...) {
+
+  get_redirect_url <- function(url) {
+    header <- httr::HEAD(url)
+    header$url
+  }
+
+  real_urls <- purrr::map_chr(url, get_redirect_url)
+
+  files <- file.path(path, basename(real_urls))
+
+  download_abs(real_urls,
+               path)
+
+  read_abs_local(filenames = files,
+                 ...)
+
+}
+

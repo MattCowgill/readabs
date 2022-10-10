@@ -368,48 +368,5 @@ match_tables <- function(table_list, requested_tables) {
   grepl(regex_pattern, table_list_predot, perl = TRUE, ignore.case = TRUE)
 }
 
-#' Download and import an ABS time series spreadsheet from a given URL
-#'
-#' @details If you have a specific URL to the time series spreadsheet you wish
-#' to download, `read_abs_url()` will download, import and tidy it. This is
-#' useful for older vintages of data, or discontinued data.
-#'
-#' @param url Character vector of url(s) to ABS time series spreadsheet(s).
-#' @param path Local directory in which downloaded ABS time series
-#' spreadsheets should be stored. By default, `path` takes the value set in the
-#' environment variable "R_READABS_PATH". If this variable is not set,
-#' any files downloaded by read_abs()  will be stored in a temporary directory
-#' (\code{tempdir()}). See \code{?read_abs()} for more.
-#' @param ... Additional arguments passed to `read_abs_local()`.
-#'
-#' @examples
-#' \dontrun{
-#' read_abs_url("https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&136401500301.xls&1364.0.15.003&Time%20Series%20Spreadsheet&4E7EEA9838FD6744CA2579340011C2D1&0&Jun%20Qtr%202011&26.10.2011&Latest")
-#'
-#' read_abs_url(c("https://www.abs.gov.au/AUSSTATS/ABS@Archive.nsf/log?openagent&136401500301.xls&1364.0.15.003&Time%20Series%20Spreadsheet&4E7EEA9838FD6744CA2579340011C2D1&0&Jun%20Qtr%202011&26.10.2011&Latest",
-#'                "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx"))
-#' }
-#' @export
-read_abs_url <- function(url,
-                         path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-                         show_progress_bars = TRUE,
-                         ...) {
-
-  get_redirect_url <- function(url) {
-    header <- httr::HEAD(url)
-    header$url
-  }
-
-  real_urls <- purrr::map_chr(url, get_redirect_url)
-
-  files <- file.path(path, basename(real_urls))
-
-  download_abs(real_urls,
-               path)
-
- read_abs_local(filenames = files,
-                ...)
-
-}
 
 
