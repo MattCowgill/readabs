@@ -21,7 +21,7 @@ read_job_mobility <- function(tables = "all",
   check_abs_connection()
 
   available_tables <- show_available_files("job-mobility") %>%
-    dplyr::filter(base::substr(label, 1, 5) == "Table")
+    dplyr::filter(base::substr(.data$label, 1, 5) == "Table")
 
   if (tables == "all") {
     selected_tables <- available_tables
@@ -29,7 +29,7 @@ read_job_mobility <- function(tables = "all",
     selected_tables <- available_tables %>%
       dplyr::filter(grepl(
         paste0(tables, collapse = "|"),
-        label
+        .data$label
       ))
   }
 
