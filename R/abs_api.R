@@ -45,6 +45,7 @@
 #'   The supported formats are the same as for `start_period`
 #' @param version A version number, if unspecified the latest version of the
 #'   dataset is used. See `read_api_dataflows()` for available dataflow versions.
+#' @param url A complete query url
 #'
 #' @return A data.frame
 #'
@@ -80,7 +81,7 @@
 #' ds[ds$var=="regiontype" & ds$label == "Destination Zones", ]
 #' try(read_api("ABS_C16_T10_SA", datakey=list(regiontype="DZN")))
 #'
-#' # If you already have a query API, then use `read_api_url()`
+#' # If you already have a query url, then use `read_api_url()`
 #' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/1.THRPEB..C+B+TOT..AUS.Q?startPeriod=2020-Q1"
 #' read_api_url(wpi_url)
 #'
