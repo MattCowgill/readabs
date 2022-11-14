@@ -66,9 +66,9 @@ check_latest_date <- function(cat_no = NULL,
   # (it'll be the oldest in the directory)
 
   max_date <- as.Date(xml_df$SeriesEnd,
-                      format = "%d/%m/%Y") %>%
-                    max()
+    format = "%d/%m/%Y"
+  ) %>%
+    max()
 
   max_date
-
 }

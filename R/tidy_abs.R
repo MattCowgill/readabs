@@ -68,21 +68,26 @@ tidy_abs <- function(df, metadata = TRUE) {
   # a bunch of columns have duplicate names which causes problems; temporarily
   # append the series ID to the colname so they're unique
 
-  new_col_names <- purrr::map_chr(
-    .x = 2:ncol(df),
-    .f = ~ paste0(colnames(df)[.], "_", df[9, .])
-  )
+  # new_col_names <- purrr::map_chr(
+  #   .x = 2:ncol(df),
+  #   .f = ~ paste0(colnames(df)[.], "_", df[9, .])
+  # )
+
+  cols <- 2:ncol(df)
+  new_col_names <- paste(colnames(df)[cols], df[9, cols], sep = "_")
 
   colnames(df)[2:ncol(df)] <- new_col_names
 
   if (isTRUE(metadata)) {
     df <- df %>%
       tidyr::pivot_longer(cols = !one_of("X__1"), names_to = "series") %>%
-      filter(!is.na(X__1),
-             # This filtering is necessary for cases where the ABS adds notes
-             # to the bottom of the data for some reason
-             !stringi::stri_detect_fixed(X__1, "Trend Break"),
-             !stringi::stri_detect_fixed(X__1, "see")) %>%
+      filter(
+        !is.na(X__1),
+        # This filtering is necessary for cases where the ABS adds notes
+        # to the bottom of the data for some reason
+        !stringi::stri_detect_fixed(X__1, "Trend Break"),
+        !stringi::stri_detect_fixed(X__1, "see")
+      ) %>%
       dplyr::group_by(series) %>%
       dplyr::mutate(
         series_type = value[X__1 == "Series Type"],

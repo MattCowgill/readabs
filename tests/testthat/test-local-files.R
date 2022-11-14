@@ -75,8 +75,10 @@ test_that("read_abs_local() returns appropriate errors and messages", {
 })
 
 test_that("read_abs_local() reads an XLSX file", {
-  lfs_21_xlsx <- read_abs_local(filenames = "6202021.xlsx",
-                 path = local_path)
+  lfs_21_xlsx <- read_abs_local(
+    filenames = "6202021.xlsx",
+    path = local_path
+  )
 
   expect_s3_class(lfs_21_xlsx, "tbl_df")
   expect_length(lfs_21_xlsx, 12)

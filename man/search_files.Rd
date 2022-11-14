@@ -18,5 +18,8 @@ list of files within the catalogue.}
 Search for a file within an ABS catalogue
 }
 \examples{
-\dontrun{  search_files("GM1", "labour-force-australia") }
+\dontrun{
+search_files("GM1", "labour-force-australia")
+}
+
 }

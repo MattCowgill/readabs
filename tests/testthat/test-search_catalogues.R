@@ -10,7 +10,7 @@ test_that("search_catalogues() returns appropriate output", {
   expect_is(lab, "tbl")
   expect_length(lab, 4)
   expect_gt(nrow(lab), 20)
-  expect_true(all(purrr::map_lgl(lab, ~inherits(.x, "character"))))
+  expect_true(all(purrr::map_lgl(lab, ~ inherits(.x, "character"))))
 
   expect_true(nrow(search_catalogues("foobar")) == 0)
 })
@@ -25,5 +25,4 @@ test_that("search_catalogues() refreshes table when requested", {
   expect_is(ref, "tbl")
   expect_length(ref, 4)
   expect_gt(nrow(ref), 4)
-
 })

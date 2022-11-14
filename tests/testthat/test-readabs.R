@@ -75,7 +75,6 @@ test_that("read_abs() works with series ID(s)", {
   cpi_wrapper <- read_abs_series(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
 
   expect_identical(cpi_2, cpi_wrapper)
-
 })
 
 
@@ -159,3 +158,26 @@ test_that("read_cpi() returns appropriate errors", {
   expect_error(read_cpi(retain_files = TRUE, path = 1))
 })
 
+test_that("3401.0 table 1 can be loaded", {
+  skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
+  expect_s3_class(read_abs("3401.0", "1"), "tbl_df")
+})
+
+test_that("previous vintages of time series can be loaded", {
+  skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
+
+  expect_s3_class(
+    read_abs("6345.0", 1, release_date = "2020-03-01", check_local = F),
+    "tbl_df"
+  )
+
+  expect_error(read_abs("6345.0", 1, release_date = "2020-03",
+                        check_local = F))
+
+  expect_error(read_abs("6345.0", 1, release_date = c("2020-03-01", "2020-06-01")
+                        , check_local = F))
+})

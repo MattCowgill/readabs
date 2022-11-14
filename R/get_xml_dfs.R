@@ -4,13 +4,18 @@
 #' @importFrom dplyr filter select "%>%"
 
 get_xml_dfs <- function(urls) {
+  xml_files <- tempfile(
+    pattern = as.character(seq_along(urls)),
+    fileext = ".xml"
+  )
 
-  xml_files <- tempfile(pattern = as.character(seq_along(urls)),
-                        fileext = ".xml")
-
-  purrr::walk2(urls, xml_files,
-               ~dl_file(url = .x,
-                        destfile = .y))
+  purrr::walk2(
+    urls, xml_files,
+    ~ dl_file(
+      url = .x,
+      destfile = .y
+    )
+  )
 
   xml_to_df <- function(file) {
     xml_series <- file %>%
@@ -26,9 +31,8 @@ get_xml_dfs <- function(urls) {
 
     child_list %>%
       purrr::map(xml2::xml_text) %>%
-      purrr::map_dfr(.f = ~purrr::set_names(.x, xml_names))
+      purrr::map_dfr(.f = ~ purrr::set_names(.x, xml_names))
   }
 
   purrr::map_dfr(xml_files, xml_to_df)
-
 }

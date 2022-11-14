@@ -1,5 +1,4 @@
 test_that("read_lfs_grossflows() downloads and imports LFS cube GM1", {
-
   skip_if_offline()
   skip_on_cran()
 
@@ -11,8 +10,10 @@ test_that("read_lfs_grossflows() downloads and imports LFS cube GM1", {
   options("timeout" = prev_option)
 
   # Current should still be the default
-  expect_identical(unique(gf_cur$weights),
-                   "current month")
+  expect_identical(
+    unique(gf_cur$weights),
+    "current month"
+  )
 
   # Pass minimal tests
   expect_true(check_lfs_grossflows(gf_cur))

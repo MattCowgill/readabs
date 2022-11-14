@@ -1,3 +1,10 @@
+# readabs 0.4.12.90x
+* Added read_job_mobility()
+* Added read_abs_url()
+* Added a `release_date` argument to `read_abs()`
+* Bug fixes
+
+
 # readabs 0.4.12
 * Bug fixes
 
