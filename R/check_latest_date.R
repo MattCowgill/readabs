@@ -59,7 +59,7 @@ check_latest_date <- function(cat_no = NULL,
     series_id = series_id
   )
 
-  xml_df <- purrr::map(xml_urls, get_first_xml_page) %>%
+  xml_df <- purrr::map(xml_urls, get_last_xml_page) %>%
     purrr::pluck(1)
 
   # Extract the date on the first page of the metadata

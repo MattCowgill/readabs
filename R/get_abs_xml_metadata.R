@@ -12,20 +12,6 @@ get_abs_xml_metadata <- function(url) {
 
   first_page_df <- get_first_xml_page(url)
 
-  get_numpages <- function(url) {
-    temp_xml <- tempfile(fileext = ".xml")
-
-    dl_file(
-      url = url,
-      destfile = temp_xml
-    )
-
-    temp_xml %>%
-      xml2::read_xml() %>%
-      xml2::xml_find_all(xpath = "//NumPages") %>%
-      xml2::xml_double()
-  }
-
   safely_get_numpages <- purrr::safely(get_numpages)
 
   num_pages <- safely_get_numpages(url)
@@ -63,13 +49,37 @@ get_abs_xml_metadata <- function(url) {
   xml_dfs
 }
 
+get_numpages <- function(url) {
+  temp_xml <- tempfile(fileext = ".xml")
 
+  dl_file(
+    url = url,
+    destfile = temp_xml
+  )
+
+  temp_xml %>%
+    xml2::read_xml() %>%
+    xml2::xml_find_all(xpath = "//NumPages") %>%
+    xml2::xml_double()
+}
 
 get_first_xml_page <- function(url) {
+  get_specific_xml_page(url = url,
+                        page = 1)
+}
+
+get_last_xml_page <- function(url) {
+  num_pages <- get_numpages(url)
+  get_specific_xml_page(url = url,
+                        page = num_pages)
+}
+
+get_specific_xml_page <- function(url, page) {
   # Download the first page of metadata ------
   first_url <- paste0(
     url,
-    "&pg=1"
+    "&pg=",
+    page
   )
 
   # Some tables in the ABS TSD start with a leading zero, as in
