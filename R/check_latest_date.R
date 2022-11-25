@@ -62,9 +62,6 @@ check_latest_date <- function(cat_no = NULL,
   xml_df <- purrr::map(xml_urls, get_last_xml_page) %>%
     purrr::pluck(1)
 
-  # Extract the date on the first page of the metadata
-  # (it'll be the oldest in the directory)
-
   max_date <- as.Date(xml_df$SeriesEnd,
     format = "%d/%m/%Y"
   ) %>%

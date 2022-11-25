@@ -75,12 +75,16 @@ get_last_xml_page <- function(url) {
 }
 
 get_specific_xml_page <- function(url, page) {
-  # Download the first page of metadata ------
-  first_url <- paste0(
-    url,
-    "&pg=",
-    page
-  )
+
+  if (length(page) > 0) {
+    first_url <- paste0(
+      url,
+      "&pg=",
+      page
+    )
+  } else {
+    first_url <- url
+  }
 
   # Some tables in the ABS TSD start with a leading zero, as in
   # Table 01 rather than Table 1; the 0 needs to be included. Here we first test
