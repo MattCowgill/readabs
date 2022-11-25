@@ -4,7 +4,6 @@
 * Added a `release_date` argument to `read_abs()`
 * Bug fixes
 
-
 # readabs 0.4.12
 * Bug fixes
 
