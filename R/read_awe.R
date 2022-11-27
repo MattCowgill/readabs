@@ -196,7 +196,7 @@ read_awe <- function(wage_measure = c(
 #' @keywords internal
 tidy_awe <- function(df) {
   df <- df %>%
-    dplyr::select(.data$series, .data$date, .data$value)
+    dplyr::select("series", "date", "value")
 
   df <- df %>%
     dplyr::mutate(

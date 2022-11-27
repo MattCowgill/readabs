@@ -18,8 +18,7 @@ get_abs_xml_metadata <- function(url) {
 
   # If there's more than one page of XML corresponding to request, get all of them
   if (num_pages > 1) {
-    tot_pages <- num_pages$result
-    all_pages <- 2:tot_pages
+    all_pages <- 2:num_pages
     # create list of URLs of XML metadata to scrape
     full_urls <- paste0(url, "&pg=", all_pages)
     xml_dfs <- get_xml_dfs(full_urls)
