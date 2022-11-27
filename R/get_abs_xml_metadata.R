@@ -12,14 +12,12 @@ get_abs_xml_metadata <- function(url) {
 
   first_page_df <- get_first_xml_page(url)
 
-  safely_get_numpages <- purrr::safely(get_numpages)
-
-  num_pages <- safely_get_numpages(url)
+  num_pages <- get_numpages(url)
 
   xml_dfs <- dplyr::tibble()
 
   # If there's more than one page of XML corresponding to request, get all of them
-  if (!is.null(num_pages$result) && length(num_pages$result) > 0) {
+  if (num_pages > 1) {
     tot_pages <- num_pages$result
     all_pages <- 2:tot_pages
     # create list of URLs of XML metadata to scrape
@@ -57,10 +55,16 @@ get_numpages <- function(url) {
     destfile = temp_xml
   )
 
-  temp_xml %>%
+  out <- temp_xml %>%
     xml2::read_xml() %>%
     xml2::xml_find_all(xpath = "//NumPages") %>%
     xml2::xml_double()
+
+  if (length(out) == 0) {
+    return(1)
+  } else {
+    return(out)
+  }
 }
 
 get_first_xml_page <- function(url) {
