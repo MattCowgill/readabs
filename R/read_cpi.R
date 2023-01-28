@@ -68,8 +68,8 @@ read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
     dplyr::filter(
       .data$series == "Index Numbers ;  All groups CPI ;  Australia ;"
     ) %>%
-    dplyr::select(.data$date,
-      "cpi" = .data$value
+    dplyr::select("date",
+      "cpi" = "value"
     )
 
   x
