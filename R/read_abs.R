@@ -258,7 +258,7 @@ read_abs <- function(cat_no = NULL,
   # Remove spaces from URLs
   urls <- gsub(" ", "+", urls)
 
-  if (release_date != "latest") {
+  if (as.character(release_date) != "latest") {
     requested_date <- format(as.Date(release_date), "%b-%Y")
     urls <- gsub(
       "latest-release",

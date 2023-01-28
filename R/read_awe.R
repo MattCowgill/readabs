@@ -196,7 +196,7 @@ read_awe <- function(wage_measure = c(
 #' @keywords internal
 tidy_awe <- function(df) {
   df <- df %>%
-    dplyr::select(.data$series, .data$date, .data$value)
+    dplyr::select("series", "date", "value")
 
   df <- df %>%
     dplyr::mutate(
@@ -249,7 +249,7 @@ tidy_awe <- function(df) {
   df <- df %>%
     # Drop the crosstab column if it's full of NAs
     dplyr::select_if(~ all(!is.na(.))) %>%
-    dplyr::select(-.data$crosstab1, -.data$crosstab2)
+    dplyr::select(-"crosstab1", -"crosstab2")
 
   df <- df %>%
     tidyr::separate(.data$sex_measure,
@@ -275,7 +275,7 @@ tidy_awe <- function(df) {
   # Some sheets contain standard errors of estimates; we want to drop these
   df <- df %>%
     dplyr::filter(.data$earnse == "earnings") %>%
-    dplyr::select(-.data$earnse)
+    dplyr::select(-"earnse")
 
   df <- df %>%
     dplyr::mutate(
