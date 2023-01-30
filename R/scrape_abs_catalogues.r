@@ -82,5 +82,5 @@ scrape_abs_catalogues <- function() {
   )
 
   new_abs_lookup_table %>%
-    filter(catalogue != "")
+    filter(.data$catalogue != "")
 }

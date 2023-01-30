@@ -11,7 +11,7 @@ Authors@R: c(
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
-Date: 2022-04-15
+Date: 2023-01-28
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 3.5)
