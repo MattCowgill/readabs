@@ -1,4 +1,7 @@
 test_that("read_api helper functions return tibbles with expected structure", {
+  check_abs_connection()
+  skip_on_cran()
+
   res <- read_api_dataflows()
   expect_s3_class(res, "tbl_df")
   expect_named(res, c("id", "name", "desc", "version"))
@@ -9,6 +12,9 @@ test_that("read_api helper functions return tibbles with expected structure", {
 })
 
 test_that("read_api throws expected errors and warnings", {
+  check_abs_connection()
+  skip_on_cran()
+
   expect_error(read_api("doesnt_exist"), class = "http_404")
   expect_error(read_api_datastructure("doesnt_exist"), class = "http_404")
 
@@ -36,12 +42,18 @@ test_that("read_api throws expected errors and warnings", {
 })
 
 test_that("read_api filtering works as expected", {
+  check_abs_connection()
+  skip_on_cran()
+
   x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs= 3))
   expect_equal(as.integer(unique(x["asgs_2016"])), 0)
   expect_equal(as.integer(unique(x["sex_abs"])), 3)
 })
 
 test_that("url queries work", {
+  check_abs_connection()
+  skip_on_cran()
+
   wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/1.THRPEB..C+B+TOT..AUS.Q?startPeriod=2020-Q1"
   res <- read_api_url(wpi_url)
 
