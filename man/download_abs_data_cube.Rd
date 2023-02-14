@@ -19,7 +19,7 @@ or search these catalogues using \code{search_catalogues()},}
 \item{cube}{character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
 download, e.g. "EQ09". The available filenames can be obtained using the helper function \code{get_available_filenames()}}
 
-\item{path}{Local directory in which downloaded files should be stored. By default, `path`
+\item{path}{Local directory in which downloaded files should be stored. By default, \code{path}
 takes the value set in the environment variable "R_READABS_PATH".
 If this variable is not set, any files downloaded
 will be stored in a temporary directory (\code{tempdir()}).
@@ -34,11 +34,11 @@ Unlike \code{read_abs()}, this function doesn't import or tidy the data.
 Convenience functions are provided to import and tidy key data cubes; see
 \code{?read_payrolls()} and \code{?read_lfs_grossflows()}.
 
-`download_abs_data_cube()` downloads an Excel spreadsheet from the ABS.
+\code{download_abs_data_cube()} downloads an Excel spreadsheet from the ABS.
 
 The file need to be saved somewhere on your disk.
-This local directory can be controlled using the `path` argument to
-`read_abs()`. If the `path` argument is not set, `read_abs()` will store
+This local directory can be controlled using the \code{path} argument to
+\code{read_abs()}. If the \code{path} argument is not set, \code{read_abs()} will store
 the files in a directory set in the "R_READABS_PATH" environment variable.
 If this variable isn't set, files will be saved in a temporary directory.
 
@@ -46,7 +46,7 @@ To check the value of the "R_READABS_PATH" variable, run
 \code{Sys.getenv("R_READABS_PATH")}. You can set the value of this variable
 for a single session using \code{Sys.setenv(R_READABS_PATH = <path>)}.
 If you would like to change this variable for all future R sessions, edit
-your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
+your \code{.Renviron} file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 
 The filepath is returned invisibly which enables piping to \code{unzip()} or \code{readxl::read_excel}.

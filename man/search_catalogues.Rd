@@ -10,17 +10,17 @@ search_catalogues(string, refresh = FALSE)
 \item{string}{Character. A word or phrase you want to search for, such as "labour" or
 "union". Not case sensitive.}
 
-\item{refresh}{Logical. `FALSE` by default. If `TRUE`, will re-scrape the ABS
+\item{refresh}{Logical. \code{FALSE} by default. If \code{TRUE}, will re-scrape the ABS
 website to ensure that the list of catalogues is up-to-date.}
 }
 \value{
-A data frame (tibble) containing the topic (`heading`), product title
-(`sub_heading`), catalogue (`catalogue`) and URL (`URL`) of any catalogues
+A data frame (tibble) containing the topic (\code{heading}), product title
+(\code{sub_heading}), catalogue (\code{catalogue}) and URL (\code{URL}) of any catalogues
 that match the provided string.
 }
 \description{
-`download_abs_data_cube()` requires that you specify a `catalogue`.
-`search_catalogues()` helps you find the catalogue you want, by searching for
+\code{download_abs_data_cube()} requires that you specify a \code{catalogue}.
+\code{search_catalogues()} helps you find the catalogue you want, by searching for
 a given string in the catalogue names, product title, and broad topic.
 }
 \examples{

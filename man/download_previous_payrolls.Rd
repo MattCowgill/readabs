@@ -8,7 +8,7 @@ stopped including Table 5 of the Weekly Payrolls release with each new
 release of the data. This function finds the link from the previous
 release and attemps to download it. This function will no longer be required
 if/when the ABS reverts to the previous release arrangements. The function
-is internal and is called by `read_payrolls()`.}
+is internal and is called by \code{read_payrolls()}.}
 \usage{
 download_previous_payrolls(cube_name, path)
 }
@@ -18,8 +18,8 @@ download_previous_payrolls(cube_name, path)
 \item{path}{Directory in which to download payrolls cube}
 }
 \value{
-A list containing two elements: `result` (will contain path + filename
-to downloaded file if download was successful); and `error` (NULL if file
+A list containing two elements: \code{result} (will contain path + filename
+to downloaded file if download was successful); and \code{error} (NULL if file
 downloaded successfully; character otherwise).
 }
 \description{
@@ -29,6 +29,6 @@ stopped including Table 5 of the Weekly Payrolls release with each new
 release of the data. This function finds the link from the previous
 release and attemps to download it. This function will no longer be required
 if/when the ABS reverts to the previous release arrangements. The function
-is internal and is called by `read_payrolls()`.
+is internal and is called by \code{read_payrolls()}.
 }
 \keyword{internal}

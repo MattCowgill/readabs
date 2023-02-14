@@ -23,42 +23,39 @@ read_abs_series(series_id, ...)
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
 For example, "6202.0".}
 
-\item{tables}{numeric. Time series tables in `cat_no`` to download and
-extract. Default is "all", which will read all time series in `cat_no`.
-Specify `tables` to download and import specific tables(s) -
-eg. `tables = 1` or `tables = c(1, 5)`.}
+\item{tables}{numeric. Time series tables in \verb{cat_no`` to download and extract. Default is "all", which will read all time series in }cat_no\verb{. Specify }tables\verb{to download and import specific tables(s) - eg.}tables = 1\code{or}tables = c(1, 5)`.}
 
 \item{series_id}{(optional) character. Supply an ABS unique time series
 identifier (such as "A2325807L") to get only that series.
-This is an alternative to specifying `cat_no`.}
+This is an alternative to specifying \code{cat_no}.}
 
 \item{path}{Local directory in which downloaded ABS time series
-spreadsheets should be stored. By default, `path` takes the value set in the
+spreadsheets should be stored. By default, \code{path} takes the value set in the
 environment variable "R_READABS_PATH". If this variable is not set,
 any files downloaded by read_abs()  will be stored in a temporary directory
 (\code{tempdir()}). See \code{Details} below for
 more information.}
 
-\item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
+\item{metadata}{logical. If \code{TRUE} (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
-`FALSE`, metadata is dropped.}
+\code{FALSE}, metadata is dropped.}
 
 \item{show_progress_bars}{TRUE by default. If set to FALSE, progress bars
 will not be shown when ABS spreadsheets are downloading.}
 
 \item{retain_files}{when TRUE (the default), the spreadsheets downloaded
-from the ABS website will be saved in the directory specified with `path`.
-If set to `FALSE`, the files will be stored in a temporary directory.}
+from the ABS website will be saved in the directory specified with \code{path}.
+If set to \code{FALSE}, the files will be stored in a temporary directory.}
 
-\item{check_local}{If `TRUE`, the default, local `fst` files are used,
+\item{check_local}{If \code{TRUE}, the default, local \code{fst} files are used,
 if present.}
 
-\item{release_date}{Either `"latest"` or a string coercible to a date, such as
-`"2022-02-01"`. If `"latest"`, the latest release of the requested data will
-be returned. If a date, (eg. `"2022-02-01"`) `read_abs()` will
-attempt to download the data from that month's release. See `Details`.}
+\item{release_date}{Either \code{"latest"} or a string coercible to a date, such as
+\code{"2022-02-01"}. If \code{"latest"}, the latest release of the requested data will
+be returned. If a date, (eg. \code{"2022-02-01"}) \code{read_abs()} will
+attempt to download the data from that month's release. See \code{Details}.}
 
-\item{...}{Arguments to `read_abs_series()` are passed to `read_abs()`.}
+\item{...}{Arguments to \code{read_abs_series()} are passed to \code{read_abs()}.}
 }
 \value{
 A data frame (tibble) containing the tidied data from the ABS time
@@ -71,13 +68,13 @@ then tidies the data. The result is a single
 data frame (tibble) containing tidied data.
 }
 \details{
-`read_abs_series()` is a wrapper around `read_abs()`, with `series_id` as
+\code{read_abs_series()} is a wrapper around \code{read_abs()}, with \code{series_id} as
 the first argument.
 
-`read_abs()` downloads spreadsheet(s) from the ABS containing time
+\code{read_abs()} downloads spreadsheet(s) from the ABS containing time
 series data. These files need to be saved somewhere on your disk.
-This local directory can be controlled using the `path` argument to
-`read_abs()`. If the `path` argument is not set, `read_abs()` will store
+This local directory can be controlled using the \code{path} argument to
+\code{read_abs()}. If the \code{path} argument is not set, \code{read_abs()} will store
 the files in a directory set in the "R_READABS_PATH" environment variable.
 If this variable isn't set, files will be saved in a temporary directory.
 
@@ -85,13 +82,13 @@ To check the value of the "R_READABS_PATH" variable, run
 \code{Sys.getenv("R_READABS_PATH")}. You can set the value of this variable
 for a single session using \code{Sys.setenv(R_READABS_PATH = <path>)}.
 If you would like to change this variable for all future R sessions, edit
-your `.Renviron` file and add \code{R_READABS_PATH = <path>} line.
+your \code{.Renviron} file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 
-The `release_date` argument allows you to download table(s) other than the
+The \code{release_date} argument allows you to download table(s) other than the
 latest release. This is useful for examining revisions to time series, or
 for obtaining the version of series that were available on a given date.
-Note that you cannot supply more than one date to `release_date`. Note also
+Note that you cannot supply more than one date to \code{release_date}. Note also
 that any dates prior to mid-2019 (the exact date varies by series) will fail.
 }
 \examples{

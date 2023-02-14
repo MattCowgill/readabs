@@ -2,18 +2,46 @@
 # More documentation: https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api
 # Online data viewer: https://explore.data.abs.gov.au/
 
-#' ABS API
+#' ABS.Stat API functions
 #'
-#' These functions provide a minimal interface to the ABS API.
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
-#'   - Using `read_api_dataflows()` you can get information on the dataflows
-#'   available
+#' These experimental functions provide a minimal interface to the ABS.Stat API.
+#'
+#'   - Using `read_api_dataflows()` you can get information on the available dataflows
 #'   - Using `read_api_datastructure()` you can get metadata relating to a
-#'   specific dataflow
+#'   specific dataflow, including the variables available in each dataflow
 #'   - Using `read_api()` you can get the data belonging to a given dataflow.
 #'   - Using `read_api_url()` you can get the data for a given query url
 #'   generated using the [online data viewer](https://explore.data.abs.gov.au/).
 #'
+#' More information on the ABS API can be found
+#' on the [ABS website](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api)
+#'
+#' @param id A dataflow id. Use `read_api_dataflows()` to obtain a dataframe
+#'   listing available dataflows.
+#' @param datakey A named list matching filter variables to codes. All variables
+#'   with a `position` in the datastructure are filterable. Use
+#'   `read_api_datastructure()` to obtain information about the variables in
+#'   a dataflow and the values of that variable.
+#' @param start_period The start period (used to filter by time). This is
+#'   inclusive. The supported formats are:
+#'
+#'   - YYYY for annual data (e.g. 2019)
+#'   - YYYY-S[1-2] for semi-annual data (e.g. 2019-S1)
+#'   - YYYY-Q[1-4] for quarterly data (e.g. 2019-Q1)
+#'   - YYYY-MM[01-12] for monthly data (e.g. 2019-01)
+#'   - YYYY-W[01-53] for weekly data (e.g. 2019-W01)
+#'   - YYYY-MM-DD for daily and business data (e.g. 2019-01-01)
+#' @param end_period The end period (used to filter on time). This is inclusive.
+#'   The supported formats are the same as for `start_period`
+#' @param version A version number, if unspecified the latest version of the
+#'   dataset is used. Use `read_api_dataflows()` to see
+#'   available dataflow versions.
+#' @param url A complete query url
+#'
+#' @details
 #' Note that the API enforces a reasonably strict gateway timeout policy. This
 #' means that, if you're trying to access a reasonably large dataset, you will
 #' need to filter it on the server side using the `datakey`. You might like to
@@ -26,31 +54,10 @@
 #' corresponding to a particular `id` may contain values for a given variable
 #' which are not in the corresponding dataflow.
 #'
-#' More information can be found on the [ABS website](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api)
-#'
-#' @param id A dataflow id, see `read_api_dataflows()` for available dataflows.
-#' @param datakey A named list matching filter variables to codes. All variables
-#'   with a `position` in the datastructure are filterable. See
-#'   `read_api_datastructure()` for information.
-#' @param start_period The start period (used to filter on time). This is
-#'   inclusive. The supported formats are:
-#'
-#'   - YYYY for annual data (e.g. 2019)
-#'   - YYYY-S[1-2] for semi-annual data (e.g. 2019-S1)
-#'   - YYYY-Q[1-4] for quarterly data (e.g. 2019-Q1)
-#'   - YYYY-MM[01-12] for monthly data (e.g. 2019-01)
-#'   - YYYY-W[01-53] for weekly data (e.g. 2019-W01)
-#'   - YYYY-MM-DD for daily and business data (e.g. 2019-01-01)
-#' @param end_period The end period (used to filter on time). This is inclusive.
-#'   The supported formats are the same as for `start_period`
-#' @param version A version number, if unspecified the latest version of the
-#'   dataset is used. See `read_api_dataflows()` for available dataflow versions.
-#' @param url A complete query url
-#'
 #' @return A data.frame
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # List available flows
 #' read_api_dataflows()
 #'
@@ -84,7 +91,7 @@
 #' # If you already have a query url, then use `read_api_url()`
 #' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/1.THRPEB..C+B+TOT..AUS.Q?startPeriod=2020-Q1"
 #' read_api_url(wpi_url)
-#'
+#' }
 #' @name abs_api
 NULL
 

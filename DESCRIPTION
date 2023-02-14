@@ -33,7 +33,7 @@ Imports:
     labelled
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Suggests: 
     knitr,
@@ -41,3 +41,4 @@ Suggests:
     markdown,
     testthat (>= 2.1.0),
     ggplot2
+Roxygen: list(markdown = TRUE)

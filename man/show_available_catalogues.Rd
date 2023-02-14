@@ -10,7 +10,7 @@ show_available_catalogues(selected_heading = NULL, refresh = FALSE)
 \item{selected_heading}{optional character string specifying the heading on the \href{https://www.abs.gov.au/statistics}{ABS statistics webpage}.
 e.g. "Earnings and work hours"}
 
-\item{refresh}{logical; `FALSE` by default. If `FALSE`, an internal table of the available ABS catalogues is used. If `TRUE`, this table is refreshed from the ABS website.}
+\item{refresh}{logical; \code{FALSE} by default. If \code{FALSE}, an internal table of the available ABS catalogues is used. If \code{TRUE}, this table is refreshed from the ABS website.}
 }
 \value{
 a character vector of catalogues.

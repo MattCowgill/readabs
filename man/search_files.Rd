@@ -11,7 +11,7 @@ search_files(string, catalogue, refresh = FALSE)
 
 \item{catalogue}{Name of catalogue}
 
-\item{refresh}{logical; `FALSE` by default. When `TRUE`, will re-scrape the
+\item{refresh}{logical; \code{FALSE} by default. When \code{TRUE}, will re-scrape the
 list of files within the catalogue.}
 }
 \description{

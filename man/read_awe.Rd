@@ -18,33 +18,33 @@ read_awe(
 \arguments{
 \item{wage_measure}{Character of length 1. Must be one of:
 \itemize{
-  \item{`awote`}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
-  \item{`ftawe`}{ Full-time adult total earnings}
-  \item{`awe`}{ Average weekly total earnings of all employees}
+\item{\code{awote}}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
+\item{\code{ftawe}}{ Full-time adult total earnings}
+\item{\code{awe}}{ Average weekly total earnings of all employees}
 }}
 
-\item{sex}{Character of length 1. Must be one of: `persons`, `males`, or `females`.}
+\item{sex}{Character of length 1. Must be one of: \code{persons}, \code{males}, or \code{females}.}
 
-\item{sector}{Character of length 1. Must be one of: `total`, `private`, or
-`public`. Note that you cannot get sector-by-state data; if `state` is not
-`all` then `sector` must be `total`.}
+\item{sector}{Character of length 1. Must be one of: \code{total}, \code{private}, or
+\code{public}. Note that you cannot get sector-by-state data; if \code{state} is not
+\code{all} then \code{sector} must be \code{total}.}
 
-\item{state}{Character of length 1. Must be one of: `all`, `nsw`, `vic`, `qld`,
-`sa`, `wa`, `nt`, or `act`. Note that you cannot get sector-by-state data;
-if `sector` is not `total` then `state` must be `all`.}
+\item{state}{Character of length 1. Must be one of: \code{all}, \code{nsw}, \code{vic}, \code{qld},
+\code{sa}, \code{wa}, \code{nt}, or \code{act}. Note that you cannot get sector-by-state data;
+if \code{sector} is not \code{total} then \code{state} must be \code{all}.}
 
-\item{na.rm}{Logical. `FALSE` by default. If `FALSE`, a consistent quarterly
-series is returned, with `NA` values for quarters in which there is no data.
-If `TRUE`, only dates with data are included in the returned data frame.}
+\item{na.rm}{Logical. \code{FALSE} by default. If \code{FALSE}, a consistent quarterly
+series is returned, with \code{NA} values for quarters in which there is no data.
+If \code{TRUE}, only dates with data are included in the returned data frame.}
 
-\item{path}{See `?read_abs`}
+\item{path}{See \code{?read_abs}}
 
-\item{show_progress_bars}{See `?read_abs`}
+\item{show_progress_bars}{See \code{?read_abs}}
 
-\item{check_local}{See `?read_abs`}
+\item{check_local}{See \code{?read_abs}}
 }
 \value{
-A `tbl_df` with four columns: `date`, `sex`, `wage_measure` and `value`.
+A \code{tbl_df} with four columns: \code{date}, \code{sex}, \code{wage_measure} and \code{value}.
 The data is nominal and seasonally adjusted.
 }
 \description{
@@ -52,13 +52,13 @@ Convenience function to obtain wage levels from ABS
 6302.0, Average Weekly Earnings, Australia.
 }
 \details{
-The latest AWE data is available using `read_abs(cat_no = "6302.0", tables = 2)`.
+The latest AWE data is available using \code{read_abs(cat_no = "6302.0", tables = 2)}.
 However, this time series only goes back to 2012, when the ABS switched
 from quarterly to biannual collection and release of the AWE data. The
-`read_awe()` function assembles on time series back to November 1983 quarter;
+\code{read_awe()} function assembles on time series back to November 1983 quarter;
 it is quarterly to 2012 and biannual from then. Note that the data
 returned with this function is consistently quarterly; any quarters for
-which there are no observations are recorded as `NA` unless `na.rm` = `TRUE`.
+which there are no observations are recorded as \code{NA} unless \code{na.rm} = \code{TRUE}.
 }
 \examples{
 \dontrun{

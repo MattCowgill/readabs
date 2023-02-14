@@ -15,8 +15,8 @@ e.g. "labour-force-australia-detailed".
 You can use \code{show_available_catalogues()} see all the possible catalogues,
 or \code{search_catalogues()} to find catalogues that contain a given string.}
 
-\item{refresh}{logical; `FALSE` by default. If `FALSE`, an internal table
-of the available ABS catalogues is used. If `TRUE`, this table is refreshed
+\item{refresh}{logical; \code{FALSE} by default. If \code{FALSE}, an internal table
+of the available ABS catalogues is used. If \code{TRUE}, this table is refreshed
 from the ABS website.}
 }
 \value{
@@ -30,7 +30,7 @@ This function lists the possible files that are available in a catalogue.
 The filename (or an unambiguous part of the filename) must be specified
 as a string as an argument to \code{download_abs_data_cube}.
 
-`get_available_files()` is an alias for `show_available_files()`.
+\code{get_available_files()} is an alias for \code{show_available_files()}.
 }
 \examples{
 \dontrun{

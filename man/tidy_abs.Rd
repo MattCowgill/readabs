@@ -10,9 +10,9 @@ tidy_abs(df, metadata = TRUE)
 \item{df}{A data frame containing ABS time series data
 that has been extracted using \code{extract_abs_sheets}.}
 
-\item{metadata}{logical. If `TRUE` (the default), a tidy data frame
+\item{metadata}{logical. If \code{TRUE} (the default), a tidy data frame
 including ABS metadata (series name, table name, etc.) is
-included in the output. If `FALSE`, metadata is dropped.}
+included in the output. If \code{FALSE}, metadata is dropped.}
 }
 \value{
 data frame (tibble) in long format.
