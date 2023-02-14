@@ -12,30 +12,13 @@ get_abs_xml_metadata <- function(url) {
 
   first_page_df <- get_first_xml_page(url)
 
-  get_numpages <- function(url) {
-    temp_xml <- tempfile(fileext = ".xml")
-
-    dl_file(
-      url = url,
-      destfile = temp_xml
-    )
-
-    temp_xml %>%
-      xml2::read_xml() %>%
-      xml2::xml_find_all(xpath = "//NumPages") %>%
-      xml2::xml_double()
-  }
-
-  safely_get_numpages <- purrr::safely(get_numpages)
-
-  num_pages <- safely_get_numpages(url)
+  num_pages <- get_numpages(url)
 
   xml_dfs <- dplyr::tibble()
 
   # If there's more than one page of XML corresponding to request, get all of them
-  if (!is.null(num_pages$result) && length(num_pages$result) > 0) {
-    tot_pages <- num_pages$result
-    all_pages <- 2:tot_pages
+  if (num_pages > 1) {
+    all_pages <- 2:num_pages
     # create list of URLs of XML metadata to scrape
     full_urls <- paste0(url, "&pg=", all_pages)
     xml_dfs <- get_xml_dfs(full_urls)
@@ -63,14 +46,48 @@ get_abs_xml_metadata <- function(url) {
   xml_dfs
 }
 
+get_numpages <- function(url) {
+  temp_xml <- tempfile(fileext = ".xml")
 
+  dl_file(
+    url = url,
+    destfile = temp_xml
+  )
+
+  out <- temp_xml %>%
+    xml2::read_xml() %>%
+    xml2::xml_find_all(xpath = "//NumPages") %>%
+    xml2::xml_double()
+
+  if (length(out) == 0) {
+    return(1)
+  } else {
+    return(out)
+  }
+}
 
 get_first_xml_page <- function(url) {
-  # Download the first page of metadata ------
-  first_url <- paste0(
-    url,
-    "&pg=1"
-  )
+  get_specific_xml_page(url = url,
+                        page = 1)
+}
+
+get_last_xml_page <- function(url) {
+  num_pages <- get_numpages(url)
+  get_specific_xml_page(url = url,
+                        page = num_pages)
+}
+
+get_specific_xml_page <- function(url, page) {
+
+  if (length(page) > 0) {
+    first_url <- paste0(
+      url,
+      "&pg=",
+      page
+    )
+  } else {
+    first_url <- url
+  }
 
   # Some tables in the ABS TSD start with a leading zero, as in
   # Table 01 rather than Table 1; the 0 needs to be included. Here we first test

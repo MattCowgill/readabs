@@ -108,7 +108,7 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
     label = labels
   ) %>%
     mutate(file = stringi::stri_extract_first_regex(url, "[^/]*$")) %>%
-    select(.data$label, .data$file, .data$url)
+    select("label", "file", "url")
 
   return(available_downloads)
 }

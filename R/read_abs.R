@@ -234,7 +234,7 @@ read_abs <- function(cat_no = NULL,
   )
 
   # Ensure we're not getting spurious matches of table numbers
-  if (tables != "all" && is.null(series_id)) {
+  if (tables[1] != "all" && is.null(series_id)) {
     xml_dfs <- xml_dfs[match_tables(xml_dfs$TableTitle, tables), ]
   }
 
@@ -258,7 +258,7 @@ read_abs <- function(cat_no = NULL,
   # Remove spaces from URLs
   urls <- gsub(" ", "+", urls)
 
-  if (release_date != "latest") {
+  if (as.character(release_date) != "latest") {
     requested_date <- format(as.Date(release_date), "%b-%Y")
     urls <- gsub(
       "latest-release",

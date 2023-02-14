@@ -1,4 +1,8 @@
 test_that("read_job_mobility() works as expected", {
+  skip_on_cran()
+  skip_if_offline()
+  check_abs_connection()
+
   test_mobility_df <- function(df) {
     expect_length(df, 12)
     expect_gt(nrow(df), 0)

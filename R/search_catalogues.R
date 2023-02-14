@@ -46,7 +46,7 @@ search_catalogues <- function(string, refresh = FALSE) {
     out <- dplyr::tibble(sum_true = matches) %>%
       dplyr::bind_cols(df) %>%
       dplyr::filter(.data$sum_true >= 1) %>%
-      dplyr::select(-.data$sum_true)
+      dplyr::select(-"sum_true")
   }
 
   out <- out %>%

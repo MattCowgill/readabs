@@ -35,5 +35,9 @@ show_available_catalogues <- function(selected_heading = NULL, refresh = FALSE) 
 
   available_catalogues <- pull(available_catalogues, .data$catalogue)
 
-  return(available_catalogues)
+  nonempty_available_catalogues <- available_catalogues[
+    nzchar(available_catalogues)
+  ]
+
+  return(nonempty_available_catalogues)
 }
