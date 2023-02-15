@@ -80,20 +80,20 @@
 #' ds <- read_api_datastructure("ABS_C16_T10_SA")
 #'
 #' # The `asgs_2016` code for 'Australia' is 0
-#' ds[ds$var=="asgs_2016" & ds$label == "Australia", ]
+#' ds[ds$var == "asgs_2016" & ds$label == "Australia", ]
 #'
 #' # The `sex_abs` code for 'Persons' (i.e. all persons) is 3
-#' ds[ds$var=="sex_abs" & ds$label == "Persons", ]
+#' ds[ds$var == "sex_abs" & ds$label == "Persons", ]
 #'
 #' # So we have:
-#' x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs= 3))
+#' x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs = 3))
 #' unique(x["asgs_2016"]) # Confirming only 'Australia' level records came through
 #' unique(x["sex_abs"]) # Confirming only 'Persons' level records came through
 #'
 #' # Please note however that not all values in the datastructure necessarily
 #' # appear in the data. You get 404s in this case
-#' ds[ds$var=="regiontype" & ds$label == "Destination Zones", ]
-#' try(read_api("ABS_C16_T10_SA", datakey=list(regiontype="DZN")))
+#' ds[ds$var == "regiontype" & ds$label == "Destination Zones", ]
+#' try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 #'
 #' # If you already have a query url, then use `read_api_url()`
 #' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/"
@@ -108,12 +108,12 @@ read_api_dataflows <- function() {
   check_abs_connection()
   r <- httr::GET(abs_api_url("dataflow/ABS"))
   r <- httr::content(r)
-  out <- purrr::map_dfr(r$references, ~.[c("id", "name", "version")])
+  out <- purrr::map_dfr(r$references, ~ .[c("id", "name", "version")])
   names(out) <- c("id", "name", "version")
 
   # Not all of them have descriptions
   desc <- purrr::map(r$references, "description")
-  desc <- purrr::map_chr(desc, ~ifelse(is.null(.), "", .))
+  desc <- purrr::map_chr(desc, ~ ifelse(is.null(.), "", .))
   out$desc <- desc
 
   out$version <- numeric_version(out$version)
@@ -132,7 +132,7 @@ read_api <- function(id, datakey = NULL, start_period = NULL, end_period = NULL,
 
   # Build data query
   dataflow <- paste0("ABS,", id)
-  if (!is.null(version)) dataflow <- paste(dataflow, version, sep=",")
+  if (!is.null(version)) dataflow <- paste(dataflow, version, sep = ",")
   q <- c("startPeriod" = start_period, "endPeriod" = end_period)
   if (!is.null(datakey)) {
     k <- abs_api_match_key(datakey, datastructure)
@@ -171,21 +171,21 @@ read_api_datastructure <- function(id) {
   httr::stop_for_status(r)
   r <- httr::content(r)
 
-  r <-  xml2::as_list(r)
+  r <- xml2::as_list(r)
 
   codelists <- r$Structure$Structures$Codelists
-  names(codelists) <- purrr::map_chr(r$Structure$Structures$Codelists, ~attr(., "id"))
-  components <-  r$Structure$Structures$DataStructures$DataStructure$DataStructureComponents
+  names(codelists) <- purrr::map_chr(r$Structure$Structures$Codelists, ~ attr(., "id"))
+  components <- r$Structure$Structures$DataStructures$DataStructure$DataStructureComponents
 
   codelists <- purrr::imap_dfr(codelists, function(codelist, nm) {
     desc <- codelist$Name[[1]]
-    purrr::map_dfr(codelist, ~c(local_id = nm, desc = desc, code = attr(., "id"), label = .$Name))
+    purrr::map_dfr(codelist, ~ c(local_id = nm, desc = desc, code = attr(., "id"), label = .$Name))
   })
   codelists <- codelists[!is.na(codelists$code), ]
 
   components <- purrr::imap_dfr(components, function(x, nm) {
     nm <- tolower(gsub("List", "", nm))
-    purrr::map_dfr(x, ~c(
+    purrr::map_dfr(x, ~ c(
       role = nm,
       var = attr(., "id"),
       local_id = attr(.$LocalRepresentation$Enumeration$Ref, "id"),
@@ -221,7 +221,7 @@ read_api_datastructure <- function(id) {
 #' abs_api_url(c("a", "path"), query = c(nulls = NULL, get = "dropped"))
 abs_api_url <- function(path, query = NULL) {
   out <- paste0("https://api.data.abs.gov.au/", paste(path, collapse = "/"))
-  if(!is.null(query)) {
+  if (!is.null(query)) {
     query <- paste(names(query), query, sep = "=")
     out <- paste0(out, "?", paste(query, collapse = "&"))
   }
@@ -239,10 +239,12 @@ abs_api_url <- function(path, query = NULL) {
 #' @keywords internal
 #'
 abs_api_id_from_url <- function(url) {
-  stopifnot("`url` must be of length 1" = length(url)==1)
+  stopifnot("`url` must be of length 1" = length(url) == 1)
   if (!grepl("^https://api.data.abs.gov.au/data/ABS,", url)) {
     stop("`url` is not an ABS query url. Query urls must match regex: \n\t",
-         "'^https://api.data.abs.gov.au/data/ABS,.*'", call. = FALSE)
+      "'^https://api.data.abs.gov.au/data/ABS,.*'",
+      call. = FALSE
+    )
   }
   id <- strsplit(url, "/")[[1]][5]
   id <- strsplit(id, ",")[[1]][2]
@@ -260,19 +262,20 @@ abs_api_id_from_url <- function(url) {
 #'
 #' @examples
 #' z <- read_api_datastructure("ERP_COB")
-#' abs_api_match_key(list(SEX=1:3, REGION="AUS"), z)
-#' abs_api_match_key(list(SEX=1:10, REGION="AUS"), z)
-#' try(abs_api_match_key(list(SX=1:3, REGION="AUS"), z))
-#' try(abs_api_match_key(list(UNIT_MEASURE="AUD", REGION="AUS"), z))
+#' abs_api_match_key(list(SEX = 1:3, REGION = "AUS"), z)
+#' abs_api_match_key(list(SEX = 1:10, REGION = "AUS"), z)
+#' try(abs_api_match_key(list(SX = 1:3, REGION = "AUS"), z))
+#' try(abs_api_match_key(list(UNIT_MEASURE = "AUD", REGION = "AUS"), z))
 abs_api_match_key <- function(datakey, datastructure) {
   stopifnot("`datakey` must be a named list" = is.list(datakey))
-  stopifnot("`datakey` must be a named list" = length(names(datakey))==length(datakey))
+  stopifnot("`datakey` must be a named list" = length(names(datakey)) == length(datakey))
 
   bad_vars <- setdiff(names(datakey), datastructure$var)
   if (length(bad_vars) > 0) {
-    stop(call. = FALSE,
-         "Variable(s) `", paste(bad_vars, collapse = "`, `"),
-         "` not found. Please review the datastructure with `read_api_datastructure()`"
+    stop(
+      call. = FALSE,
+      "Variable(s) `", paste(bad_vars, collapse = "`, `"),
+      "` not found. Please review the datastructure with `read_api_datastructure()`"
     )
   }
 
@@ -281,17 +284,19 @@ abs_api_match_key <- function(datakey, datastructure) {
 
     bad_vals <- setdiff(vals, ds$code)
     if (length(bad_vals) > 0) {
-      if (length(bad_vals)>5) bad_vals <- c(bad_vals[1:5], "...")
-      warning(call. = FALSE,
-              "Variable `", var, "` does not contain codes: ",
-              paste(bad_vals, collapse=", ")
+      if (length(bad_vals) > 5) bad_vals <- c(bad_vals[1:5], "...")
+      warning(
+        call. = FALSE,
+        "Variable `", var, "` does not contain codes: ",
+        paste(bad_vals, collapse = ", ")
       )
     }
 
     if (anyNA(ds$position)) {
-      stop(call. = FALSE,
-           "Cannot filter on `", var,
-           "`. Please review the datastructure with `read_api_datastructure()`"
+      stop(
+        call. = FALSE,
+        "Cannot filter on `", var,
+        "`. Please review the datastructure with `read_api_datastructure()`"
       )
     }
 
@@ -341,7 +346,9 @@ abs_api_fetch_data <- function(url) {
 abs_api_label_data <- function(df, datastructure) {
   df <- purrr::imap_dfc(df, function(x, var_name) {
     codes <- datastructure[datastructure$var == var_name, ]
-    if (nrow(codes)==0) return(x)
+    if (nrow(codes) == 0) {
+      return(x)
+    }
     labs <- codes$code
 
     # Match class avoiding data loss
@@ -354,9 +361,11 @@ abs_api_label_data <- function(df, datastructure) {
     }
 
     names(labs) <- codes$label
-    labelled::labelled(x = x,
-                       labels = labs,
-                       label = unique(codes$desc))
+    labelled::labelled(
+      x = x,
+      labels = labs,
+      label = unique(codes$desc)
+    )
   })
 
   df
@@ -376,4 +385,3 @@ can_numeric <- function(x) {
     !any(!(x %in% c(NA, "")) & is.na(suppressWarnings(as.numeric(x))))
   }
 }
-

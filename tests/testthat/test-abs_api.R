@@ -45,7 +45,7 @@ test_that("read_api filtering works as expected", {
   skip_on_cran()
   check_abs_connection()
 
-  x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs= 3))
+  x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs = 3))
   expect_equal(as.integer(unique(x["asgs_2016"])), 0)
   expect_equal(as.integer(unique(x["sex_abs"])), 3)
 })
@@ -72,5 +72,3 @@ test_that("url queries work", {
     res_chk
   )
 })
-
-

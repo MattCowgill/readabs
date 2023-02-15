@@ -48,7 +48,6 @@
 check_latest_date <- function(cat_no = NULL,
                               tables = "all",
                               series_id = NULL) {
-
   # check that R has access to the internet
   check_abs_connection()
 

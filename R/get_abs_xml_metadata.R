@@ -67,18 +67,21 @@ get_numpages <- function(url) {
 }
 
 get_first_xml_page <- function(url) {
-  get_specific_xml_page(url = url,
-                        page = 1)
+  get_specific_xml_page(
+    url = url,
+    page = 1
+  )
 }
 
 get_last_xml_page <- function(url) {
   num_pages <- get_numpages(url)
-  get_specific_xml_page(url = url,
-                        page = num_pages)
+  get_specific_xml_page(
+    url = url,
+    page = num_pages
+  )
 }
 
 get_specific_xml_page <- function(url, page) {
-
   if (length(page) > 0) {
     first_url <- paste0(
       url,

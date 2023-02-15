@@ -13,8 +13,8 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-"
 )
 
-version <- as.vector(read.dcf('DESCRIPTION')[, 'Version'])
-version <- gsub('-', '.', version)  
+version <- as.vector(read.dcf("DESCRIPTION")[, "Version"])
+version <- gsub("-", ".", version)
 ```
 
 # readabs <img src="man/figures/logo.png" align="right" height="139" />
@@ -85,13 +85,14 @@ It only takes you a few lines of code to make a graph from your data:
 
 ```{r all-in-one-example}
 all_wpi %>%
-  filter(series == "Percentage Change From Corresponding Quarter of Previous Year ;  Australia ;  Total hourly rates of pay excluding bonuses ;  Private and Public ;  All industries ;",
-         !is.na(value)) %>%
+  filter(
+    series == "Percentage Change From Corresponding Quarter of Previous Year ;  Australia ;  Total hourly rates of pay excluding bonuses ;  Private and Public ;  All industries ;",
+    !is.na(value)
+  ) %>%
   ggplot(aes(x = date, y = value, col = series_type)) +
   geom_line() +
   theme_minimal() +
   labs(y = "Annual wage growth (per cent)")
-
 ```
 
 
@@ -131,8 +132,10 @@ The `download_abs_data_cube()` function downloads the file and returns the full 
 
 ```{r}
 payrolls_t4_path %>%
-  read_excel(sheet = "Payroll jobs index",
-                     skip = 5)
+  read_excel(
+    sheet = "Payroll jobs index",
+    skip = 5
+  )
 ```
 
 ### Using convenience functions for select data cubes

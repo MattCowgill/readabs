@@ -1,5 +1,3 @@
-
-
 test_that("download_abs() fetches files", {
   skip_on_cran()
   skip_if_offline()

@@ -58,7 +58,6 @@
 download_abs_data_cube <- function(catalogue_string,
                                    cube,
                                    path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
-
   # check if path is valid
   if (!dir.exists(path)) {
     stop("path does not exist. Please create a folder.")

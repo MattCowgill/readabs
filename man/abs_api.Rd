@@ -107,20 +107,20 @@ try(read_api("ABS_C16_T10_SA"))
 ds <- read_api_datastructure("ABS_C16_T10_SA")
 
 # The `asgs_2016` code for 'Australia' is 0
-ds[ds$var=="asgs_2016" & ds$label == "Australia", ]
+ds[ds$var == "asgs_2016" & ds$label == "Australia", ]
 
 # The `sex_abs` code for 'Persons' (i.e. all persons) is 3
-ds[ds$var=="sex_abs" & ds$label == "Persons", ]
+ds[ds$var == "sex_abs" & ds$label == "Persons", ]
 
 # So we have:
-x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs= 3))
+x <- read_api("ABS_C16_T10_SA", datakey = list(asgs_2016 = 0, sex_abs = 3))
 unique(x["asgs_2016"]) # Confirming only 'Australia' level records came through
 unique(x["sex_abs"]) # Confirming only 'Persons' level records came through
 
 # Please note however that not all values in the datastructure necessarily
 # appear in the data. You get 404s in this case
-ds[ds$var=="regiontype" & ds$label == "Destination Zones", ]
-try(read_api("ABS_C16_T10_SA", datakey=list(regiontype="DZN")))
+ds[ds$var == "regiontype" & ds$label == "Destination Zones", ]
+try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 
 # If you already have a query url, then use `read_api_url()`
 wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/"

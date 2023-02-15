@@ -1,4 +1,3 @@
-
 test_that("File is downloaded", {
   # Download latest EQ09
 

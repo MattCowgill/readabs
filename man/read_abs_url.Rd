@@ -35,8 +35,10 @@ useful for older vintages of data, or discontinued data.
 }
 \examples{
 \dontrun{
-url <- paste0("https://www.abs.gov.au/statistics/labour/",
-"employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx")
+url <- paste0(
+  "https://www.abs.gov.au/statistics/labour/",
+  "employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx"
+)
 read_abs_url(url)
 }
 }

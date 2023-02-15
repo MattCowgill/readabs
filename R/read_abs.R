@@ -367,6 +367,3 @@ match_tables <- function(table_list, requested_tables) {
 
   grepl(regex_pattern, table_list_predot, perl = TRUE, ignore.case = TRUE)
 }
-
-
-

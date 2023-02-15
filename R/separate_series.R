@@ -36,7 +36,6 @@ separate_series <- function(data,
                             column_names = NULL,
                             remove_totals = FALSE,
                             remove_nas = FALSE) {
-
   # satisfy R CMD check's "no visible binding" error
   series <- NULL
   original_series <- NULL

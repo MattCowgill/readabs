@@ -1,4 +1,3 @@
-
 test_that("individual steps of read_abs() work", {
   skip_on_cran()
   skip_if_offline()

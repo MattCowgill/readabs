@@ -1,4 +1,3 @@
-
 .onAttach <- function(libname = find.package("readabs"), pkgname = "readabs") {
   if (is.na(Sys.getenv("R_READABS_PATH", unset = NA))) {
     packageStartupMessage(

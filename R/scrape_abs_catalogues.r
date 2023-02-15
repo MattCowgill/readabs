@@ -14,7 +14,6 @@
 #'
 
 scrape_abs_catalogues <- function() {
-
   # Scrape the main ABS statistics page
   stats_page_file <- tempfile(fileext = ".html")
   dl_file(
