@@ -1,5 +1,3 @@
-
-
 test_that("read_abs works out of the box", {
   skip_on_cran()
   skip_if_offline()

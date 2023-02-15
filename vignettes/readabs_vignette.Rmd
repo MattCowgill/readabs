@@ -17,10 +17,10 @@ library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "VIGNETTE-")
+  fig.path = "VIGNETTE-"
+)
 
 set.seed(42)
-
 ```
 
 # About {readabs}
@@ -83,18 +83,15 @@ wpi <- read_abs("6345.0")
 wpi <- read_abs("6345.0")
 wpi <- head(wpi)
 saveRDS(wpi, "wpi.rds")
-
 ```
 
 ```{r load-local-wpi, include = FALSE}
 wpi <- readRDS("wpi.rds")
-
 ```
 
 Cool! Now we've got a data frame (a tibble, to be precise) that contains all the time series from the Wage Price Index, converted to long and stacked on top of each other. Here's what it looks like:
 
 ```{r glimpse-wpi}
-
 head(wpi)
 ```
 
@@ -136,13 +133,11 @@ lfs_1 <- readRDS("lfs_1.rds")
 ```
 
 ```{r read-lfs-1, eval = FALSE}
-
 lfs_1 <- read_abs("6202.0", tables = 1)
 ```
 
 ```{r glimpse_lfs_1}
 head(lfs_1)
-
 ```
 
 If you want more than one table, but not the whole catalogue number, you can specify multiple tables:
@@ -150,17 +145,14 @@ If you want more than one table, but not the whole catalogue number, you can spe
 ```{r read-local-lfs_1_t, include=FALSE}
 lfs_5 <- readRDS("lfs_5.rds")
 lfs_1_5 <- bind_rows(lfs_1, lfs_5)
-
 ```
 
 ```{r read-lfs-1-5, eval=FALSE}
-
 lfs_1_5 <- read_abs("6202.0", tables = c(1, 5))
 ```
 
 ```{r glimpse_lfs_1_5}
 head(lfs_1_5)
-
 ```
 
 ### Get time series using their IDs
@@ -173,7 +165,6 @@ For example, the time series ID for the number of employed people in Australia (
 employed <- read_abs(series_id = "A84423127L")
 employed <- head(employed)
 saveRDS(employed, "employed.rds")
-
 ```
 
 ```{r read-local-seriesid, include = FALSE}
@@ -213,9 +204,8 @@ lfs_1_sep <- lfs_1 %>%
   separate_series()
 
 lfs_1_sep %>%
-  group_by(series_1, series_2) %>% 
+  group_by(series_1, series_2) %>%
   summarise()
-
 ```
 
 The `remove_totals` and `remove_nas` arguments to `separate_series()` can be very useful when you are tidying data. They're both set to `FALSE` by default.
@@ -225,20 +215,17 @@ We've now got a new tibble that still contains the original `series` column, but
 Let's make a data frame that just contains the male and female unemployment rates over time.
 
 ```{r create-unemp-df}
-
 unemp <- lfs_1_sep %>%
   filter(series_1 == "Unemployment rate")
 
 unique(unemp$series_1)
 
 unique(unemp$series_2)
-
 ```
 
 Now we have a data frame, `unemp`, that contains various unemployment rate series. Let's filter to only Males or Females.
 
 ```{r filter-male-female}
-
 unemp <- unemp %>%
   filter(series_2 %in% c("Males", "Females"))
 
@@ -248,20 +235,23 @@ unique(unemp$series_2)
 Now our data frame only contains the male and female unemployment rates, which is what we want. Let's graph it, filtering once more to show only the seasonally adjusted series and adding a 'sex' column:
 
 ```{r graph-unemp, dpi = 200}
-
 unemp %>%
   filter(series_type == "Seasonally Adjusted") %>%
   mutate(sex = series_2) %>%
   ggplot(aes(x = date, y = value, col = sex)) +
   geom_line() +
   theme_minimal() +
-  theme(legend.position = "bottom",
-        axis.title = element_blank(),
-        legend.title = element_blank(),
-        text = element_text(size = 5)) +
-  labs(title = "The male and female unemployment rates have converged",
-       subtitle = "Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)",
-       caption = "Source: ABS 6202.0")
+  theme(
+    legend.position = "bottom",
+    axis.title = element_blank(),
+    legend.title = element_blank(),
+    text = element_text(size = 5)
+  ) +
+  labs(
+    title = "The male and female unemployment rates have converged",
+    subtitle = "Unemployment rates for Australian men and women (aged 15+), 1978-2018 (per cent)",
+    caption = "Source: ABS 6202.0"
+  )
 ```
 
 Ta-da! Now we've got a nice little graph - and you didn't need to go to the ABS website or click around in Excel.

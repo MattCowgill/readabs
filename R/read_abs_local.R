@@ -53,7 +53,6 @@ read_abs_local <- function(cat_no = NULL,
                            ),
                            use_fst = TRUE,
                            metadata = TRUE) {
-
   # Error catching
   if (is.null(filenames) && is.null(path)) {
     stop("You must specify a value to filenames and/or path.")
@@ -158,8 +157,10 @@ read_abs_local <- function(cat_no = NULL,
 #'
 #' @examples
 #' \dontrun{
-#' url <- paste0("https://www.abs.gov.au/statistics/labour/",
-#' "employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx")
+#' url <- paste0(
+#'   "https://www.abs.gov.au/statistics/labour/",
+#'   "employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx"
+#' )
 #' read_abs_url(url)
 #' }
 #' @export
@@ -167,7 +168,6 @@ read_abs_url <- function(url,
                          path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                          show_progress_bars = TRUE,
                          ...) {
-
   get_redirect_url <- function(url) {
     header <- httr::HEAD(url)
     header$url
@@ -177,11 +177,13 @@ read_abs_url <- function(url,
 
   files <- file.path(path, basename(real_urls))
 
-  download_abs(real_urls,
-               path)
+  download_abs(
+    real_urls,
+    path
+  )
 
-  read_abs_local(filenames = files,
-                 ...)
-
+  read_abs_local(
+    filenames = files,
+    ...
+  )
 }
-

@@ -7,7 +7,7 @@
 tidy_awe(df)
 }
 \arguments{
-\item{df}{Data frame containing table 2 from ABS 6302, imported using `read_abs()`}
+\item{df}{Data frame containing table 2 from ABS 6302, imported using \code{read_abs()}}
 }
 \description{
 Internal function to tidy a dataframe from ABS 6302

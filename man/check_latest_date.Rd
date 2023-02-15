@@ -10,14 +10,11 @@ check_latest_date(cat_no = NULL, tables = "all", series_id = NULL)
 \item{cat_no}{ABS catalogue number, as a string, including the extension.
 For example, "6202.0".}
 
-\item{tables}{numeric. Time series tables in `cat_no`` to download and
-extract. Default is "all", which will read all time series in `cat_no`.
-Specify `tables` to download and import specific tables(s) -
-eg. `tables = 1` or `tables = c(1, 5)`.}
+\item{tables}{numeric. Time series tables in \verb{cat_no`` to download and extract. Default is "all", which will read all time series in }cat_no\verb{. Specify }tables\verb{to download and import specific tables(s) - eg.}tables = 1\code{or}tables = c(1, 5)`.}
 
 \item{series_id}{(optional) character. Supply an ABS unique time series
 identifier (such as "A2325807L") to get only that series.
-This is an alternative to specifying `cat_no`.}
+This is an alternative to specifying \code{cat_no}.}
 }
 \value{
 Date vector of length one. Date corresponds to the most recent

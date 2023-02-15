@@ -15,7 +15,7 @@ read_abs_url(
 \item{url}{Character vector of url(s) to ABS time series spreadsheet(s).}
 
 \item{path}{Local directory in which downloaded ABS time series
-spreadsheets should be stored. By default, `path` takes the value set in the
+spreadsheets should be stored. By default, \code{path} takes the value set in the
 environment variable "R_READABS_PATH". If this variable is not set,
 any files downloaded by read_abs()  will be stored in a temporary directory
 (\code{tempdir()}). See \code{?read_abs()} for more.}
@@ -23,20 +23,22 @@ any files downloaded by read_abs()  will be stored in a temporary directory
 \item{show_progress_bars}{TRUE by default. If set to FALSE, progress bars
 will not be shown when ABS spreadsheets are downloading.}
 
-\item{...}{Additional arguments passed to `read_abs_local()`.}
+\item{...}{Additional arguments passed to \code{read_abs_local()}.}
 }
 \description{
 Download and import an ABS time series spreadsheet from a given URL
 }
 \details{
 If you have a specific URL to the time series spreadsheet you wish
-to download, `read_abs_url()` will download, import and tidy it. This is
+to download, \code{read_abs_url()} will download, import and tidy it. This is
 useful for older vintages of data, or discontinued data.
 }
 \examples{
 \dontrun{
-url <- paste0("https://www.abs.gov.au/statistics/labour/",
-"employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx")
+url <- paste0(
+  "https://www.abs.gov.au/statistics/labour/",
+  "employment-and-unemployment/labour-force-australia/aug-2022/6202001.xlsx"
+)
 read_abs_url(url)
 }
 }

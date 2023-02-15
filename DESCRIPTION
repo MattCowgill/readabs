@@ -1,13 +1,14 @@
 Package: readabs
 Type: Package
 Title: Download and Tidy Time Series Data from the Australian Bureau of Statistics
-Version: 0.4.13
+Version: 0.4.13.900
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com", comment = c(ORCID = "0000-0003-0422-3300")),
            person("Zoe", "Meers", role = "aut", email = "zoe.meers@sydney.edu.au"),
            person("Jaron", "Lee", role = "aut", email = "jaron.lee@sydney.edu.au"),
            person("David", "Diviny", role = "aut", email = "David.Diviny@nousgroup.com.au"),
-           person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"))
+           person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"),
+           person("Kinto", "Behr", role = "ctb", email = "kinto.behr@gmail.com"))
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
     Australian Bureau of Statistics <https://www.abs.gov.au/>.
@@ -28,10 +29,11 @@ Imports:
     httr,
     rvest,
     xml2,
-    rlang
+    rlang,
+    labelled
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Suggests: 
     knitr,
@@ -39,3 +41,4 @@ Suggests:
     markdown,
     testthat (>= 2.1.0),
     ggplot2
+Roxygen: list(markdown = TRUE)

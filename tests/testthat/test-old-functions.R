@@ -1,4 +1,3 @@
-
 local_path <- "../testdata"
 local_filename <- "6202021.xls"
 

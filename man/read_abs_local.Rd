@@ -14,31 +14,31 @@ read_abs_local(
 }
 \arguments{
 \item{cat_no}{character; a single catalogue number such as "6202.0".
-When `cat_no` is specified, all local files in `path` corresponding to
+When \code{cat_no} is specified, all local files in \code{path} corresponding to
 the specified catalogue number will be imported.
-For example, if you run `read_abs_local("6202.0")`, it will look in
-the `6202.0` sub-folder of `path` and attempt to load any
+For example, if you run \code{read_abs_local("6202.0")}, it will look in
+the \code{6202.0} sub-folder of \code{path} and attempt to load any
 .xls and .xlsx files in that location.
-If `cat_no`` is specified, `filenames` will be ignored.}
+If \verb{cat_no`` is specified, }filenames` will be ignored.}
 
 \item{filenames}{character vector of at least one filename of a
 locally-stored ABS time series spreadsheet. For example, "6202001.xls" or
-c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to `cat_no`.
-If `filenames` is blank and `cat_no` is blank, `read_abs_local()` will
-attempt to read all .xls and .xlsx files in the directory specified with `path`.}
+c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to \code{cat_no}.
+If \code{filenames} is blank and \code{cat_no} is blank, \code{read_abs_local()} will
+attempt to read all .xls and .xlsx files in the directory specified with \code{path}.}
 
 \item{path}{path to local directory containing ABS time series file(s).
-Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
- If nothing is specified in `filenames` or `cat_no`,
-`read_abs_local()` will attempt to read all .xls and .xlsx files in the directory
-specified with `path`.}
+Default is \code{Sys.getenv("R_READABS_PATH", unset = tempdir())}.
+If nothing is specified in \code{filenames} or \code{cat_no},
+\code{read_abs_local()} will attempt to read all .xls and .xlsx files in the directory
+specified with \code{path}.}
 
-\item{use_fst}{logical. If `TRUE` (the default) then, if an `fst` file of the
-tidy data frame has already been saved in `path`, it is read immediately.}
+\item{use_fst}{logical. If \code{TRUE} (the default) then, if an \code{fst} file of the
+tidy data frame has already been saved in \code{path}, it is read immediately.}
 
-\item{metadata}{logical. If `TRUE` (the default), a tidy data frame including
+\item{metadata}{logical. If \code{TRUE} (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
-`FALSE`, metadata is dropped.}
+\code{FALSE}, metadata is dropped.}
 }
 \description{
 If you need to download and tidy time series data from the ABS,
@@ -46,8 +46,8 @@ use \code{read_abs()}. \code{read_abs_local()} imports and tidies data
 from ABS time series spreadsheets that are already saved to your local drive.
 }
 \details{
-Unlike \code{read_abs()}, the `table_title` column in the data frame
-returned by \code{read_abs_local()} is blank. If you require `table_title`,
+Unlike \code{read_abs()}, the \code{table_title} column in the data frame
+returned by \code{read_abs_local()} is blank. If you require \code{table_title},
 please use \code{read_abs()} instead.
 }
 \examples{

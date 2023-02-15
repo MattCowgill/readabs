@@ -10,8 +10,8 @@ read_job_mobility(
 )
 }
 \arguments{
-\item{tables}{Either `"all"` (the default) to import all tables, or a
-vector of table numbers, such as `1` or `c(2, 4)`.}
+\item{tables}{Either \code{"all"} (the default) to import all tables, or a
+vector of table numbers, such as \code{1} or \code{c(2, 4)}.}
 
 \item{path}{Local directory in which downloaded ABS time series spreadsheets should be stored. By default, 'path' takes the value set in the environment variable "R_READABS_PATH". If this variable is not set, any files downloaded by read_abs() will be stored in a temporary directory (tempdir()).}
 }

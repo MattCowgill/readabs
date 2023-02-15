@@ -1,3 +1,7 @@
+# readabs 0.4.13.9xx (in development)
+* read_api() and related experimental functions added by @kintob (thank you!) 
+to work with data from the ABS.Stat API
+
 # readabs 0.4.13
 * Added read_job_mobility()
 * Added read_abs_url()

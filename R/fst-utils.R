@@ -17,21 +17,22 @@
 
 catno2fst <- function(cat_no,
                       path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
-  hutils::provide.file(file.path(
-    path,
-    "fst",
-    paste0(
-      gsub(".", "-", cat_no, fixed = TRUE),
-      ".fst"
-    )
-  ),
-  on_failure = stop(
-    "`path = ", normalizePath(path,
-      winslash = "/"
+  hutils::provide.file(
+    file.path(
+      path,
+      "fst",
+      paste0(
+        gsub(".", "-", cat_no, fixed = TRUE),
+        ".fst"
+      )
     ),
-    "`, ",
-    "but it was not possible to write to this directory."
-  )
+    on_failure = stop(
+      "`path = ", normalizePath(path,
+        winslash = "/"
+      ),
+      "`, ",
+      "but it was not possible to write to this directory."
+    )
   )
 }
 

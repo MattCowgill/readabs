@@ -1,4 +1,3 @@
-
 test_that("Lookup table down download_data_cube() is up to date", {
   skip_if_offline()
   skip_on_cran()

@@ -13,31 +13,31 @@ read_payrolls(
 \arguments{
 \item{series}{Character. Must be one of:
 \itemize{
- \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
- group (Table 4)}
- \item{"industry_wages"}{ Total wages by industry division, state, sex, and age
- group (Table 4)}
- \item{"sa4_jobs"}{ Payroll jobs by statistical area 4 (SA4) and state (Table 5)}
- \item{"sa3_jobs}{ Payroll jobs by statistical area 4 (SA4), statistical
- area 3 (SA3), and state (Table 5)}
- \item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
- industry division (Table 6)}
- \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
- employees) and state (Table 7)}
- \item{"gccsa_jobs"}{ Payroll jobs by Greater Capital City Statistical
- Area (Table 5)}
- \item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
+\item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
+group (Table 4)}
+\item{"industry_wages"}{ Total wages by industry division, state, sex, and age
+group (Table 4)}
+\item{"sa4_jobs"}{ Payroll jobs by statistical area 4 (SA4) and state (Table 5)}
+\item{"sa3_jobs}{ Payroll jobs by statistical area 4 (SA4), statistical
+area 3 (SA3), and state (Table 5)}
+\item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
+industry division (Table 6)}
+\item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
+employees) and state (Table 7)}
+\item{"gccsa_jobs"}{ Payroll jobs by Greater Capital City Statistical
+Area (Table 5)}
+\item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
 }
 The default is "industry_jobs".}
 
 \item{path}{Local directory in which downloaded ABS time series
-spreadsheets should be stored. By default, `path` takes the value set in the
+spreadsheets should be stored. By default, \code{path} takes the value set in the
 environment variable "R_READABS_PATH". If this variable is not set,
 any files downloaded by read_abs()  will be stored in a temporary directory
 (\code{tempdir()}).}
 }
 \value{
-A tidy (long) `tbl_df`. The number of columns differs based on the `series`.
+A tidy (long) \code{tbl_df}. The number of columns differs based on the \code{series}.
 }
 \description{
 Import a tidy tibble of ABS Weekly Payrolls data.
@@ -50,7 +50,7 @@ by the Australian Taxation Office as part of its Single-Touch Payroll
 initiative and supplements the monthly Labour Force Survey. Unfortunately,
 the data as published by the ABS (1) is not in a standard time series
 spreadsheet; and (2) is messy in various ways that make it hard to
-read in R. This convenience function uses `download_abs_data_cube()` to
+read in R. This convenience function uses \code{download_abs_data_cube()} to
 import the payrolls data, and then tidies it up.
 }
 \examples{

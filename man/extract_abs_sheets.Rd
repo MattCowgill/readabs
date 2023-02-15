@@ -18,10 +18,10 @@ extract_abs_sheets(
 "Table 1. Employed persons, Australia"}
 
 \item{path}{Local directory in which an ABS time series is stored. Default is
-`Sys.getenv("R_READABS_PATH", unset = tempdir())`.}
+\code{Sys.getenv("R_READABS_PATH", unset = tempdir())}.}
 }
 \description{
 Note that this function will not tidy the data for you.
-Use `read_abs_local()`to import and tidy data from local ABS time series
-spreadsheets or `read_abs()` to download, import and tidy ABS time series.
+Use \code{read_abs_local()}to import and tidy data from local ABS time series
+spreadsheets or \code{read_abs()} to download, import and tidy ABS time series.
 }

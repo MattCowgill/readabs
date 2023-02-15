@@ -11,15 +11,15 @@ read_lfs_grossflows(
 )
 }
 \arguments{
-\item{weights}{either `"current"` or `"previous"`. If `"current"`, figures will
-use the current month's Labour Force survey weights; if `"previous"`, the
+\item{weights}{either \code{"current"} or \code{"previous"}. If \code{"current"}, figures will
+use the current month's Labour Force survey weights; if \code{"previous"}, the
 previous month's weights are used.}
 
 \item{path}{Local directory in which downloaded files should be stored.
 By default, 'path' takes the value set in the environment variable
 "R_READABS_PATH". If this variable is not set, any files downloaded
-will be stored in a temporary directory (`tempdir()`).
-See `Details` in \code{?read_abs} for more information.}
+will be stored in a temporary directory (\code{tempdir()}).
+See \code{Details} in \code{?read_abs} for more information.}
 }
 \value{
 A tibble containing data cube GM1 from the monthly Labour Force survey.
