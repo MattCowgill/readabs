@@ -19,7 +19,7 @@ from ABS time series spreadsheets that are already saved to your local drive."><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.13.900</span>
       </span>
     </div>
 
@@ -80,45 +80,45 @@ from ABS time series spreadsheets that are already saved to your local drive.</p
     <h2>Arguments</h2>
     <dl><dt>cat_no</dt>
 <dd><p>character; a single catalogue number such as "6202.0".
-When `cat_no` is specified, all local files in `path` corresponding to
+When <code>cat_no</code> is specified, all local files in <code>path</code> corresponding to
 the specified catalogue number will be imported.
-For example, if you run `read_abs_local("6202.0")`, it will look in
-the `6202.0` sub-folder of `path` and attempt to load any
+For example, if you run <code>read_abs_local("6202.0")</code>, it will look in
+the <code>6202.0</code> sub-folder of <code>path</code> and attempt to load any
 .xls and .xlsx files in that location.
-If `cat_no`` is specified, `filenames` will be ignored.</p></dd>
+If <code>cat_no`` is specified, </code>filenames` will be ignored.</p></dd>
 
 
 <dt>filenames</dt>
 <dd><p>character vector of at least one filename of a
 locally-stored ABS time series spreadsheet. For example, "6202001.xls" or
-c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to `cat_no`.
-If `filenames` is blank and `cat_no` is blank, `read_abs_local()` will
-attempt to read all .xls and .xlsx files in the directory specified with `path`.</p></dd>
+c("6202001.xls", "6202005.xls"). Ignored if a value is supplied to <code>cat_no</code>.
+If <code>filenames</code> is blank and <code>cat_no</code> is blank, <code>read_abs_local()</code> will
+attempt to read all .xls and .xlsx files in the directory specified with <code>path</code>.</p></dd>
 
 
 <dt>path</dt>
 <dd><p>path to local directory containing ABS time series file(s).
-Default is `Sys.getenv("R_READABS_PATH", unset = tempdir())`.
- If nothing is specified in `filenames` or `cat_no`,
-`read_abs_local()` will attempt to read all .xls and .xlsx files in the directory
-specified with `path`.</p></dd>
+Default is <code>Sys.getenv("R_READABS_PATH", unset = tempdir())</code>.
+If nothing is specified in <code>filenames</code> or <code>cat_no</code>,
+<code>read_abs_local()</code> will attempt to read all .xls and .xlsx files in the directory
+specified with <code>path</code>.</p></dd>
 
 
 <dt>use_fst</dt>
-<dd><p>logical. If `TRUE` (the default) then, if an `fst` file of the
-tidy data frame has already been saved in `path`, it is read immediately.</p></dd>
+<dd><p>logical. If <code>TRUE</code> (the default) then, if an <code>fst</code> file of the
+tidy data frame has already been saved in <code>path</code>, it is read immediately.</p></dd>
 
 
 <dt>metadata</dt>
-<dd><p>logical. If `TRUE` (the default), a tidy data frame including
+<dd><p>logical. If <code>TRUE</code> (the default), a tidy data frame including
 ABS metadata (series name, table name, etc.) is included in the output. If
-`FALSE`, metadata is dropped.</p></dd>
+<code>FALSE</code>, metadata is dropped.</p></dd>
 
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>Unlike <code><a href="read_abs.html">read_abs()</a></code>, the `table_title` column in the data frame
-returned by <code>read_abs_local()</code> is blank. If you require `table_title`,
+    <p>Unlike <code><a href="read_abs.html">read_abs()</a></code>, the <code>table_title</code> column in the data frame
+returned by <code>read_abs_local()</code> is blank. If you require <code>table_title</code>,
 please use <code><a href="read_abs.html">read_abs()</a></code> instead.</p>
     </div>
 
