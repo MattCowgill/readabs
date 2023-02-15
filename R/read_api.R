@@ -9,15 +9,19 @@
 #'
 #' These experimental functions provide a minimal interface to the ABS.Stat API.
 #'
+#' More information on the ABS.Stat API can be found
+#' on the [ABS website](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api)
+#'
+#' Note that an ABS.Stat 'dataflow' is like a table. A 'datastructure'
+#' contains metadata that describes the variables in the dataflow. To load data
+#' from the ABS.Stat API, you need to either:
+#'
 #'   - Using `read_api_dataflows()` you can get information on the available dataflows
 #'   - Using `read_api_datastructure()` you can get metadata relating to a
 #'   specific dataflow, including the variables available in each dataflow
 #'   - Using `read_api()` you can get the data belonging to a given dataflow.
 #'   - Using `read_api_url()` you can get the data for a given query url
 #'   generated using the [online data viewer](https://explore.data.abs.gov.au/).
-#'
-#' More information on the ABS API can be found
-#' on the [ABS website](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api)
 #'
 #' @param id A dataflow id. Use `read_api_dataflows()` to obtain a dataframe
 #'   listing available dataflows.
@@ -58,18 +62,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' # List available flows
+#' # List available dataflows
 #' read_api_dataflows()
 #'
+#' # Say we want the "Estimated resident population, Country of birth"
+#' # data flow, with the id ERP_COB. We load the data like this:
 #' # Get full data set for a given flow by providing id and start period:
 #' read_api("ERP_COB", start_period = 2020)
 #'
-#' # The `ABS_C16_T10_SA` dataflow is very large, so the gateway will timeout if we
-#' # try to collect the full data set
+#' # In some cases, loading a whole dataflow (as above) won't work.
+#' # For eg., the `ABS_C16_T10_SA` dataflow is very large,
+#' # so the gateway will timeout if we try to collect the full data set
 #' try(read_api("ABS_C16_T10_SA"))
 #'
-#' # We need to go for a subset using a datakey. To figure out how to build the
-#' # datakey, we get metadata
+#' # We need to filter the dataflow before downlaoding it.
+#' # To figure out how to filter it, we get metadata ('datastructure').
 #' ds <- read_api_datastructure("ABS_C16_T10_SA")
 #'
 #' # The `asgs_2016` code for 'Australia' is 0
@@ -89,7 +96,7 @@
 #' try(read_api("ABS_C16_T10_SA", datakey=list(regiontype="DZN")))
 #'
 #' # If you already have a query url, then use `read_api_url()`
-#' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/1.THRPEB..C+B+TOT..AUS.Q?startPeriod=2020-Q1"
+#' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/"
 #' read_api_url(wpi_url)
 #' }
 #' @name abs_api
@@ -98,6 +105,7 @@ NULL
 #' @export
 #' @rdname abs_api
 read_api_dataflows <- function() {
+  check_abs_connection()
   r <- httr::GET(abs_api_url("dataflow/ABS"))
   r <- httr::content(r)
   out <- purrr::map_dfr(r$references, ~.[c("id", "name", "version")])
@@ -116,6 +124,8 @@ read_api_dataflows <- function() {
 #' @export
 #' @rdname abs_api
 read_api <- function(id, datakey = NULL, start_period = NULL, end_period = NULL, version = NULL) {
+  check_abs_connection()
+
   # Fetch datastructure
   datastructure <- read_api_datastructure(id)
   datastructure <- datastructure[!is.na(datastructure$code), ]
@@ -139,6 +149,8 @@ read_api <- function(id, datakey = NULL, start_period = NULL, end_period = NULL,
 #' @export
 #' @rdname abs_api
 read_api_url <- function(url) {
+  check_abs_connection()
+
   # Fetch datastructure
   id <- abs_api_id_from_url(url)
   datastructure <- read_api_datastructure(id)
@@ -153,6 +165,8 @@ read_api_url <- function(url) {
 #' @export
 #' @rdname abs_api
 read_api_datastructure <- function(id) {
+  check_abs_connection()
+
   r <- httr::GET(abs_api_url(c("datastructure", "ABS", id, "?references=codelist")), httr::accept_xml())
   httr::stop_for_status(r)
   r <- httr::content(r)
