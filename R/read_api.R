@@ -32,12 +32,12 @@
 #' @param start_period The start period (used to filter by time). This is
 #'   inclusive. The supported formats are:
 #'
-#'   - YYYY for annual data (e.g. 2019)
-#'   - YYYY-S[1-2] for semi-annual data (e.g. 2019-S1)
-#'   - YYYY-Q[1-4] for quarterly data (e.g. 2019-Q1)
-#'   - YYYY-MM[01-12] for monthly data (e.g. 2019-01)
-#'   - YYYY-W[01-53] for weekly data (e.g. 2019-W01)
-#'   - YYYY-MM-DD for daily and business data (e.g. 2019-01-01)
+#'   - `"YYYY"` for annual data (e.g. 2019)
+#'   - `"YYYY-S[1-2]"` for semi-annual data (e.g. 2019-S1)
+#'   - `"YYYY-Q[1-4]"` for quarterly data (e.g. 2019-Q1)
+#'   - `"YYYY-MM[01-12]"` for monthly data (e.g. 2019-01)
+#'   - `"YYYY-W[01-53]"` for weekly data (e.g. 2019-W01)
+#'   - `"YYYY-MM-DD"` for daily and business data (e.g. 2019-01-01)
 #' @param end_period The end period (used to filter on time). This is inclusive.
 #'   The supported formats are the same as for `start_period`
 #' @param version A version number, if unspecified the latest version of the
@@ -249,7 +249,7 @@ abs_api_id_from_url <- function(url) {
   id
 }
 
-#' Construct a datakey
+#' Construct a datakey to filter an ABS.Stat dataflow
 #'
 #' @param datakey A named list matching variables to codes
 #' @param datastructure A datastructure retrieved with `read_api_datastructure()`
@@ -354,7 +354,9 @@ abs_api_label_data <- function(df, datastructure) {
     }
 
     names(labs) <- codes$label
-    labelled::labelled(x, labs, unique(codes$desc))
+    labelled::labelled(x = x,
+                       labels = labs,
+                       label = unique(codes$desc))
   })
 
   df

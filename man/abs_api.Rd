@@ -34,12 +34,12 @@ a dataflow and the values of that variable.}
 \item{start_period}{The start period (used to filter by time). This is
 inclusive. The supported formats are:
 \itemize{
-\item YYYY for annual data (e.g. 2019)
-\item YYYY-S\link{1-2} for semi-annual data (e.g. 2019-S1)
-\item YYYY-Q\link{1-4} for quarterly data (e.g. 2019-Q1)
-\item YYYY-MM\link{01-12} for monthly data (e.g. 2019-01)
-\item YYYY-W\link{01-53} for weekly data (e.g. 2019-W01)
-\item YYYY-MM-DD for daily and business data (e.g. 2019-01-01)
+\item \code{"YYYY"} for annual data (e.g. 2019)
+\item \code{"YYYY-S[1-2]"} for semi-annual data (e.g. 2019-S1)
+\item \code{"YYYY-Q[1-4]"} for quarterly data (e.g. 2019-Q1)
+\item \code{"YYYY-MM[01-12]"} for monthly data (e.g. 2019-01)
+\item \code{"YYYY-W[01-53]"} for weekly data (e.g. 2019-W01)
+\item \code{"YYYY-MM-DD"} for daily and business data (e.g. 2019-01-01)
 }}
 
 \item{end_period}{The end period (used to filter on time). This is inclusive.
