@@ -62,6 +62,8 @@ A data frame (tibble) containing the tidied data from the ABS time
 series table(s).
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+
 \code{read_abs()} downloads ABS time series spreadsheets,
 then extracts the data from those spreadsheets,
 then tidies the data. The result is a single
@@ -124,5 +126,4 @@ cpi <- read_abs(series_id = c("A2325806K", "A2325807L"))
 \dontrun{
 cpi <- read_abs_series(c("A2325806K", "A2325807L"))
 }
-
 }

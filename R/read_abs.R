@@ -1,4 +1,6 @@
 #' Download, extract, and tidy ABS time series spreadsheets
+#' @description
+#' `r lifecycle::badge("stable")`
 #'
 #' \code{read_abs()} downloads ABS time series spreadsheets,
 #' then extracts the data from those spreadsheets,
@@ -106,7 +108,7 @@
 #' \dontrun{
 #' cpi <- read_abs_series(c("A2325806K", "A2325807L"))
 #' }
-#'
+
 #' @importFrom purrr walk walk2 map map_dfr map2
 #' @importFrom dplyr group_by filter
 #' @name read_abs

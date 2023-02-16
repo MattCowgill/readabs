@@ -1,4 +1,7 @@
 #' Search for ABS catalogues that match a string
+#' @description
+#' `r lifecycle::badge("experimental")`
+#' Helper function to use with `download_abs_data_cube()`.
 #'
 #' `download_abs_data_cube()` requires that you specify a `catalogue`.
 #' `search_catalogues()` helps you find the catalogue you want, by searching for

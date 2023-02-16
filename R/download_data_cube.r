@@ -1,5 +1,7 @@
 #' Experimental helper function to download ABS data cubes that are not compatible with read_abs.
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #' \code{download_abs_data_cube()} downloads the latest ABS data cubes based on the catalogue name (from the website url) and cube.
 #' The function downloads the file to disk.
 #'

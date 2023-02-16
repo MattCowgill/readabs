@@ -26,14 +26,15 @@ will be stored in a temporary directory (\code{tempdir()}).
 See \code{Details} below for  more information.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 \code{download_abs_data_cube()} downloads the latest ABS data cubes based on the catalogue name (from the website url) and cube.
 The function downloads the file to disk.
-}
-\details{
+
 Unlike \code{read_abs()}, this function doesn't import or tidy the data.
 Convenience functions are provided to import and tidy key data cubes; see
 \code{?read_payrolls()} and \code{?read_lfs_grossflows()}.
-
+}
+\details{
 \code{download_abs_data_cube()} downloads an Excel spreadsheet from the ABS.
 
 The file need to be saved somewhere on your disk.
