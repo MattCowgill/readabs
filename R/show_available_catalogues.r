@@ -1,4 +1,6 @@
 #' Helper function for \code{download_abs_data_cube} to show the available catalogues.
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' This function lists the possible catalogues that are available on the ABS website.
 #' These catalogues must be specified as a string as an argument to \code{download_abs_data_cube}.
@@ -13,7 +15,6 @@
 #' @importFrom rlang .data
 #'
 #' @return a character vector of catalogues.
-#'
 #' @export
 #' @family data cube functions
 show_available_catalogues <- function(selected_heading = NULL, refresh = FALSE) {

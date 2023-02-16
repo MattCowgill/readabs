@@ -26,10 +26,11 @@ version <- gsub("-", ".", version)
 <!-- badges: end -->
 
 ## Overview
+
 {readabs} helps you easily download, import, and tidy data from the Australian Bureau of Statistics within R. 
 This saves you time manually downloading and tediously tidying data and allows you to spend more time on your analysis.
 
-## Installation
+## Installing {readabs}
 
 Install the latest CRAN version of {readabs} with:
 
@@ -44,29 +45,26 @@ You can install the development version of {readabs} from GitHub with:
 devtools::install_github("mattcowgill/readabs")
 ```
 
-## Usage
+## Using {readabs}
 
-The main function in {readabs} is `read_abs()`, which downloads, imports, and tidies time series data from the ABS website. **Note that `read_abs()` only works with spreadsheets in the standard ABS time series format.**
+The ABS releases data in many different formats, through many different dissemination channels.
 
-There are some other functions you may find useful.
+The {readabs} contains functions for working with three different types of ABS data:
 
-* `read_abs_local()` imports and tidies time series data from ABS spreadsheets stored on a local drive. Thanks to Hugh Parsonage for contributing to this functionality.
-* `separate_series()` splits the `series` column of a tidied ABS time series spreadsheet into multiple columns, reducing the manual wrangling that's needed to work with the data. Thanks to David Diviny for writing this function.
-* `download_abs_data_cube()` downloads a data cube (ie. non-time series spreadsheet) from the ABS website. Thanks to David Diviny for writing this function.
-* `read_cpi()` imports the Consumer Price Index numbers as a two-column tibble: `date` and `cpi`. This is useful for joining to other series to adjust data for changes in consumer prices.
-* `read_payrolls()` downloads, imports, and tidies tables from the ABS Weekly Payroll Jobs dataset.
-* `read_awe()` returns a long time series of Average Weekly Earnings data. 
-* `read_job_mobility()` downloads, imports and tidies tables from the ABS Job Mobility dataset.
+ - `read_abs()` and related functions downloads, imports, and tidies ABS time series data.
+ - `download_abs_data_cube()` and related functions find and download ABS data cubes, which
+   are spreadsheets on the ABS website that are not in the standard time series format.
+ - `read_api()` and related functions find, filter, and import data from the [ABS.Stat](https://explore.data.abs.gov.au) API.
 
-## Download, import, and tidy ABS time series data
 
-To download all the time series data from an ABS catalogue number to your disk, and import the data to R as a single tidy data frame, use `read_abs()`. 
+### ABS time series data
+
+A key function in {readabs} is `read_abs()`, which downloads, imports, and tidies time series data from the ABS website. **Note that `read_abs()` only works with spreadsheets in the standard ABS time series format.**
 
 First we'll load {readabs} and the {tidyverse}:
 ```{r load-packages, results=FALSE, warning=FALSE}
 library(readabs)
 library(tidyverse)
-library(readxl)
 ```
 
 Now we'll create one data frame that contains all the time series data from the Wage Price Index, catalogue number 6345.0:
@@ -95,7 +93,6 @@ all_wpi %>%
   labs(y = "Annual wage growth (per cent)")
 ```
 
-
 In the example above we downloaded all the time series from a catalogue number. This will often be overkill. If you know the data you need is in a particular table, you can just get that table like this:
 
 ```{r wpi1}
@@ -108,37 +105,62 @@ If you want multiple tables, but not the whole catalogue, that's easy too:
 wpi_t1_t5 <- read_abs("6345.0", tables = c("1", "5a"))
 ```
 
-In most cases, the `series` column will contain multiple components, separated by ';'. The `separate_series()` function can help wrangling this column.
-
 For more examples, please see the vignette on working with time series data (run `browseVignettes("readabs")`).
 
-## Download ABS data cubes
+Some other functions that may come in handy when working with ABS time series data:
+
+* `read_abs_local()` imports and tidies time series data from ABS spreadsheets stored on a local drive. Thanks to Hugh Parsonage for contributing to this functionality.
+* `separate_series()` splits the `series` column of a tidied ABS time series spreadsheet into multiple columns, reducing the manual wrangling that's needed to work with the data. Thanks to David Diviny for writing this function.
+
+#### Convenience functions for loading time series data
+There are several functions that load specific ABS time series data:
+
+* `read_cpi()` imports the Consumer Price Index numbers as a two-column tibble: `date` and `cpi`. This is useful for joining to other series to adjust data for changes in consumer prices.
+* `read_awe()` returns a long time series of Average Weekly Earnings data. 
+* `read_job_mobility()` downloads, imports and tidies tables from the ABS Job Mobility dataset.
+
+### ABS data cubes
 
 The ABS (generally) releases time series data in a standard format, which allows `read_abs()` to download, import and tidy it (see above). But not all ABS data is time series data - the ABS also releases data as 'data cubes'. These are all formatted in their own, unique way. 
 
-Unfortunately, because data cubes are all formatted in their own way, there is no one function that can import tidy data cubes for you in the same way that `read_abs()` works with all time series. But `{readabs}` still has functions that can help.
+Unfortunately, because data cubes are all formatted in their own way, there is no one function that can import tidy data cubes for you in the same way that `read_abs()` works with all time series. But `{readabs}` still has functions that can help. Thanks to David Diviny for writing these functions.
 
-### Doing it manually
-The `download_abs_data_cube()` function can download an ABS data cube for you. It works with any data cube on the ABS website.
+The `download_abs_data_cube()` function can download an ABS data cube for you. It works with any data cube on the ABS website. To use this function, we need two things: a `catalogue_string` (the short name of the release) and `cube`, a (unique fragment of) the filename within the catalogue you wish to download.
 
-For example, let's say you wanted to download table 4 from _Weekly Payroll Jobs and Wages in Australia_. This code would do the trick:
+For example, let's say you wanted to download table 4 from _Weekly Payroll Jobs and Wages in Australia_. We can find the catalogue name like this:
+
+```{r cat-name}
+search_catalogues("payroll")
+```
+
+Now we know that the string `"weekly-payroll-jobs-and-wages-australia"` is the `catalogue_string` for this release. We can now see what files are available to download from this catalogue:
+
+```{r files}
+show_available_files("weekly-payroll-jobs-and-wages-australia")
+```
+
+We want Table 4, which has the filename `6160055001_DO004.xlsx`. 
+
+We can download the file as follows:
 
 ```{r download-data-cube}
 payrolls_t4_path <- download_abs_data_cube("weekly-payroll-jobs-and-wages-australia", "004")
 
 payrolls_t4_path
 ```
+
 The `download_abs_data_cube()` function downloads the file and returns the full file path to the saved file. You can then pipe that in to another function:
 
 ```{r}
 payrolls_t4_path %>%
-  read_excel(
+  readxl::read_excel(
     sheet = "Payroll jobs index",
     skip = 5
   )
 ```
 
-### Using convenience functions for select data cubes
+
+#### Convenience functions for data cubes
 
 As it happens, if you want the ABS Weekly Payrolls data, you don't need to use `download_abs_data_cube()` directly. Instead, there is a convenience function available that downloads, imports, and tidies the data for you:
 
@@ -152,6 +174,45 @@ There is also a convenience function available for data cube GM1 from the monthl
 read_lfs_grossflows()
 ```
 
+
+### Finding and loading data from the ABS.Stat API
+
+The ABS has created a new site to access its data, called the ABS Data Explorer, also known as ABS.Stat. As at early 2023, this site is in Beta mode. The site provides an API.
+
+The {readabs} package includes functions to query the ABS.Stat API. Thank you to Kinto Behr for writing these functions. The functions are:
+
+* `read_api_dataflows()` lists available dataflows (roughly equivalent to 'tables')
+* `read_api_datastructure()` lists variables within a particular dataflow and the levels of those variables, which you can use to filter the data server-side in an API query
+* `read_api()` downloads data from the ABS.Stat API.
+
+Let's list available dataflows:
+```{r}
+flows <- read_api_dataflows()
+```
+
+Say from this I am interested in the first dataflow, the projected population of 
+Aboriginal and Torres Strait Islander Australians. The id for this dataflow is
+`"ABORIGINAL_POP_PROJ"`, which I can use to download the data. 
+
+In this case, I could download the entire dataflow with:
+```{r all-aboriginal-pop}
+read_api("ABORIGINAL_POP_PROJ")
+```
+
+Let's say I'm only interested in the population projections for males, not females or all persons. In that case, I can filter the data on the ABS server before downloading my query. I can use `read_api_datastructure()` to help with this.
+
+
+```{r datastructure}
+read_api_datastructure("ABORIGINAL_POP_PROJ")
+```
+
+From this, I can see that there's a variable (`var`) called `sex_abs`, which can take the value `1`, `2`, or `3`, corresponding to `Males`, `Females` and `Persons`. If I only want to data for Males, I can obtain this by supplying a datakey:
+
+```{r}
+read_api("ABORIGINAL_POP_PROJ", datakey = list(sex_abs = 1))
+```
+
+Note that in some cases, querying the API without filtering the data will return an error, as the table will be too big. In this case, you will need to supply a datakey that reduces the size of the data.
 
 ## Bug reports and feedback
 GitHub issues containing error reports or feature requests are welcome. Please try to make a [reprex](https://reprex.tidyverse.org) (a minimal, reproducible example) if possible.

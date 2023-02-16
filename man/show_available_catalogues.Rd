@@ -16,6 +16,8 @@ e.g. "Earnings and work hours"}
 a character vector of catalogues.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This function lists the possible catalogues that are available on the ABS website.
 These catalogues must be specified as a string as an argument to \code{download_abs_data_cube}.
 }

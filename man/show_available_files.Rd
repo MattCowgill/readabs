@@ -23,13 +23,14 @@ from the ABS website.}
 A tibble containing the title of the file, the filename and the complete url.
 }
 \description{
-To be used in conjunction with \code{get_abs_data_cube()}.
-}
-\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+To be used in conjunction with \code{download_abs_data_cube()}.
+
 This function lists the possible files that are available in a catalogue.
 The filename (or an unambiguous part of the filename) must be specified
 as a string as an argument to \code{download_abs_data_cube}.
-
+}
+\details{
 \code{get_available_files()} is an alias for \code{show_available_files()}.
 }
 \examples{

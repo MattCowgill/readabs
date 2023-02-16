@@ -19,6 +19,9 @@ A data frame (tibble) containing the topic (\code{heading}), product title
 that match the provided string.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Helper function to use with \code{download_abs_data_cube()}.
+
 \code{download_abs_data_cube()} requires that you specify a \code{catalogue}.
 \code{search_catalogues()} helps you find the catalogue you want, by searching for
 a given string in the catalogue names, product title, and broad topic.

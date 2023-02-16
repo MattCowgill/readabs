@@ -1,6 +1,8 @@
 #' Helper function to show the files available in a particular catalogue number.
 #'
-#' To be used in conjunction with \code{get_abs_data_cube()}.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#' To be used in conjunction with \code{download_abs_data_cube()}.
 #'
 #' This function lists the possible files that are available in a catalogue.
 #' The filename (or an unambiguous part of the filename) must be specified
