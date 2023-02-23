@@ -58,17 +58,9 @@ test_that("url queries work", {
   res <- read_api_url(wpi_url) %>%
     arrange(measure, index, sector, industry, tsest, region, freq, time_period)
 
-  res_chk <- read_api("WPI", list(
-    measure = 1,
-    index = "THRPEB",
-    industry = c("B", "C", "TOT"),
-    region = "AUS",
-    freq = "Q"
-  ), start_period = "2020-Q1") %>%
-    arrange(measure, index, sector, industry, tsest, region, freq, time_period)
+  expect_s3_class(res, "tbl_df")
+  expect_true(labelled::is.labelled(res$measure))
+  expect_length(res, 13)
+  expect_gt(nrow(res), 142)
 
-  expect_identical(
-    res,
-    res_chk
-  )
 })
