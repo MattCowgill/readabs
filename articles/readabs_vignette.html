@@ -165,16 +165,16 @@ long and stacked on top of each other. Here’s what it looks like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wpi</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
-<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  67.4 Origin… INDEX   3      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  64.7 Origin… INDEX   3      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  66.7 Origin… INDEX   3      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  67.3 Season… INDEX   3      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  64.8 Season… INDEX   3      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. To… 1997-09-01 Quart…  66.6 Season… INDEX   3      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  67.4 Original    INDEX    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  64.7 Original    INDEX    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  66.7 Original    INDEX    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  67.3 Seasonally… INDEX    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  64.8 Seasonally… INDEX    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 634501   Data1    Table 1. Tota… 1997-09-01 Quart…  66.6 Seasonally… INDEX    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;, series_id &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   unit &lt;chr&gt;</span></span></span></code></pre></div>
 <p>It’s over 54 000 rows long, and 12 variables wide. Some catalogue
 numbers are much bigger - for example, if you get the entire monthly
 Labour Force release (catalogue number 6202.0), you’ll have a data frame
@@ -231,16 +231,16 @@ want:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lfs_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
-<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Season… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Origin… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Season… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Origin… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Seasonally… STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Original    STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Seasonally… STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Original    STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;, series_id &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   unit &lt;chr&gt;</span></span></span></code></pre></div>
 <p>If you want more than one table, but not the whole catalogue number,
 you can specify multiple tables:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -248,16 +248,16 @@ you can specify multiple tables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lfs_1_5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
-<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Season… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Origin… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Season… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Origin… STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>998. Seasonally… STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">5</span>986. Original    STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…   <span style="color: #BB0000;">NA</span>  Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>881. Seasonally… STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo… <span style="text-decoration: underline;">3</span>887. Original    STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;, series_id &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   unit &lt;chr&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="get-time-series-using-their-ids">Get time series using their IDs<a class="anchor" aria-label="anchor" href="#get-time-series-using-their-ids"></a>
@@ -274,16 +274,16 @@ that only contains that series as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">employed</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 12</span></span></span>
-<span><span class="co">#&gt;   table_no sheet_no table_title  date       series value serie…¹ data_…² colle…³</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. La… 1978-02-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. La… 1978-03-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. La… 1978-04-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. La… 1978-05-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. La… 1978-06-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. La… 1978-07-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend   STOCK   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: frequency &lt;chr&gt;, series_id &lt;chr&gt;, unit &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​series_type, ²​data_type, ³​collection_month</span></span></span>
+<span><span class="co">#&gt;   table_no sheet_no table_title    date       series value series_type data_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6202001  Data1    Table 1. Labo… 1978-02-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6202001  Data1    Table 1. Labo… 1978-03-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6202001  Data1    Table 1. Labo… 1978-04-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6202001  Data1    Table 1. Labo… 1978-05-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6202001  Data1    Table 1. Labo… 1978-06-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6202001  Data1    Table 1. Labo… 1978-07-01 Emplo…    <span style="color: #BB0000;">NA</span> Trend       STOCK    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: collection_month &lt;chr&gt;, frequency &lt;chr&gt;, series_id &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   unit &lt;chr&gt;</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">employed</span><span class="op">$</span><span class="va">series</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Employed total ;  Persons ;"</span></span></code></pre></div>
@@ -380,7 +380,7 @@ extraneous symbols.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Employed part-time                         Males   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Employed part-time                         Persons </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Employed total                             Females </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 32 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32 more rows</span></span></span></code></pre></div>
 <p>The <code>remove_totals</code> and <code>remove_nas</code> arguments
 to <code><a href="../reference/separate_series.html">separate_series()</a></code> can be very useful when you are
 tidying data. They’re both set to <code>FALSE</code> by default.</p>
@@ -481,15 +481,14 @@ from the monthly Labour Force release.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/search_catalogues.html">search_catalogues</a></span><span class="op">(</span><span class="st">"labour force"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
-<span><span class="co">#&gt;   heading                     sub_heading                          catal…¹ url  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Employment and unemployment Labour Force, Australia              labour… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Employment and unemployment Labour Force, Australia, Detailed    labour… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Employment and unemployment Labour Force Status of Families      labour… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Employment and unemployment Barriers and Incentives to Labour F… barrie… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Employment and unemployment Labour Force, Australia, Detailed, … labour… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Employment and unemployment Labour Force, Australia - Rebenchma… labour… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​catalogue</span></span></span></code></pre>
+<span><span class="co">#&gt;   heading                     sub_heading                        catalogue url  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Employment and unemployment Labour Force, Australia            labour-f… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Employment and unemployment Labour Force, Australia, Detailed  labour-f… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Employment and unemployment Labour Force Status of Families    labour-f… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Employment and unemployment Barriers and Incentives to Labour… barriers… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Employment and unemployment Labour Force, Australia, Detailed… labour-f… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Employment and unemployment Labour Force, Australia - Rebench… labour-f… http…</span></span></code></pre>
 <p>It looks like <code>labour-force-australia</code> is the catalogue
 name for the monthly Labour Force survey.</p>
 <p>Now I need to find the filename for the gross flows spreadsheet,
@@ -526,15 +525,14 @@ provided.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
-<span><span class="co">#&gt;   date       sex   age         state       lfs_c…¹ lfs_p…² persons unit  weights</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2001-03-01 Males 15-19 years New South … Employ… Employ…  28.5   000s  curren…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2001-03-01 Males 15-19 years New South … Employ… Employ…   1.93  000s  curren…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2001-03-01 Males 15-19 years New South … Employ… Unempl…   2.93  000s  curren…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2001-03-01 Males 15-19 years New South … Employ… Not in…   0.334 000s  curren…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2001-03-01 Males 15-19 years New South … Employ… Unmatc…   1.63  000s  curren…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2001-03-01 Males 15-19 years New South … Employ… Incomi…   7.57  000s  curren…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​lfs_current, ²​lfs_previous</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   date       sex   age      state lfs_current lfs_previous persons unit  weights</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2001-03-01 Males 15-19 y… New … Employed f… Employed fu…  28.5   000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2001-03-01 Males 15-19 y… New … Employed f… Employed pa…   1.93  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2001-03-01 Males 15-19 y… New … Employed f… Unemployed     2.93  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2001-03-01 Males 15-19 y… New … Employed f… Not in the …   0.334 000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2001-03-01 Males 15-19 y… New … Employed f… Unmatched i…   1.63  000s  curren…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2001-03-01 Males 15-19 y… New … Employed f… Incoming ro…   7.57  000s  curren…</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="abs-weekly-payroll-jobs-and-wages">ABS Weekly Payroll Jobs and Wages<a class="anchor" aria-label="anchor" href="#abs-weekly-payroll-jobs-and-wages"></a>
