@@ -17,6 +17,7 @@
 #' from the ABS.Stat API, you need to either:
 #'
 #'   - Using `read_api_dataflows()` you can get information on the available dataflows
+#'   - Using `read_api_codelists()` you get information about available ABS codelists
 #'   - Using `read_api_datastructure()` you can get metadata relating to a
 #'   specific dataflow, including the variables available in each dataflow
 #'   - Using `read_api()` you can get the data belonging to a given dataflow.
@@ -118,6 +119,45 @@ read_api_dataflows <- function() {
 
   out$version <- numeric_version(out$version)
   out[c("id", "name", "desc", "version")]
+}
+
+#' @export
+#' @rdname abs_api
+read_api_codelists <- function() {
+  check_abs_connection()
+
+  url <- abs_api_url("codelist/ABS?detail=allcompletestubs")
+
+  r <- httr::GET(url,
+                 httr::accept_xml())
+
+  cont <- httr::content(r)
+
+  xml_kids <- cont %>%
+    xml2::xml_find_all("//structure:Codelists") %>%
+    xml2::xml_children()
+
+  ids <- xml_kids %>%
+    xml2::xml_attr("id")
+
+  versions <- xml_kids %>%
+    xml2::xml_attr("version")
+
+  name <- xml_kids %>%
+    xml2::xml_text()
+
+  tibble(
+    id = xml2::xml_attr(xml_kids, "id"),
+    name = purrr::map_chr(xml_kids, \(x) {
+      x %>%
+        xml_child() %>%
+        xml_text()
+    }),
+    desc = xml2::xml_text(xml_kids),
+    version = xml2::xml_attr(xml_kids, "version")
+  ) %>%
+    mutate(desc = stringr::str_remove_all(desc, name),
+           version = base::numeric_version(version))
 }
 
 
