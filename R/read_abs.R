@@ -284,7 +284,7 @@ read_abs <- function(cat_no = NULL,
   )
 
   if (is.null(dl_result$result)) {
-    urls <- gsub(".xlsx", ".xls", urls)
+    urls <- gsub(".xls", ".xlsx", urls)
     dl_result_xls <- safely_download_abs(
       urls = urls,
       path = .path,
