@@ -7,3 +7,6 @@ Meta
 .DS_Stores
 .DS_Store
 CRAN-RELEASE
+readabs.Rcheck/
+readabs*.tar.gz
+readabs*.tgz

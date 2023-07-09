@@ -15,3 +15,6 @@
 ^Meta$
 ^data-raw$
 ^pkgdown$
+^readabs\.Rcheck$
+^readabs.*\.tar\.gz$
+^readabs.*\.tgz$
