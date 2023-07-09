@@ -62,5 +62,4 @@ test_that("url queries work", {
   expect_true(labelled::is.labelled(res$measure))
   expect_length(res, 13)
   expect_gt(nrow(res), 142)
-
 })
