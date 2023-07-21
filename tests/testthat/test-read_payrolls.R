@@ -1,6 +1,7 @@
 test_that("read_payrolls() works", {
   skip_if_offline()
   skip_on_cran()
+  check_abs_connection()
 
   check_payrolls <- function(series) {
     print(series)
