@@ -1,11 +1,11 @@
 
 ## Test environments
 
-* local macOS 13.2 install, R release
+* local macOS-latest install, R release
 * macOS-latest, R release (GitHub Actions)
 * windows-latest, R release (GitHub Actions)
-* ubuntu 20.04, R release (GitHub Actions)
-* ubuntu 20.03 R devel (GitHub Actions)
+* ubuntu-latest, R release (GitHub Actions)
+* ubuntu-latest R devel (GitHub Actions)
 * win-builder (devel, release, and old release)
 
 ## R CMD check results
