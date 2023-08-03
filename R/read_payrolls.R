@@ -79,7 +79,7 @@ read_payrolls <- function(series = c(
   )
 
   safely_download_cube <- purrr::safely(.f = ~ download_abs_data_cube(
-    catalogue_string = "weekly-payroll-jobs-and-wages-australia",
+    catalogue_string = "weekly-payroll-jobs",
     cube = cube_name,
     path = path
   ))

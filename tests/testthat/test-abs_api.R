@@ -1,5 +1,6 @@
 test_that("read_api helper functions return tibbles with expected structure", {
   skip_on_cran()
+  skip_if_offline()
   check_abs_connection()
 
   res <- read_api_dataflows()

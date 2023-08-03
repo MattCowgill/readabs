@@ -25,7 +25,7 @@ read_job_mobility <- function(tables = "all",
   job_mob_tbls <- raw_job_mob_tbls %>%
     mutate(
       base_file_name = tools::file_path_sans_ext(file),
-      label = gsub("62230_", "", base_file_name)
+      label = gsub("62230_", "", .data$base_file_name)
     )
 
   available_tables <- job_mob_tbls %>%
