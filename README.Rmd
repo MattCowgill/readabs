@@ -62,7 +62,11 @@ The {readabs} contains functions for working with three different types of ABS d
 A key function in {readabs} is `read_abs()`, which downloads, imports, and tidies time series data from the ABS website. **Note that `read_abs()` only works with spreadsheets in the standard ABS time series format.**
 
 First we'll load {readabs} and the {tidyverse}:
-```{r load-packages, results=FALSE, warning=FALSE}
+```{r load-package-dev, results = FALSE, warning = FALSE, eval = TRUE, include = FALSE}
+devtools::load_all()
+library(tidyverse)
+```
+```{r load-packages, results=FALSE, warning=FALSE, eval = FALSE}
 library(readabs)
 library(tidyverse)
 ```
@@ -133,10 +137,10 @@ For example, let's say you wanted to download table 4 from _Weekly Payroll Jobs 
 search_catalogues("payroll")
 ```
 
-Now we know that the string `"weekly-payroll-jobs-and-wages-australia"` is the `catalogue_string` for this release. We can now see what files are available to download from this catalogue:
+Now we know that the string `"weekly-payroll-jobs"` is the `catalogue_string` for this release. We can now see what files are available to download from this catalogue:
 
 ```{r files}
-show_available_files("weekly-payroll-jobs-and-wages-australia")
+show_available_files("weekly-payroll-jobs")
 ```
 
 We want Table 4, which has the filename `6160055001_DO004.xlsx`. 
@@ -144,7 +148,7 @@ We want Table 4, which has the filename `6160055001_DO004.xlsx`.
 We can download the file as follows:
 
 ```{r download-data-cube}
-payrolls_t4_path <- download_abs_data_cube("weekly-payroll-jobs-and-wages-australia", "004")
+payrolls_t4_path <- download_abs_data_cube("weekly-payroll-jobs", "004")
 
 payrolls_t4_path
 ```
