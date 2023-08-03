@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.13.901</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.14</span>
       </span>
     </div>
 
@@ -127,20 +127,7 @@
 <p>First we’ll load {readabs} and the {tidyverse}:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattcowgill/readabs" class="external-link">readabs</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Environment variable 'R_READABS_PATH' is unset. Downloaded files will be saved in a temporary directory.</span></span>
-<span><span class="co">#&gt; You can set 'R_READABS_PATH' at any time. To set it for the rest of this session, use</span></span>
-<span><span class="co">#&gt;  Sys.setenv(R_READABS_PATH = &lt;path&gt;)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── Attaching core tidyverse packages ─────────────────── tidyverse 1.3.2.9000 ──</span></span>
-<span><span class="co">#&gt; ✔ dplyr     1.1.0          ✔ readr     2.1.3     </span></span>
-<span><span class="co">#&gt; ✔ forcats   1.0.0          ✔ stringr   1.5.0     </span></span>
-<span><span class="co">#&gt; ✔ ggplot2   3.4.0.9000     ✔ tibble    3.1.8     </span></span>
-<span><span class="co">#&gt; ✔ lubridate 1.9.1          ✔ tidyr     1.3.0     </span></span>
-<span><span class="co">#&gt; ✔ purrr     1.0.1</span></span>
-<span><span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span></span>
-<span><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></span>
-<span><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></span>
-<span><span class="co">#&gt; ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now we’ll create one data frame that contains all the time series data from the Wage Price Index, catalogue number 6345.0:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_wpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_abs.html">read_abs</a></span><span class="op">(</span><span class="st">"6345.0"</span><span class="op">)</span></span>
@@ -151,19 +138,19 @@
 <p>This is what it looks like:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">all_wpi</span><span class="op">)</span></span>
-<span><span class="co">#&gt; tibble [64,493 × 12] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;  $ table_no        : chr [1:64493] "634501" "634501" "634501" "634501" ...</span></span>
-<span><span class="co">#&gt;  $ sheet_no        : chr [1:64493] "Data1" "Data1" "Data1" "Data1" ...</span></span>
-<span><span class="co">#&gt;  $ table_title     : chr [1:64493] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...</span></span>
-<span><span class="co">#&gt;  $ date            : Date[1:64493], format: "1997-09-01" "1997-09-01" ...</span></span>
-<span><span class="co">#&gt;  $ series          : chr [1:64493] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...</span></span>
-<span><span class="co">#&gt;  $ value           : num [1:64493] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...</span></span>
-<span><span class="co">#&gt;  $ series_type     : chr [1:64493] "Original" "Original" "Original" "Seasonally Adjusted" ...</span></span>
-<span><span class="co">#&gt;  $ data_type       : chr [1:64493] "INDEX" "INDEX" "INDEX" "INDEX" ...</span></span>
-<span><span class="co">#&gt;  $ collection_month: chr [1:64493] "3" "3" "3" "3" ...</span></span>
-<span><span class="co">#&gt;  $ frequency       : chr [1:64493] "Quarter" "Quarter" "Quarter" "Quarter" ...</span></span>
-<span><span class="co">#&gt;  $ series_id       : chr [1:64493] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...</span></span>
-<span><span class="co">#&gt;  $ unit            : chr [1:64493] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...</span></span></code></pre></div>
+<span><span class="co">#&gt; tibble [65,579 × 12] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ table_no        : chr [1:65579] "634501" "634501" "634501" "634501" ...</span></span>
+<span><span class="co">#&gt;  $ sheet_no        : chr [1:65579] "Data1" "Data1" "Data1" "Data1" ...</span></span>
+<span><span class="co">#&gt;  $ table_title     : chr [1:65579] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...</span></span>
+<span><span class="co">#&gt;  $ date            : Date[1:65579], format: "1997-09-01" "1997-09-01" ...</span></span>
+<span><span class="co">#&gt;  $ series          : chr [1:65579] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...</span></span>
+<span><span class="co">#&gt;  $ value           : num [1:65579] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...</span></span>
+<span><span class="co">#&gt;  $ series_type     : chr [1:65579] "Original" "Original" "Original" "Seasonally Adjusted" ...</span></span>
+<span><span class="co">#&gt;  $ data_type       : chr [1:65579] "INDEX" "INDEX" "INDEX" "INDEX" ...</span></span>
+<span><span class="co">#&gt;  $ collection_month: chr [1:65579] "3" "3" "3" "3" ...</span></span>
+<span><span class="co">#&gt;  $ frequency       : chr [1:65579] "Quarter" "Quarter" "Quarter" "Quarter" ...</span></span>
+<span><span class="co">#&gt;  $ series_id       : chr [1:65579] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...</span></span>
+<span><span class="co">#&gt;  $ unit            : chr [1:65579] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...</span></span></code></pre></div>
 <p>It only takes you a few lines of code to make a graph from your data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_wpi</span> <span class="op">%&gt;%</span></span>
@@ -222,9 +209,9 @@
 <span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;                                               &lt;chr&gt;        &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 Jobs    Weekly Payroll Jobs and Wages in Australia          weekly-payr… http…</span></span>
 <span><span class="co">#&gt; 2 Jobs    Weekly Payroll Jobs and Wages in Australia, Interim weekly-payr… http…</span></span></code></pre></div>
-<p>Now we know that the string <code>"weekly-payroll-jobs-and-wages-australia"</code> is the <code>catalogue_string</code> for this release. We can now see what files are available to download from this catalogue:</p>
+<p>Now we know that the string <code>"weekly-payroll-jobs"</code> is the <code>catalogue_string</code> for this release. We can now see what files are available to download from this catalogue:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/show_available_files.html">show_available_files</a></span><span class="op">(</span><span class="st">"weekly-payroll-jobs-and-wages-australia"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/show_available_files.html">show_available_files</a></span><span class="op">(</span><span class="st">"weekly-payroll-jobs"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 8 × 3</span></span>
 <span><span class="co">#&gt;   label                                                              file  url  </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                                                              &lt;chr&gt; &lt;chr&gt;</span></span>
@@ -239,11 +226,11 @@
 <p>We want Table 4, which has the filename <code>6160055001_DO004.xlsx</code>.</p>
 <p>We can download the file as follows:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">payrolls_t4_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"weekly-payroll-jobs-and-wages-australia"</span>, <span class="st">"004"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; File downloaded in /var/folders/4v/f518hjbj00b64c7j75n4k_jc0000gq/T//RtmpPpukIE/6160055001_DO004.xlsx</span></span>
+<code class="sourceCode R"><span><span class="va">payrolls_t4_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_abs_data_cube.html">download_abs_data_cube</a></span><span class="op">(</span><span class="st">"weekly-payroll-jobs"</span>, <span class="st">"004"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; File downloaded in /var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/6160055001_DO004.xlsx</span></span>
 <span></span>
 <span><span class="va">payrolls_t4_path</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/4v/f518hjbj00b64c7j75n4k_jc0000gq/T//RtmpPpukIE/6160055001_DO004.xlsx"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/6160055001_DO004.xlsx"</span></span></code></pre></div>
 <p>The <code><a href="reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> function downloads the file and returns the full file path to the saved file. You can then pipe that in to another function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">payrolls_t4_path</span> <span class="op">%&gt;%</span></span>
@@ -251,66 +238,65 @@
 <span>    sheet <span class="op">=</span> <span class="st">"Payroll jobs index"</span>,</span>
 <span>    skip <span class="op">=</span> <span class="fl">5</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 4,322 × 154</span></span>
-<span><span class="co">#&gt;    State…¹ Indus…² Sex   Age g…³ `43834` `43841` `43848` `43855` `43862` `43869`</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 0. Aus… 0. All… 0. P… 0. All… 92.77   95.19   96.73   97.56   98.09   98.7   </span></span>
-<span><span class="co">#&gt;  2 0. Aus… 0. All… 0. P… 1. 15-… 92.34   94.99   97.17   98.95   98.53   100.06 </span></span>
-<span><span class="co">#&gt;  3 0. Aus… 0. All… 0. P… 2. 20-… 92.49   95.29   97.27   98.07   98.2    98.65  </span></span>
-<span><span class="co">#&gt;  4 0. Aus… 0. All… 0. P… 3. 30-… 93.32   95.67   97.04   97.71   98.2    98.67  </span></span>
-<span><span class="co">#&gt;  5 0. Aus… 0. All… 0. P… 4. 40-… 93.09   95.3    96.62   97.4    98.05   98.7   </span></span>
-<span><span class="co">#&gt;  6 0. Aus… 0. All… 0. P… 5. 50-… 93.03   95.33   96.69   97.45   98.17   98.76  </span></span>
-<span><span class="co">#&gt;  7 0. Aus… 0. All… 0. P… 6. 60-… 91.36   93.58   94.86   95.72   97.31   98.05  </span></span>
-<span><span class="co">#&gt;  8 0. Aus… 0. All… 0. P… 7. 70 … 87.75   90.1    91.34   92.67   95.68   96.88  </span></span>
-<span><span class="co">#&gt;  9 0. Aus… 0. All… 1. M… 0. All… 92.64   95.65   97.39   98.12   98.44   98.87  </span></span>
-<span><span class="co">#&gt; 10 0. Aus… 0. All… 1. M… 1. 15-… 91.43   94.94   97.17   98.93   98.37   99.94  </span></span>
-<span><span class="co">#&gt; # … with 4,312 more rows, 144 more variables: `43876` &lt;chr&gt;, `43883` &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   `43890` &lt;chr&gt;, `43897` &lt;chr&gt;, `43904` &lt;chr&gt;, `43911` &lt;chr&gt;, `43918` &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   `43925` &lt;chr&gt;, `43932` &lt;chr&gt;, `43939` &lt;chr&gt;, `43946` &lt;chr&gt;, `43953` &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   `43960` &lt;chr&gt;, `43967` &lt;chr&gt;, `43974` &lt;chr&gt;, `43981` &lt;chr&gt;, `43988` &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   `43995` &lt;chr&gt;, `44002` &lt;chr&gt;, `44009` &lt;chr&gt;, `44016` &lt;chr&gt;, `44023` &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   `44030` &lt;chr&gt;, `44037` &lt;chr&gt;, `44044` &lt;chr&gt;, `44051` &lt;chr&gt;, `44058` &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   `44065` &lt;chr&gt;, `44072` &lt;chr&gt;, `44079` &lt;chr&gt;, `44086` &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 4,322 × 184</span></span>
+<span><span class="co">#&gt;    `State or Territory` `Industry division` Sex      `Age group` `43834` `43841`</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;               &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt;  1 0. Australia         0. All industries   0. Pers… 0. All ages 92.72   95.17  </span></span>
+<span><span class="co">#&gt;  2 0. Australia         0. All industries   0. Pers… 1. 15-19    92.3    94.95  </span></span>
+<span><span class="co">#&gt;  3 0. Australia         0. All industries   0. Pers… 2. 20-29    92.46   95.28  </span></span>
+<span><span class="co">#&gt;  4 0. Australia         0. All industries   0. Pers… 3. 30-39    93.28   95.66  </span></span>
+<span><span class="co">#&gt;  5 0. Australia         0. All industries   0. Pers… 4. 40-49    93.03   95.27  </span></span>
+<span><span class="co">#&gt;  6 0. Australia         0. All industries   0. Pers… 5. 50-59    92.94   95.27  </span></span>
+<span><span class="co">#&gt;  7 0. Australia         0. All industries   0. Pers… 6. 60-69    91.27   93.52  </span></span>
+<span><span class="co">#&gt;  8 0. Australia         0. All industries   0. Pers… 7. 70 and … 87.71   90.09  </span></span>
+<span><span class="co">#&gt;  9 0. Australia         0. All industries   1. Males 0. All ages 92.59   95.63  </span></span>
+<span><span class="co">#&gt; 10 0. Australia         0. All industries   1. Males 1. 15-19    NA      NA     </span></span>
+<span><span class="co">#&gt; # ℹ 4,312 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 178 more variables: `43848` &lt;chr&gt;, `43855` &lt;chr&gt;, `43862` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `43869` &lt;chr&gt;, `43876` &lt;chr&gt;, `43883` &lt;chr&gt;, `43890` &lt;chr&gt;, `43897` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `43904` &lt;chr&gt;, `43911` &lt;chr&gt;, `43918` &lt;chr&gt;, `43925` &lt;chr&gt;, `43932` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `43939` &lt;chr&gt;, `43946` &lt;chr&gt;, `43953` &lt;chr&gt;, `43960` &lt;chr&gt;, `43967` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `43974` &lt;chr&gt;, `43981` &lt;chr&gt;, `43988` &lt;chr&gt;, `43995` &lt;chr&gt;, `44002` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `44009` &lt;chr&gt;, `44016` &lt;chr&gt;, `44023` &lt;chr&gt;, `44030` &lt;chr&gt;, …</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="convenience-functions-for-data-cubes">Convenience functions for data cubes<a class="anchor" aria-label="anchor" href="#convenience-functions-for-data-cubes"></a>
 </h4>
 <p>As it happens, if you want the ABS Weekly Payrolls data, you don’t need to use <code><a href="reference/download_abs_data_cube.html">download_abs_data_cube()</a></code> directly. Instead, there is a convenience function available that downloads, imports, and tidies the data for you:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/read_payrolls.html">read_payrolls</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; File downloaded in /var/folders/4v/f518hjbj00b64c7j75n4k_jc0000gq/T//RtmpPpukIE/6160055001_DO004.xlsx</span></span>
-<span><span class="co">#&gt; # A tibble: 129,300 × 7</span></span>
+<span><span class="co">#&gt; File downloaded in /var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/6160055001_DO004.xlsx</span></span>
+<span><span class="co">#&gt; # A tibble: 151,920 × 7</span></span>
 <span><span class="co">#&gt;    state     industry       sex     age      date       value series</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;    &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt; </span></span>
-<span><span class="co">#&gt;  1 Australia All industries Persons All ages 2020-01-04  92.8 jobs  </span></span>
+<span><span class="co">#&gt;  1 Australia All industries Persons All ages 2020-01-04  92.7 jobs  </span></span>
 <span><span class="co">#&gt;  2 Australia All industries Persons All ages 2020-01-11  95.2 jobs  </span></span>
 <span><span class="co">#&gt;  3 Australia All industries Persons All ages 2020-01-18  96.7 jobs  </span></span>
-<span><span class="co">#&gt;  4 Australia All industries Persons All ages 2020-01-25  97.6 jobs  </span></span>
+<span><span class="co">#&gt;  4 Australia All industries Persons All ages 2020-01-25  97.5 jobs  </span></span>
 <span><span class="co">#&gt;  5 Australia All industries Persons All ages 2020-02-01  98.1 jobs  </span></span>
 <span><span class="co">#&gt;  6 Australia All industries Persons All ages 2020-02-08  98.7 jobs  </span></span>
 <span><span class="co">#&gt;  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs  </span></span>
 <span><span class="co">#&gt;  8 Australia All industries Persons All ages 2020-02-22  99.5 jobs  </span></span>
 <span><span class="co">#&gt;  9 Australia All industries Persons All ages 2020-02-29  99.5 jobs  </span></span>
 <span><span class="co">#&gt; 10 Australia All industries Persons All ages 2020-03-07  99.9 jobs  </span></span>
-<span><span class="co">#&gt; # … with 129,290 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 151,910 more rows</span></span></code></pre></div>
 <p>There is also a convenience function available for data cube GM1 from the monthly Labour Force data, which contains labour force gross flows:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/read_lfs_grossflows.html">read_lfs_grossflows</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; File downloaded in /var/folders/4v/f518hjbj00b64c7j75n4k_jc0000gq/T//RtmpPpukIE/GM1.xlsx</span></span>
-<span><span class="co">#&gt; # A tibble: 1,032,009 × 9</span></span>
-<span><span class="co">#&gt;    date       sex   age         state      lfs_c…¹ lfs_p…² persons unit  weights</span></span>
-<span><span class="co">#&gt;    &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 2003-01-01 Males 15-19 years New South… Employ… Employ…  34.4   000s  curren…</span></span>
-<span><span class="co">#&gt;  2 2003-01-01 Males 15-19 years New South… Employ… Employ…   4.36  000s  curren…</span></span>
-<span><span class="co">#&gt;  3 2003-01-01 Males 15-19 years New South… Employ… Unempl…   0.298 000s  curren…</span></span>
-<span><span class="co">#&gt;  4 2003-01-01 Males 15-19 years New South… Employ… Not in…   3.37  000s  curren…</span></span>
-<span><span class="co">#&gt;  5 2003-01-01 Males 15-19 years New South… Employ… Unmatc…   3.36  000s  curren…</span></span>
-<span><span class="co">#&gt;  6 2003-01-01 Males 15-19 years New South… Employ… Incomi…   3.52  000s  curren…</span></span>
-<span><span class="co">#&gt;  7 2003-01-01 Males 15-19 years New South… Employ… Employ…   3.68  000s  curren…</span></span>
-<span><span class="co">#&gt;  8 2003-01-01 Males 15-19 years New South… Employ… Employ…  37.5   000s  curren…</span></span>
-<span><span class="co">#&gt;  9 2003-01-01 Males 15-19 years New South… Employ… Unempl…   3.20  000s  curren…</span></span>
-<span><span class="co">#&gt; 10 2003-01-01 Males 15-19 years New South… Employ… Not in…   4.76  000s  curren…</span></span>
-<span><span class="co">#&gt; # … with 1,031,999 more rows, and abbreviated variable names ¹​lfs_current,</span></span>
-<span><span class="co">#&gt; #   ²​lfs_previous</span></span></code></pre></div>
+<span><span class="co">#&gt; File downloaded in /var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/GM1.xlsx</span></span>
+<span><span class="co">#&gt; # A tibble: 1,030,712 × 9</span></span>
+<span><span class="co">#&gt;    date       sex   age     state lfs_current lfs_previous persons unit  weights</span></span>
+<span><span class="co">#&gt;    &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt;  1 2003-07-01 Males 15-19 … New … Employed f… Employed fu…   30.6  000s  curren…</span></span>
+<span><span class="co">#&gt;  2 2003-07-01 Males 15-19 … New … Employed f… Employed pa…    2.87 000s  curren…</span></span>
+<span><span class="co">#&gt;  3 2003-07-01 Males 15-19 … New … Employed f… Not in the …    2.03 000s  curren…</span></span>
+<span><span class="co">#&gt;  4 2003-07-01 Males 15-19 … New … Employed f… Unmatched i…    4.44 000s  curren…</span></span>
+<span><span class="co">#&gt;  5 2003-07-01 Males 15-19 … New … Employed f… Incoming ro…    4.67 000s  curren…</span></span>
+<span><span class="co">#&gt;  6 2003-07-01 Males 15-19 … New … Employed p… Employed fu…    2.34 000s  curren…</span></span>
+<span><span class="co">#&gt;  7 2003-07-01 Males 15-19 … New … Employed p… Employed pa…   32.6  000s  curren…</span></span>
+<span><span class="co">#&gt;  8 2003-07-01 Males 15-19 … New … Employed p… Unemployed      3.13 000s  curren…</span></span>
+<span><span class="co">#&gt;  9 2003-07-01 Males 15-19 … New … Employed p… Not in the …    3.63 000s  curren…</span></span>
+<span><span class="co">#&gt; 10 2003-07-01 Males 15-19 … New … Employed p… Unmatched i…    2.05 000s  curren…</span></span>
+<span><span class="co">#&gt; # ℹ 1,030,702 more rows</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -334,21 +320,21 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/abs_api.html">read_api</a></span><span class="op">(</span><span class="st">"ABORIGINAL_POP_PROJ"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 72,144 × 11</span></span>
-<span><span class="co">#&gt;    measure             sex_abs age       asgs_…¹ proj_…² frequ…³ time_…⁴ obs_v…⁵</span></span>
-<span><span class="co">#&gt;    &lt;chr+lbl&gt;           &lt;dbl+l&gt; &lt;chr+lbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+l&gt;   &lt;int&gt;   &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2016   32068</span></span>
-<span><span class="co">#&gt;  2 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2017   32056</span></span>
-<span><span class="co">#&gt;  3 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2018   32180</span></span>
-<span><span class="co">#&gt;  4 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2019   32617</span></span>
-<span><span class="co">#&gt;  5 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2020   32992</span></span>
-<span><span class="co">#&gt;  6 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2021   33341</span></span>
-<span><span class="co">#&gt;  7 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2022   33933</span></span>
-<span><span class="co">#&gt;  8 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2023   34496</span></span>
-<span><span class="co">#&gt;  9 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2024   35027</span></span>
-<span><span class="co">#&gt; 10 POP_PROJ [Projecte… 3 [Per… A04 [0 -… 1 [New… 3 [Ser… A [Ann…    2025   35523</span></span>
-<span><span class="co">#&gt; # … with 72,134 more rows, 3 more variables: unit_measure &lt;chr+lbl&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_status &lt;chr+lbl&gt;, obs_comment &lt;lgl&gt;, and abbreviated variable names</span></span>
-<span><span class="co">#&gt; #   ¹​asgs_2011, ²​proj_series, ³​frequency, ⁴​time_period, ⁵​obs_value</span></span></code></pre></div>
+<span><span class="co">#&gt;    measure         sex_abs age       asgs_2011 proj_series frequency time_period</span></span>
+<span><span class="co">#&gt;    &lt;chr+lbl&gt;       &lt;dbl+l&gt; &lt;chr+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;   &lt;chr+lbl&gt;       &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2016</span></span>
+<span><span class="co">#&gt;  2 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2017</span></span>
+<span><span class="co">#&gt;  3 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2018</span></span>
+<span><span class="co">#&gt;  4 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2019</span></span>
+<span><span class="co">#&gt;  5 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2020</span></span>
+<span><span class="co">#&gt;  6 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2021</span></span>
+<span><span class="co">#&gt;  7 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2022</span></span>
+<span><span class="co">#&gt;  8 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2023</span></span>
+<span><span class="co">#&gt;  9 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2024</span></span>
+<span><span class="co">#&gt; 10 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2025</span></span>
+<span><span class="co">#&gt; # ℹ 72,134 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: obs_value &lt;int&gt;, unit_measure &lt;chr+lbl&gt;,</span></span>
+<span><span class="co">#&gt; #   obs_status &lt;chr+lbl&gt;, obs_comment &lt;lgl&gt;</span></span></code></pre></div>
 <p>Let’s say I’m only interested in the population projections for males, not females or all persons. In that case, I can filter the data on the ABS server before downloading my query. I can use <code><a href="reference/abs_api.html">read_api_datastructure()</a></code> to help with this.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/abs_api.html">read_api_datastructure</a></span><span class="op">(</span><span class="st">"ABORIGINAL_POP_PROJ"</span><span class="op">)</span></span>
@@ -365,26 +351,26 @@
 <span><span class="co">#&gt;  8 dimension age     3        Age     0104     1 - 4               </span></span>
 <span><span class="co">#&gt;  9 dimension age     3        Age     0514     5 - 14              </span></span>
 <span><span class="co">#&gt; 10 dimension age     3        Age     1        1                   </span></span>
-<span><span class="co">#&gt; # … with 322 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 322 more rows</span></span></code></pre></div>
 <p>From this, I can see that there’s a variable (<code>var</code>) called <code>sex_abs</code>, which can take the value <code>1</code>, <code>2</code>, or <code>3</code>, corresponding to <code>Males</code>, <code>Females</code> and <code>Persons</code>. If I only want to data for Males, I can obtain this by supplying a datakey:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/abs_api.html">read_api</a></span><span class="op">(</span><span class="st">"ABORIGINAL_POP_PROJ"</span>, datakey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sex_abs <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 24,048 × 11</span></span>
-<span><span class="co">#&gt;    measure             sex_abs age       asgs_…¹ proj_…² frequ…³ time_…⁴ obs_v…⁵</span></span>
-<span><span class="co">#&gt;    &lt;chr+lbl&gt;           &lt;dbl+l&gt; &lt;chr+lbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+l&gt;   &lt;int&gt;   &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2016   16675</span></span>
-<span><span class="co">#&gt;  2 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2017   16656</span></span>
-<span><span class="co">#&gt;  3 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2018   16661</span></span>
-<span><span class="co">#&gt;  4 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2019   16887</span></span>
-<span><span class="co">#&gt;  5 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2020   17183</span></span>
-<span><span class="co">#&gt;  6 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2021   17534</span></span>
-<span><span class="co">#&gt;  7 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2022   18023</span></span>
-<span><span class="co">#&gt;  8 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2023   18516</span></span>
-<span><span class="co">#&gt;  9 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2024   19001</span></span>
-<span><span class="co">#&gt; 10 POP_PROJ [Projecte… 1 [Mal… A04 [0 -… 1 [New… 7 [Ser… A [Ann…    2025   19483</span></span>
-<span><span class="co">#&gt; # … with 24,038 more rows, 3 more variables: unit_measure &lt;chr+lbl&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_status &lt;chr+lbl&gt;, obs_comment &lt;lgl&gt;, and abbreviated variable names</span></span>
-<span><span class="co">#&gt; #   ¹​asgs_2011, ²​proj_series, ³​frequency, ⁴​time_period, ⁵​obs_value</span></span></code></pre></div>
+<span><span class="co">#&gt;    measure         sex_abs age       asgs_2011 proj_series frequency time_period</span></span>
+<span><span class="co">#&gt;    &lt;chr+lbl&gt;       &lt;dbl+l&gt; &lt;chr+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;   &lt;chr+lbl&gt;       &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2016</span></span>
+<span><span class="co">#&gt;  2 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2017</span></span>
+<span><span class="co">#&gt;  3 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2018</span></span>
+<span><span class="co">#&gt;  4 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2019</span></span>
+<span><span class="co">#&gt;  5 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2020</span></span>
+<span><span class="co">#&gt;  6 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2021</span></span>
+<span><span class="co">#&gt;  7 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2022</span></span>
+<span><span class="co">#&gt;  8 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2023</span></span>
+<span><span class="co">#&gt;  9 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2024</span></span>
+<span><span class="co">#&gt; 10 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2025</span></span>
+<span><span class="co">#&gt; # ℹ 24,038 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: obs_value &lt;int&gt;, unit_measure &lt;chr+lbl&gt;,</span></span>
+<span><span class="co">#&gt; #   obs_status &lt;chr+lbl&gt;, obs_comment &lt;lgl&gt;</span></span></code></pre></div>
 <p>Note that in some cases, querying the API without filtering the data will return an error, as the table will be too big. In this case, you will need to supply a datakey that reduces the size of the data.</p>
 </div>
 </div>
