@@ -64,8 +64,8 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_payrolls</span><span class="op">(</span></span>
-<span>  series <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"industry_jobs"</span>, <span class="st">"industry_wages"</span>, <span class="st">"sa4_jobs"</span>, <span class="st">"sa3_jobs"</span>,</span>
-<span>    <span class="st">"subindustry_jobs"</span>, <span class="st">"empsize_jobs"</span>, <span class="st">"gccsa_jobs"</span>, <span class="st">"sex_age_jobs"</span><span class="op">)</span>,</span>
+<span>  series <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"industry_jobs"</span>, <span class="st">"sa4_jobs"</span>, <span class="st">"sa3_jobs"</span>, <span class="st">"subindustry_jobs"</span>, <span class="st">"empsize_jobs"</span>,</span>
+<span>    <span class="st">"gccsa_jobs"</span>, <span class="st">"sex_age_jobs"</span><span class="op">)</span>,</span>
 <span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_READABS_PATH"</span>, unset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -74,8 +74,6 @@
     <h2>Arguments</h2>
     <dl><dt>series</dt>
 <dd><p>Character. Must be one of:</p><ul><li><p>"industry_jobs" Payroll jobs by industry division, state, sex, and age
-group (Table 4)</p></li>
-<li><p>"industry_wages" Total wages by industry division, state, sex, and age
 group (Table 4)</p></li>
 <li><p>"sa4_jobs" Payroll jobs by statistical area 4 (SA4) and state (Table 5)</p></li>
 <li><p>"sa3_jobs Payroll jobs by statistical area 4 (SA4), statistical
@@ -106,8 +104,8 @@ any files downloaded by read_abs()  will be stored in a temporary directory
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The ABS 'Weekly Payroll Jobs and Wages in Australia' dataset
-is very useful to analysts of the Australian labour market.
+    <p>The ABS <a href="https://www.abs.gov.au/statistics/labour/jobs/weekly-payroll-jobs/latest-release#changes-in-this-release" class="external-link">Weekly Payroll Jobs</a>
+dataset is useful to analysts of the Australian labour market.
 It draws upon data collected
 by the Australian Taxation Office as part of its Single-Touch Payroll
 initiative and supplements the monthly Labour Force Survey. Unfortunately,
@@ -115,6 +113,10 @@ the data as published by the ABS (1) is not in a standard time series
 spreadsheet; and (2) is messy in various ways that make it hard to
 read in R. This convenience function uses <code><a href="download_abs_data_cube.html">download_abs_data_cube()</a></code> to
 import the payrolls data, and then tidies it up.</p>
+<p>Note that this ABS release used to be called Weekly Payroll Jobs and Wages Australia.
+The total wages series were removed from this release in mid-2023 and it
+was renamed to Weekly Payroll Jobs. The ability to read total wages
+indexes using this function was therefore also removed.</p>
     </div>
 
     <div id="ref-examples">
