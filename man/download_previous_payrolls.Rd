@@ -13,7 +13,7 @@ is internal and is called by \code{read_payrolls()}.}
 download_previous_payrolls(cube_name, path)
 }
 \arguments{
-\item{cube_name}{eg. DO005 for table 5}
+\item{cube_name}{eg. DO004 for table 4}
 
 \item{path}{Directory in which to download payrolls cube}
 }

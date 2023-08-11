@@ -2,8 +2,8 @@
 #'
 #' Import a tidy tibble of ABS Weekly Payrolls data.
 #'
-#' @details The ABS 'Weekly Payroll Jobs and Wages in Australia' dataset
-#' is very useful to analysts of the Australian labour market.
+#' @details The ABS [Weekly Payroll Jobs](https://www.abs.gov.au/statistics/labour/jobs/weekly-payroll-jobs/latest-release#changes-in-this-release)
+#' dataset is useful to analysts of the Australian labour market.
 #' It draws upon data collected
 #' by the Australian Taxation Office as part of its Single-Touch Payroll
 #' initiative and supplements the monthly Labour Force Survey. Unfortunately,
@@ -15,8 +15,6 @@
 #' @param series Character. Must be one of:
 #' \itemize{
 #'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
-#'  group (Table 4)}
-#'  \item{"industry_wages"}{ Total wages by industry division, state, sex, and age
 #'  group (Table 4)}
 #'  \item{"sa4_jobs"}{ Payroll jobs by statistical area 4 (SA4) and state (Table 5)}
 #'  \item{"sa3_jobs}{ Payroll jobs by statistical area 4 (SA4), statistical
@@ -32,6 +30,11 @@
 #' The default is "industry_jobs".
 #' @return A tidy (long) `tbl_df`. The number of columns differs based on the `series`.
 #'
+#' @details
+#' Note that this ABS release used to be called Weekly Payroll Jobs and Wages Australia.
+#' The total wages series were removed from this release in mid-2023 and it
+#' was renamed to Weekly Payroll Jobs. The ability to read total wages
+#' indexes using this function was therefore also removed.
 #' @examples
 #' \dontrun{
 #' # Fetch payroll jobs by industry and state (the default, "industry_jobs")
@@ -52,7 +55,6 @@
 
 read_payrolls <- function(series = c(
                             "industry_jobs",
-                            "industry_wages",
                             "sa4_jobs",
                             "sa3_jobs",
                             "subindustry_jobs",
@@ -65,11 +67,14 @@ read_payrolls <- function(series = c(
                           )) {
   check_abs_connection()
 
+  if (series == "industry_wages") {
+    stop("The ABS removed wages totals from the Weekly Payrolls Jobs release.")
+  }
+
   series <- match.arg(series)
 
   cube_name <- switch(series,
     "industry_jobs" = "DO004",
-    "industry_wages" = "DO004",
     "sa4_jobs" = "DO005",
     "sa3_jobs" = "DO005",
     "subindustry_jobs" = "DO006",
@@ -108,7 +113,6 @@ read_payrolls <- function(series = c(
 
   sheet_name <- switch(series,
     "industry_jobs" = "Payroll jobs index",
-    "industry_wages" = "Total wages index",
     "sa4_jobs" = "SA4",
     "sa3_jobs" = "SA3",
     "subindustry_jobs" = "Payroll jobs index-Subdivision",
@@ -119,8 +123,7 @@ read_payrolls <- function(series = c(
 
   cube <- read_payrolls_local(
     cube_path = cube_path,
-    sheet_name = sheet_name,
-    series = series
+    sheet_name = sheet_name
   )
 
   cube
@@ -129,12 +132,12 @@ read_payrolls <- function(series = c(
 #' @keywords internal
 #' @param cube_path Path + filename (incl. extension) to ABS payrolls data cube
 #' @param sheet_name Name of the sheet on the Excel cube to import
-#' @param series "wages" or "jobs" (the default)
 #' @noRd
 
-read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
+read_payrolls_local <- function(cube_path, sheet_name) {
   sheets_present <- readxl::excel_sheets(cube_path)
   sheets_present <- sheets_present[!sheets_present == "Contents"]
+  series <- "jobs"
 
   sheet_to_read <- sheets_present[grepl(sheet_name,
     sheets_present,
@@ -204,11 +207,7 @@ read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
       perl = TRUE
     )
 
-  if (grepl("wages", series)) {
-    cube$series <- "wages"
-  } else {
-    cube$series <- "jobs"
-  }
+  cube$series <- "jobs"
 
   cube
 }
@@ -221,7 +220,7 @@ read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
 #' release and attemps to download it. This function will no longer be required
 #' if/when the ABS reverts to the previous release arrangements. The function
 #' is internal and is called by `read_payrolls()`.
-#' @param cube_name eg. DO005 for table 5
+#' @param cube_name eg. DO004 for table 4
 #' @param path Directory in which to download payrolls cube
 #' @keywords internal
 #' @return A list containing two elements: `result` (will contain path + filename
@@ -229,7 +228,7 @@ read_payrolls_local <- function(cube_path, sheet_name, series = "jobs") {
 #' downloaded successfully; character otherwise).
 download_previous_payrolls <- function(cube_name,
                                        path) {
-  latest_payrolls_url <- "https://www.abs.gov.au/statistics/labour/earnings-and-work-hours/weekly-payroll-jobs-and-wages-australia/latest-release"
+  latest_payrolls_url <- "https://www.abs.gov.au/statistics/labour/jobs/weekly-payroll-jobs/latest-release"
   prev_payrolls_css <- "#release-date-section > div.field.field--name-dynamic-block-fieldnode-previous-releases.field--type-ds.field--label-hidden > div > div > ul > li:nth-child(1) > a"
 
   temp_page_location <- file.path(tempdir(), "temp_readabs.html")
@@ -241,10 +240,10 @@ download_previous_payrolls <- function(cube_name,
 
   prev_payrolls_url <- paste0("https://www.abs.gov.au/", prev_payrolls_url)
 
-  temp_page_location <- file.path(tempdir(), "temp_readabs.html")
-  dl_file(prev_payrolls_url, temp_page_location)
+  prev_page_location <- file.path(tempdir(), "temp_readabs_prev.html")
+  dl_file(prev_payrolls_url, prev_page_location)
 
-  prev_payrolls_page <- rvest::read_html(temp_page_location)
+  prev_payrolls_page <- rvest::read_html(prev_page_location)
 
   prev_payrolls_excel_links <- prev_payrolls_page %>%
     rvest::html_elements(".file--x-office-spreadsheet a") %>%
@@ -261,14 +260,17 @@ download_previous_payrolls <- function(cube_name,
     stop("Found multiple patching URLs for the requested cube in previous payrolls release")
   }
 
+  if (!grepl("abs.gov.au", table_link)) {
+    table_link <- paste0("https://www.abs.gov.au", table_link)
+  }
+
   safely_download <- purrr::safely(dl_file)
 
   full_path <- file.path(path, basename(table_link))
 
   dl_result <- safely_download(
     url = table_link,
-    destfile = full_path,
-    mode = "wb"
+    destfile = full_path
   )
 
   out <- list(
