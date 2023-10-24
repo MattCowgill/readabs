@@ -16,15 +16,10 @@
 #' \itemize{
 #'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
 #'  group (Table 4)}
-#'  \item{"sa4_jobs"}{ Payroll jobs by statistical area 4 (SA4) and state (Table 5)}
-#'  \item{"sa3_jobs}{ Payroll jobs by statistical area 4 (SA4), statistical
-#'  area 3 (SA3), and state (Table 5)}
 #'  \item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
 #'  industry division (Table 6)}
 #'  \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
 #'  employees) and state (Table 7)}
-#'  \item{"gccsa_jobs"}{ Payroll jobs by Greater Capital City Statistical
-#'  Area (Table 5)}
 #'  \item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
 #' }
 #' The default is "industry_jobs".
@@ -55,11 +50,8 @@
 
 read_payrolls <- function(series = c(
                             "industry_jobs",
-                            "sa4_jobs",
-                            "sa3_jobs",
                             "subindustry_jobs",
                             "empsize_jobs",
-                            "gccsa_jobs",
                             "sex_age_jobs"
                           ),
                           path = Sys.getenv("R_READABS_PATH",
@@ -71,15 +63,16 @@ read_payrolls <- function(series = c(
     stop("The ABS removed wages totals from the Weekly Payrolls Jobs release.")
   }
 
+  if (series %in% c("sa4_jobs", "sa3_jobs", "gccsa_jobs")) {
+    stop("The ABS removed the payroll jobs by SA3/SA4/capital city series from the Weekly Payroll Jobs release.")
+  }
+
   series <- match.arg(series)
 
   cube_name <- switch(series,
     "industry_jobs" = "DO004",
-    "sa4_jobs" = "DO005",
-    "sa3_jobs" = "DO005",
     "subindustry_jobs" = "DO006",
     "empsize_jobs" = "DO007",
-    "gccsa_jobs" = "DO005",
     "sex_age_jobs" = "DO008"
   )
 

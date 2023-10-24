@@ -3,6 +3,8 @@
 * read_api() and related experimental functions added by @kintob (thank you!) 
 to work with data from the ABS.Stat API
 * Documentation expanded and improved
+* The ability to read sub-state estimates of payroll jobs using `read_payrolls()`
+has been removed, in light of the ABS's removal of this data from the release.
 
 # readabs 0.4.13
 * Added read_job_mobility()
