@@ -55,7 +55,7 @@ test_that("url queries work", {
   skip_on_cran()
   check_abs_connection()
 
-  wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/1.THRPEB..C+B+TOT..AUS.Q?startPeriod=2020-Q1"
+  wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI/all"
   res <- read_api_url(wpi_url) %>%
     arrange(measure, index, sector, industry, tsest, region, freq, time_period)
 
