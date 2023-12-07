@@ -96,7 +96,7 @@
 #' try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 #'
 #' # If you already have a query url, then use `read_api_url()`
-#' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI,1.0.0/"
+#' wpi_url <- ""https://api.data.abs.gov.au/data/ABS,WPI/all""
 #' read_api_url(wpi_url)
 #' }
 #' @name abs_api
