@@ -98,3 +98,31 @@ download_abs_data_cube <- function(catalogue_string,
 
   return(invisible(filepath))
 }
+
+#' Convenience function to download and tidy data cubes from
+#' ABS Labour Force, Australia, Detailed.
+#' @param cube character. A character string that is either the complete filename
+#' or (uniquely) in the filename of the data cube you want to download.
+#' @param path Local directory in which downloaded files should be stored.
+#' @return A tibble with the data from the data cube. Columns names are
+#' tidied and dates are converted to Date class.
+#' @examples
+#' read_lfs_datacube("EQ02")
+#' @export
+read_lfs_datacube <- function(cube,
+                              path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
+  options(timeout = 180)
+  file <- download_abs_data_cube(
+    catalogue_string = "labour-force-australia-detailed",
+    cube = cube,
+    path = path
+  )
+  file |>
+    readxl::read_excel(
+      sheet = "Data 1",
+      skip = 3
+    ) |>
+    rename(date = 1) |>
+    janitor::clean_names() |>
+    mutate(date = as.Date(date))
+}
