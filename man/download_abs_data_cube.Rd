@@ -17,7 +17,7 @@ The possible catalogues can be obtained using the helper function \code{show_ava
 or search these catalogues using \code{search_catalogues()},}
 
 \item{cube}{character. A character string that is either the complete filename or (uniquely) in the filename of the data cube you want to
-download, e.g. "EQ09". The available filenames can be obtained using the helper function \code{get_available_filenames()}}
+download, e.g. "EQ09". The available filenames can be obtained using the helper function \code{get_available_files()}}
 
 \item{path}{Local directory in which downloaded files should be stored. By default, \code{path}
 takes the value set in the environment variable "R_READABS_PATH".
