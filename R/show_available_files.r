@@ -88,7 +88,7 @@ show_available_files <- function(catalogue_string, refresh = FALSE) {
   )
 
   labels <- download_page %>%
-    rvest::html_nodes(".abs-data-download-left") %>%
+    rvest::html_nodes(".file-description-link-left, .abs-data-download-left") %>%
     rvest::html_text()
 
   # fix for some inconsistent CSS on ABS website

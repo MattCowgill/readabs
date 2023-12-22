@@ -9,7 +9,8 @@ read_lfs_datacube(cube, path = Sys.getenv("R_READABS_PATH", unset = tempdir()))
 }
 \arguments{
 \item{cube}{character. A character string that is either the complete filename
-or (uniquely) in the filename of the data cube you want to download.}
+or (uniquely) in the filename of the data cube you want to download. Use
+\code{get_available_lfs_cubes()} to see a dataframe of options.}
 
 \item{path}{Local directory in which downloaded files should be stored.}
 }

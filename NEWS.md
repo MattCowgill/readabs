@@ -1,3 +1,6 @@
+# readabs 0.4.14.90x
+* read_lfs_datacube() convenience function added
+
 # readabs 0.4.14
 * Fixes made to read_payrolls() to reflect changes by the ABS
 * read_api() and related experimental functions added by @kintob (thank you!) 
