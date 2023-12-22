@@ -43,6 +43,9 @@
     <loc>/reference/fast_str_squish.html</loc>
   </url>
   <url>
+    <loc>/reference/get_available_lfs_cubes.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -68,6 +71,9 @@
   </url>
   <url>
     <loc>/reference/read_job_mobility.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_lfs_datacube.html</loc>
   </url>
   <url>
     <loc>/reference/read_lfs_grossflows.html</loc>
