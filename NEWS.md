@@ -1,5 +1,6 @@
 # readabs 0.4.14.90x
 * read_lfs_datacube() convenience function added
+* New environment variable "R_READABS_DL_METHOD" can be set. When set, this is passed to the `method` argument of `download.file()`. Useful on networks where a method such as "wininet" must be used.
 
 # readabs 0.4.14
 * Fixes made to read_payrolls() to reflect changes by the ABS
