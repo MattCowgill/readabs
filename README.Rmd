@@ -155,7 +155,7 @@ payrolls_t4_path
 
 The `download_abs_data_cube()` function downloads the file and returns the full file path to the saved file. You can then pipe that in to another function:
 
-```{r}
+```{r read-payrolls-manual, eval = FALSE}
 payrolls_t4_path %>%
   readxl::read_excel(
     sheet = "Payroll jobs index",
@@ -168,13 +168,13 @@ payrolls_t4_path %>%
 
 As it happens, if you want the ABS Weekly Payrolls data, you don't need to use `download_abs_data_cube()` directly. Instead, there is a convenience function available that downloads, imports, and tidies the data for you:
 
-```{r}
+```{r read-payrolls-fn, eval = FALSE}
 read_payrolls()
 ```
 
 There is also a convenience function available for data cube GM1 from the monthly Labour Force data, which contains labour force gross flows:
 
-```{r}
+```{r read-lfs-grossflows, eval = FALSE}
 read_lfs_grossflows()
 ```
 
@@ -190,7 +190,7 @@ The {readabs} package includes functions to query the ABS.Stat API. Thank you to
 * `read_api()` downloads data from the ABS.Stat API.
 
 Let's list available dataflows:
-```{r}
+```{r api-flows}
 flows <- read_api_dataflows()
 ```
 
@@ -217,6 +217,20 @@ read_api("ABORIGINAL_POP_PROJ", datakey = list(sex_abs = 1))
 ```
 
 Note that in some cases, querying the API without filtering the data will return an error, as the table will be too big. In this case, you will need to supply a datakey that reduces the size of the data.
+
+## Resolving network issues by manually setting the download method
+
+Certain corporate networks restrict your ability to download files in an R session. On some of these networks, the `"wininet"` method must be used when downloading files. Users can now specify the method that will be used to download files by setting the `"R_READABS_DL_METHOD"` environment variable. 
+
+For example, the following code sets the environment variable for your current session: 
+
+```{r, eval = FALSE}
+Sys.setenv("R_READABS_DL_METHOD" = "wininet")
+```
+
+You can add `"R_READABS_DL_METHOD"` to your .Rprofile to have this persist across sessions.
+
+If you have other issues using `{readabs}` in your corporate environment, I would appreciate you opening an issue on GitHub.
 
 ## Bug reports and feedback
 GitHub issues containing error reports or feature requests are welcome. Please try to make a [reprex](https://reprex.tidyverse.org) (a minimal, reproducible example) if possible.

@@ -59,14 +59,6 @@ read_payrolls <- function(series = c(
                           )) {
   check_abs_connection()
 
-  if (series == "industry_wages") {
-    stop("The ABS removed wages totals from the Weekly Payrolls Jobs release.")
-  }
-
-  if (series %in% c("sa4_jobs", "sa3_jobs", "gccsa_jobs")) {
-    stop("The ABS removed the payroll jobs by SA3/SA4/capital city series from the Weekly Payroll Jobs release.")
-  }
-
   series <- match.arg(series)
 
   cube_name <- switch(series,
