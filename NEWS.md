@@ -1,5 +1,8 @@
 
-# readabs 0.4.15.001
+# readabs 0.4.16
+* An error inadvertently introduced in 0.4.15 is fixed. This error would only affect a small minority of users.
+
+# readabs 0.4.15
 * read_lfs_datacube() convenience function added
 * New environment variable "R_READABS_DL_METHOD" can be set. When set, this is passed to the `method` argument of `download.file()`. Useful on networks where a method such as "wininet" must be used.
 
