@@ -83,19 +83,19 @@ This is what it looks like:
 
 ``` r
 str(all_wpi)
-#> tibble [65,579 × 12] (S3: tbl_df/tbl/data.frame)
-#>  $ table_no        : chr [1:65579] "634501" "634501" "634501" "634501" ...
-#>  $ sheet_no        : chr [1:65579] "Data1" "Data1" "Data1" "Data1" ...
-#>  $ table_title     : chr [1:65579] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
-#>  $ date            : Date[1:65579], format: "1997-09-01" "1997-09-01" ...
-#>  $ series          : chr [1:65579] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
-#>  $ value           : num [1:65579] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...
-#>  $ series_type     : chr [1:65579] "Original" "Original" "Original" "Seasonally Adjusted" ...
-#>  $ data_type       : chr [1:65579] "INDEX" "INDEX" "INDEX" "INDEX" ...
-#>  $ collection_month: chr [1:65579] "3" "3" "3" "3" ...
-#>  $ frequency       : chr [1:65579] "Quarter" "Quarter" "Quarter" "Quarter" ...
-#>  $ series_id       : chr [1:65579] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...
-#>  $ unit            : chr [1:65579] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
+#> tibble [68,137 × 12] (S3: tbl_df/tbl/data.frame)
+#>  $ table_no        : chr [1:68137] "634501" "634501" "634501" "634501" ...
+#>  $ sheet_no        : chr [1:68137] "Data1" "Data1" "Data1" "Data1" ...
+#>  $ table_title     : chr [1:68137] "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" "Table 1. Total Hourly Rates of Pay Excluding Bonuses: Sector, Original, Seasonally Adjusted and Trend" ...
+#>  $ date            : Date[1:68137], format: "1997-09-01" "1997-09-01" ...
+#>  $ series          : chr [1:68137] "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private and Public ;  All industries ;" "Quarterly Index ;  Total hourly rates of pay excluding bonuses ;  Australia ;  Private ;  All industries ;" ...
+#>  $ value           : num [1:68137] 67.4 64.7 66.7 67.3 64.8 66.6 67.3 64.8 66.7 NA ...
+#>  $ series_type     : chr [1:68137] "Original" "Original" "Original" "Seasonally Adjusted" ...
+#>  $ data_type       : chr [1:68137] "INDEX" "INDEX" "INDEX" "INDEX" ...
+#>  $ collection_month: chr [1:68137] "3" "3" "3" "3" ...
+#>  $ frequency       : chr [1:68137] "Quarter" "Quarter" "Quarter" "Quarter" ...
+#>  $ series_id       : chr [1:68137] "A2603039T" "A2603989W" "A2603609J" "A2713846W" ...
+#>  $ unit            : chr [1:68137] "Index Numbers" "Index Numbers" "Index Numbers" "Index Numbers" ...
 ```
 
 It only takes you a few lines of code to make a graph from your data:
@@ -187,7 +187,7 @@ search_catalogues("payroll")
 #> # A tibble: 2 × 4
 #>   heading sub_heading                                         catalogue    url  
 #>   <chr>   <chr>                                               <chr>        <chr>
-#> 1 Jobs    Weekly Payroll Jobs and Wages in Australia          weekly-payr… http…
+#> 1 Jobs    Weekly Payroll Jobs                                 weekly-payr… http…
 #> 2 Jobs    Weekly Payroll Jobs and Wages in Australia, Interim weekly-payr… http…
 ```
 
@@ -197,17 +197,16 @@ available to download from this catalogue:
 
 ``` r
 show_available_files("weekly-payroll-jobs")
-#> # A tibble: 8 × 3
+#> # A tibble: 7 × 3
 #>   label                                                              file  url  
 #>   <chr>                                                              <chr> <chr>
 #> 1 Table 20: Payroll jobs - characteristics distributionsContains se… 6160… http…
-#> 2 Table 4: Payroll jobs and wages indexes                            6160… http…
-#> 3 Table 5: Sub-state - Payroll jobs indexes                          6160… http…
-#> 4 Table 6: Industry subdivision - Payroll jobs indexes               6160… http…
-#> 5 Table 7: Employer characteristics - Payroll jobs index             6160… http…
-#> 6 Table 8: Jobholder characteristics - Payroll jobs index            6160… http…
-#> 7 Table 9: Sector - Payroll jobs index                               6160… http…
-#> 8 All data cubes                                                     6160… http…
+#> 2 Table 4: Payroll jobs indexes                                      6160… http…
+#> 3 Table 6: Industry subdivision - Payroll jobs indexes               6160… http…
+#> 4 Table 7: Employer characteristics - Payroll jobs index             6160… http…
+#> 5 Table 8: Jobholder characteristics - Payroll jobs index            6160… http…
+#> 6 Table 9: Sector - Payroll jobs index                               6160… http…
+#> 7 All data cubes                                                     6160… http…
 ```
 
 We want Table 4, which has the filename `6160055001_DO004.xlsx`.
@@ -216,10 +215,10 @@ We can download the file as follows:
 
 ``` r
 payrolls_t4_path <- download_abs_data_cube("weekly-payroll-jobs", "004")
-#> File downloaded in /var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/6160055001_DO004.xlsx
+#> File downloaded in /tmp/Rtmpgdh0CC/6160055001_DO004.xlsx
 
 payrolls_t4_path
-#> [1] "/var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/6160055001_DO004.xlsx"
+#> [1] "/tmp/Rtmpgdh0CC/6160055001_DO004.xlsx"
 ```
 
 The `download_abs_data_cube()` function downloads the file and returns
@@ -232,26 +231,6 @@ payrolls_t4_path %>%
     sheet = "Payroll jobs index",
     skip = 5
   )
-#> # A tibble: 4,322 × 184
-#>    `State or Territory` `Industry division` Sex      `Age group` `43834` `43841`
-#>    <chr>                <chr>               <chr>    <chr>       <chr>   <chr>  
-#>  1 0. Australia         0. All industries   0. Pers… 0. All ages 92.72   95.17  
-#>  2 0. Australia         0. All industries   0. Pers… 1. 15-19    92.3    94.95  
-#>  3 0. Australia         0. All industries   0. Pers… 2. 20-29    92.46   95.28  
-#>  4 0. Australia         0. All industries   0. Pers… 3. 30-39    93.28   95.66  
-#>  5 0. Australia         0. All industries   0. Pers… 4. 40-49    93.03   95.27  
-#>  6 0. Australia         0. All industries   0. Pers… 5. 50-59    92.94   95.27  
-#>  7 0. Australia         0. All industries   0. Pers… 6. 60-69    91.27   93.52  
-#>  8 0. Australia         0. All industries   0. Pers… 7. 70 and … 87.71   90.09  
-#>  9 0. Australia         0. All industries   1. Males 0. All ages 92.59   95.63  
-#> 10 0. Australia         0. All industries   1. Males 1. 15-19    NA      NA     
-#> # ℹ 4,312 more rows
-#> # ℹ 178 more variables: `43848` <chr>, `43855` <chr>, `43862` <chr>,
-#> #   `43869` <chr>, `43876` <chr>, `43883` <chr>, `43890` <chr>, `43897` <chr>,
-#> #   `43904` <chr>, `43911` <chr>, `43918` <chr>, `43925` <chr>, `43932` <chr>,
-#> #   `43939` <chr>, `43946` <chr>, `43953` <chr>, `43960` <chr>, `43967` <chr>,
-#> #   `43974` <chr>, `43981` <chr>, `43988` <chr>, `43995` <chr>, `44002` <chr>,
-#> #   `44009` <chr>, `44016` <chr>, `44023` <chr>, `44030` <chr>, …
 ```
 
 #### Convenience functions for data cubes
@@ -263,21 +242,6 @@ data for you:
 
 ``` r
 read_payrolls()
-#> File downloaded in /var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/6160055001_DO004.xlsx
-#> # A tibble: 151,920 × 7
-#>    state     industry       sex     age      date       value series
-#>    <chr>     <chr>          <chr>   <chr>    <date>     <dbl> <chr> 
-#>  1 Australia All industries Persons All ages 2020-01-04  92.7 jobs  
-#>  2 Australia All industries Persons All ages 2020-01-11  95.2 jobs  
-#>  3 Australia All industries Persons All ages 2020-01-18  96.7 jobs  
-#>  4 Australia All industries Persons All ages 2020-01-25  97.5 jobs  
-#>  5 Australia All industries Persons All ages 2020-02-01  98.1 jobs  
-#>  6 Australia All industries Persons All ages 2020-02-08  98.7 jobs  
-#>  7 Australia All industries Persons All ages 2020-02-15  99.2 jobs  
-#>  8 Australia All industries Persons All ages 2020-02-22  99.5 jobs  
-#>  9 Australia All industries Persons All ages 2020-02-29  99.5 jobs  
-#> 10 Australia All industries Persons All ages 2020-03-07  99.9 jobs  
-#> # ℹ 151,910 more rows
 ```
 
 There is also a convenience function available for data cube GM1 from
@@ -285,21 +249,6 @@ the monthly Labour Force data, which contains labour force gross flows:
 
 ``` r
 read_lfs_grossflows()
-#> File downloaded in /var/folders/bc/6jy526c12dq5zpkxf8fj7f7h0000gq/T//RtmpcSzlYa/GM1.xlsx
-#> # A tibble: 1,030,712 × 9
-#>    date       sex   age     state lfs_current lfs_previous persons unit  weights
-#>    <date>     <chr> <chr>   <chr> <chr>       <chr>          <dbl> <chr> <chr>  
-#>  1 2003-07-01 Males 15-19 … New … Employed f… Employed fu…   30.6  000s  curren…
-#>  2 2003-07-01 Males 15-19 … New … Employed f… Employed pa…    2.87 000s  curren…
-#>  3 2003-07-01 Males 15-19 … New … Employed f… Not in the …    2.03 000s  curren…
-#>  4 2003-07-01 Males 15-19 … New … Employed f… Unmatched i…    4.44 000s  curren…
-#>  5 2003-07-01 Males 15-19 … New … Employed f… Incoming ro…    4.67 000s  curren…
-#>  6 2003-07-01 Males 15-19 … New … Employed p… Employed fu…    2.34 000s  curren…
-#>  7 2003-07-01 Males 15-19 … New … Employed p… Employed pa…   32.6  000s  curren…
-#>  8 2003-07-01 Males 15-19 … New … Employed p… Unemployed      3.13 000s  curren…
-#>  9 2003-07-01 Males 15-19 … New … Employed p… Not in the …    3.63 000s  curren…
-#> 10 2003-07-01 Males 15-19 … New … Employed p… Unmatched i…    2.05 000s  curren…
-#> # ℹ 1,030,702 more rows
 ```
 
 ### Finding and loading data from the ABS.Stat API
@@ -402,6 +351,27 @@ read_api("ABORIGINAL_POP_PROJ", datakey = list(sex_abs = 1))
 Note that in some cases, querying the API without filtering the data
 will return an error, as the table will be too big. In this case, you
 will need to supply a datakey that reduces the size of the data.
+
+## Resolving network issues by manually setting the download method
+
+Certain corporate networks restrict your ability to download files in an
+R session. On some of these networks, the `"wininet"` method must be
+used when downloading files. Users can now specify the method that will
+be used to download files by setting the `"R_READABS_DL_METHOD"`
+environment variable.
+
+For example, the following code sets the environment variable for your
+current session:
+
+``` r
+Sys.setenv("R_READABS_DL_METHOD" = "wininet")
+```
+
+You can add `"R_READABS_DL_METHOD"` to your .Rprofile to have this
+persist across sessions.
+
+If you have other issues using `{readabs}` in your corporate
+environment, I would appreciate you opening an issue on GitHub.
 
 ## Bug reports and feedback
 

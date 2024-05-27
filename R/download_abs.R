@@ -20,7 +20,10 @@ download_abs <- function(urls,
   return(TRUE)
 }
 
-dl_file <- function(url, destfile, quiet = TRUE) {
+dl_file <- function(url,
+                    destfile,
+                    quiet = TRUE,
+                    method = Sys.getenv("R_READABS_DL_METHOD", unset = "auto")) {
   suppressWarnings(
     utils::download.file(
       url = url,
@@ -28,7 +31,8 @@ dl_file <- function(url, destfile, quiet = TRUE) {
       mode = "wb",
       quiet = quiet,
       headers = readabs_header,
-      cacheOK = FALSE
+      cacheOK = FALSE,
+      method = method
     )
   )
 }

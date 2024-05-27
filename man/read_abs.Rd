@@ -87,6 +87,15 @@ If you would like to change this variable for all future R sessions, edit
 your \code{.Renviron} file and add \code{R_READABS_PATH = <path>} line.
 The easiest way to edit this file is using \code{usethis::edit_r_environ()}.
 
+Certain corporate networks restrict your ability to download files in an R
+session. On some of these networks, the \code{"wininet"} method must be used when
+downloading files. Users can now specify the method that will be used to
+download files by setting the \code{"R_READABS_DL_METHOD"} environment variable.
+
+For example, the following code sets the environment variable for your
+current session: s\code{Sys.setenv("R_READABS_DL_METHOD" = "wininet")}
+You can add \code{"R_READABS_DL_METHOD"} to your .Rprofile to have this persist across sessions.
+
 The \code{release_date} argument allows you to download table(s) other than the
 latest release. This is useful for examining revisions to time series, or
 for obtaining the version of series that were available on a given date.

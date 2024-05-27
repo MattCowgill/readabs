@@ -13,7 +13,7 @@
 #' import the payrolls data, and then tidies it up.
 #'
 #' @param series Character. Must be one of:
-#' \itemize{
+#' \describe{
 #'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
 #'  group (Table 4)}
 #'  \item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
@@ -58,14 +58,6 @@ read_payrolls <- function(series = c(
                             unset = tempdir()
                           )) {
   check_abs_connection()
-
-  if (series == "industry_wages") {
-    stop("The ABS removed wages totals from the Weekly Payrolls Jobs release.")
-  }
-
-  if (series %in% c("sa4_jobs", "sa3_jobs", "gccsa_jobs")) {
-    stop("The ABS removed the payroll jobs by SA3/SA4/capital city series from the Weekly Payroll Jobs release.")
-  }
 
   series <- match.arg(series)
 

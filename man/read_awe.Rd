@@ -17,7 +17,7 @@ read_awe(
 }
 \arguments{
 \item{wage_measure}{Character of length 1. Must be one of:
-\itemize{
+\describe{
 \item{\code{awote}}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
 \item{\code{ftawe}}{ Full-time adult total earnings}
 \item{\code{awe}}{ Average weekly total earnings of all employees}
