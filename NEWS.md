@@ -1,3 +1,4 @@
+
 # readabs 0.4.15.001
 * read_lfs_datacube() convenience function added
 * New environment variable "R_READABS_DL_METHOD" can be set. When set, this is passed to the `method` argument of `download.file()`. Useful on networks where a method such as "wininet" must be used.
