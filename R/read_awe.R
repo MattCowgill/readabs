@@ -3,7 +3,7 @@
 #' 6302.0, Average Weekly Earnings, Australia.
 #' @title read_awe
 #' @param wage_measure Character of length 1. Must be one of:
-#' \itemize{
+#' \describe{
 #'   \item{`awote`}{ Average weekly ordinary time earnings; also known as Full-time adult ordinary time earnings}
 #'   \item{`ftawe`}{ Full-time adult total earnings}
 #'   \item{`awe`}{ Average weekly total earnings of all employees}

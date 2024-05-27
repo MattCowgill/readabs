@@ -13,7 +13,7 @@
 #' import the payrolls data, and then tidies it up.
 #'
 #' @param series Character. Must be one of:
-#' \itemize{
+#' \describe{
 #'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
 #'  group (Table 4)}
 #'  \item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
