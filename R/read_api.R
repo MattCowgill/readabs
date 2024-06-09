@@ -96,7 +96,7 @@
 #' try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 #'
 #' # If you already have a query url, then use `read_api_url()`
-#' wpi_url <- ""https://api.data.abs.gov.au/data/ABS,WPI/all""
+#' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI/all"
 #' read_api_url(wpi_url)
 #' }
 #' @name abs_api
@@ -328,7 +328,10 @@ abs_api_fetch_data <- function(url) {
   r <- httr::GET(url, as_csv)
   httr::stop_for_status(r)
 
-  r <- utils::read.csv(text = rawToChar(httr::content(r)))
+  r <- utils::read.csv(
+    text = rawToChar(httr::content(r)),
+    colClasses = "character"
+  )
   r <- r[setdiff(names(r), "DATAFLOW")]
   names(r) <- tolower(names(r))
 
@@ -347,18 +350,15 @@ abs_api_label_data <- function(df, datastructure) {
   df <- purrr::imap_dfc(df, function(x, var_name) {
     codes <- datastructure[datastructure$var == var_name, ]
     if (nrow(codes) == 0) {
-      return(x)
+      # For columns not in codes attempt to coerce to numeric: obs_value & time_period
+      if (can_numeric(x)) {
+        return(as.numeric(x))
+      } else {
+        return(x)
+      }
     }
     labs <- codes$code
 
-    # Match class avoiding data loss
-    if (can_numeric(x) && can_numeric(labs)) {
-      x <- as.numeric(x)
-      labs <- as.numeric(labs)
-    } else {
-      x <- as.character(x)
-      labs <- as.character(labs)
-    }
 
     names(labs) <- codes$label
     labelled::labelled(
