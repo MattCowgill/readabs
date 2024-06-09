@@ -31,7 +31,7 @@ generated using the online data viewer.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.16.900</span>
       </span>
     </div>
 
@@ -165,7 +165,45 @@ which are not in the corresponding dataflow.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># List available dataflows</span></span></span>
+<span class="r-in"><span><span class="fu">read_api_dataflows</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Say we want the "Estimated resident population, Country of birth"</span></span></span>
+<span class="r-in"><span><span class="co"># data flow, with the id ERP_COB. We load the data like this:</span></span></span>
+<span class="r-in"><span><span class="co"># Get full data set for a given flow by providing id and start period:</span></span></span>
+<span class="r-in"><span><span class="fu">read_api</span><span class="op">(</span><span class="st">"ERP_COB"</span>, start_period <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># In some cases, loading a whole dataflow (as above) won't work.</span></span></span>
+<span class="r-in"><span><span class="co"># For eg., the `ABS_C16_T10_SA` dataflow is very large,</span></span></span>
+<span class="r-in"><span><span class="co"># so the gateway will timeout if we try to collect the full data set</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">read_api</span><span class="op">(</span><span class="st">"ABS_C16_T10_SA"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># We need to filter the dataflow before downlaoding it.</span></span></span>
+<span class="r-in"><span><span class="co"># To figure out how to filter it, we get metadata ('datastructure').</span></span></span>
+<span class="r-in"><span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu">read_api_datastructure</span><span class="op">(</span><span class="st">"ABS_C16_T10_SA"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The `asgs_2016` code for 'Australia' is 0</span></span></span>
+<span class="r-in"><span><span class="va">ds</span><span class="op">[</span><span class="va">ds</span><span class="op">$</span><span class="va">var</span> <span class="op">==</span> <span class="st">"asgs_2016"</span> <span class="op">&amp;</span> <span class="va">ds</span><span class="op">$</span><span class="va">label</span> <span class="op">==</span> <span class="st">"Australia"</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The `sex_abs` code for 'Persons' (i.e. all persons) is 3</span></span></span>
+<span class="r-in"><span><span class="va">ds</span><span class="op">[</span><span class="va">ds</span><span class="op">$</span><span class="va">var</span> <span class="op">==</span> <span class="st">"sex_abs"</span> <span class="op">&amp;</span> <span class="va">ds</span><span class="op">$</span><span class="va">label</span> <span class="op">==</span> <span class="st">"Persons"</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># So we have:</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">read_api</span><span class="op">(</span><span class="st">"ABS_C16_T10_SA"</span>, datakey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>asgs_2016 <span class="op">=</span> <span class="fl">0</span>, sex_abs <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="st">"asgs_2016"</span><span class="op">]</span><span class="op">)</span> <span class="co"># Confirming only 'Australia' level records came through</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="st">"sex_abs"</span><span class="op">]</span><span class="op">)</span> <span class="co"># Confirming only 'Persons' level records came through</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Please note however that not all values in the datastructure necessarily</span></span></span>
+<span class="r-in"><span><span class="co"># appear in the data. You get 404s in this case</span></span></span>
+<span class="r-in"><span><span class="va">ds</span><span class="op">[</span><span class="va">ds</span><span class="op">$</span><span class="va">var</span> <span class="op">==</span> <span class="st">"regiontype"</span> <span class="op">&amp;</span> <span class="va">ds</span><span class="op">$</span><span class="va">label</span> <span class="op">==</span> <span class="st">"Destination Zones"</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">read_api</span><span class="op">(</span><span class="st">"ABS_C16_T10_SA"</span>, datakey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>regiontype <span class="op">=</span> <span class="st">"DZN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If you already have a query url, then use `read_api_url()`</span></span></span>
+<span class="r-in"><span><span class="va">wpi_url</span> <span class="op">&lt;-</span> <span class="st">"https://api.data.abs.gov.au/data/ABS,WPI/all"</span></span></span>
+<span class="r-in"><span><span class="fu">read_api_url</span><span class="op">(</span><span class="va">wpi_url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+</code></pre></div>
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
