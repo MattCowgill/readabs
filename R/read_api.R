@@ -357,15 +357,6 @@ abs_api_label_data <- function(df, datastructure) {
     }
     labs <- codes$code
 
-    # Match class avoiding data loss
-    #if (can_numeric(x) && can_numeric(labs)) {
-    #  x <- as.numeric(x)
-    #  labs <- as.numeric(labs)
-    #} else {
-    #  x <- as.character(x)
-    #  labs <- as.character(labs)
-    #}
-
     names(labs) <- codes$label
     labelled::labelled(
       x = x,
