@@ -73,7 +73,8 @@ url_exists <- function(url = "https://www.abs.gov.au") {
 #' @noRd
 url_exists_nocurl <- function(url = "https://www.abs.gov.au") {
   con <- url(url,
-             method = Sys.getenv("R_READABS_DL_METHOD", unset = "default"))
+    method = Sys.getenv("R_READABS_DL_METHOD", unset = "default")
+  )
   out <- suppressWarnings(tryCatch(readLines(con), error = function(e) e))
   abs_url_works <- all(class(out) != "error")
   close(con)

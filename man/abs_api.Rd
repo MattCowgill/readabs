@@ -123,7 +123,7 @@ ds[ds$var == "regiontype" & ds$label == "Destination Zones", ]
 try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 
 # If you already have a query url, then use `read_api_url()`
-wpi_url <- ""https://api.data.abs.gov.au/data/ABS,WPI/all""
+wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI/all"
 read_api_url(wpi_url)
 }
 }

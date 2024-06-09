@@ -147,6 +147,8 @@ get_available_lfs_cubes <- function() {
   all_files <- get_available_files("labour-force-australia-detailed")
 
   all_files %>%
-    dplyr::filter(substr(file, 1, 1) != "6",
-                  !grepl("zip", file))
+    dplyr::filter(
+      substr(file, 1, 1) != "6",
+      !grepl("zip", file)
+    )
 }

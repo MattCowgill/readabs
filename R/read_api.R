@@ -96,7 +96,7 @@
 #' try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 #'
 #' # If you already have a query url, then use `read_api_url()`
-#' wpi_url <- ""https://api.data.abs.gov.au/data/ABS,WPI/all""
+#' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI/all"
 #' read_api_url(wpi_url)
 #' }
 #' @name abs_api
@@ -328,8 +328,10 @@ abs_api_fetch_data <- function(url) {
   r <- httr::GET(url, as_csv)
   httr::stop_for_status(r)
 
-  r <- utils::read.csv(text = rawToChar(httr::content(r)),
-                       colClasses = "character")
+  r <- utils::read.csv(
+    text = rawToChar(httr::content(r)),
+    colClasses = "character"
+  )
   r <- r[setdiff(names(r), "DATAFLOW")]
   names(r) <- tolower(names(r))
 
@@ -356,6 +358,7 @@ abs_api_label_data <- function(df, datastructure) {
       }
     }
     labs <- codes$code
+
 
     names(labs) <- codes$label
     labelled::labelled(
