@@ -75,7 +75,8 @@
 #'
 #' For example, the following code sets the environment variable for your
 #' current session: s`Sys.setenv("R_READABS_DL_METHOD" = "wininet")`
-#' You can add `"R_READABS_DL_METHOD"` to your .Rprofile to have this persist across sessions.
+#' You can add `R_READABS_DL_METHOD = "wininet"` to your .Renviron to have
+#' this persist across sessions.
 #'
 #' The `release_date` argument allows you to download table(s) other than the
 #' latest release. This is useful for examining revisions to time series, or

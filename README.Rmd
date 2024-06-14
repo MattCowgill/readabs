@@ -228,7 +228,7 @@ For example, the following code sets the environment variable for your current s
 Sys.setenv("R_READABS_DL_METHOD" = "wininet")
 ```
 
-You can add `"R_READABS_DL_METHOD"` to your .Rprofile to have this persist across sessions.
+You can add `R_READABS_DL_METHOD = "wininet"` to your .Renviron to have this persist across sessions.
 
 If you have other issues using `{readabs}` in your corporate environment, I would appreciate you opening an issue on GitHub.
 
