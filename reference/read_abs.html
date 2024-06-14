@@ -21,7 +21,7 @@ data frame (tibble) containing tidied data."><meta property="og:image" content="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.16.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.16.901</span>
       </span>
     </div>
 
@@ -174,7 +174,8 @@ downloading files. Users can now specify the method that will be used to
 download files by setting the <code>"R_READABS_DL_METHOD"</code> environment variable.</p>
 <p>For example, the following code sets the environment variable for your
 current session: s<code>Sys.setenv("R_READABS_DL_METHOD" = "wininet")</code>
-You can add <code>"R_READABS_DL_METHOD"</code> to your .Rprofile to have this persist across sessions.</p>
+You can add <code>R_READABS_DL_METHOD = "wininet"</code> to your .Renviron to have
+this persist across sessions.</p>
 <p>The <code>release_date</code> argument allows you to download table(s) other than the
 latest release. This is useful for examining revisions to time series, or
 for obtaining the version of series that were available on a given date.
