@@ -215,10 +215,10 @@ We can download the file as follows:
 
 ``` r
 payrolls_t4_path <- download_abs_data_cube("weekly-payroll-jobs", "004")
-#> File downloaded in /tmp/Rtmpgdh0CC/6160055001_DO004.xlsx
+#> File downloaded in /tmp/RtmpV2bAuK/6160055001_DO004.xlsx
 
 payrolls_t4_path
-#> [1] "/tmp/Rtmpgdh0CC/6160055001_DO004.xlsx"
+#> [1] "/tmp/RtmpV2bAuK/6160055001_DO004.xlsx"
 ```
 
 The `download_abs_data_cube()` function downloads the file and returns
@@ -284,7 +284,7 @@ In this case, I could download the entire dataflow with:
 read_api("ABORIGINAL_POP_PROJ")
 #> # A tibble: 72,144 × 11
 #>    measure         sex_abs age       asgs_2011 proj_series frequency time_period
-#>    <chr+lbl>       <dbl+l> <chr+lbl> <dbl+lbl> <dbl+lbl>   <chr+lbl>       <int>
+#>    <chr+lbl>       <chr+l> <chr+lbl> <chr+lbl> <chr+lbl>   <chr+lbl>       <dbl>
 #>  1 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2016
 #>  2 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2017
 #>  3 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2018
@@ -296,8 +296,8 @@ read_api("ABORIGINAL_POP_PROJ")
 #>  9 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2024
 #> 10 POP_PROJ [Proj… 3 [Per… A04 [0 -… 1 [New S… 3 [Series … A [Annua…        2025
 #> # ℹ 72,134 more rows
-#> # ℹ 4 more variables: obs_value <int>, unit_measure <chr+lbl>,
-#> #   obs_status <chr+lbl>, obs_comment <lgl>
+#> # ℹ 4 more variables: obs_value <dbl>, unit_measure <chr+lbl>,
+#> #   obs_status <chr+lbl>, obs_comment <dbl>
 ```
 
 Let’s say I’m only interested in the population projections for males,
@@ -332,7 +332,7 @@ this by supplying a datakey:
 read_api("ABORIGINAL_POP_PROJ", datakey = list(sex_abs = 1))
 #> # A tibble: 24,048 × 11
 #>    measure         sex_abs age       asgs_2011 proj_series frequency time_period
-#>    <chr+lbl>       <dbl+l> <chr+lbl> <dbl+lbl> <dbl+lbl>   <chr+lbl>       <int>
+#>    <chr+lbl>       <chr+l> <chr+lbl> <chr+lbl> <chr+lbl>   <chr+lbl>       <dbl>
 #>  1 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2016
 #>  2 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2017
 #>  3 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2018
@@ -344,8 +344,8 @@ read_api("ABORIGINAL_POP_PROJ", datakey = list(sex_abs = 1))
 #>  9 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2024
 #> 10 POP_PROJ [Proj… 1 [Mal… A04 [0 -… 1 [New S… 7 [Series … A [Annua…        2025
 #> # ℹ 24,038 more rows
-#> # ℹ 4 more variables: obs_value <int>, unit_measure <chr+lbl>,
-#> #   obs_status <chr+lbl>, obs_comment <lgl>
+#> # ℹ 4 more variables: obs_value <dbl>, unit_measure <chr+lbl>,
+#> #   obs_status <chr+lbl>, obs_comment <dbl>
 ```
 
 Note that in some cases, querying the API without filtering the data
@@ -367,8 +367,8 @@ current session:
 Sys.setenv("R_READABS_DL_METHOD" = "wininet")
 ```
 
-You can add `"R_READABS_DL_METHOD"` to your .Rprofile to have this
-persist across sessions.
+You can add `R_READABS_DL_METHOD = "wininet"` to your .Renviron to have
+this persist across sessions.
 
 If you have other issues using `{readabs}` in your corporate
 environment, I would appreciate you opening an issue on GitHub.
