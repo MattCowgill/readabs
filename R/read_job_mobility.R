@@ -29,7 +29,8 @@ read_job_mobility <- function(tables = "all",
     )
 
   available_tables <- job_mob_tbls %>%
-    dplyr::filter(base::substr(.data$label, 1, 5) == "Table")
+    dplyr::filter(base::substr(.data$label, 1, 5) == "Table") %>%
+    dplyr::filter(tools::file_ext(file) == "xlsx")
 
   if (tables == "all") {
     selected_tables <- available_tables
