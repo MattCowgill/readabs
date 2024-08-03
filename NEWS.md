@@ -1,5 +1,6 @@
 # readabs development version
 * The experimental `readabs::read_api()` function no longer coerces columns describing the data categories to numeric. Thanks to @kletts. 
+* Bug fix to read_job_mobility()
 
 # readabs 0.4.16
 * An error inadvertently introduced in 0.4.15 is fixed. This error would only affect a small minority of users.
