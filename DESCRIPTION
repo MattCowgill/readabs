@@ -34,7 +34,7 @@ Imports:
     labelled
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Suggests: 
     knitr,
