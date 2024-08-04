@@ -8,7 +8,7 @@ Authors@R: c(
            person("Jaron", "Lee", role = "aut", email = "jaron.lee@sydney.edu.au"),
            person("David", "Diviny", role = "aut", email = "David.Diviny@nousgroup.com.au"),
            person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"),
-           person("Kinto", "Behr", role = "ctb", email = "kinto.behr@gmail.com")
+           person("Kinto", "Behr", role = "ctb", email = "kinto.behr@gmail.com"),
            person("Angus", "Moore", role = "ctb")
            )
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
