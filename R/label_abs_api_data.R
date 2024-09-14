@@ -19,10 +19,7 @@
 #'
 #' ## End (Not run)
 
-label_abs_api_data <- function(read_api_data, read_api_datastructure_data){
-
-  # Prepare output df to hold description label columns
-  output_dataframe <- read_api_data
+label_abs_api_data <- function(read_api_data, read_api_datastructure_data) {
 
   # Determine what needs to be labelled
   api_datastructure_vars_list <- read_api_datastructure_data |>
@@ -30,16 +27,16 @@ label_abs_api_data <- function(read_api_data, read_api_datastructure_data){
     names()
 
   # Re-ordering to make our output be in the same order as the original data when we loop
-  api_datastructure_vars_list <- api_datastructure_vars_list[order(match(api_datastructure_vars_list, colnames(output_dataframe)))]
+  api_datastructure_vars_list <- api_datastructure_vars_list[order(match(api_datastructure_vars_list, colnames(read_api_data)))]
 
-  # Function to join the descriptive variables from the variable list to output_dataframe
-  label_variables <- function(api_data = output_dataframe, variable, api_datastructure = read_api_datastructure_data) {
+  # Function to join the descriptive variables from the variable list to read_api_data
+  label_variables <- function(api_data, variable, api_datastructure) {
 
     # Label our new descriptive columns 'variable_label'
     column_label <- paste0(variable, "_label")
 
     # Pull out the 'lookup table' for the variable
-    datastructure_extract <- subset(read_api_datastructure_data, var == variable, select = c("code", "label"))
+    datastructure_extract <- subset(api_datastructure, var == variable, select = c("code", "label"))
     # Rename the descriptive column to "variable_label"
     colnames(datastructure_extract)[colnames(datastructure_extract) == "label"] <- column_label
 
@@ -49,24 +46,27 @@ label_abs_api_data <- function(read_api_data, read_api_datastructure_data){
             by.x = variable,
             by.y = "code",
             all.x = T) |>
-    # Ensure new "var_label" column sits after the "var" column
-    dplyr::relocate(all_of(column_label), .after = all_of(variable))
+      # Ensure new "var_label" column sits after the "var" column
+      dplyr::relocate(all_of(column_label), .after = all_of(variable))
 
     return(api_data)
   }
 
-  # Iterate for each 'var' in the datastructure
-  for (i in rev(api_datastructure_vars_list)) {
-    output_dataframe <- label_variables(output_dataframe, i)
-  }
+  # Iterate label_variables() for each var and combine
+  output_dataframe <- Reduce(
+    function(df, var) {
+      label_variables(df, var, read_api_datastructure_data)
+    },
+    # Reversing as the process reverses column order
+    rev(api_datastructure_vars_list),
+    init = read_api_data
+  )
 
   # Add attribute labels to descriptive columns
-  for (i in api_datastructure_vars_list) {
-    j = paste0(i, "_label")
-    attr(output_dataframe[[j]], "label") <- attr(output_dataframe[[i]], "label")
-  }
+  lapply(api_datastructure_vars_list, function(x) {
+    labelled_columns <- paste0(x, "_label")
+    attr(output_dataframe[[labelled_columns]], "label") <- attr(output_dataframe[[x]], "label")
+  })
 
-return(output_dataframe)
+  return(output_dataframe)
 }
-
-
