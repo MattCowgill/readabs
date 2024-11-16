@@ -10,7 +10,7 @@ test_that("read_lfs_datacube", {
   expect_gt(nrow(lm1), 300000)
 })
 
-# Test for MRM, which has a different format, and there parsing logic
+# Test for MRM, which has a different format, and therefore parsing logic
 test_that("read_lfs_datacube - MRM", {
   mrm1 <- read_lfs_datacube("MRM1")
   expect_s3_class(mrm1, "tbl_df")

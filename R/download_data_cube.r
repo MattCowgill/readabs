@@ -69,6 +69,10 @@ download_abs_data_cube <- function(catalogue_string,
 
   available_cubes <- get_available_files(catalogue_string)
 
+  cube <- if_else(cube == "MRM1",
+                  "MRM1|MRM%201",
+                  cube)
+
   file_download_url <- available_cubes %>%
     dplyr::filter(grepl(cube, file, ignore.case = TRUE)) %>%
     dplyr::slice(1) %>% # this gets the first result which is typically the .xlsx file rather than the zip
