@@ -65,7 +65,14 @@ read_erp <- function(age_range = 0:100,
   }
 
   # Restrict the 'sex' argument to the valid choices
-  sex <- match.arg(sex)
+  sex_options <- c("Persons", "Male", "Female")
+
+  # Check if the input is a subset of the valid options
+  if (!all(sex %in% sex_options)) {
+    invalid_values <- sex[!sex %in% sex_options]
+    stop("Invalid value(s): ", paste(invalid_values, collapse = ", "),
+         ". Allowed values are: Persons, Male, Female.")
+  }
 
   # Restrict the states argument to valid choices but include abbreviations
   # Always return the full name if an abbreviation has been used.
