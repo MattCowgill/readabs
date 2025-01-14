@@ -67,7 +67,7 @@ read_erp <- function(age_range = 0:100,
   }
 
   # Restrict the 'sex' argument to the valid choices
-  sex <- match.arg(sex)
+  sex <- match.arg(sex, several.ok = TRUE)
 
   # Restrict the states argument to valid choices but include abbreviations
   # Always return the full name if an abbreviation has been used.
@@ -100,8 +100,24 @@ read_erp <- function(age_range = 0:100,
     path = path
   )
 
+  x <- tidy_erp(erp_raw,
+                age_range,
+                sex)
 
-  x <- erp_raw %>%
+  x
+}
+
+#' @keywords internal
+#' @noRd
+#' Tidy a table of ERP data downloaded with read_abs(cat_no = "3101.0")
+#' @examples
+#' x <- read_abs(cat_no = "3101.0")
+#' tidy_erp(x)
+#'
+tidy_erp <- function(erp_raw,
+                     age_range,
+                     sex) {
+  erp_raw %>%
     dplyr::mutate(
       age = gsub("[^0-9]", "", .data$series),
       age = as.integer(.data$age),
@@ -117,8 +133,6 @@ read_erp <- function(age_range = 0:100,
     dplyr::arrange(.data$state, .data$series_sex, .data$age, .data$date) %>%
     dplyr::select("date", "state", sex = "series_sex",
                   "erp", "age")
-
-  x
 }
 
 #' @keywords internal
