@@ -47,10 +47,10 @@ containing five columns: the date, the age range, sex and states that the ERP
 corresponds to. This makes joining the ERP to another dataframe easy.
 }
 \examples{
-
+\donttest{
 # Create a tibble called 'erp' that contains the ERP index
 # numbers for 30 June each year for Australia.
-\donttest{
+
 erp <- read_erp()
 }
 

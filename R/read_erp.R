@@ -103,19 +103,20 @@ read_erp <- function(age_range = 0:100,
 
   x <- erp_raw %>%
     dplyr::mutate(
-      age = gsub("[^0-9]", "", series),
-      age = as.integer(age),
-      series_sex = gsub(".*;\\s*(Male|Female|Persons)\\s*;.*", "\\1", series),
-      state = trimws(gsub(".*,(\\s*[^,]+)$", "\\1", table_title))
+      age = gsub("[^0-9]", "", .data$series),
+      age = as.integer(.data$age),
+      series_sex = gsub(".*;\\s*(Male|Female|Persons)\\s*;.*", "\\1", .data$series),
+      state = trimws(gsub(".*,(\\s*[^,]+)$", "\\1", .data$table_title))
     ) %>%
     dplyr::filter(
-      age %in% age_range,
-      series_sex %in% sex
+      .data$age %in% age_range,
+      .data$series_sex %in% sex
     ) %>%
-    dplyr::group_by(date, series_sex, state, age) %>%
-    dplyr::summarise(erp = sum(value)) %>%
-    dplyr::arrange(state, series_sex, age, date) %>%
-    dplyr::select(date, state, sex = series_sex, erp, age)
+    dplyr::group_by(.data$date, .data$series_sex, .data$state, .data$age) %>%
+    dplyr::summarise(erp = sum(.data$value)) %>%
+    dplyr::arrange(.data$state, .data$series_sex, .data$age, .data$date) %>%
+    dplyr::select("date", "state", sex = "series_sex",
+                  "erp", "age")
 
   x
 }
@@ -159,7 +160,7 @@ validate_state <- function(state) {
                         tolower(valid_abbreviations))
 
   # Create a lookup table (map all variants to full state names)
-  state_map <- setNames(
+  state_map <- stats::setNames(
     rep(valid_states, times = 5),
     all_valid_inputs
   )
