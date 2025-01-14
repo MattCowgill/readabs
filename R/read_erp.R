@@ -29,10 +29,10 @@
 #' directory specified with 'path'.
 #'
 #' @examples
-#'
+#' \donttest{
 #' # Create a tibble called 'erp' that contains the ERP index
 #' # numbers for 30 June each year for Australia.
-#' \donttest{
+#'
 #' erp <- read_erp()
 #' }
 #'
@@ -43,10 +43,12 @@
 
 read_erp <- function(age_range = 0:100,
                      sex = c("Persons", "Male", "Female"),
-                     states = c("Australia", "New South Wales", "Victoria", "Queensland",
-                               "South Australia", "Western Australia", "Tasmania",
-                               "Northern Territory", "Australian Capital Territory"),
-    path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+                     states = c(
+                       "Australia", "New South Wales", "Victoria", "Queensland",
+                       "South Australia", "Western Australia", "Tasmania",
+                       "Northern Territory", "Australian Capital Territory"
+                     ),
+                     path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
                      show_progress_bars = TRUE,
                      check_local = FALSE,
                      retain_files = FALSE) {
@@ -70,8 +72,10 @@ read_erp <- function(age_range = 0:100,
   # Check if the input is a subset of the valid options
   if (!all(sex %in% sex_options)) {
     invalid_values <- sex[!sex %in% sex_options]
-    stop("Invalid value(s): ", paste(invalid_values, collapse = ", "),
-         ". Allowed values are: Persons, Male, Female.")
+    stop(
+      "Invalid value(s): ", paste(invalid_values, collapse = ", "),
+      ". Allowed values are: Persons, Male, Female."
+    )
   }
 
   # Restrict the states argument to valid choices but include abbreviations
@@ -111,22 +115,28 @@ read_erp <- function(age_range = 0:100,
       series_sex = gsub(".*;\\s*(Male|Female|Persons)\\s*;.*", "\\1", series),
       state = trimws(gsub(".*,(\\s*[^,]+)$", "\\1", table_title))
     ) %>%
-    filter(age %in% age_range,
-           series_sex %in% sex) %>%
+    filter(
+      age %in% age_range,
+      series_sex %in% sex
+    ) %>%
     group_by(date, series_sex, state) %>%
     summarise(erp = sum(value)) %>%
     arrange(state, series_sex, date) %>%
-    select(date, state, sex=series_sex, erp)
+    select(date, state, sex = series_sex, erp)
 
   x
 }
 
 # Lookup table of state/territory names, abbreviations and ABS ERP table numbers
-state_lookup <- tibble(full_name=c("Australia", "New South Wales", "Victoria", "Queensland",
-                                   "South Australia", "Western Australia", "Tasmania",
-                                   "Northern Territory", "Australian Capital Territory"),
-                       abbrev=c("Aus", "NSW", "Vic", "Qld", "SA", "WA", "Tas", "NT", "ACT"),
-                       tbl_n=c(59, 51:58))
+state_lookup <- tibble(
+  full_name = c(
+    "Australia", "New South Wales", "Victoria", "Queensland",
+    "South Australia", "Western Australia", "Tasmania",
+    "Northern Territory", "Australian Capital Territory"
+  ),
+  abbrev = c("Aus", "NSW", "Vic", "Qld", "SA", "WA", "Tas", "NT", "ACT"),
+  tbl_n = c(59, 51:58)
+)
 
 # Ensure that user specified state/territory names are acceptable. Allow full
 # names or abbreviations. Throw an error if they are incorrect.
@@ -143,13 +153,15 @@ validate_state <- function(state) {
   all_valid_inputs <- c(valid_states, valid_abbreviations, valid_abbreviations_with_period)
 
   # Create a lookup table (map all variants to full state names)
-  state_map <- setNames(rep(valid_states, times = 3),
-                        c(valid_states, valid_abbreviations, valid_abbreviations_with_period))
+  state_map <- setNames(
+    rep(valid_states, times = 3),
+    c(valid_states, valid_abbreviations, valid_abbreviations_with_period)
+  )
 
   # Standardize input to lowercase and remove trailing periods in case
   # people do things like "Vic." or "Tas."
-  state_cleaned <- gsub("\\.$", "", state)  # Remove trailing period
-  state_cleaned <- tolower(state_cleaned)   # Convert to lowercase
+  state_cleaned <- gsub("\\.$", "", state) # Remove trailing period
+  state_cleaned <- tolower(state_cleaned) # Convert to lowercase
 
   # Create a cleaned version of the map for case-insensitive matching
   names(state_map) <- tolower(names(state_map))
