@@ -67,20 +67,11 @@ read_erp <- function(age_range = 0:100,
   }
 
   # Restrict the 'sex' argument to the valid choices
-  sex_options <- c("Persons", "Male", "Female")
-
-  # Check if the input is a subset of the valid options
-  if (!all(sex %in% sex_options)) {
-    invalid_values <- sex[!sex %in% sex_options]
-    stop(
-      "Invalid value(s): ", paste(invalid_values, collapse = ", "),
-      ". Allowed values are: Persons, Male, Female."
-    )
-  }
+  sex <- match.arg(sex)
 
   # Restrict the states argument to valid choices but include abbreviations
   # Always return the full name if an abbreviation has been used.
-  stes <- unname(vapply(states, validate_state, FUN.VALUE = character(1)))
+  stes <- purrr::map_chr(states, validate_state)
 
   if (!is.logical(retain_files)) {
     stop("`retain_files` must be either `TRUE` or `FALSE`.")
@@ -97,6 +88,7 @@ read_erp <- function(age_range = 0:100,
     )
   }
 
+  state_lookup <- erp_state_lookup()
   ste_tbls <- state_lookup$tbl_n[state_lookup$full_name %in% stes]
 
   erp_raw <- read_abs(
@@ -112,36 +104,46 @@ read_erp <- function(age_range = 0:100,
   x <- erp_raw %>%
     dplyr::mutate(
       age = gsub("[^0-9]", "", series),
+      age = as.integer(age),
       series_sex = gsub(".*;\\s*(Male|Female|Persons)\\s*;.*", "\\1", series),
       state = trimws(gsub(".*,(\\s*[^,]+)$", "\\1", table_title))
     ) %>%
-    filter(
+    dplyr::filter(
       age %in% age_range,
       series_sex %in% sex
     ) %>%
-    group_by(date, series_sex, state) %>%
-    summarise(erp = sum(value)) %>%
-    arrange(state, series_sex, date) %>%
-    select(date, state, sex = series_sex, erp)
+    dplyr::group_by(date, series_sex, state, age) %>%
+    dplyr::summarise(erp = sum(value)) %>%
+    dplyr::arrange(state, series_sex, age, date) %>%
+    dplyr::select(date, state, sex = series_sex, erp, age)
 
   x
 }
 
-# Lookup table of state/territory names, abbreviations and ABS ERP table numbers
-state_lookup <- tibble(
-  full_name = c(
-    "Australia", "New South Wales", "Victoria", "Queensland",
-    "South Australia", "Western Australia", "Tasmania",
-    "Northern Territory", "Australian Capital Territory"
-  ),
-  abbrev = c("Aus", "NSW", "Vic", "Qld", "SA", "WA", "Tas", "NT", "ACT"),
-  tbl_n = c(59, 51:58)
-)
+#' @keywords internal
+#' @noRd
+erp_state_lookup <- function() {
+  # Lookup table of state/territory names, abbreviations and ABS ERP table numbers
+  state_lookup <- tibble(
+    full_name = c(
+      "Australia", "New South Wales", "Victoria", "Queensland",
+      "South Australia", "Western Australia", "Tasmania",
+      "Northern Territory", "Australian Capital Territory"
+    ),
+    abbrev = c("Aus", "NSW", "Vic", "Qld", "SA", "WA", "Tas", "NT", "ACT"),
+    tbl_n = c(59, 51:58)
+  )
+}
 
 # Ensure that user specified state/territory names are acceptable. Allow full
 # names or abbreviations. Throw an error if they are incorrect.
 # Always return the full name.
+#' @keywords internal
+#' @noRd
 validate_state <- function(state) {
+
+  state_lookup <- erp_state_lookup()
+
   # Define valid states and their abbreviations
   valid_states <- state_lookup$full_name
   valid_abbreviations <- state_lookup$abbrev
@@ -150,12 +152,16 @@ validate_state <- function(state) {
   valid_abbreviations_with_period <- paste0(valid_abbreviations, ".")
 
   # Combine all valid inputs
-  all_valid_inputs <- c(valid_states, valid_abbreviations, valid_abbreviations_with_period)
+  all_valid_inputs <- c(valid_states,
+                        valid_abbreviations,
+                        valid_abbreviations_with_period,
+                        toupper(valid_abbreviations),
+                        tolower(valid_abbreviations))
 
   # Create a lookup table (map all variants to full state names)
   state_map <- setNames(
-    rep(valid_states, times = 3),
-    c(valid_states, valid_abbreviations, valid_abbreviations_with_period)
+    rep(valid_states, times = 5),
+    all_valid_inputs
   )
 
   # Standardize input to lowercase and remove trailing periods in case
