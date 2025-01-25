@@ -6,7 +6,7 @@
 \usage{
 read_erp(
   age_range = 0:100,
-  sex = c("Persons", "Male", "Female"),
+  sex = "Persons",
   states = c("Australia", "New South Wales", "Victoria", "Queensland", "South Australia",
     "Western Australia", "Tasmania", "Northern Territory",
     "Australian Capital Territory"),
@@ -21,10 +21,11 @@ read_erp(
 years for which an ERP is sought. The ABS top-code ages at 100.}
 
 \item{sex}{character; default is "Persons". Other values are "Male" and
-"Female".}
+"Female". Multiple values allowed.}
 
 \item{states}{character; default is "Australia". Other values are the full
-or abbreviated names of the states and self-governing territories.}
+or abbreviated names of the states and self-governing territories. Multiple
+values allowed.}
 
 \item{path}{character; default is "data/ABS". Only used if
 retain_files is set to TRUE. Local directory in which to save

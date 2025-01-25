@@ -10,10 +10,11 @@
 #' years for which an ERP is sought. The ABS top-code ages at 100.
 #'
 #' @param sex character; default is "Persons". Other values are "Male" and
-#' "Female".
+#' "Female". Multiple values allowed.
 #'
 #' @param states character; default is "Australia". Other values are the full
-#' or abbreviated names of the states and self-governing territories.
+#' or abbreviated names of the states and self-governing territories. Multiple
+#' values allowed.
 #'
 #' @param path character; default is "data/ABS". Only used if
 #' retain_files is set to TRUE. Local directory in which to save
@@ -42,7 +43,7 @@
 #' @export
 
 read_erp <- function(age_range = 0:100,
-                     sex = c("Persons", "Male", "Female"),
+                     sex = "Persons",
                      states = c(
                        "Australia", "New South Wales", "Victoria", "Queensland",
                        "South Australia", "Western Australia", "Tasmania",
@@ -67,11 +68,14 @@ read_erp <- function(age_range = 0:100,
   }
 
   # Restrict the 'sex' argument to the valid choices
-  sex <- match.arg(sex, several.ok = TRUE)
+  sex <- match.arg(sex,
+    c("Persons", "Male", "Female"),
+    several.ok = TRUE
+  )
 
   # Restrict the states argument to valid choices but include abbreviations
   # Always return the full name if an abbreviation has been used.
-  stes <- purrr::map_chr(states, validate_state)
+  stes <- purrr::map_chr(states, validate_state_erp)
 
   if (!is.logical(retain_files)) {
     stop("`retain_files` must be either `TRUE` or `FALSE`.")
@@ -100,20 +104,19 @@ read_erp <- function(age_range = 0:100,
     path = path
   )
 
-  x <- tidy_erp(erp_raw,
-                age_range,
-                sex)
+  x <- tidy_erp(
+    erp_raw,
+    age_range,
+    sex
+  )
 
   x
 }
 
 #' @keywords internal
-#' @noRd
-#' Tidy a table of ERP data downloaded with read_abs(cat_no = "3101.0")
-#' @examples
-#' x <- read_abs(cat_no = "3101.0")
-#' tidy_erp(x)
-#'
+# Tidy a table of ERP data downloaded with read_abs(cat_no = "3101.0")
+# x <- read_abs(cat_no = "3101.0")
+# tidy_erp(x)
 tidy_erp <- function(erp_raw,
                      age_range,
                      sex) {
@@ -131,8 +134,10 @@ tidy_erp <- function(erp_raw,
     dplyr::group_by(.data$date, .data$series_sex, .data$state, .data$age) %>%
     dplyr::summarise(erp = sum(.data$value)) %>%
     dplyr::arrange(.data$state, .data$series_sex, .data$age, .data$date) %>%
-    dplyr::select("date", "state", sex = "series_sex",
-                  "erp", "age")
+    dplyr::select("date", "state",
+      sex = "series_sex",
+      "erp", "age"
+    )
 }
 
 #' @keywords internal
@@ -155,8 +160,9 @@ erp_state_lookup <- function() {
 # Always return the full name.
 #' @keywords internal
 #' @noRd
-validate_state <- function(state) {
+#'
 
+validate_state_erp <- function(state) {
   state_lookup <- erp_state_lookup()
 
   # Define valid states and their abbreviations
@@ -167,11 +173,13 @@ validate_state <- function(state) {
   valid_abbreviations_with_period <- paste0(valid_abbreviations, ".")
 
   # Combine all valid inputs
-  all_valid_inputs <- c(valid_states,
-                        valid_abbreviations,
-                        valid_abbreviations_with_period,
-                        toupper(valid_abbreviations),
-                        tolower(valid_abbreviations))
+  all_valid_inputs <- c(
+    valid_states,
+    valid_abbreviations,
+    valid_abbreviations_with_period,
+    toupper(valid_abbreviations),
+    tolower(valid_abbreviations)
+  )
 
   # Create a lookup table (map all variants to full state names)
   state_map <- stats::setNames(

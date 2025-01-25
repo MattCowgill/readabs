@@ -20,9 +20,11 @@ test_that("tidy_erp() works with all permutations of parameters", {
   test_tidy_erp <- function(age_range,
                             sex,
                             erp_raw = raw_erp) {
-    x <- tidy_erp(erp_raw,
-                  age_range,
-                  sex)
+    x <- tidy_erp(
+      erp_raw,
+      age_range,
+      sex
+    )
 
     expect_is(x, "tbl_df")
     expect_length(x, 5)
@@ -33,9 +35,12 @@ test_that("tidy_erp() works with all permutations of parameters", {
   test_tidy_erp(1:10, "Male")
   test_tidy_erp(15, "Female")
   test_tidy_erp(c(10, 50, 90), "Persons")
-  test_tidy_erp(0:100,
-                c("Male", "Female", "Persons"))
-  test_tidy_erp(1,
-                c("Female", "Male"))
-
+  test_tidy_erp(
+    0:100,
+    c("Male", "Female", "Persons")
+  )
+  test_tidy_erp(
+    1,
+    c("Female", "Male")
+  )
 })
