@@ -3,6 +3,8 @@
 * The experimental `readabs::read_api()` function no longer coerces columns describing the data categories to numeric. Thanks to @kletts. 
 * read_lfs_datacube() now able to fetch modelled SA4 labour force estimates, thanks to @AngusMoore
 * Bug fix to read_job_mobility()
+* read_payrolls() updated to work with reconfigured (less frequent) ABS payrolls data.
+* Documentation clarified to note that `release_date` arg to read_abs() does not reliably work for annual data.
 * Refresh internal data
 
 # readabs 0.4.16
