@@ -17,8 +17,7 @@ test_that("read_payrolls() works", {
     c(
       "industry_jobs",
       "subindustry_jobs",
-      "empsize_jobs",
-      "sex_age_jobs"
+      "empsize_jobs"
     ),
     ~ check_payrolls(.x)
   )

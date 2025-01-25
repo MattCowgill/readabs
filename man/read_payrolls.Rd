@@ -5,20 +5,19 @@
 \title{Download and tidy ABS payroll jobs and wages data}
 \usage{
 read_payrolls(
-  series = c("industry_jobs", "subindustry_jobs", "empsize_jobs", "sex_age_jobs"),
+  series = c("industry_jobs", "subindustry_jobs", "empsize_jobs"),
   path = Sys.getenv("R_READABS_PATH", unset = tempdir())
 )
 }
 \arguments{
 \item{series}{Character. Must be one of:
 \describe{
-\item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
-group (Table 4)}
+\item{"industry_jobs"}{ Payroll jobs by industry division, state, and age
+group (Table 1)}
 \item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
-industry division (Table 6)}
+industry division (Table 2)}
 \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
-employees) and state (Table 7)}
-\item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
+employees) and state/territory (Table 3)}
 }
 The default is "industry_jobs".}
 
@@ -32,12 +31,11 @@ any files downloaded by read_abs()  will be stored in a temporary directory
 A tidy (long) \code{tbl_df}. The number of columns differs based on the \code{series}.
 }
 \description{
-Import a tidy tibble of ABS Weekly Payrolls data.
+Import a tidy tibble of ABS Payroll Jobss data.
 }
 \details{
-The ABS \href{https://www.abs.gov.au/statistics/labour/jobs/weekly-payroll-jobs/latest-release#changes-in-this-release}{Weekly Payroll Jobs}
-dataset is useful to analysts of the Australian labour market.
-It draws upon data collected
+The ABS \href{https://www.abs.gov.au/statistics/labour/jobs/payroll-jobs/latest-release}{Payroll Jobs}
+dataset draws upon data collected
 by the Australian Taxation Office as part of its Single-Touch Payroll
 initiative and supplements the monthly Labour Force Survey. Unfortunately,
 the data as published by the ABS (1) is not in a standard time series
@@ -48,7 +46,9 @@ import the payrolls data, and then tidies it up.
 Note that this ABS release used to be called Weekly Payroll Jobs and Wages Australia.
 The total wages series were removed from this release in mid-2023 and it
 was renamed to Weekly Payroll Jobs. The ability to read total wages
-indexes using this function was therefore also removed.
+indexes using this function was therefore also removed. It was then renamed
+Payroll Jobs and the frequency was reduced, with further modifications to
+the data released.
 }
 \examples{
 \dontrun{

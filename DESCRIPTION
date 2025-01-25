@@ -1,7 +1,7 @@
 Package: readabs
 Type: Package
 Title: Download and Tidy Time Series Data from the Australian Bureau of Statistics
-Version: 0.4.16.906
+Version: 0.4.17
 Authors@R: c(
            person("Matt", "Cowgill", role = c("aut", "cre"), email = "mattcowgill@gmail.com", comment = c(ORCID = "0000-0003-0422-3300")),
            person("Zoe", "Meers", role = "aut", email = "zoe.meers@sydney.edu.au"),
@@ -9,7 +9,8 @@ Authors@R: c(
            person("David", "Diviny", role = "aut", email = "David.Diviny@nousgroup.com.au"),
            person("Hugh", "Parsonage", role = "ctb", email = "hugh.parsonage@gmail.com"),
            person("Kinto", "Behr", role = "ctb", email = "kinto.behr@gmail.com"),
-           person("Angus", "Moore", role = "ctb")
+           person("Angus", "Moore", role = "ctb"),
+           person("Francis", "Markham", role = "ctb", comment = c(ORCID = "0000-0002-4266-2569"))
            )
 Maintainer: Matt Cowgill <mattcowgill@gmail.com>
 Description: Downloads, imports, and tidies time series data from the 
@@ -34,7 +35,7 @@ Imports:
     labelled
 URL: https://github.com/mattcowgill/readabs
 BugReports: https://github.com/mattcowgill/readabs/issues
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Suggests: 
     knitr,

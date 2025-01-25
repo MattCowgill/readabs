@@ -70,8 +70,9 @@ download_abs_data_cube <- function(catalogue_string,
   available_cubes <- get_available_files(catalogue_string)
 
   cube <- if_else(cube == "MRM1",
-                  "MRM1|MRM%201",
-                  cube)
+    "MRM1|MRM%201",
+    cube
+  )
 
   file_download_url <- available_cubes %>%
     dplyr::filter(grepl(cube, file, ignore.case = TRUE)) %>%
@@ -111,7 +112,7 @@ read_lfs_mrm_table <- function(file, sheet, variable_name) {
     ) |>
     tidyr::pivot_longer(!tidyr::matches("SA4"), names_to = "date", values_to = "value") |>
     dplyr::mutate(date = as.numeric(.data$date)) |>
-    dplyr::filter(!is.na({{variable_name}})) |>
+    dplyr::filter(!is.na({{ variable_name }})) |>
     dplyr::mutate(SA4_code = substr(.data$SA4, 1, 3)) |>
     dplyr::mutate(SA4_name = substr(.data$SA4, 5, nchar(.data$SA4))) |>
     dplyr::mutate(

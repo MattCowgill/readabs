@@ -1,10 +1,9 @@
 #' Download and tidy ABS payroll jobs and wages data
 #'
-#' Import a tidy tibble of ABS Weekly Payrolls data.
+#' Import a tidy tibble of ABS Payroll Jobss data.
 #'
-#' @details The ABS [Weekly Payroll Jobs](https://www.abs.gov.au/statistics/labour/jobs/weekly-payroll-jobs/latest-release#changes-in-this-release)
-#' dataset is useful to analysts of the Australian labour market.
-#' It draws upon data collected
+#' @details The ABS [Payroll Jobs](https://www.abs.gov.au/statistics/labour/jobs/payroll-jobs/latest-release)
+#' dataset draws upon data collected
 #' by the Australian Taxation Office as part of its Single-Touch Payroll
 #' initiative and supplements the monthly Labour Force Survey. Unfortunately,
 #' the data as published by the ABS (1) is not in a standard time series
@@ -14,13 +13,12 @@
 #'
 #' @param series Character. Must be one of:
 #' \describe{
-#'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, sex, and age
-#'  group (Table 4)}
+#'  \item{"industry_jobs"}{ Payroll jobs by industry division, state, and age
+#'  group (Table 1)}
 #'  \item{"subindustry_jobs"}{ Payroll jobs by industry sub-division and
-#'  industry division (Table 6)}
+#'  industry division (Table 2)}
 #'  \item{"empsize_jobs"}{ Payroll jobs by size of employer (number of
-#'  employees) and state (Table 7)}
-#'  \item{"sex_age_jobs}{ Payroll jobs by sex and age (Table 8)}
+#'  employees) and state/territory (Table 3)}
 #' }
 #' The default is "industry_jobs".
 #' @return A tidy (long) `tbl_df`. The number of columns differs based on the `series`.
@@ -29,7 +27,9 @@
 #' Note that this ABS release used to be called Weekly Payroll Jobs and Wages Australia.
 #' The total wages series were removed from this release in mid-2023 and it
 #' was renamed to Weekly Payroll Jobs. The ability to read total wages
-#' indexes using this function was therefore also removed.
+#' indexes using this function was therefore also removed. It was then renamed
+#' Payroll Jobs and the frequency was reduced, with further modifications to
+#' the data released.
 #' @examples
 #' \dontrun{
 #' # Fetch payroll jobs by industry and state (the default, "industry_jobs")
@@ -51,8 +51,7 @@
 read_payrolls <- function(series = c(
                             "industry_jobs",
                             "subindustry_jobs",
-                            "empsize_jobs",
-                            "sex_age_jobs"
+                            "empsize_jobs"
                           ),
                           path = Sys.getenv("R_READABS_PATH",
                             unset = tempdir()
@@ -62,14 +61,13 @@ read_payrolls <- function(series = c(
   series <- match.arg(series)
 
   cube_name <- switch(series,
-    "industry_jobs" = "DO004",
-    "subindustry_jobs" = "DO006",
-    "empsize_jobs" = "DO007",
-    "sex_age_jobs" = "DO008"
+    "industry_jobs" = "DO001",
+    "subindustry_jobs" = "DO002",
+    "empsize_jobs" = "DO003"
   )
 
   safely_download_cube <- purrr::safely(.f = ~ download_abs_data_cube(
-    catalogue_string = "weekly-payroll-jobs",
+    catalogue_string = "payroll-jobs",
     cube = cube_name,
     path = path
   ))
@@ -124,15 +122,10 @@ read_payrolls_local <- function(cube_path, sheet_name) {
   sheets_present <- sheets_present[!sheets_present == "Contents"]
   series <- "jobs"
 
-  sheet_to_read <- sheets_present[grepl(sheet_name,
-    sheets_present,
-    ignore.case = TRUE
-  )]
-
   safely_read_excel <- purrr::safely(read_excel)
 
   read_attempt <- safely_read_excel(cube_path,
-    sheet = sheet_to_read,
+    sheet = sheets_present,
     col_types = "text",
     skip = 5
   )
@@ -213,7 +206,7 @@ read_payrolls_local <- function(cube_path, sheet_name) {
 #' downloaded successfully; character otherwise).
 download_previous_payrolls <- function(cube_name,
                                        path) {
-  latest_payrolls_url <- "https://www.abs.gov.au/statistics/labour/jobs/weekly-payroll-jobs/latest-release"
+  latest_payrolls_url <- "https://www.abs.gov.au/statistics/labour/jobs/payroll-jobs/latest-release"
   prev_payrolls_css <- "#release-date-section > div.field.field--name-dynamic-block-fieldnode-previous-releases.field--type-ds.field--label-hidden > div > div > ul > li:nth-child(1) > a"
 
   temp_page_location <- file.path(tempdir(), "temp_readabs.html")
