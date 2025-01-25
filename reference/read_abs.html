@@ -21,7 +21,7 @@ data frame (tibble) containing tidied data."><meta property="og:image" content="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.16.906</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.17</span>
       </span>
     </div>
 
@@ -140,7 +140,8 @@ if present.</p></dd>
 <dd><p>Either <code>"latest"</code> or a string coercible to a date, such as
 <code>"2022-02-01"</code>. If <code>"latest"</code>, the latest release of the requested data will
 be returned. If a date, (eg. <code>"2022-02-01"</code>) <code>read_abs()</code> will
-attempt to download the data from that month's release. See <code>Details</code>.</p></dd>
+attempt to download the data from that month's release. Note that this only
+works consistently as expected for monthly data. See <code>Details</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -180,7 +181,9 @@ this persist across sessions.</p>
 latest release. This is useful for examining revisions to time series, or
 for obtaining the version of series that were available on a given date.
 Note that you cannot supply more than one date to <code>release_date</code>. Note also
-that any dates prior to mid-2019 (the exact date varies by series) will fail.</p>
+that any dates prior to mid-2019 (the exact date varies by series) will fail.
+Specifying <code>release_date</code> only reliably works for monthly, and some
+quarterly, data. It does not work for annual data.</p>
     </div>
 
     <div id="ref-examples">
