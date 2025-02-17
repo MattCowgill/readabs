@@ -96,7 +96,7 @@
 #' try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 #'
 #' # If you already have a query url, then use `read_api_url()`
-#' wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI/all"
+#' wpi_url <- "https://data.api.abs.gov.au/rest/data/ABS,WPI/all"
 #' read_api_url(wpi_url)
 #' }
 #' @name abs_api
@@ -106,7 +106,7 @@ NULL
 #' @rdname abs_api
 read_api_dataflows <- function() {
   check_abs_connection()
-  r <- httr::GET(abs_api_url("dataflow/ABS"))
+  r <- httr::GET(abs_api_url("rest/dataflow/ABS"))
   r <- httr::content(r)
   out <- purrr::map_dfr(r$references, ~ .[c("id", "name", "version")])
   names(out) <- c("id", "name", "version")
@@ -139,7 +139,8 @@ read_api <- function(id, datakey = NULL, start_period = NULL, end_period = NULL,
   } else {
     k <- "all"
   }
-  url <- abs_api_url(c("data", dataflow, k), q)
+
+  url <- abs_api_url(c("rest", "data", dataflow, k), q)
 
   # Fetch data
   df <- abs_api_fetch_data(url)
@@ -167,7 +168,7 @@ read_api_url <- function(url) {
 read_api_datastructure <- function(id) {
   check_abs_connection()
 
-  r <- httr::GET(abs_api_url(c("datastructure", "ABS", id, "?references=codelist")), httr::accept_xml())
+  r <- httr::GET(abs_api_url(c("rest", "dataflow", "ABS", id, "?references=all")), httr::accept_xml())
   httr::stop_for_status(r)
   r <- httr::content(r)
 
@@ -220,7 +221,7 @@ read_api_datastructure <- function(id) {
 #'
 #' abs_api_url(c("a", "path"), query = c(nulls = NULL, get = "dropped"))
 abs_api_url <- function(path, query = NULL) {
-  out <- paste0("https://api.data.abs.gov.au/", paste(path, collapse = "/"))
+  out <- paste0("https://data.api.abs.gov.au/", paste(path, collapse = "/"))
   if (!is.null(query)) {
     query <- paste(names(query), query, sep = "=")
     out <- paste0(out, "?", paste(query, collapse = "&"))
@@ -228,7 +229,6 @@ abs_api_url <- function(path, query = NULL) {
 
   out
 }
-
 
 #' Extract dataflow id from url string
 #'
@@ -240,13 +240,13 @@ abs_api_url <- function(path, query = NULL) {
 #'
 abs_api_id_from_url <- function(url) {
   stopifnot("`url` must be of length 1" = length(url) == 1)
-  if (!grepl("^https://api.data.abs.gov.au/data/ABS,", url)) {
+  if (!grepl("^https://data.api.abs.gov.au/rest/data/ABS,", url)) {
     stop("`url` is not an ABS query url. Query urls must match regex: \n\t",
-      "'^https://api.data.abs.gov.au/data/ABS,.*'",
-      call. = FALSE
+         "'^https://data.api.abs.gov.au/rest/data/ABS,.*'",
+         call. = FALSE
     )
   }
-  id <- strsplit(url, "/")[[1]][5]
+  id <- strsplit(url, "/")[[1]][6]
   id <- strsplit(id, ",")[[1]][2]
   id
 }
