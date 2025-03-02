@@ -54,7 +54,7 @@ The {readabs} contains functions for working with three different types of ABS d
  - `read_abs()` and related functions downloads, imports, and tidies ABS time series data.
  - `download_abs_data_cube()` and related functions find and download ABS data cubes, which
    are spreadsheets on the ABS website that are not in the standard time series format.
- - `read_api()` and related functions find, filter, and import data from the [ABS.Stat](https://explore.data.abs.gov.au) API.
+ - `read_api()` and related functions find, filter, and import data from the [ABS.Stat](https://dataexplorer.abs.gov.au) API.
 
 
 ### ABS time series data

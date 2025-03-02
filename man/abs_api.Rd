@@ -71,14 +71,14 @@ from the ABS.Stat API, you need to either:
 specific dataflow, including the variables available in each dataflow
 \item Using \code{read_api()} you can get the data belonging to a given dataflow.
 \item Using \code{read_api_url()} you can get the data for a given query url
-generated using the \href{https://explore.data.abs.gov.au/}{online data viewer}.
+generated using the \href{https://dataexplorer.abs.gov.au}{online data viewer}.
 }
 }
 \details{
 Note that the API enforces a reasonably strict gateway timeout policy. This
 means that, if you're trying to access a reasonably large dataset, you will
 need to filter it on the server side using the \code{datakey}. You might like to
-review the data manually via the \href{https://explore.data.abs.gov.au/}{ABS website}
+review the data manually via the \href{https://dataexplorer.abs.gov.au}{ABS website}
 to figure out what subset of the data you require.
 
 Note, furthermore, that the datastructure contains a complete codebook for
@@ -123,7 +123,7 @@ ds[ds$var == "regiontype" & ds$label == "Destination Zones", ]
 try(read_api("ABS_C16_T10_SA", datakey = list(regiontype = "DZN")))
 
 # If you already have a query url, then use `read_api_url()`
-wpi_url <- "https://api.data.abs.gov.au/data/ABS,WPI/all"
+wpi_url <- "https://data.api.abs.gov.au/rest/data/ABS,WPI/all"
 read_api_url(wpi_url)
 }
 }
