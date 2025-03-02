@@ -31,7 +31,7 @@ generated using the online data viewer.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">readabs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.18</span>
       </span>
     </div>
 
@@ -84,7 +84,7 @@ from the ABS.Stat API, you need to either:</p><ul><li><p>Using <code>read_api_da
 specific dataflow, including the variables available in each dataflow</p></li>
 <li><p>Using <code>read_api()</code> you can get the data belonging to a given dataflow.</p></li>
 <li><p>Using <code>read_api_url()</code> you can get the data for a given query url
-generated using the <a href="https://explore.data.abs.gov.au/" class="external-link">online data viewer</a>.</p></li>
+generated using the <a href="https://dataexplorer.abs.gov.au" class="external-link">online data viewer</a>.</p></li>
 </ul></div>
 
     <div id="ref-usage">
@@ -154,7 +154,7 @@ available dataflow versions.</p></dd>
     <p>Note that the API enforces a reasonably strict gateway timeout policy. This
 means that, if you're trying to access a reasonably large dataset, you will
 need to filter it on the server side using the <code>datakey</code>. You might like to
-review the data manually via the <a href="https://explore.data.abs.gov.au/" class="external-link">ABS website</a>
+review the data manually via the <a href="https://dataexplorer.abs.gov.au" class="external-link">ABS website</a>
 to figure out what subset of the data you require.</p>
 <p>Note, furthermore, that the datastructure contains a complete codebook for
 the variables appearing in the relevant dataflow. Since some variables are
@@ -200,7 +200,7 @@ which are not in the corresponding dataflow.</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">read_api</span><span class="op">(</span><span class="st">"ABS_C16_T10_SA"</span>, datakey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>regiontype <span class="op">=</span> <span class="st">"DZN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># If you already have a query url, then use `read_api_url()`</span></span></span>
-<span class="r-in"><span><span class="va">wpi_url</span> <span class="op">&lt;-</span> <span class="st">"https://api.data.abs.gov.au/data/ABS,WPI/all"</span></span></span>
+<span class="r-in"><span><span class="va">wpi_url</span> <span class="op">&lt;-</span> <span class="st">"https://data.api.abs.gov.au/rest/data/ABS,WPI/all"</span></span></span>
 <span class="r-in"><span><span class="fu">read_api_url</span><span class="op">(</span><span class="va">wpi_url</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
