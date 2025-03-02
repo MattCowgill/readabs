@@ -1,6 +1,6 @@
 # Documentation: https://api.gov.au/assets/APIs/abs/DataAPI.openapi.html#/Get%20Data/GetData
 # More documentation: https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide/using-api
-# Online data viewer: https://explore.data.abs.gov.au/
+# Online data viewer: https://dataexplorer.abs.gov.au
 
 #' ABS.Stat API functions
 #'
@@ -21,7 +21,7 @@
 #'   specific dataflow, including the variables available in each dataflow
 #'   - Using `read_api()` you can get the data belonging to a given dataflow.
 #'   - Using `read_api_url()` you can get the data for a given query url
-#'   generated using the [online data viewer](https://explore.data.abs.gov.au/).
+#'   generated using the [online data viewer](https://dataexplorer.abs.gov.au).
 #'
 #' @param id A dataflow id. Use `read_api_dataflows()` to obtain a dataframe
 #'   listing available dataflows.
@@ -49,7 +49,7 @@
 #' Note that the API enforces a reasonably strict gateway timeout policy. This
 #' means that, if you're trying to access a reasonably large dataset, you will
 #' need to filter it on the server side using the `datakey`. You might like to
-#' review the data manually via the [ABS website](https://explore.data.abs.gov.au/)
+#' review the data manually via the [ABS website](https://dataexplorer.abs.gov.au)
 #' to figure out what subset of the data you require.
 #'
 #' Note, furthermore, that the datastructure contains a complete codebook for

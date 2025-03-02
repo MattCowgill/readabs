@@ -52,7 +52,7 @@ of ABS data:
   data cubes, which are spreadsheets on the ABS website that are not in
   the standard time series format.
 - `read_api()` and related functions find, filter, and import data from
-  the [ABS.Stat](https://explore.data.abs.gov.au) API.
+  the [ABS.Stat](https://dataexplorer.abs.gov.au) API.
 
 ### ABS time series data
 
