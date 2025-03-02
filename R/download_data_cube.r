@@ -105,16 +105,16 @@ download_abs_data_cube <- function(catalogue_string,
 }
 
 read_lfs_mrm_table <- function(file, sheet, variable_name) {
-  df <- file |>
+  df <- file %>%
     readxl::read_excel(
       sheet = sheet,
       skip = 4
-    ) |>
-    tidyr::pivot_longer(!tidyr::matches("SA4"), names_to = "date", values_to = "value") |>
-    dplyr::mutate(date = as.numeric(.data$date)) |>
-    dplyr::filter(!is.na({{ variable_name }})) |>
-    dplyr::mutate(SA4_code = substr(.data$SA4, 1, 3)) |>
-    dplyr::mutate(SA4_name = substr(.data$SA4, 5, nchar(.data$SA4))) |>
+    ) %>%
+    tidyr::pivot_longer(!tidyr::matches("SA4"), names_to = "date", values_to = "value") %>%
+    dplyr::mutate(date = as.numeric(.data$date)) %>%
+    dplyr::filter(!is.na({{ variable_name }})) %>%
+    dplyr::mutate(SA4_code = substr(.data$SA4, 1, 3)) %>%
+    dplyr::mutate(SA4_name = substr(.data$SA4, 5, nchar(.data$SA4))) %>%
     dplyr::mutate(
       variable = variable_name,
       date = as.Date(.data$date, origin = "1899-12-30")
@@ -156,11 +156,11 @@ read_lfs_datacube <- function(cube,
   if (cube == "MRM" || cube == "MRM1") {
     df <- read_lfs_mrm(file)
   } else {
-    df <- file |>
+    df <- file %>%
       readxl::read_excel(
         sheet = "Data 1",
         skip = 3
-      ) |>
+      ) %>%
       rename(date = 1) %>%
       mutate(date = as.Date(date))
 
