@@ -133,6 +133,7 @@ tidy_erp <- function(erp_raw,
     ) %>%
     dplyr::group_by(.data$date, .data$series_sex, .data$state, .data$age) %>%
     dplyr::summarise(erp = sum(.data$value)) %>%
+    dplyr::ungroup() %>%
     dplyr::arrange(.data$state, .data$series_sex, .data$age, .data$date) %>%
     dplyr::select("date", "state",
       sex = "series_sex",
