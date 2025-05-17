@@ -23,7 +23,7 @@ Imports:
     dplyr (>= 0.8.0),
     hutils (>= 1.5.0),
     fst,
-    purrr,
+    purrr (>= 1.0.0),
     tidyr (>= 1.0.0),
     stringi,
     tools,
