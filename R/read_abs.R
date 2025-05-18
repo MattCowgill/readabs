@@ -245,7 +245,8 @@ read_abs <- function(cat_no = NULL,
   ))
 
   xml_dfs <- purrr::map_dfr(xml_urls,
-    .f = get_abs_xml_metadata
+    .f = get_abs_xml_metadata,
+    .progress = TRUE
   )
 
   # Ensure we're not getting spurious matches of table numbers
@@ -313,7 +314,8 @@ read_abs <- function(cat_no = NULL,
   filenames <- base::basename(urls)
   message("Extracting data from downloaded spreadsheets")
   sheets <- purrr::map2(filenames, table_titles,
-    .f = extract_abs_sheets, path = .path
+    .f = extract_abs_sheets, path = .path,
+    .progress = TRUE
   )
 
   # remove one 'layer' of the list,
