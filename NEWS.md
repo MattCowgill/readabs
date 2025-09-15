@@ -1,3 +1,6 @@
+# readabs 0.4.19.9xx
+* Refresh internal data
+
 # readabs 0.4.19
 * Bug fix - read_erp() no longer returns a grouped data frame. Thanks to @nerskin for the fix.
 * Bug fix - address a situation where the ABS adds additional non-data worksheets to a time series spreadsheet
