@@ -147,6 +147,8 @@ read_lfs_mrm <- function(file) {
 read_lfs_datacube <- function(cube,
                               path = Sys.getenv("R_READABS_PATH", unset = tempdir())) {
   options(timeout = 180)
+  cube <- toupper(cube)
+
   file <- download_abs_data_cube(
     catalogue_string = "labour-force-australia-detailed",
     cube = cube,
