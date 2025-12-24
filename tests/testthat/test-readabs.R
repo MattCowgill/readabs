@@ -64,17 +64,17 @@ test_that("read_abs() works with series ID(s)", {
   skip_if_offline()
   check_abs_connection()
 
-  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
+  lfs_2 <- read_abs(series_id = c("A84423071L", "A84423141J"), retain_files = FALSE, check_local = F, path = tempdir())
 
-  expect_is(cpi_2, "tbl")
-  expect_length(unique(cpi_2$series), 2)
-  expect_match(unique(cpi_2$series)[1], "Index Numbers ;  All groups CPI ;  Canberra ;")
-  expect_match(unique(cpi_2$series)[2], "Index Numbers ;  All groups CPI ;  Australia ;")
-  expect_length(cpi_2, 12)
+  expect_is(lfs_2, "tbl")
+  expect_length(unique(lfs_2$series), 2)
+  expect_match(unique(lfs_2$series)[1], "Employed total ;  > Males ;")
+  expect_match(unique(lfs_2$series)[2], "Employed total ;  > Females ;")
+  expect_length(lfs_2, 12)
 
-  cpi_wrapper <- read_abs_series(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
+  lfs_wrapper <- read_abs_series(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
 
-  expect_identical(cpi_2, cpi_wrapper)
+  expect_identical(lfs_2, lfs_wrapper)
 })
 
 
