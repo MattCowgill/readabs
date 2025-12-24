@@ -126,6 +126,9 @@ test_that("read_cpi() function downloads CPI index numbers", {
   expect_is(cpi$date, "Date")
   expect_is(cpi$cpi, "numeric")
 
+  latest_cpi_date <- cpi$date[cpi$date == max(cpi$date)]
+
+
   # Test that inflation over the most recent year is within expected bounds
   date_12m_before_latest <- as.POSIXlt(latest_cpi_date)
   date_12m_before_latest$year <- date_12m_before_latest$year - 1
