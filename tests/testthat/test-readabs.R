@@ -72,7 +72,7 @@ test_that("read_abs() works with series ID(s)", {
   expect_match(unique(lfs_2$series)[2], "Employed total ;  > Females ;")
   expect_length(lfs_2, 12)
 
-  lfs_wrapper <- read_abs_series(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
+  lfs_wrapper <- read_abs_series(series_id = c("A84423071L", "A84423141J"), retain_files = FALSE, check_local = F, path = tempdir())
 
   expect_identical(lfs_2, lfs_wrapper)
 })
