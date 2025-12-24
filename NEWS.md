@@ -1,5 +1,5 @@
-# readabs 0.4.19.9xx
-* Refresh internal data
+# readabs 0.4.20
+* Minor bug fixes
 
 # readabs 0.4.19
 * Bug fix - read_erp() no longer returns a grouped data frame. Thanks to @nerskin for the fix.

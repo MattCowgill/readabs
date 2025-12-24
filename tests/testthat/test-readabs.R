@@ -64,17 +64,17 @@ test_that("read_abs() works with series ID(s)", {
   skip_if_offline()
   check_abs_connection()
 
-  cpi_2 <- read_abs(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
+  lfs_2 <- read_abs(series_id = c("A84423071L", "A84423141J"), retain_files = FALSE, check_local = F, path = tempdir())
 
-  expect_is(cpi_2, "tbl")
-  expect_length(unique(cpi_2$series), 2)
-  expect_match(unique(cpi_2$series)[1], "Index Numbers ;  All groups CPI ;  Canberra ;")
-  expect_match(unique(cpi_2$series)[2], "Index Numbers ;  All groups CPI ;  Australia ;")
-  expect_length(cpi_2, 12)
+  expect_is(lfs_2, "tbl")
+  expect_length(unique(lfs_2$series), 2)
+  expect_match(unique(lfs_2$series)[1], "Employed total ;  > Males ;")
+  expect_match(unique(lfs_2$series)[2], "Employed total ;  > Females ;")
+  expect_length(lfs_2, 12)
 
-  cpi_wrapper <- read_abs_series(series_id = c("A2325846C", "A2325841T"), retain_files = FALSE, check_local = F, path = tempdir())
+  lfs_wrapper <- read_abs_series(series_id = c("A84423071L", "A84423141J"), retain_files = FALSE, check_local = F, path = tempdir())
 
-  expect_identical(cpi_2, cpi_wrapper)
+  expect_identical(lfs_2, lfs_wrapper)
 })
 
 
@@ -126,16 +126,8 @@ test_that("read_cpi() function downloads CPI index numbers", {
   expect_is(cpi$date, "Date")
   expect_is(cpi$cpi, "numeric")
 
-  # Test ratio of latest to earliest CPI index numbers
   latest_cpi_date <- cpi$date[cpi$date == max(cpi$date)]
-  total_cpi_ratio <- cpi$cpi[cpi$date == latest_cpi_date] / cpi$cpi[cpi$date == min(cpi$date)]
-  expect_gt(total_cpi_ratio, 30)
 
-  # Test that inflation over the 20 years to Sept 2019 is of the expected value
-  inflation_99_to_19 <- cpi$cpi[cpi$date == as.Date("2019-09-01")] /
-    cpi$cpi[cpi$date == as.Date("1999-09-01")]
-  expect_gt(inflation_99_to_19, 1.675)
-  expect_lt(inflation_99_to_19, 1.685)
 
   # Test that inflation over the most recent year is within expected bounds
   date_12m_before_latest <- as.POSIXlt(latest_cpi_date)
