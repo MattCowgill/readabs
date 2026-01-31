@@ -27,12 +27,12 @@ directory specified with 'path'.}
 }
 \description{
 \code{read_cpi()} uses the \code{read_abs()} function to download, import,
-and tidy the Consumer Price Index from the ABS. It returns a tibble
+and tidy the quarterly Consumer Price Index from the ABS. It returns a tibble
 containing two columns: the date and the CPI index value that corresponds
 to that date. This makes joining the CPI to another dataframe easy.
 \code{read_cpi()} returns the original (ie. not seasonally adjusted)
-all groups CPI for Australia. If you want the analytical series
-(eg. seasonally adjusted CPI, or trimmed mean CPI), you can use
+quarterly all groups CPI for Australia. If you want the analytical series
+(eg. seasonally adjusted CPI, or trimmed mean CPI) or monthly series, you can use
 \code{read_abs()}.
 }
 \examples{
