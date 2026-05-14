@@ -5,22 +5,18 @@
 #' containing two columns: the date and the CPI index value that corresponds
 #' to that date. This makes joining the CPI to another dataframe easy.
 #' \code{read_cpi()} returns the original (ie. not seasonally adjusted)
-#' quarterly all groups CPI for Australia. If you want the analytical series
+#' all groups CPI for Australia. If you want the analytical series
 #' (eg. seasonally adjusted CPI, or trimmed mean CPI) or monthly series, you can use
 #' \code{read_abs()}.
+#'
+#' By default, `read_abs()` retrieves the quarterly CPI. It can use the
+#' `frequency` argument to change to monthly.
 #'
 #' @param path character; default is "data/ABS". Only used if
 #' retain_files is set to TRUE. Local directory in which to save
 #' downloaded ABS time series spreadsheets.
-#'
-#' @param show_progress_bars logical; TRUE by default. If set to FALSE, progress
-#' bars will not be shown when ABS spreadsheets are downloading.
-#'
-#' @param check_local logical; FALSE by default. See \code{?read_abs}.
-#'
-#' @param retain_files logical; FALSE by default. When TRUE, the spreadsheets
-#' downloaded from the ABS website will be saved in the
-#' directory specified with 'path'.
+#' @param frequency Either `"quarterly"` (the default) or `"monthly"`.
+#' @param ... Arguments passed to `read_abs()`. See `?read_abs` for details.
 #'
 #' @examples
 #'
@@ -36,38 +32,28 @@
 #'
 #' @export
 
-read_cpi <- function(path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
-                     show_progress_bars = TRUE,
-                     check_local = FALSE,
-                     retain_files = FALSE) {
-  if (!is.logical(retain_files)) {
-    stop("`retain_files` must be either `TRUE` or `FALSE`.")
-  }
+read_cpi <- function(frequency = c("quarterly", "monthly"),
+                     path = Sys.getenv("R_READABS_PATH", unset = tempdir()),
+                     ...) {
 
-  if (!is.logical(show_progress_bars)) {
-    stop("`show_progress_bars` must be either `TRUE` or `FALSE`")
-  }
+  frequency <- match.arg(frequency)
 
-  if (retain_files == TRUE & !is.character(path)) {
-    stop(
-      "If `retain_files` is `TRUE`,",
-      " you must specify a valid file path in `path`."
-    )
-  }
-
-  cpi_raw <- read_abs(
-    cat_no = "6401.0",
-    tables = 17,
-    retain_files = retain_files,
-    check_local = check_local,
-    show_progress_bars = show_progress_bars,
-    path = path
+  cpi_series_id <- switch (frequency,
+    "quarterly" = "A2325846C",
+    "monthly" = "A130393720C"
   )
 
+
+  cpi_raw <- read_abs_series(
+    series_id = cpi_series_id,
+    ...
+  )
+
+  series_name <- unique(cpi_raw$series)
+
+  stopifnot(series_name == "Index Numbers ;  All groups CPI ;  Australia ;")
+
   x <- cpi_raw %>%
-    dplyr::filter(
-      .data$series == "Index Numbers ;  All groups CPI ;  Australia ;"
-    ) %>%
     dplyr::select("date",
       "cpi" = "value"
     )

@@ -1,3 +1,6 @@
+# readabs 0.4.30
+* BREAKING CHANGE to read_cpi() in light of changes to the CPI (move to monthly collection). Now has a `frequency` argument that controls whether the quarterly or monthly data is returned.
+
 # readabs 0.4.20
 * Minor bug fixes
 
