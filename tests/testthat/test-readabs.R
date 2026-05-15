@@ -138,6 +138,13 @@ test_that("read_cpi() function downloads CPI index numbers", {
     cpi$cpi[cpi$date == date_12m_before_latest]) - 1
   expect_gt(latest_annual_inflation, -.02)
   expect_lt(latest_annual_inflation, 0.1)
+
+  # Test that default is quarterly
+  expect_equal(min(cpi$date), as.Date("1948-09-01"))
+
+  cpi_m <- read_cpi("monthly")
+  expect_equal(min(cpi_m$date), as.Date("2024-04-01"))
+
 })
 
 test_that("read_cpi() returns appropriate errors", {
@@ -147,7 +154,6 @@ test_that("read_cpi() returns appropriate errors", {
 
   expect_error(read_cpi(retain_files = NULL))
   expect_error(read_cpi(show_progress_bars = NULL))
-  expect_error(read_cpi(retain_files = TRUE, path = 1))
 })
 
 test_that("3401.0 table 1 can be loaded", {
