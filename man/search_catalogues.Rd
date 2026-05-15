@@ -31,9 +31,9 @@ a given string in the catalogue names, product title, and broad topic.
 search_catalogues("labour")
 }
 \seealso{
-Other data cube functions: 
-\code{\link{download_abs_data_cube}()},
-\code{\link{show_available_catalogues}()},
-\code{\link{show_available_files}()}
+Other data cube functions:
+\code{\link[=download_abs_data_cube]{download_abs_data_cube()}},
+\code{\link[=show_available_catalogues]{show_available_catalogues()}},
+\code{\link[=show_available_files]{show_available_files()}}
 }
 \concept{data cube functions}

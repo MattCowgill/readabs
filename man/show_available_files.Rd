@@ -40,14 +40,9 @@ show_available_files("labour-force-australia-detailed")
 
 }
 \seealso{
-Other data cube functions: 
-\code{\link{download_abs_data_cube}()},
-\code{\link{search_catalogues}()},
-\code{\link{show_available_catalogues}()}
-
-Other data cube functions: 
-\code{\link{download_abs_data_cube}()},
-\code{\link{search_catalogues}()},
-\code{\link{show_available_catalogues}()}
+Other data cube functions:
+\code{\link[=download_abs_data_cube]{download_abs_data_cube()}},
+\code{\link[=search_catalogues]{search_catalogues()}},
+\code{\link[=show_available_catalogues]{show_available_catalogues()}}
 }
 \concept{data cube functions}
